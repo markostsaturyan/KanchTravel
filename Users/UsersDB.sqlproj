@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>Users</Name>
+    <Name>UsersDB</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{ed70b084-7e76-4c18-bfa6-253b686a6717}</ProjectGuid>
@@ -57,5 +57,19 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Users.sql" />
+    <Build Include="Roles.sql" />
+    <Build Include="UserRole.sql" />
+    <Build Include="Drivers.sql" />
+    <Build Include="Guide.sql" />
+    <Build Include="Photographer.sql" />
+    <Build Include="Camera.sql" />
+    <Build Include="GuidePlaces.sql" />
+    <Build Include="Car.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="UsersDB.refactorlog" />
   </ItemGroup>
 </Project>
