@@ -1,10 +1,11 @@
 ﻿CREATE TABLE [dbo].[Drivers]
 (
-	[User_id] INT NOT NULL,
-	[Car_id] INT NOT NULL,
-	[Driving_licence_pic_front] IMAGE NOT NULL,
-	[Driving_licence_pic_back] IMAGE NOT NULL, 
+	[UserId] INT NOT NULL,
+	[CarId] INT NOT NULL,
+	[DrivingLicencePicFront] IMAGE NOT NULL,
+	[DrivingLicencePicBack] IMAGE NOT NULL, 
     [KnowledgeOfLanguages] NVARCHAR(MAX) NOT NULL, 
     [Rating] FLOAT NOT NULL,
-	FOREIGN KEY (User_id) REFERENCES Users(Id)
+	FOREIGN KEY (UserId) REFERENCES Users(Id),
+	FOREIGN KEY (CarID) REFERENCES Car(Id)
 )

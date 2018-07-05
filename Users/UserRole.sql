@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[UserRole]
 (
-	[User_id] INT NOT NULL, 
-    [Role_id] INT NOT NULL,
-	FOREIGN KEY(User_id) REFERENCES Users(Id),
-	FOREIGN KEY(Role_id) REFERENCES Roles(Id)
+	[UserId] INT NOT NULL, 
+    [RoleId] INT NOT NULL,
+	FOREIGN KEY(UserId) REFERENCES Users(Id),
+	FOREIGN KEY(RoleId) REFERENCES Roles(Id)
 )
