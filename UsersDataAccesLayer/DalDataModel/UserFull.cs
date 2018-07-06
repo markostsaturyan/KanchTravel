@@ -5,14 +5,24 @@ namespace UsersDataAccesLayer
 {
     public class UserFull
     {
-        public int Id;
-        public string FirstName;
-        public string LastName;
-        public DateTime DataOfBirth;
-        public string PhoneNumber;
-        public string Email;
-        public ImageSharpTexture Image;
-        public string UserName;
-        public string Password;
+        public int Id { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public DateTime DataOfBirth { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public string Email { get; set; }
+
+        public ImageSharpTexture Image { get; set; }
+
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
+
+        public string Role { get; set; }
     }
 }

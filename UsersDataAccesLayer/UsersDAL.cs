@@ -19,9 +19,9 @@ namespace UsersDataAccesLayer
                                                          .SetBasePath(Directory.GetCurrentDirectory())
                                                          .AddJsonFile("storedProcedures.json");
 
-        public static Dictionary<string,string> GetAllUserNameAndPasswords()
+        public static List<UserIdentifiers> GetAllUserIdentifiers()
         {
-            var userNameAndPasswords = new Dictionary<string, string>();
+            var usersIdentifiers = new List<UserIdentifiers>();
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -29,7 +29,7 @@ namespace UsersDataAccesLayer
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetAllUserNameAndPasswords"]
+                    CommandText = storedProcedures["GetAllUserIdentifiers"]
                 };
 
                 var dataReader = command.ExecuteReader();
@@ -38,12 +38,20 @@ namespace UsersDataAccesLayer
                 {
                     while (dataReader.Read())
                     {
-                        userNameAndPasswords.Add((string)dataReader["UserName"], (string)dataReader["Password"]);
+                        usersIdentifiers.Add(new UserIdentifiers
+                        {
+                            Id = (int)dataReader["Id"],
+                            UserName = (string)dataReader["UserName"],
+                            Password = (string)dataReader["Password"],
+                            Email = (string)dataReader["Email"],
+                            PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Role = (string)dataReader["Role"]
+                        });
                     }
                 }
             }
 
-            return userNameAndPasswords;
+            return usersIdentifiers;
         }
 
         public static List<UserFull> GetAllUsers()
@@ -75,7 +83,9 @@ namespace UsersDataAccesLayer
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = (ImageSharpTexture)dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
-                            Password = (string)dataReader["Password"]
+                            Password = (string)dataReader["Password"],
+                            Role = (string)dataReader["Role"]
+
                         });
                     }
                 }
@@ -163,7 +173,7 @@ namespace UsersDataAccesLayer
                 {
                     while (dataReader.Read())
                     {
-                        guides.Add(new GuideFull
+                        var guide = new GuideFull
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
@@ -175,8 +185,12 @@ namespace UsersDataAccesLayer
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                            Raiting = (double)dataReader["Raiting"]
-                        });
+                            Raiting = (double)dataReader["Raiting"],
+                        };
+
+                        guide.Places = GetGuidePalces(guide.Id);
+
+                        guides.Add(guide);
                     }
                 }
             }
@@ -184,7 +198,89 @@ namespace UsersDataAccesLayer
             return guides;
         }
 
+        private static List<string> GetGuidePalces(int id)
+        {
+            var places = new List<string>();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = storedProcedures["GetGuidePlaces"]
+                };
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        places.Add((string)dataReader["Places"]);
+                    }
+                }
+            }
+
+            return places;
+        }
+
+        public static List<PhotographerFull> GetAllPhotographers()
+        {
+            var photographers = new List<PhotographerFull>();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = storedProcedures["GetAllPhotographers"]
+                };
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        var photographer = new PhotographerFull
+                        {
+                            Id = (int)dataReader["Id"],
+                            FirstName = (string)dataReader["FirstName"],
+                            LastName = (string)dataReader["LastName"],
+                            DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            Email = (string)dataReader["Email"],
+                            PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Image = (ImageSharpTexture)dataReader["Image"],
+                            UserName = (string)dataReader["UserName"],
+                            Password = (string)dataReader["Password"],
+                            KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                            Raiting = (double)dataReader["Raiting"],
+                            HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
+                            HasDron = (bool)dataReader["HasDron"],
+                            HasGopro = (bool)dataReader["HasGopro"],
+                            Camera = new Camera
+                            {
+                                Id = (int)dataReader["CameraId"],
+                                Model=(string)dataReader["Model"],
+                                IsProfessional =(bool)dataReader["IsProfessional"]
+                            },
+                            Profession = (string)dataReader["Profession"],
+                            WorkExperience = (string)dataReader["WorkExperiance"]
+                        };
+
+                        photographers.Add(photographer);
+                    }
+                }
+            }
+
+            return photographers;
+        }
+
     }
+
+    
 
 
 }

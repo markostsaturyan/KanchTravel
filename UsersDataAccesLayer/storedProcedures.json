@@ -12,6 +12,9 @@
   ],
 
   "GetAllUsers": "GetAllUsers",
-  "GetAllDrivers":"GetAllDrivers"
+  "GetAllDrivers": "GetAllDrivers",
+  "GetAllGuides": "GetAllGudes",
+  "GetGuidePlaces": "GetGuidePlaces",
+  "GetAllUserNameAndPasswords": "GetAllUserNameAndPasswords"
 
 }
