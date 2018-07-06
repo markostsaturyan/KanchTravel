@@ -7,5 +7,5 @@
     [KnowledgeOfLanguages] NVARCHAR(MAX) NOT NULL, 
     [Rating] FLOAT NOT NULL,
 	FOREIGN KEY (UserId) REFERENCES Users(Id),
-	FOREIGN KEY (CarID) REFERENCES Car(Id)
+	FOREIGN KEY (CarId) REFERENCES Car(Id)
 )
