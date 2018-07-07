@@ -18,7 +18,7 @@ namespace Authentication.Validators
             try
             {
                 //get your user model from db (by username - in my case its email)
-                var user = UsersBL.FindUserAsync(context.UserName);
+                var user = UserRepository.FindUserAsync(context.UserName);
                 if (user != null)
                 {
                     //check if password match - remember to hash password if stored as hash in db

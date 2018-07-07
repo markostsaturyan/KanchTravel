@@ -19,9 +19,8 @@ namespace Authentication
             services.AddMvc();
 
             services.AddIdentityServer()
-            .AddInMemoryClients(Client.Get())
-            .AddInMemoryIdentityResources(Resources.GetIdentityResources())
-            .AddInMemoryApiResources(Resources.GetApiResources()).
+            .AddInMemoryClients(Config.GetClients())
+            .AddInMemoryApiResources(Config.GetApiResources())
             .AddDeveloperSigningCredential();
         }
 

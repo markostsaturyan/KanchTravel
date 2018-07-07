@@ -12,7 +12,7 @@ namespace Authentication
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("compingTrip", "CompingTrip")
             };
         }
 
@@ -24,7 +24,7 @@ namespace Authentication
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "ro.client",
+                    ClientId = "CompingTrip",
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
@@ -32,31 +32,12 @@ namespace Authentication
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "api1" }
+                    AllowedScopes = { "compingTrip" }
                 }
 
 
             };
 
-        }
-
-        public static List<User> GetUsers()
-        {
-            return new List<TestUser>
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = "alice",
-                    Password = "password"
-                },
-                new TestUser
-                {
-                    SubjectId = "2",
-                    Username = "bob",
-                    Password = "password"
-                }
-            };
         }
     }
 }

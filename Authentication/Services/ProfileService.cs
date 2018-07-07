@@ -22,7 +22,7 @@ namespace Authentication.Services
                 if (!string.IsNullOrEmpty(context.Subject.Identity.Name))
                 {
                     //get user from db (in my case this is by email)
-                    var user =UsersBL.FindUserAsync(context.Subject.Identity.Name);
+                    var user =UserRepository.FindUserAsync(context.Subject.Identity.Name);
 
                     if (user != null)
                     {
@@ -41,7 +41,7 @@ namespace Authentication.Services
                     if (!string.IsNullOrEmpty(userId?.Value) && long.Parse(userId.Value) > 0)
                     {
                         //get user from db (find user by user id)
-                        var user = UsersBL.FindUserAsync(long.Parse(userId.Value));
+                        var user = UserRepository.FindUserAsync(long.Parse(userId.Value));
 
                         // issue the claims for the user
                         if (user != null)
@@ -68,7 +68,7 @@ namespace Authentication.Services
 
                 if (!string.IsNullOrEmpty(userId?.Value) && long.Parse(userId.Value) > 0)
                 {
-                    var user = UsersBL.FindUserAsync(long.Parse(userId.Value));
+                    var user = UserRepository.FindUserAsync(long.Parse(userId.Value));
 
                     if (user != null)
                     {
