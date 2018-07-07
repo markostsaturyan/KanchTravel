@@ -69,6 +69,8 @@
     <Build Include="Camera.sql" />
     <Build Include="GuidePlaces.sql" />
     <Build Include="Car.sql" />
+    <Build Include="GetByUserName.sql" />
+    <Build Include="GetUserByID.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="UsersDB.refactorlog" />
