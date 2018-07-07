@@ -41,10 +41,11 @@ namespace UsersDataAccesLayer
                         usersIdentifiers.Add(new UserIdentifiers
                         {
                             Id = (int)dataReader["Id"],
+                            FirstName=(string)dataReader["FirstName"],
+                            LastName = (string)dataReader["LastName"],
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
                             Email = (string)dataReader["Email"],
-                            PhoneNumber = (string)dataReader["PhoneNumber"],
                             Role = (string)dataReader["Role"]
                         });
                     }
@@ -84,7 +85,8 @@ namespace UsersDataAccesLayer
                             Image = (ImageSharpTexture)dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
-                            Role = (string)dataReader["Role"]
+                            Role = (string)dataReader["Role"],
+                            IsActive = (bool)dataReader["IsActive"]
 
                         });
                     }
@@ -145,7 +147,8 @@ namespace UsersDataAccesLayer
                             DrivingLicencePicFront=(ImageSharpTexture)dataReader["DrivingLicencePicFront"],
                             DrivingLicencePicBack = (ImageSharpTexture)dataReader["DrivingLicencePicBack"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                            Raiting = (double)dataReader["Raiting"]
+                            Raiting = (double)dataReader["Raiting"],
+                            IsActive = (bool)dataReader["IsActive"]
                         });
                     }
                 }
@@ -186,6 +189,7 @@ namespace UsersDataAccesLayer
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
+                            IsActive = (bool)dataReader["IsActive"]
                         };
 
                         guide.Places = GetGuidePalces(guide.Id);
@@ -267,7 +271,8 @@ namespace UsersDataAccesLayer
                                 IsProfessional =(bool)dataReader["IsProfessional"]
                             },
                             Profession = (string)dataReader["Profession"],
-                            WorkExperience = (string)dataReader["WorkExperiance"]
+                            WorkExperience = (string)dataReader["WorkExperiance"],
+                            IsActive = (bool)dataReader["IsActive"]
                         };
 
                         photographers.Add(photographer);
@@ -278,11 +283,5 @@ namespace UsersDataAccesLayer
             return photographers;
         }
 
-        public static Response AddUser()
-
     }
-
-    
-
-
 }

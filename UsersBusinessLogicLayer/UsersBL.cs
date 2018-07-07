@@ -5,9 +5,14 @@ namespace UsersBusinessLogicLayer
 {
     public static class UsersBL
     {
-        public async User FindUserAsync(string userName)
+        public static User FindUserAsync(string userName)
         {
 
+        }
+
+        public static User FindUserAsync(long v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,5 +9,6 @@
     [Email] NVARCHAR(MAX) NOT NULL, 
 	[Picture]  IMAGE NOT NULL,
     [UserName] NVARCHAR(MAX) NOT NULL, 
-    [Password] NVARCHAR(MAX) NOT NULL
+    [Password] NVARCHAR(MAX) NOT NULL, 
+    [IsActive] BIT NOT NULL
 )
