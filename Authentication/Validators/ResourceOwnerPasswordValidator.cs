@@ -13,12 +13,19 @@ namespace Authentication.Validators
 {
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
+        private IUserRepository userRepository;
+
+        public ResourceOwnerPasswordValidator(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
+
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             try
             {
                 //get your user model from db (by username - in my case its email)
-                var user = UserRepository.FindUserAsync(context.UserName);
+                var user = userRepository.FindUserAsync(context.UserName);
                 if (user != null)
                 {
                     //check if password match - remember to hash password if stored as hash in db

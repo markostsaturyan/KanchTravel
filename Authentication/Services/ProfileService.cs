@@ -14,6 +14,13 @@ namespace Authentication.Services
 {
     public class ProfileService : IProfileService
     {
+        private IUserRepository userRepository;
+
+        public ProfileService(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
+
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             try
@@ -22,7 +29,7 @@ namespace Authentication.Services
                 if (!string.IsNullOrEmpty(context.Subject.Identity.Name))
                 {
                     //get user from db (in my case this is by email)
-                    var user =UserRepository.FindUserAsync(context.Subject.Identity.Name);
+                    var user = userRepository.FindUserAsync(context.Subject.Identity.Name);
 
                     if (user != null)
                     {
@@ -41,7 +48,7 @@ namespace Authentication.Services
                     if (!string.IsNullOrEmpty(userId?.Value) && long.Parse(userId.Value) > 0)
                     {
                         //get user from db (find user by user id)
-                        var user = UserRepository.FindUserAsync(long.Parse(userId.Value));
+                        var user = userRepository.FindUserAsync(long.Parse(userId.Value));
 
                         // issue the claims for the user
                         if (user != null)
@@ -68,7 +75,7 @@ namespace Authentication.Services
 
                 if (!string.IsNullOrEmpty(userId?.Value) && long.Parse(userId.Value) > 0)
                 {
-                    var user = UserRepository.FindUserAsync(long.Parse(userId.Value));
+                    var user = userRepository.FindUserAsync(long.Parse(userId.Value));
 
                     if (user != null)
                     {
