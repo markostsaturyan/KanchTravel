@@ -3,8 +3,15 @@ using System.Collections.Generic;
 
 namespace Authentication
 {
+    /// <summary>
+    /// Configure secured resources and authenticated clients
+    /// </summary>
     public class Config
     {
+        /// <summary>
+        /// Get secured resources
+        /// </summary>
+        /// <returns> Api resources </returns>
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
@@ -13,7 +20,10 @@ namespace Authentication
             };
         }
 
-        // clients want to access resources (aka scopes)
+        /// <summary>
+        /// Get clients
+        /// </summary>
+        /// <returns> List of clients </returns>
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client>
@@ -37,6 +47,10 @@ namespace Authentication
 
         }
 
+        /// <summary>
+        /// Gets Identity resources
+        /// </summary>
+        /// <returns> List of Identity resources </returns>
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource> {

@@ -1,26 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace CompingTripService
 {
-    public class Startup
+    public class CampingTripServiceStartup
     {
-        public Startup(IConfiguration configuration)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configuration"> The configuration </param>
+        public CampingTripServiceStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Add services to the container
+        /// </summary>
+        /// <param name="services"> Collection of services </param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -34,7 +35,11 @@ namespace CompingTripService
                 });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// Configure the HTTP request pipeline
+        /// </summary>
+        /// <param name="app"> Application Builder </param>
+        /// <param name="env"> Hosting environment </param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
