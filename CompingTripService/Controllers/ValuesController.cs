@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CompingTripService.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
+    [Authorize]
     public class ValuesController : Controller
     {
         // GET api/values
