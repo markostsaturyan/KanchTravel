@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Configuration;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
-using System.Data.Common;
 using Veldrid.ImageSharp;
 using UsersDataAccesLayer.DalDataModel;
 
