@@ -12,5 +12,3 @@
     [Password] NVARCHAR(MAX) NOT NULL, 
     [IsActive] BIT NOT NULL
 )
-
-Insert into 

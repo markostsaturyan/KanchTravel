@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersBusinessLogicLayer", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersDataAccesLayer", "UsersDataAccesLayer\UsersDataAccesLayer.csproj", "{AE318701-5DB3-4DEA-8A78-7D1BEE9B3709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompingTripService", "CompingTripService\CompingTripService.csproj", "{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompingTripService", "CompingTripService\CompingTripService.csproj", "{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersDataModel", "UsersDataModel\UsersDataModel.csproj", "{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersDataModel", "UsersDataModel\UsersDataModel.csproj", "{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3B1FD068-891B-4958-A44D-094034E37349}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B1FD068-891B-4958-A44D-094034E37349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B1FD068-891B-4958-A44D-094034E37349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B1FD068-891B-4958-A44D-094034E37349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B1FD068-891B-4958-A44D-094034E37349}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
