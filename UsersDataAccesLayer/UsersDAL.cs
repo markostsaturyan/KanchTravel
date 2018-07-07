@@ -283,5 +283,66 @@ namespace UsersDataAccesLayer
             return photographers;
         }
 
+        public static UserIdentifiers GetByUserName(string userName)
+        {
+            var user = new UserIdentifiers();
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = storedProcedures["GetByUserName"]
+                };
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    if (dataReader.Read())
+                    {
+                        user.Id = (int)dataReader["Id"];
+                        user.FirstName = (string)dataReader["FirstName"];
+                        user.LastName = (string)dataReader["LastName"];
+                        user.Email = (string)dataReader["Email"];
+                        user.UserName = (string)dataReader["UserName"];
+                        user.Password = (string)dataReader["Password"];
+                        user.IsActive = (bool)dataReader["IsActive"];
+                    }
+                }
+            }
+            return user;
+        }
+
+        public static UserIdentifiers GetByUserID(int id)
+        {
+            var user = new UserIdentifiers();
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = storedProcedures["GetByUserId"]
+                };
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    if (dataReader.Read())
+                    {
+                        user.Id = (int)dataReader["Id"];
+                        user.FirstName = (string)dataReader["FirstName"];
+                        user.LastName = (string)dataReader["LastName"];
+                        user.Email = (string)dataReader["Email"];
+                        user.UserName = (string)dataReader["UserName"];
+                        user.Password = (string)dataReader["Password"];
+                        user.IsActive = (bool)dataReader["IsActive"];
+                    }
+                }
+            }
+            return user;
+        }
     }
 }
