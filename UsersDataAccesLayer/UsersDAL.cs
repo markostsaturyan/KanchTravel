@@ -278,6 +278,8 @@ namespace UsersDataAccesLayer
             return photographers;
         }
 
+        public static Response AddUser()
+
     }
 
     

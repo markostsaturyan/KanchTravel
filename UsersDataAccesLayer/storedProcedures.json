@@ -15,6 +15,6 @@
   "GetAllDrivers": "GetAllDrivers",
   "GetAllGuides": "GetAllGudes",
   "GetGuidePlaces": "GetGuidePlaces",
-  "GetAllUserNameAndPasswords": "GetAllUserNameAndPasswords"
+  "GetAllUserIdentifiers": "GetAllUserIdentifiers"
 
 }

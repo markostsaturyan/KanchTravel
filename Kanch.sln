@@ -5,11 +5,15 @@ VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "UsersDB", "Users\UsersDB.sqlproj", "{ED70B084-7E76-4C18-BFA6-253B686A6717}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "Authentication\Authentication.csproj", "{976CBA75-DFC2-4762-A877-EE17105B25C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication", "Authentication\Authentication.csproj", "{976CBA75-DFC2-4762-A877-EE17105B25C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersBusinessLogicLayer", "UsersBusinessLogicLayer\UsersBusinessLogicLayer.csproj", "{E99FC376-87E2-4E8F-B6E2-5DF1AE6D12CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersBusinessLogicLayer", "UsersBusinessLogicLayer\UsersBusinessLogicLayer.csproj", "{E99FC376-87E2-4E8F-B6E2-5DF1AE6D12CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersDataAccesLayer", "UsersDataAccesLayer\UsersDataAccesLayer.csproj", "{AE318701-5DB3-4DEA-8A78-7D1BEE9B3709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersDataAccesLayer", "UsersDataAccesLayer\UsersDataAccesLayer.csproj", "{AE318701-5DB3-4DEA-8A78-7D1BEE9B3709}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompingTripService", "CompingTripService\CompingTripService.csproj", "{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsersDataModel", "UsersDataModel\UsersDataModel.csproj", "{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +39,14 @@ Global
 		{AE318701-5DB3-4DEA-8A78-7D1BEE9B3709}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE318701-5DB3-4DEA-8A78-7D1BEE9B3709}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE318701-5DB3-4DEA-8A78-7D1BEE9B3709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
