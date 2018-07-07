@@ -314,7 +314,7 @@ namespace UsersDataAccesLayer
             return user;
         }
 
-        public static UserIdentifiers GetByUserID(int id)
+        public static UserIdentifiers GetByUserID(long id)
         {
             var user = new UserIdentifiers();
             using (var connection = new SqlConnection(connectionString))
