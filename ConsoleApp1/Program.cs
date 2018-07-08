@@ -13,7 +13,7 @@ namespace ConsoleApp1
         private static async Task MainAsync()
         {
             // discover endpoints from metadata
-            var disco = await DiscoveryClient.GetAsync("http://localhost:28365/");
+            var disco = await DiscoveryClient.GetAsync("http://localhost:5000");
             if (disco.IsError)
             {
                 Console.WriteLine(disco.Error);
@@ -21,7 +21,7 @@ namespace ConsoleApp1
             }
 
             // request token
-            var tokenClient = new TokenClient(disco.TokenEndpoint, "ro.client", "secret");
+            var tokenClient = new TokenClient(disco.TokenEndpoint, "compingTrip", "secret");
             var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("anjela", "anjela", "compingTrip");
 
             if (tokenResponse.IsError)
@@ -37,7 +37,7 @@ namespace ConsoleApp1
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await client.GetAsync("http://localhost:33795/Test");
+            var response = await client.GetAsync("http://localhost:5001/Test");
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
@@ -47,6 +47,7 @@ namespace ConsoleApp1
                 var content = response.Content.ReadAsStringAsync().Result;
                 Console.WriteLine(JArray.Parse(content));
             }
+            Console.Read();
         }
     }
 }

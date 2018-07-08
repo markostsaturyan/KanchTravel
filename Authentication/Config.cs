@@ -31,7 +31,7 @@ namespace Authentication
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "CompingTrip",
+                    ClientId = "compingTrip",
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
