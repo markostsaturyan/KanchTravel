@@ -12,7 +12,7 @@ namespace CompingTripService
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<CampingTripServiceStartup>()
+                .UseStartup<StartupCampingTripService>()
                 .Build();
     }
 }

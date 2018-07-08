@@ -17,7 +17,7 @@ namespace Authentication
         /// <returns></returns>
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<AuthenticationStartup>()
+                .UseStartup<Startup>()
                 .Build();
     }
 }
