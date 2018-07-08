@@ -72,6 +72,8 @@
     <Build Include="GetByUserName.sql" />
     <Build Include="GetUserByID.sql" />
     <None Include="Queries.sql" />
+    <Build Include="GetAllUserIdentifiers.sql" />
+    <Build Include="GetDrivers.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="UsersDB.refactorlog" />
