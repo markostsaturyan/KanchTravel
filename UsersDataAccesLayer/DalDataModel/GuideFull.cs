@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Veldrid.ImageSharp;
+﻿using System.Collections.Generic;
 
 namespace UsersDataAccesLayer.DalDataModel
 {
-    public class GuideFull:UserFull
+    public class GuideFull : UserFull
     {
         public string Profession { get; set; }
 

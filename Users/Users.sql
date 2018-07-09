@@ -10,5 +10,6 @@
 	[Picture]  IMAGE NULL,
     [UserName] NVARCHAR(MAX) NOT NULL, 
     [Password] NVARCHAR(MAX) NOT NULL, 
-    [IsActive] BIT NOT NULL
+    [IsActive] BIT NOT NULL, 
+    [UserGuid] NVARCHAR(MAX) NOT NULL
 )

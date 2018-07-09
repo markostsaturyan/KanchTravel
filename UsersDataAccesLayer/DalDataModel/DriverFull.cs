@@ -1,9 +1,8 @@
-﻿using System;
-using Veldrid.ImageSharp;
+﻿using Veldrid.ImageSharp;
 
 namespace UsersDataAccesLayer.DalDataModel
 {
-    public class DriverFull:UserFull
+    public class DriverFull : UserFull
     {
         public Car Car { get; set; }
 
