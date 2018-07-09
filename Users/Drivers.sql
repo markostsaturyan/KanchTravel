@@ -2,8 +2,8 @@
 (
 	[UserId] INT NOT NULL,
 	[CarId] INT NOT NULL,
-	[DrivingLicencePicFront] IMAGE NOT NULL,
-	[DrivingLicencePicBack] IMAGE NOT NULL, 
+	[DrivingLicencePicFront] VARBINARY(MAX) NOT NULL,
+	[DrivingLicencePicBack] VARBINARY(MAX) NOT NULL, 
     [KnowledgeOfLanguages] NVARCHAR(MAX) NOT NULL, 
     [Rating] FLOAT NOT NULL,
 	FOREIGN KEY (UserId) REFERENCES Users(Id),

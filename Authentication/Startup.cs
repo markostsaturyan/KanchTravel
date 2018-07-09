@@ -12,7 +12,7 @@ namespace Authentication
     /// <summary>
     /// The Authentication startup class
     /// </summary>
-    public class AuthenticationStartup
+    public class Startup
     {
         /// <summary>
         /// Add services to the container
@@ -25,7 +25,7 @@ namespace Authentication
 
             services.AddMvc();
 
-            services.AddIdentityServer()
+            services.AddIdentityServer().AddDeveloperSigningCredential()
                     .AddInMemoryIdentityResources(Config.GetIdentityResources()) //check below
                     .AddInMemoryApiResources(Config.GetApiResources())
                     .AddInMemoryClients(Config.GetClients())
@@ -48,7 +48,7 @@ namespace Authentication
             }
 
             app.UseIdentityServer();
-
+            app.UseMvc();
         }
     }
 }

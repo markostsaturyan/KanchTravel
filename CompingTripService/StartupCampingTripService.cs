@@ -5,13 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CompingTripService
 {
-    public class CampingTripServiceStartup
+    public class StartupCampingTripService
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="configuration"> The configuration </param>
-        public CampingTripServiceStartup(IConfiguration configuration)
+        public StartupCampingTripService(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -24,11 +24,14 @@ namespace CompingTripService
         /// <param name="services"> Collection of services </param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvcCore()
+                .AddAuthorization()
+                .AddJsonFormatters();
+
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "http://localhost:28365";
                     options.RequireHttpsMetadata = false;
 
                     options.ApiName = "compingTrip";
@@ -48,7 +51,6 @@ namespace CompingTripService
             }
 
             app.UseAuthentication();
-
             app.UseMvc();
         }
     }

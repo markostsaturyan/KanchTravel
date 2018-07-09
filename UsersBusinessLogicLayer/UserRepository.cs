@@ -5,6 +5,8 @@ namespace UsersBusinessLogicLayer
 {
     public class UserRepository:IUserRepository
     {
+        public UserRepository() { }
+
         public User FindUserAsync(string userName)
         {
             var user = UsersDAL.GetByUserName(userName);
