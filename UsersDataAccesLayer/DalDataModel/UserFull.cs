@@ -11,6 +11,8 @@ namespace UsersDataAccesLayer
 
         public string LastName { get; set; }
 
+        public string Sex { get; set; }
+
         public DateTime DataOfBirth { get; set; }
 
         public string PhoneNumber { get; set; }
@@ -26,5 +28,7 @@ namespace UsersDataAccesLayer
         public string Role { get; set; }
 
         public bool IsActive { get; set; }
+
+        public string UserGuid { get; set; }
     }
 }

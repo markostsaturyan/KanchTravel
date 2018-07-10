@@ -1,7 +1,4 @@
-﻿using System;
-using Veldrid.ImageSharp;
-
-namespace UsersDataAccesLayer.DalDataModel
+﻿namespace UsersDataAccesLayer.DalDataModel
 {
     public class PhotographerFull:UserFull
     {
