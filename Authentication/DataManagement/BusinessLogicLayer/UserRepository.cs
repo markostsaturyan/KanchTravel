@@ -1,38 +1,40 @@
 ﻿using System;
-using UsersDataModel;
-using UsersDataAccesLayer;
-namespace UsersBusinessLogicLayer
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Authentication.DataManagement.BusinessLogicLayer.BusiessLayerDataModel;
+using Authentication.DataManagement.DataAccesLayer;
+
+namespace Authentication.DataManagement.BusinessLogicLayer
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository : IUserRepository
     {
-        public UserRepository() { }
+        public UserRepository()
+        {
+        }
 
         public User FindUserAsync(string userName)
         {
-            var user = UsersDAL.GetByUserName(userName);
+            var user = AuthDataAccessLayer.GetByUserName(userName);
+
             return new User
             {
                 Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
                 UserName = user.UserName,
-                Email = user.Email,
                 Password = user.Password,
                 Role = user.Role,
                 IsActive = user.IsActive
             };
         }
 
-        public User FindUserAsync(long v)
+        public User FindUserAsync(long id)
         {
-            var user = UsersDAL.GetByUserID(v);
+            var user = AuthDataAccessLayer.GetByUserId(id);
+
             return new User
             {
                 Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
                 UserName = user.UserName,
-                Email = user.Email,
                 Password = user.Password,
                 Role = user.Role,
                 IsActive = user.IsActive

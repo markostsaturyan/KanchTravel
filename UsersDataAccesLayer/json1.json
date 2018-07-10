@@ -1,0 +1,34 @@
+﻿{
+  "mapping": [
+    {
+      "dalname": "GetAllUsers",
+      "storagename": "GetAllUsers"
+    },
+    {
+      "dalname": "GetAllUsers",
+      "storagename": "GetAllUsers"
+    }
+    "GetAllUsers",
+
+    "GetAllUsers",
+
+
+    "GetAllDrivers",
+
+    "GetAllDrivers",
+    "GetAllGuides",
+
+    "GetAllGudes",
+    "GetGuidePlaces",
+
+    "GetGuidePlaces",
+    "GetAllUserIdentifiers",
+
+    "GetAllUserIdentifiers",
+    "GetByUserName",
+
+    "GetByUserName",
+    "GetByUserId",
+
+    "GetUserByID"
+}

@@ -10,11 +10,7 @@ namespace UsersDataAccesLayer
 {
     public static class UsersDAL
     {
-        private static string connectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog = UsersDB;Integrated Security=True;Pooling=False;Connect Timeout=30";
-
-        private static IConfiguration storedProcedures = (IConfiguration)new ConfigurationBuilder()
-                                                         .SetBasePath(Directory.GetCurrentDirectory())
-                                                         .AddJsonFile("storedProcedures.json");
+        private static string connectionString = @"Data Source=.;Initial Catalog=UsersDB;Integrated Security=True;";
 
         public static List<UserIdentifiers> GetAllUserIdentifiers()
         {
@@ -22,11 +18,12 @@ namespace UsersDataAccesLayer
 
             using (var connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetAllUserIdentifiers"]
+                    CommandText = "GetAllUserIdentifiers"
                 };
 
                 var dataReader = command.ExecuteReader();
@@ -58,11 +55,12 @@ namespace UsersDataAccesLayer
 
             using (var connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetAllUsers"]
+                    CommandText = "GetAllUsers"
                 };
 
                 var dataReader = command.ExecuteReader();
@@ -99,11 +97,12 @@ namespace UsersDataAccesLayer
 
             using (var connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetAllDrivers"]
+                    CommandText = "GetAllDrivers"
                 };
 
                 var dataReader = command.ExecuteReader();
@@ -160,11 +159,12 @@ namespace UsersDataAccesLayer
 
             using (var connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetAllGuides"]
+                    CommandText = "GetAllGuides"
                 };
 
                 var dataReader = command.ExecuteReader();
@@ -205,11 +205,12 @@ namespace UsersDataAccesLayer
 
             using (var connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetGuidePlaces"]
+                    CommandText = "GetGuidePlaces"
                 };
 
                 var dataReader = command.ExecuteReader();
@@ -232,11 +233,12 @@ namespace UsersDataAccesLayer
 
             using (var connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetAllPhotographers"]
+                    CommandText = "GetAllPhotographers"
                 };
 
                 var dataReader = command.ExecuteReader();
@@ -285,11 +287,12 @@ namespace UsersDataAccesLayer
             var user = new UserIdentifiers();
             using (var connection = new SqlConnection(connectionString))
             {
+                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetByUserName"]
+                    CommandText = "GetByUserName"
                 };
 
                 var dataReader = command.ExecuteReader();
@@ -316,12 +319,15 @@ namespace UsersDataAccesLayer
             var user = new UserIdentifiers();
             using (var connection = new SqlConnection(connectionString))
             {
+                
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = storedProcedures["GetByUserId"]
+                    CommandText = "GetByUserId"
                 };
+
+                connection.Open();
 
                 var dataReader = command.ExecuteReader();
 

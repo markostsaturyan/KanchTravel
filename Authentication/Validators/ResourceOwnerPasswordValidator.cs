@@ -2,12 +2,11 @@
 using IdentityServer4.Validation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using UsersBusinessLogicLayer;
 using System.Security.Claims;
-using UsersDataModel;
 using IdentityModel;
+using Authentication.DataManagement.BusinessLogicLayer;
+using Authentication.DataManagement.BusinessLogicLayer.BusiessLayerDataModel;
 
 namespace Authentication.Validators
 {
@@ -24,6 +23,9 @@ namespace Authentication.Validators
         {
             try
             {
+                // encrypted("pass")
+
+                
                 //get your user model from db (by username - in my case its email)
                 var user = userRepository.FindUserAsync(context.UserName);
                 if (user != null)
@@ -57,11 +59,7 @@ namespace Authentication.Validators
             return new List<Claim>
             {
                 new Claim("user_id", user.Id.ToString() ?? ""),
-                new Claim(JwtClaimTypes.Name, (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(user.LastName)) ? (user.FirstName + " " + user.LastName) : ""),
-                new Claim(JwtClaimTypes.GivenName, user.FirstName  ?? ""),
-                new Claim(JwtClaimTypes.FamilyName, user.LastName  ?? ""),
-                new Claim(JwtClaimTypes.Email, user.Email  ?? ""),
-
+                
                 //roles
                 new Claim(JwtClaimTypes.Role, user.Role)
             };

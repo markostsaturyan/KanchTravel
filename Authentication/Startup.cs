@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using UsersBusinessLogicLayer;
 using Authentication.Services;
 using IdentityServer4.Validation;
 using IdentityServer4.Services;
 using Authentication.Validators;
+using IdentityModel;
+using Authentication.DataManagement.BusinessLogicLayer;
 
 namespace Authentication
 {
@@ -33,8 +34,18 @@ namespace Authentication
 
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
             services.AddTransient<IProfileService, ProfileService>();
-        }
 
+            /*services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("OnlyForArgishti",
+                   policy => policy.RequireRole("Role for Argishti"));
+                    options.AddPolicy("For Sevak", policy =>
+                    {
+                        policy.RequireUserName("Sevak"); policy.RequireClaim("Profile", "Programer", "Student");
+                    });
+
+                });*/
+        }
         /// <summary>
         /// Configure the HTTP request pipeline
         /// </summary>

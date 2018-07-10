@@ -1,6 +1,6 @@
-﻿Select * from Roles;
+﻿Select * from UsersDB.dbo.Roles;
 
-Insert into UsersDB.dbo.Users()
+Insert into UsersDB.dbo.Roles(RolesName)
 Values('Admin'),
 ('User'),
 ('Driver'),
@@ -9,7 +9,7 @@ Values('Admin'),
 
 
 
-Insert into Users (FirstName, LastName, Sex, DateOfBirth, PhoneNumber, Email, UserName, [Password], IsActive)
+Insert into UsersDB.dbo.Users (FirstName, LastName, Sex, DateOfBirth, PhoneNumber, Email, UserName, [Password], IsActive)
 Values('Anjela', 'Badalyan', 1, '19960830', '+37498889928', 'anjelabadalyan96@gmail.com','anjela','anjela', 1 )
 
 	SELECT UserId, FirstName, LastName, DateOfBirth, Email, PhoneNumber, Picture, UserName, [Password], IsActive, 
