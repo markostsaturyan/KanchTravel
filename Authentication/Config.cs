@@ -31,7 +31,7 @@ namespace Authentication
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "compingTrip",
+                    ClientId = "compingTrip",///klient cragreri anunner@
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
@@ -39,12 +39,10 @@ namespace Authentication
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "compingTrip" }
+                    AllowedScopes = { "compingTrip" },
+
                 }
-
-
             };
-
         }
 
         /// <summary>
@@ -55,14 +53,10 @@ namespace Authentication
         {
             return new List<IdentityResource> {
             new IdentityResources.OpenId(),
-            new IdentityResources.Profile(),
-            new IdentityResources.Email(),
             new IdentityResource {
-                Name = "role",
-                UserClaims = new List<string> {"role"}
-            }
-        };
-
+                Name = "Role",
+                UserClaims = new List<string> {"Admin","User","Driver","Guide","Photographer"}}
+            };
         }
     }
 }
