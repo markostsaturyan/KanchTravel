@@ -7,6 +7,7 @@ using System.Security.Claims;
 using IdentityModel;
 using Authentication.DataManagement.BusinessLogicLayer;
 using Authentication.DataManagement.BusinessLogicLayer.BusiessLayerDataModel;
+using Authentication.Security;
 
 namespace Authentication.Validators
 {
@@ -23,15 +24,14 @@ namespace Authentication.Validators
         {
             try
             {
-                // encrypted("pass")
+                var password = context.Password.HashSHA1();
 
-                
                 //get your user model from db (by username - in my case its email)
                 var user = userRepository.FindUserAsync(context.UserName);
                 if (user != null)
                 {
                     //check if password match - remember to hash password if stored as hash in db
-                    if (user.Password == context.Password)
+                    if (user.Password == password)
                     {
                         //set the result
                         context.Result = new GrantValidationResult(

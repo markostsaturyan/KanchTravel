@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Configuration;
-using Microsoft.Extensions.Configuration;
-using System.IO;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using Authentication.DataManagement.DataAccesLayer.DataAccessLayerDataModel;
 
 namespace Authentication.DataManagement.DataAccesLayer
 {
-    public static class AuthDataAccessLayer
+    public class AuthDataAccessLayer
     {
-        private static string connectionString = @"Data Source=DESKTOP-7S9MC1D\SQLEXPRESS;Initial Catalog=UsersDB;Integrated Security=True;";
-            /*new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json").Build()["ConnectionStrings:currentConnectionString"];*/
+        private string connectionString;
 
-        public static UserIdentifiers GetByUserName(string userName)
+        public AuthDataAccessLayer(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
+        public UserIdentifiers GetByUserName(string userName)
         {
             var user = new UserIdentifiers();
             using (var connection = new SqlConnection(connectionString))
@@ -31,9 +26,7 @@ namespace Authentication.DataManagement.DataAccesLayer
 
                 command.Parameters.AddWithValue("@userName", userName);
 
-                connection.Open();
-
-                
+                command.Connection.Open();
 
                 var dataReader = command.ExecuteReader();
 
@@ -52,7 +45,7 @@ namespace Authentication.DataManagement.DataAccesLayer
             return user;
         }
 
-        public static UserIdentifiers GetByUserId(long id)
+        public UserIdentifiers GetByUserId(long id)
         {
             var user = new UserIdentifiers();
 
@@ -65,7 +58,7 @@ namespace Authentication.DataManagement.DataAccesLayer
                     CommandText = "GetByUserId"
                 };
 
-                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@userId", id);
 
                 connection.Open();
 

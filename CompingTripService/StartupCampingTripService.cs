@@ -31,7 +31,7 @@ namespace CompingTripService
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = Configuration["Authorization:Authority"];
                     options.RequireHttpsMetadata = false;
 
                     options.ApiName = "compingTrip";
