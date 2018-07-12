@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CampingTripService.DataManagement.CampingTripBLL;
+using CampingTripService.DataManagement.Model;
 
 namespace CompingTripService
 {
@@ -34,6 +36,13 @@ namespace CompingTripService
 
                     options.ApiName = "compingTrip";
                 });
+            services.AddTransient<ICampingTripRepository,CampingTripRepository>();
+            
+            services.Configure<Settings>(options =>
+            {
+                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+            });
         }
 
         /// <summary>
