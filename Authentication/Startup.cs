@@ -5,8 +5,10 @@ using Authentication.Services;
 using IdentityServer4.Validation;
 using IdentityServer4.Services;
 using Authentication.Validators;
-using IdentityModel;
 using Authentication.DataManagement.BusinessLogicLayer;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using Authentication.DataManagement.DataAccesLayer;
 
 namespace Authentication
 {
@@ -15,14 +17,19 @@ namespace Authentication
     /// </summary>
     public class Startup
     {
+        private IConfiguration Configuration = new ConfigurationBuilder()
+                                                   .SetBasePath(Directory.GetCurrentDirectory())
+                                                   .AddJsonFile("appsettings.json").Build();
         /// <summary>
         /// Add services to the container
         /// </summary>
         /// <param name="services"> The services </param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(Configuration);
+
             //my user repository
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddSingleton(new UserRepository(Configuration));
 
             services.AddMvc();
 
