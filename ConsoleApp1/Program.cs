@@ -37,7 +37,7 @@ namespace ConsoleApp1
             var client = new HttpClient();
             client.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = await client.GetAsync("http://localhost:5001/Test");
+            var response = await client.GetAsync("http://localhost:5001/api/Value");
             if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine(response.StatusCode);
@@ -51,3 +51,13 @@ namespace ConsoleApp1
         }
     }
 }
+
+/*class DalConfig
+    {
+        List<Mapping> mappings;
+    }
+}
+class Mapping
+{
+    string dalnme
+}*/

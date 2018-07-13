@@ -2,12 +2,12 @@
 using IdentityServer4.Validation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using UsersBusinessLogicLayer;
 using System.Security.Claims;
-using UsersDataModel;
 using IdentityModel;
+using Authentication.DataManagement.BusinessLogicLayer;
+using Authentication.DataManagement.BusinessLogicLayer.BusiessLayerDataModel;
+using Authentication.Security;
 
 namespace Authentication.Validators
 {
@@ -24,12 +24,14 @@ namespace Authentication.Validators
         {
             try
             {
+                var password = context.Password.HashSHA1();
+
                 //get your user model from db (by username - in my case its email)
                 var user = userRepository.FindUserAsync(context.UserName);
                 if (user != null)
                 {
                     //check if password match - remember to hash password if stored as hash in db
-                    if (user.Password == context.Password)
+                    if (user.Password == password)
                     {
                         //set the result
                         context.Result = new GrantValidationResult(
@@ -57,11 +59,7 @@ namespace Authentication.Validators
             return new List<Claim>
             {
                 new Claim("user_id", user.Id.ToString() ?? ""),
-                new Claim(JwtClaimTypes.Name, (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(user.LastName)) ? (user.FirstName + " " + user.LastName) : ""),
-                new Claim(JwtClaimTypes.GivenName, user.FirstName  ?? ""),
-                new Claim(JwtClaimTypes.FamilyName, user.LastName  ?? ""),
-                new Claim(JwtClaimTypes.Email, user.Email  ?? ""),
-
+                
                 //roles
                 new Claim(JwtClaimTypes.Role, user.Role)
             };

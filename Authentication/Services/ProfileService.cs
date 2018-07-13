@@ -1,14 +1,14 @@
-﻿using IdentityServer4.Services;
+﻿using Authentication.DataManagement.BusinessLogicLayer;
+using Authentication.DataManagement.BusinessLogicLayer.BusiessLayerDataModel;
+using Authentication.Validators;
+using IdentityModel;
+using IdentityServer4.Models;
+using IdentityServer4.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4.Models;
-using UsersBusinessLogicLayer;
-using UsersDataModel;
 using System.Security.Claims;
-using IdentityModel;
-using Authentication.Validators;
+using System.Threading.Tasks;
 
 namespace Authentication.Services
 {
@@ -97,11 +97,7 @@ namespace Authentication.Services
             return new List<Claim>
             {
                 new Claim("user_id", user.Id.ToString() ?? ""),
-                new Claim(JwtClaimTypes.Name, (!string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(user.LastName)) ? (user.FirstName + " " + user.LastName) : ""),
-                new Claim(JwtClaimTypes.GivenName, user.FirstName  ?? ""),
-                new Claim(JwtClaimTypes.FamilyName, user.LastName  ?? ""),
-                new Claim(JwtClaimTypes.Email, user.Email  ?? ""),
-
+                
                 //roles
                 new Claim(JwtClaimTypes.Role, user.Role)
             };

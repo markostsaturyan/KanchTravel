@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CampingTripService.DataManagement.CampingTripBLL;
+using CampingTripService.DataManagement.Model;
 
 namespace CompingTripService
 {
@@ -24,18 +26,23 @@ namespace CompingTripService
         /// <param name="services"> Collection of services </param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvcCore()
-                .AddAuthorization()
-                .AddJsonFormatters();
+            services.AddMvc();
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:28365";
+                    options.Authority = Configuration["Authorization:Authority"];
                     options.RequireHttpsMetadata = false;
 
                     options.ApiName = "compingTrip";
                 });
+            services.AddTransient<ICampingTripRepository,CampingTripRepository>();
+            
+            services.Configure<Settings>(options =>
+            {
+                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+            });
         }
 
         /// <summary>
