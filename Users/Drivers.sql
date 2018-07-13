@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Drivers]
 (
-	[UserId] INT NOT NULL,
+	[UserId] INT NOT NULL PRIMARY KEY,
 	[CarId] INT NOT NULL,
 	[DrivingLicencePicFront] VARBINARY(MAX) NOT NULL,
 	[DrivingLicencePicBack] VARBINARY(MAX) NOT NULL, 

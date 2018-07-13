@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Authentication.DataManagment.BusinessLogicLayer;
-using Authentication.DataManagment.BusinessLogicLayer.BusinessLayerDataModel;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {

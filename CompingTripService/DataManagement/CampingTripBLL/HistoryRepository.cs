@@ -61,7 +61,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public Task<UpdateResult> UpdateRaiting(string id, double raiting)
         {
-            
+            return null;
         }
     }
 }

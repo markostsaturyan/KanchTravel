@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Photographer]
 (
-	[UserId] INT NOT NULL,
+	[UserId] INT NOT NULL PRIMARY KEY,
 	[CameraId] INT NOT NULL, 
     [Profession] NVARCHAR(MAX) NOT NULL, 
     [KnowledgeOfLanguages] NVARCHAR(MAX) NOT NULL, 

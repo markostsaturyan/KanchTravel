@@ -80,6 +80,9 @@
     <Build Include="GetAllDrivers.sql" />
     <Build Include="SignUpForTheCamping.sql" />
     <Build Include="CampingTrip%27sMembers.sql" />
+    <Build Include="RequestsOfDrivers.sql" />
+    <Build Include="RequestsOfGuides.sql" />
+    <Build Include="RequestsOfPhotographers.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="UsersDB.refactorlog" />
