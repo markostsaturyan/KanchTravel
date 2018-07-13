@@ -8,6 +8,7 @@ using System.Text;
 using System.Runtime.Serialization.Json;
 using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
@@ -24,6 +25,7 @@ namespace CampingTripService.Controllers
 
         // GET: api/CampingTrips
         //[Authorize(Policy ="For Sevak")]
+        
         [HttpGet]
         public async Task<IEnumerable<CampingTrip>> Get()
         {
@@ -32,12 +34,13 @@ namespace CampingTripService.Controllers
 
         // GET: api/CampingTrips/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<CampingTrip> Get(string id)
         {
-            return "value";
+            return await campingTripRepository.GetCampingTrip(id);
         }
-        
+
         // POST: api/CampingTrips
+        [Authorize(Policy = "Users")]
         [HttpPost]
         public void Post([FromBody]string value)
         {
@@ -46,14 +49,28 @@ namespace CampingTripService.Controllers
         
         // PUT: api/CampingTrips/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(string id, [FromBody]string value)
         {
+            campingTripRepository.UpdateCampingTrip(id, ReadToObject(value));
         }
-        
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+       /* [HttpPut("{id}",Name ="PutDepartureDate")]
+        public void PutDepartureDate(string id, [FromBody]string value)
         {
+            var deserializedDate = new DateTime();
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(value));
+            var ser = new DataContractJsonSerializer(deserializedDate.GetType());
+            deserializedDate = ser.ReadObject(ms) as DateTime;
+            ms.Close();
+            campingTripRepository.UpdateDepartureDate(id,)
+        }*/
+
+        // DELETE: api/ApiWithActions/5
+        [Authorize(Policy = "Organizer Or Admin")]
+        [HttpDelete("{id}")]
+        public void Delete(string id)
+        {
+            campingTripRepository.RemoveCampingTrip(id);
         }
 
         public static CampingTrip ReadToObject(string json)

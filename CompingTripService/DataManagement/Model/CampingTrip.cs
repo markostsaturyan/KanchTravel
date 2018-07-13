@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace CampingTripService.DataManagement.Model
@@ -17,16 +18,8 @@ namespace CampingTripService.DataManagement.Model
     public enum TypeOfOrganization
     {
         orderByUser,
-        orderByOrganizer
+        orderByAdmin
     }
-
-    public enum Resrtiction
-    {
-        Age,
-        Count,
-        None
-    }
-
     public class Food
     {
         public string Name { get; set; }
@@ -39,7 +32,8 @@ namespace CampingTripService.DataManagement.Model
     public class CampingTrip
     {
         [BsonId]
-        public int ID { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string ID { get; set; }
         [DataMember]
         public string Place { get; set; }
         [DataMember]
@@ -53,7 +47,15 @@ namespace CampingTripService.DataManagement.Model
         [DataMember]
         public TypeOfOrganization OrganizationType { get; set; }
         [DataMember]
-        public Resrtiction RestrictionOfTrip { get; set; }
+        public int MinAge { get; set; }
+        [DataMember]
+        public int MaxAge { get; set; }
+        [DataMember]
+        public int MinCountOfMembers { get; set; }
+        [DataMember]
+        public int MaxCountOfMembers { get; set; }
+        [DataMember]
+        public int OgranzierID { get; set; }
         [DataMember]
         public int CountOfMembers { get; set; }
         [DataMember]
