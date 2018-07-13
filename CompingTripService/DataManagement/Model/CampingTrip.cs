@@ -13,17 +13,20 @@ namespace CampingTripService.DataManagement.Model
         campaign,
         campingTrip
     }
+
     public enum TypeOfOrganization
     {
         orderByUser,
         orderByOrganizer
     }
+
     public enum Resrtiction
     {
         Age,
         Count,
         None
     }
+
     public class Food
     {
         public string Name { get; set; }
@@ -31,6 +34,7 @@ namespace CampingTripService.DataManagement.Model
         public double Measure { get; set; }
         public double Price { get; set; }
     }
+
     [DataContract]
     public class CampingTrip
     {
