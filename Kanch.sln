@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompingTripService", "Compi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersDataModel", "UsersDataModel\UsersDataModel.csproj", "{CD5D3511-CECF-45C3-A0E2-C4F15BC49872}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3B1FD068-891B-4958-A44D-094034E37349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3B1FD068-891B-4958-A44D-094034E37349}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement", "UserManagement\UserManagement.csproj", "{FBB3D34F-2026-43B1-A1A4-839170FB9ECB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{3B1FD068-891B-4958-A44D-094034E37349}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B1FD068-891B-4958-A44D-094034E37349}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B1FD068-891B-4958-A44D-094034E37349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB3D34F-2026-43B1-A1A4-839170FB9ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB3D34F-2026-43B1-A1A4-839170FB9ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB3D34F-2026-43B1-A1A4-839170FB9ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB3D34F-2026-43B1-A1A4-839170FB9ECB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
