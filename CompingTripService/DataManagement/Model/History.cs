@@ -12,7 +12,7 @@ namespace CampingTripService.DataManagement.Model
     }
     public class History:CampingTrip
     {
-        public int Raiting { get; set; }
+        public double Raiting { get; set; }
         public List<Comment> Comments { get; set; }
     }
 }
