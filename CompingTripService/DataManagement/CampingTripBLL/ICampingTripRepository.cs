@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using CampingTripService.DataManagement.Model;
 using MongoDB.Driver;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {
     public interface ICampingTripRepository
     {
-        Task<IEnumerable<Model.CampingTrip>> GetAllCampingTrips();
+        Task<IEnumerable<CampingTrip>> GetAllCampingTrips();
         Task<Model.CampingTrip> GetCampingTrip(string id);
-        Task AddCampingTrip(Model.CampingTrip item);
+        Task AddCampingTrip(CampingTrip item);
         Task<DeleteResult> RemoveCampingTrip(string id);
-        Task<UpdateResult> UpdateCampingTrip(int id, DateTime departureTime);
+        Task<ReplaceOneResult> UpdateCampingTrip(string id, CampingTrip trip);
+        Task<UpdateResult> UpdateDepartureDate(string id, DateTime departureDate);
+        Task<UpdateResult> UpdateCountOfMembers(string id, int count);
+        Task<UpdateResult> UpdateDriver(string id, int driverId);
+        Task<UpdateResult> UpdateGuide(string id, int guideId);
+        Task<UpdateResult> UpdatePhotographer(string id, int photographerId);
     }
 }

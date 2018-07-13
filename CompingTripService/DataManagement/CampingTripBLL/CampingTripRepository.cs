@@ -30,9 +30,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<CampingTrip> GetCampingTrip(string id)
         {
-            var filter = Builders<CampingTrip>.Filter.Eq("Id", id);
             return await campingTripContext.CampingTrips
-                            .Find(filter)
+                            .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
                             .FirstOrDefaultAsync();
         }
 
@@ -42,7 +41,15 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                  Builders<CampingTrip>.Filter.Eq("Id", id));
         }
 
-        public async Task<UpdateResult> UpdateCampingTrip(int id, DateTime departureDate)
+        public async Task<ReplaceOneResult> UpdateCampingTrip(string id, CampingTrip trip)
+        {
+            return await campingTripContext.CampingTrips
+                          .ReplaceOneAsync(n => n.ID.Equals(id)
+                                            , trip
+                                            , new UpdateOptions { IsUpsert = true });
+        }
+
+        public async Task<UpdateResult> UpdateDepartureDate(string id, DateTime departureDate)
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
             var update = Builders<CampingTrip>.Update
@@ -50,5 +57,42 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
+
+        public async Task<UpdateResult> UpdateCountOfMembers(string id, int count)
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
+            var update = Builders<CampingTrip>.Update
+                            .Set(s => s.CountOfMembers, count);
+
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
+        }
+
+        public async Task<UpdateResult> UpdateDriver(string id, int driverId)
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
+            var update = Builders<CampingTrip>.Update
+                            .Set(s => s.DriverID, driverId);
+
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
+        }
+
+        public async Task<UpdateResult> UpdateGuide(string id, int guideId)
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
+            var update = Builders<CampingTrip>.Update
+                            .Set(s => s.GuideID, guideId);
+
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
+        }
+
+        public async Task<UpdateResult> UpdatePhotographer(string id, int photographerId)
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
+            var update = Builders<CampingTrip>.Update
+                            .Set(s => s.PhotographerID, photographerId);
+
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
+        }
+
     }
 }
