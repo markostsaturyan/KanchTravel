@@ -8,8 +8,9 @@
     [PhoneNumber] NVARCHAR(MAX) NOT NULL, 
     [Email] NVARCHAR(MAX) NOT NULL, 
 	[Picture]  VARBINARY(MAX) NULL,
-    [UserName] NVARCHAR(MAX) NOT NULL, 
+    [UserName] NVARCHAR(MAX) NOT NULL UNIQUE, 
     [Password] NVARCHAR(MAX) NOT NULL, 
     [IsActive] BIT NOT NULL, 
-    [UserGuid] NVARCHAR(MAX) NOT NULL
+    [UserGuid] NVARCHAR(MAX) NOT NULL,
+	[IsApproved] BIT NOT NULL
 )

@@ -83,6 +83,13 @@
     <Build Include="RequestsOfDrivers.sql" />
     <Build Include="RequestsOfGuides.sql" />
     <Build Include="RequestsOfPhotographers.sql" />
+    <Build Include="UserVerification.sql" />
+    <Build Include="GetFullUserInfoById.sql" />
+    <Build Include="UpdateUserFullInfo.sql" />
+    <Build Include="GetUserEmailById.sql" />
+    <Build Include="UpdateApproveValue.sql" />
+    <Build Include="InsertUserVerificationCode.sql" />
+    <Build Include="DeleteUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="UsersDB.refactorlog" />
