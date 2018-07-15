@@ -53,6 +53,7 @@ namespace Authentication
 
                 });*/
         }
+
         /// <summary>
         /// Configure the HTTP request pipeline
         /// </summary>

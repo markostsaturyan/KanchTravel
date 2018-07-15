@@ -1,6 +1,10 @@
-﻿using Veldrid.ImageSharp;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Veldrid.ImageSharp;
 
-namespace UsersDataAccesLayer.DalDataModel
+namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
     public class Car
     {

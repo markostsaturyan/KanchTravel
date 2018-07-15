@@ -24,10 +24,11 @@ namespace Authentication.Validators
         {
             try
             {
-                var password = context.Password.HashSHA1();
-
                 //get your user model from db (by username - in my case its email)
                 var user = userRepository.FindUserAsync(context.UserName);
+
+                var password = context.Password + user.HashGuide.HashSHA1();
+
                 if (user != null)
                 {
                     //check if password match - remember to hash password if stored as hash in db

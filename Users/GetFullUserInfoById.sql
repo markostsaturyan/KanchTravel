@@ -1,7 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[GetUserById]
+﻿CREATE PROCEDURE [dbo].[GetFullUserInfoById]
 	@userId int
 AS
-	SELECT Users.Id, UserName, [Password],Roles.RoleName, IsActive, UserGuid
+	SELECT *
 	FROM Users join UserRole on Users.Id=UserId
 		 join Roles on RoleId=Roles.Id
 	WHERE Users.Id=@userID

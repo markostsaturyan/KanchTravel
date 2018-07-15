@@ -52,12 +52,3 @@ namespace ConsoleApp1
     }
 }
 
-/*class DalConfig
-    {
-        List<Mapping> mappings;
-    }
-}
-class Mapping
-{
-    string dalnme
-}*/

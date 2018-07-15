@@ -84,4 +84,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Gender" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="52dfa20f-d0a9-46d9-83aa-5017c27cacdf" ChangeDateTime="07/13/2018 12:55:33">
+    <Property Name="ElementName" Value="[dbo].[RequestsOfDrivers].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RequestsOfDrivers]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DriverId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="255cc993-1369-4d59-a8e0-c6f53bc2dec4" ChangeDateTime="07/13/2018 13:01:31">
+    <Property Name="ElementName" Value="[dbo].[RequestsOfGuides].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RequestsOfGuides]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GuideId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cd2b8041-ffa5-4815-8e1a-355ed7ea514c" ChangeDateTime="07/13/2018 13:10:31">
+    <Property Name="ElementName" Value="[dbo].[RequestsOfPhotographers].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RequestsOfPhotographers]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PhotographerId" />
+  </Operation>
 </Operations>

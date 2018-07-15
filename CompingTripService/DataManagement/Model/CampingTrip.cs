@@ -15,6 +15,7 @@ namespace CampingTripService.DataManagement.Model
         campaign,
         campingTrip
     }
+
     public enum TypeOfOrganization
     {
         orderByUser,
@@ -27,6 +28,7 @@ namespace CampingTripService.DataManagement.Model
         public double Measure { get; set; }
         public double Price { get; set; }
     }
+
     [DataContract]
     public class CampingTrip
     {

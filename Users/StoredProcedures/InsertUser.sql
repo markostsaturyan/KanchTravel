@@ -1,15 +1,24 @@
 ﻿CREATE PROCEDURE [dbo].[InsertUser]
-	@FirstName nvarchar(Max),
-	@LastName nvarchar(Max),
-	@Gender bit,
-	@DateOfBirth Date,
-	@PhonNumber  nvarchar(Max),
-	@Email nvarchar(Max),
-	@UserName nvarchar(Max),
-	@Password nvarchar(Max)
+	@firstName nvarchar(Max),
+	@lastName nvarchar(Max),
+	@gender bit,
+	@dateOfBirth Date,
+	@phonNumber  nvarchar(Max),
+	@email nvarchar(Max),
+	@picture varbinary(MAX),
+	@userName nvarchar(Max),
+	@password nvarchar(Max),
+	@isActive bit,
+	@userGude nvarchar(Max),
+	@isApproved bit
 AS
-	Insert into Users (FirstName, LastName, Gender, DateOfBirth, PhoneNumber, Email, UserName, [Password], IsActive)
-	Values(@FirstName, @LastName, @Gender, @DateOfBirth, @PhonNumber, @Email,@UserName,@Password, 1)
+	Insert into Users (FirstName, LastName, Gender, DateOfBirth, PhoneNumber, Email, UserName, [Password], IsActive, UserGuid,IsApproved)
+	Values(@FirstName, @LastName, @Gender, @DateOfBirth, @PhonNumber, @Email,@UserName,@Password, 1,@UserGude,@isApproved)
 
-	Insert into UserRole Values((Select SCOPE_IDENTITY()),(Select Id from Roles Where RoleName='User'));
+	Insert into UserRole Values((Select SCOPE_IDENTITY() from Users),(Select Id from Roles Where RoleName='User'));
+
+	select Id
+	from Users
+	where @UserName=UserName
+
 RETURN 0

@@ -1,7 +1,7 @@
 ﻿using System;
 using Veldrid.ImageSharp;
 
-namespace UsersDataAccesLayer
+namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
     public class UserFull
     {
@@ -11,7 +11,7 @@ namespace UsersDataAccesLayer
 
         public string LastName { get; set; }
 
-        public string Sex { get; set; }
+        public string Gender { get; set; }
 
         public DateTime DataOfBirth { get; set; }
 
@@ -26,9 +26,5 @@ namespace UsersDataAccesLayer
         public string Password { get; set; }
 
         public string Role { get; set; }
-
-        public bool IsActive { get; set; }
-
-        public string UserGuid { get; set; }
     }
 }
