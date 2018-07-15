@@ -37,12 +37,13 @@ namespace CompingTripService
                     options.ApiName = "compingTrip";
                 });
             services.AddTransient<ICampingTripRepository,CampingTripRepository>();
-            services.AddTransient<IHistoryRepository, HistoryRepository>();
+            services.AddTransient<ICompletedCampingTripRepository, CompletedCampingTripRepository>();
             services.AddTransient<ISignUpForTheTrip, SignUpForTheTrip>();
             services.Configure<Settings>(options =>
             {
                 options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+                options.Database1 = Configuration.GetSection("MongoConnection:Database1").Value;
             });
             services.AddSingleton(new UserContext());
 

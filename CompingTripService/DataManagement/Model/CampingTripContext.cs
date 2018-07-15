@@ -9,7 +9,7 @@ namespace CampingTripService.DataManagement.Model
 {
     public class CampingTripContext
     {
-        private readonly IMongoDatabase database = null;
+        private readonly IMongoDatabase database;
 
         public CampingTripContext(IOptions<Settings> settings)
         {

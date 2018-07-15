@@ -317,5 +317,19 @@ namespace CampingTripService.DataManagement.Model.UsersDAL
                 var dataReader = command.ExecuteReader();
             }
         }
+
+        public List<CommentFull> GetComments(List<Comment> comments)
+        {
+            var commentsFull = new List<CommentFull>();
+            foreach(var comment in comments)
+            {
+                commentsFull.Add(new CommentFull()
+                {
+                    Text = comment.Text,
+                    User = GetUser(comment.UserId)
+                });
+            }
+            return commentsFull;
+        }
     }
 }

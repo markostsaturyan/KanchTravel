@@ -3,37 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using CampingTripService.DataManagement.Model.UsersDAL;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace CampingTripService.DataManagement.Model
 {
-    public enum TypeOfCampingTrip
+    public class Comment
     {
-        excursion,
-        campaign,
-        campingTrip
+        public int UserId { get; set; }
+        public string Text { get; set; }
     }
 
-    public enum TypeOfOrganization
+    public class Raiting
     {
-        orderByUser,
-        orderByAdmin
+        public int CountOfAppraisers { get; set; }
+        public double CurrentRaiting { get; set; }
     }
-    public class Food
-    {
-        public string Name { get; set; }
-        public string MeasurementUnit { get; set; }
-        public double Measure { get; set; }
-        public double Price { get; set; }
-    }
-
     [DataContract]
-    public class CampingTrip
+    public class CompletedCampingTrip
     {
-        public CampingTrip() { }
-        public CampingTrip(CampingTripFull campingTrip)
+        public CompletedCampingTrip() { }
+        public CompletedCampingTrip(CampingTrip campingTrip)
         {
             this.ID = campingTrip.ID;
             this.Place = campingTrip.Place;
@@ -46,14 +36,13 @@ namespace CampingTripService.DataManagement.Model
             this.MaxAge = campingTrip.MaxAge;
             this.MaxCountOfMembers = campingTrip.MaxCountOfMembers;
             this.MinCountOfMembers = campingTrip.MinCountOfMembers;
-            this.DriverID = campingTrip.Driver.Id;
-            this.GuideID = campingTrip.Guide.Id;
-            this.PhotographerID = campingTrip.Photographer.Id;
+            this.DriverID = campingTrip.DriverID;
+            this.GuideID = campingTrip.GuideID;
+            this.PhotographerID = campingTrip.PhotographerID;
             this.CountOfMembers = campingTrip.CountOfMembers;
             this.Food = campingTrip.Food;
-            this.IsRegistrationCompleted = campingTrip.IsRegistrationCompleted;
             this.PriceOfTrip = campingTrip.PriceOfTrip;
-            this.OrganzierID = campingTrip.Organzier.Id;
+            this.OrganzierID = campingTrip.OrganzierID;
         }
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -93,6 +82,8 @@ namespace CampingTripService.DataManagement.Model
         [DataMember]
         public double PriceOfTrip { get; set; }
         [DataMember]
-        public bool IsRegistrationCompleted { get; set; }
+        public Raiting CurrentRaiting { get; set; }
+        [DataMember]
+        public List<Comment> Comments { get; set; }
     }
 }
