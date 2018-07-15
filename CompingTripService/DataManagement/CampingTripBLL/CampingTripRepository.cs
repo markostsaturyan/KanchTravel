@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CampingTripService.DataManagement.Model;
+using CampingTripService.DataManagement.Model.Users;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -11,7 +12,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 {
     public class CampingTripRepository : ICampingTripRepository
     {
-        private readonly CampingTripContext campingTripContext = null;
+        private readonly CampingTripContext campingTripContext;
 
         public CampingTripRepository(IOptions<Settings> settings)
         {
@@ -23,16 +24,25 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             await campingTripContext.CampingTrips.InsertOneAsync(item);
         }
 
-        public async Task<IEnumerable<CampingTrip>> GetAllCampingTrips()
+        public async Task<IEnumerable<CampingTrip>> GetAllRegistartionCompletedCampingTrips()
         {
-            return await campingTripContext.CampingTrips.Find(_ => true).ToListAsync();
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, true);
+            return await campingTripContext.CampingTrips.Find(filter).ToListAsync();
         }
 
-        public async Task<CampingTrip> GetCampingTrip(string id)
+        public async Task<IEnumerable<CampingTrip>> GetAllRegistartionNotCompletedCampingTrips()
         {
-            return await campingTripContext.CampingTrips
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, false);
+            return await campingTripContext.CampingTrips.Find(filter).ToListAsync();
+        }
+        public async Task<CampingTripFull> GetCampingTrip(string id)
+        {
+            var trip= await campingTripContext.CampingTrips
                             .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
                             .FirstOrDefaultAsync();
+
+            return new CampingTripFull(trip);
+            
         }
 
         public async Task<DeleteResult> RemoveCampingTrip(string id)
@@ -63,33 +73,6 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
             var update = Builders<CampingTrip>.Update
                             .Set(s => s.CountOfMembers, count);
-
-            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
-        }
-
-        public async Task<UpdateResult> UpdateDriver(string id, int driverId)
-        {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
-            var update = Builders<CampingTrip>.Update
-                            .Set(s => s.DriverID, driverId);
-
-            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
-        }
-
-        public async Task<UpdateResult> UpdateGuide(string id, int guideId)
-        {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
-            var update = Builders<CampingTrip>.Update
-                            .Set(s => s.GuideID, guideId);
-
-            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
-        }
-
-        public async Task<UpdateResult> UpdatePhotographer(string id, int photographerId)
-        {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
-            var update = Builders<CampingTrip>.Update
-                            .Set(s => s.PhotographerID, photographerId);
 
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }

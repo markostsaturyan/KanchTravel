@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using Veldrid.ImageSharp;
 using UsersDataAccesLayer.DalDataModel;
 
+
 namespace UsersDataAccesLayer
 {
     /// <summary>
@@ -180,6 +181,7 @@ namespace UsersDataAccesLayer
                 commandForInsertCar.Parameters.AddWithValue("@hasAirConditioner", car.HasAirConditioner);
                 commandForInsertCar.Parameters.AddWithValue("@hasKitchen", car.HasKitchen);
                 commandForInsertCar.Parameters.AddWithValue("@hasToilet", car.HasToilet);
+
 
                 return (int)commandForInsertCar.ExecuteScalar();
             }

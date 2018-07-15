@@ -49,19 +49,26 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var filter = Builders<History>.Filter.Eq(s => s.ID, id);
 
-            var history = await GetCampingTrip(id);
+            var campingTrip = await GetCampingTrip(id);
 
-            history.Comments.Add(comment);
+            campingTrip.Comments.Add(comment);
 
             var update = Builders<History>.Update
-                            .Set(s => s.Comments, history.Comments);
+                            .Set(s => s.Comments, campingTrip.Comments);
 
             return await historyContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
-        public Task<UpdateResult> UpdateRaiting(string id, double raiting)
+        public async  Task<UpdateResult> UpdateRaiting(string id, double raiting)
         {
-            
+            var filter = Builders<History>.Filter.Eq(s => s.ID, id);
+            var campingTrip = await GetCampingTrip(id);
+            campingTrip.CurrentRaiting.CurrentRaiting++;
+            campingTrip.CurrentRaiting.CurrentRaiting = (campingTrip.CurrentRaiting.CurrentRaiting + raiting) / campingTrip.CurrentRaiting.CountOfAppraisers;
+            var update = Builders<History>.Update
+                            .Set(s => s.CurrentRaiting, campingTrip.CurrentRaiting);
+
+            return await historyContext.CampingTrips.UpdateOneAsync(filter, update);
         }
     }
 }
