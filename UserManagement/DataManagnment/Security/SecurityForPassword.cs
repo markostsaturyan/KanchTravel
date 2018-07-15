@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace UserManagement.DataManagnment.Security
 {
-    public class SecurityForPassword
+    public static class SecurityForPassword
     {
-        public static string HashSHA1(string value)
+        public static string HashSHA1(this string value)
         {
             var sha1 = SHA1.Create();
             var inputBytes = Encoding.ASCII.GetBytes(value);

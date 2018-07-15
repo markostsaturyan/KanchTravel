@@ -21,7 +21,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         {
             this.connectionString = connectionString;
         }
-        #region Adding
+
+#region Adding
         /// <summary>
         /// Adds user to database
         /// </summary>
@@ -29,9 +30,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// <returns> User's id after inserting </returns>
         public int AddUser(UserFull user)
         {
-            var userGuid = Guid.NewGuid();
+            var userGuid = Guid.NewGuid().ToString();
 
-            string hashedPassword = SecurityForPassword.HashSHA1(user.Password + userGuid.ToString());
+            string hashedPassword = SecurityForPassword.HashSHA1(user.Password + userGuid);
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -53,7 +54,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 command.Parameters.AddWithValue("@picture", user.Image);
                 command.Parameters.AddWithValue("@username", user.UserName);
                 command.Parameters.AddWithValue("@password", hashedPassword);
-                command.Parameters.AddWithValue("@userguid", userGuid.ToString());
+                command.Parameters.AddWithValue("@userguid", userGuid);
                 command.Parameters.AddWithValue("@isActive", 1);
                 command.Parameters.AddWithValue("@isApproved", 0);
 
@@ -100,11 +101,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// <param name="guide"> The guide full info </param>
         public void AddGuide(GuideFull guide)
         {
-            var userGuid = Guid.NewGuid();
-
-            string hashedPassword = SecurityForPassword.HashSHA1(guide.Password + userGuid.ToString());
-
-            var userFullInfo = new UserFull
+            var userFullInfo = new UserInfo
             {
                 FirstName = guide.FirstName,
                 LastName = guide.LastName,
@@ -114,9 +111,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = guide.Email,
                 Image = guide.Image,
                 UserName = guide.UserName,
-                Password = hashedPassword,
-                IsActive = guide.IsActive,
-                UserGuid = userGuid.ToString()
+                Password = guide.Password
             };
 
             var userId = AddUser(userFullInfo);
@@ -138,9 +133,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 command.Parameters.AddWithValue("@approved", 0);
 
                 command.ExecuteNonQuery();
-
-                // TODO sendEmail method isn't correct
-                SendVerificationLinkEmail.SendEmail();
             }
         }
 
@@ -154,7 +146,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
             string hashedPassword = SecurityForPassword.HashSHA1(driver.Password + userGuid.ToString());
 
-            var userFullInfo = new UserFull
+            var userFullInfo = new UserInfo
             {
                 FirstName = driver.FirstName,
                 LastName = driver.LastName,
@@ -165,8 +157,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Image = driver.Image,
                 UserName = driver.UserName,
                 Password = hashedPassword,
-                IsActive = driver.IsActive,
-                UserGuid = userGuid.ToString()
             };
 
             var userId = AddUser(userFullInfo);
@@ -230,11 +220,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// <param name="photographer"> Photographer full info </param>
         public void AddPhotographer(PhotographerFull photographer)
         {
-            var userGuid = Guid.NewGuid();
-
-            string hashedPassword = SecurityForPassword.HashSHA1(photographer.Password + userGuid.ToString());
-
-            var userFullInfo = new UserFull
+            var userFullInfo = new UserInfo
             {
                 FirstName = photographer.FirstName,
                 LastName = photographer.LastName,
@@ -244,9 +230,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = photographer.Email,
                 Image = photographer.Image,
                 UserName = photographer.UserName,
-                Password = hashedPassword,
-                IsActive = true,
-                UserGuid = userGuid.ToString()
+                Password = photographer.Password
             };
 
             var userId = AddUser(userFullInfo);
@@ -300,9 +284,14 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         #endregion Adding
 
 #region Getting
-        public UserFull GetUserById(int id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public UserInfo GetUserById(int id)
         {
-            var user = new UserFull();
+            var user = new UserInfo();
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -322,7 +311,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 {
                     dataReader.Read();
 
-                    user = new UserFull
+                    user = new UserInfo
                     {
                         Id = (int)dataReader["Id"],
                         FirstName = (string)dataReader["FirstName"],
@@ -332,11 +321,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = (ImageSharpTexture)dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
-                        Password = (string)dataReader["Password"],
                         Role = (string)dataReader["Role"],
                         Gender = (string)dataReader["Gender"],
-
-
                     };
 
                 }
@@ -345,13 +331,57 @@ namespace UserManagement.DataManagnment.DataAccesLayer
             return user;
         }
 
+        public string GetUserEmailById(int id)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetUserEmailById"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                dataReader.Read();
+
+                return (string)dataReader["Email"];
+            }
+        }
+
+        public string GetUserPasswordById(int id, out string guide)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetUserPasswordAndGuideById"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                dataReader.Read();
+
+                guide = (string)dataReader["UserGuide"];
+
+                return (string)dataReader["Password"];
+            }
+        }
+
         /// <summary>
         /// Gets all users
         /// </summary>
         /// <returns> List of Users </returns>
-        public List<UserFull> GetAllUsers()
+        public List<UserInfo> GetAllUsers()
         {
-            var users = new List<UserFull>();
+            var users = new List<UserInfo>();
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -369,7 +399,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 {
                     while (dataReader.Read())
                     {
-                        users.Add(new UserFull
+                        users.Add(new UserInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
@@ -601,85 +631,54 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         #endregion Getting
 
 #region Updating
-        public void UpdateUserFullInfo(UserFull user)
+        public void UpdateUserInfo(UserInfo user)
         {
             using (var connection = new SqlConnection(this.connectionString))
             {
-                var command = new SqlCommand()
+                var updateCommand = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetUserEmailById"
+                    CommandText = "UpdateUserFullInfo"
                 };
 
-                command.Parameters.AddWithValue("@id", user.Id);
+                updateCommand.Parameters.AddWithValue("@id", user.Id);
+                updateCommand.Parameters.AddWithValue("@firstName", user.FirstName);
+                updateCommand.Parameters.AddWithValue("@lastName", user.LastName);
+                updateCommand.Parameters.AddWithValue("@gender", user.Gender);
+                updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DataOfBirth);
+                updateCommand.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
+                updateCommand.Parameters.AddWithValue("@email", user.Email);
+                updateCommand.Parameters.AddWithValue("@picture", user.Image);
+                updateCommand.Parameters.AddWithValue("@userName", user.UserName);
+                updateCommand.Parameters.AddWithValue("@password", user.Password);
 
                 connection.Open();
 
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    reader.Read();
-
-                    if (user.Email == (string)reader["Email"])
-                    {
-                        var updateCommand = new SqlCommand
-                        {
-                            Connection = connection,
-                            CommandType = System.Data.CommandType.StoredProcedure,
-                            CommandText = "UpdateUserFullInfo"
-                        };
-
-                        updateCommand.Parameters.AddWithValue("@id", user.Id);
-                        updateCommand.Parameters.AddWithValue("@firstName", user.FirstName);
-                        updateCommand.Parameters.AddWithValue("@lastName", user.LastName);
-                        updateCommand.Parameters.AddWithValue("@gender", user.Gender);
-                        updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DataOfBirth);
-                        updateCommand.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
-                        updateCommand.Parameters.AddWithValue("@email", user.Email);
-                        updateCommand.Parameters.AddWithValue("@picture", user.Image);
-                        updateCommand.Parameters.AddWithValue("@userName", user.UserName);
-                        updateCommand.Parameters.AddWithValue("@password", user.Password);
-
-                        updateCommand.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        var setApproveFalseCommand = new SqlCommand
-                        {
-                            Connection = connection,
-                            CommandType = System.Data.CommandType.StoredProcedure,
-                            CommandText = "UpdateApproveValue"
-                        };
-
-                        setApproveFalseCommand.Parameters.AddWithValue("@id", user.Id);
-                        setApproveFalseCommand.Parameters.AddWithValue("@approveNewValue", false);
-
-                        setApproveFalseCommand.ExecuteNonQuery();
-
-                        var verifCommand = new SqlCommand
-                        {
-                            Connection = connection,
-                            CommandType=System.Data.CommandType.StoredProcedure,
-                            CommandText = "InsertUserVerificationCode"
-                        };
-
-                        var rand = new Random();
-
-                        var randNumber = rand.Next(1000, 9999);
-
-                        verifCommand.Parameters.AddWithValue("@userId", user.Id);
-                        verifCommand.Parameters.AddWithValue("@code", randNumber);
-
-                        verifCommand.ExecuteNonQuery();
-
-                        SendVerificationLinkEmail.SendEmail(user.Email, randNumber);
-                    }
-                }
+                updateCommand.ExecuteNonQuery();
             }
         }
-        #endregion Updating
+
+        public void UpdateApproveValue(int id, int value)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var setApproveFalseCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "UpdateApproveValue"
+                };
+
+                setApproveFalseCommand.Parameters.AddWithValue("@id", id);
+                setApproveFalseCommand.Parameters.AddWithValue("@approveNewValue", value);
+
+                connection.Open();
+
+                setApproveFalseCommand.ExecuteNonQuery();
+            }
+        }
+#endregion Updating
 
 #region Deleting
 
@@ -695,6 +694,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 };
 
                 deleteCommand.Parameters.AddWithValue("@id", id);
+
+                connection.Open();
 
                 deleteCommand.ExecuteNonQuery();
             }
