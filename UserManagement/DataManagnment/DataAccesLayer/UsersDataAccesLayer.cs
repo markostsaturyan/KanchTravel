@@ -651,6 +651,33 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@email", user.Email);
                 updateCommand.Parameters.AddWithValue("@picture", user.Image);
                 updateCommand.Parameters.AddWithValue("@userName", user.UserName);
+
+                connection.Open();
+
+                updateCommand.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdateUserInfo(UserFull user)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var updateCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "UpdateUserFullInfo"
+                };
+
+                updateCommand.Parameters.AddWithValue("@id", user.Id);
+                updateCommand.Parameters.AddWithValue("@firstName", user.FirstName);
+                updateCommand.Parameters.AddWithValue("@lastName", user.LastName);
+                updateCommand.Parameters.AddWithValue("@gender", user.Gender);
+                updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DataOfBirth);
+                updateCommand.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
+                updateCommand.Parameters.AddWithValue("@email", user.Email);
+                updateCommand.Parameters.AddWithValue("@picture", user.Image);
+                updateCommand.Parameters.AddWithValue("@userName", user.UserName);
                 updateCommand.Parameters.AddWithValue("@password", user.Password);
 
                 connection.Open();

@@ -57,7 +57,23 @@ namespace UserManagement.Controllers
 
                     if (userCurrentPassword == confirmationHashedPassword)
                     {
-                        this.usersDataAccessLayer.UpdateUserFullInfo()
+                        this.usersDataAccessLayer.UpdateUserInfo(new UserFull
+                        {
+
+                            Id = user.Id,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Gender = user.Gender,
+                            DataOfBirth = user.DataOfBirth,
+                            Email=user.Email,
+                            Image=user.Image,
+                            Password=user.Password,
+                            PhoneNumber=user.PhoneNumber,
+                            Role
+
+
+
+                        });
 
                     }
 
