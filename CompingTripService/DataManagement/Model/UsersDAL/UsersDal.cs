@@ -141,7 +141,7 @@ namespace CampingTripService.DataManagement.Model.UsersDAL
                         };
                         driver.DrivingLicencePicBack = ByteArrayToImage(dataReader["DrivingLicencePicBack"]);
                         driver.DrivingLicencePicFront = ByteArrayToImage(dataReader["DrivingLicencePicFront"]);
-                        driver.Raiting = (double)dataReader["Raiting"];
+                        driver.Rating = (double)dataReader["Raiting"];
                         driver.Img = ByteArrayToImage(dataReader["Picture"]);
                         driver.PhoneNumber = (string)dataReader["PhoneNumber"];
                         driver.UserName = (string)dataReader["UserName"];
@@ -187,7 +187,7 @@ namespace CampingTripService.DataManagement.Model.UsersDAL
                         guide.Img = ByteArrayToImage(dataReader["Picture"]);
                         guide.UserName = (string)dataReader["UserName"];
                         guide.WorkExperience = (string)dataReader["WorkExperience"];
-                        guide.Raiting = (double)dataReader["Raiting"];
+                        guide.Rating = (double)dataReader["Raiting"];
                         guide.Profession = (string)dataReader["Profession"];
                         if (dataReader.NextResult())
                         {
@@ -241,7 +241,7 @@ namespace CampingTripService.DataManagement.Model.UsersDAL
                         photographer.Img = ByteArrayToImage(dataReader["Picture"]);
                         photographer.UserName = (string)dataReader["UserName"];
                         photographer.WorkExperience = (string)dataReader["WorkExperience"];
-                        photographer.Raiting = (double)dataReader["Raiting"];
+                        photographer.Rating = (double)dataReader["Raiting"];
                         photographer.Profession = (string)dataReader["Profession"];
                         photographer.HasDron = (bool)dataReader["HasDron"];
                         photographer.HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"];
@@ -316,6 +316,20 @@ namespace CampingTripService.DataManagement.Model.UsersDAL
 
                 var dataReader = command.ExecuteReader();
             }
+        }
+
+        public List<CommentFull> GetComments(List<Comment> comments)
+        {
+            var commentsFull = new List<CommentFull>();
+            foreach(var comment in comments)
+            {
+                commentsFull.Add(new CommentFull()
+                {
+                    Text = comment.Text,
+                    User = GetUser(comment.UserId)
+                });
+            }
+            return commentsFull;
         }
     }
 }

@@ -25,16 +25,8 @@ namespace CampingTripService.Controllers
 
         // GET: api/CampingTrips
         //[Authorize(Policy ="For Admin")]
-        [HttpGet(Name ="GetRegistrationCompleted")]
-        public async Task<IEnumerable<CampingTrip>> GetRegistrationCompleted()
-        {
-            return await campingTripRepository.GetAllRegistartionCompletedCampingTrips();
-        }
-
-        // GET: api/CampingTrips
-        //[Authorize(Policy ="For Admin")]
         [HttpGet]
-        public async Task<IEnumerable<CampingTrip>> Get()
+        public async Task<IEnumerable<CampingTripFull>> Get()
         {
             return await campingTripRepository.GetAllRegistartionNotCompletedCampingTrips();
         }
@@ -59,18 +51,6 @@ namespace CampingTripService.Controllers
         public void Put(string id, [FromBody]string value)
         {
             campingTripRepository.UpdateCampingTrip(id, ReadToObject(value));
-        }
-
-        [HttpPut("{id}",Name ="PutDepartureDate")]
-        public void PutDepartureDate(string id, [FromBody]DateTime value)
-        {
-            campingTripRepository.UpdateDepartureDate(id, value);
-        }
-
-        [HttpPut("{id}",Name ="PutCountOfMembers")]
-        public void PutCountOfMembers(string id,[FromBody]int count)
-        {
-            campingTripRepository.UpdateCountOfMembers(id, count);
         }
 
         // DELETE: api/ApiWithActions/5

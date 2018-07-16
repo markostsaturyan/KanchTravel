@@ -8,8 +8,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 {
     public interface ICampingTripRepository
     {
-        Task<IEnumerable<CampingTrip>> GetAllRegistartionCompletedCampingTrips();
-        Task<IEnumerable<CampingTrip>> GetAllRegistartionNotCompletedCampingTrips();
+        Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTrips();
+        Task<IEnumerable<CampingTripFull>> GetAllRegistartionNotCompletedCampingTrips();
         Task<CampingTripFull> GetCampingTrip(string id);
         Task AddCampingTrip(CampingTrip item);
         Task<DeleteResult> RemoveCampingTrip(string id);

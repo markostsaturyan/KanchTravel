@@ -23,16 +23,28 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             await campingTripContext.CampingTrips.InsertOneAsync(item);
         }
 
-        public async Task<IEnumerable<CampingTrip>> GetAllRegistartionCompletedCampingTrips()
+        public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTrips()
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, true);
-            return await campingTripContext.CampingTrips.Find(filter).ToListAsync();
+            var trips= await campingTripContext.CampingTrips.Find(filter).ToListAsync();
+            var campingTripsFull = new List<CampingTripFull>();
+            foreach(var trip in trips)
+            {
+                campingTripsFull.Add(new CampingTripFull(trip));
+            }
+            return campingTripsFull;
         }
 
-        public async Task<IEnumerable<CampingTrip>> GetAllRegistartionNotCompletedCampingTrips()
+        public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionNotCompletedCampingTrips()
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, false);
-            return await campingTripContext.CampingTrips.Find(filter).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(filter).ToListAsync();
+            var campingTripsFull = new List<CampingTripFull>();
+            foreach (var trip in trips)
+            {
+                campingTripsFull.Add(new CampingTripFull(trip));
+            }
+            return campingTripsFull;
         }
         public async Task<CampingTripFull> GetCampingTrip(string id)
         {
