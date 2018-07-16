@@ -30,7 +30,7 @@ namespace CampingTripService.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task Delete([FromBody]string campingTripID)
+        public async Task Delete(string campingTripID)
         {
             await this.signUpForTheTrip.RemoveDriverFromTheTrip(campingTripID);
         }

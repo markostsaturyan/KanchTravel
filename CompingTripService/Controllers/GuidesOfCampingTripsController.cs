@@ -29,9 +29,9 @@ namespace CampingTripService.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void Delete(string campingTripId)
         {
-
+            await this.signUpForTheTrip.RemoveGuideFromTheTrip(campingTripId);
         }
     }
 }

@@ -10,8 +10,9 @@ namespace CampingTripService.DataManagement.Model
 {
     public class CommentFull
     {
-        public string Text;
-        public User User;
+        public string Id { get; set; }
+        public string Text { get; set; }
+        public User User { get; set; }
     }
     public class CompletedCampingTripFull
     {

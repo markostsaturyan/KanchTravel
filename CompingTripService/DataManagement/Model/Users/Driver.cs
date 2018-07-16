@@ -45,6 +45,6 @@ namespace CampingTripService.DataManagement.Model.Users
 
         public string KnowledgeOfLanguages { get; set; }
 
-        public double Raiting { get; set; }
+        public double Rating { get; set; }
     }
 }

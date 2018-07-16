@@ -10,6 +10,9 @@ namespace CampingTripService.DataManagement.Model
 {
     public class Comment
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
         public int UserId { get; set; }
         public string Text { get; set; }
     }
@@ -44,6 +47,29 @@ namespace CampingTripService.DataManagement.Model
             this.PriceOfTrip = campingTrip.PriceOfTrip;
             this.OrganzierID = campingTrip.OrganzierID;
         }
+
+        public CompletedCampingTrip(CompletedCampingTripFull completedCampingTrip)
+        {
+            this.ID = completedCampingTrip.ID;
+            this.Place = completedCampingTrip.Place;
+            this.DepartureDate = completedCampingTrip.DepartureDate;
+            this.ArrivalDate = completedCampingTrip.ArrivalDate;
+            this.Direction = completedCampingTrip.Direction;
+            this.TypeOfTrip = completedCampingTrip.TypeOfTrip;
+            this.OrganizationType = completedCampingTrip.OrganizationType;
+            this.MinAge = completedCampingTrip.MinAge;
+            this.MaxAge = completedCampingTrip.MaxAge;
+            this.MaxCountOfMembers = completedCampingTrip.MaxCountOfMembers;
+            this.MinCountOfMembers = completedCampingTrip.MinCountOfMembers;
+            this.DriverID = completedCampingTrip.Driver.Id;
+            this.GuideID = completedCampingTrip.Guide.Id;
+            this.PhotographerID = completedCampingTrip.Photographer.Id;
+            this.CountOfMembers = completedCampingTrip.CountOfMembers;
+            this.Food = completedCampingTrip.Food;
+            this.PriceOfTrip = completedCampingTrip.PriceOfTrip;
+            this.OrganzierID = completedCampingTrip.Organzier.Id;
+        }
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string ID { get; set; }

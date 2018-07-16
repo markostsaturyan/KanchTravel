@@ -14,7 +14,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         Task AddCampingTrip(CampingTrip item);
         Task<DeleteResult> RemoveCampingTrip(string id);
         Task<ReplaceOneResult> UpdateCampingTrip(string id, CompletedCampingTrip campingTrip);
-        //Task<UpdateResult> UpdateComments(string id, Comment comment);
-        //Task<UpdateResult> UpdateRaiting(string id, double raiting);
+        Task<UpdateResult> UpdateComments(string id, Comment comment);
+        Task DeleteComment(string campingTripId, string commentId);
+        Task<UpdateResult> UpdateRaiting(string id, double raiting);
     }
 }

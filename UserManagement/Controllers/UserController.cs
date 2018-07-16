@@ -12,7 +12,7 @@ namespace UserManagement.Controllers
     [Route("api/User")]
     public class UserController : Controller
     {
-        private readonly UsersDataAccesLayer usersDataAccessLayer;
+        private readonly DataAccesLayer usersDataAccessLayer;
 
         public UserController(DataAccesLayer usersDataAccesLayer)
         {

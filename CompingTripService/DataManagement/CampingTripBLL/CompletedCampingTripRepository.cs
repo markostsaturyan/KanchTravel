@@ -54,18 +54,32 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                                             , new UpdateOptions { IsUpsert = true });
         }
 
-        /*public async Task<UpdateResult> UpdateComments(string id, Comment comment)
+        public async Task<UpdateResult> UpdateComments(string id, Comment comment)
         {
             var filter = Builders<CompletedCampingTrip>.Filter.Eq(s => s.ID, id);
-
-            var campingTrip = await GetCampingTrip(id);
-
+            var trip = await GetCampingTrip(id);
+            var campingTrip = new CompletedCampingTrip(trip);
             campingTrip.Comments.Add(comment);
-
             var update = Builders<CompletedCampingTrip>.Update
                             .Set(s => s.Comments, campingTrip.Comments);
-
             return await completedCampingTripContext.CampingTrips.UpdateOneAsync(filter, update);
+        }
+
+        public async Task DeleteComment(string campingTripId, string commentId)
+        {
+            var filter = Builders<CompletedCampingTrip>.Filter.Eq(s => s.ID, campingTripId);
+            var trip = await GetCampingTrip(campingTripId);
+            var campingTrip = new CompletedCampingTrip(trip);
+            foreach(var comment in campingTrip.Comments)
+            {
+                if (comment.Id == commentId)
+                {
+                    campingTrip.Comments.Remove(comment);
+                }
+            }
+            var update = Builders<CompletedCampingTrip>.Update
+                            .Set(s => s.Comments, campingTrip.Comments);
+            await completedCampingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
         public async  Task<UpdateResult> UpdateRaiting(string id, double raiting)
@@ -78,6 +92,6 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                             .Set(s => s.CurrentRaiting, campingTrip.CurrentRaiting);
 
             return await completedCampingTripContext.CampingTrips.UpdateOneAsync(filter, update);
-        }*/
+        }
     }
 }
