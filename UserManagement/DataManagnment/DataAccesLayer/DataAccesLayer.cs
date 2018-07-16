@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using UserManagement.DataManagnment.DataAccesLayer.Models;
 using UserManagement.DataManagnment.Security;
-using UserManagement.Verification;
 using Veldrid.ImageSharp;
 
 namespace UserManagement.DataManagnment.DataAccesLayer
@@ -153,12 +150,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Adds Driver into database
         /// </summary>
         /// <param name="driver"> Driver full info </param>
-        public void AddDriver(DriverFull driver)
+        public int AddDriver(DriverFull driver)
         {
-            var userGuid = Guid.NewGuid();
-
-            string hashedPassword = SecurityForPassword.HashSHA1(driver.Password + userGuid.ToString());
-
             var userFullInfo = new UserFull
             {
                 FirstName = driver.FirstName,
@@ -169,7 +162,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = driver.Email,
                 Image = driver.Image,
                 UserName = driver.UserName,
-                Password = hashedPassword,
+                Password = driver.Password
             };
 
             var userId = AddUser(userFullInfo);
@@ -193,6 +186,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
                 commandForInsertDriver.ExecuteNonQuery();
             }
+
+            return userId;
         }
 
         
@@ -233,7 +228,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Adds Photodrapher into database
         /// </summary>
         /// <param name="photographer"> Photographer full info </param>
-        public void AddPhotographer(PhotographerFull photographer)
+        public int AddPhotographer(PhotographerFull photographer)
         {
             var userFullInfo = new UserFull
             {
@@ -272,6 +267,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
                 commandForInsertPhotographer.ExecuteNonQuery();
             }
+
+            return userId;
         }
 
         /// <summary>
@@ -300,10 +297,10 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
 #region Getting
         /// <summary>
-        /// 
+        /// Gets User by id from database
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id"> User id </param>
+        /// <returns> UserInfo </returns>
         public UserInfo GetUserById(int id)
         {
             var user = new UserInfo();
@@ -571,6 +568,71 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         }
 
         /// <summary>
+        /// Gets driver by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DriverFull GetDriverById(int id)
+        {
+            var driver = new DriverFull();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetDriverById"
+                };
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    dataReader.Read();
+
+                    var car = new Car
+                    {
+                        Id = (int)dataReader["CarId"],
+                        Brand = (string)dataReader["Brand"],
+                        NumberOfSeats = (int)dataReader["NumberOfSeats"],
+                        FuelType = (string)dataReader["FuelType"],
+                        CarPicture1 = (ImageSharpTexture)dataReader["CarPicture1"],
+                        CarPicture2 = (ImageSharpTexture)dataReader["CarPicture2"],
+                        CarPicture3 = (ImageSharpTexture)dataReader["CarPicture3"],
+                        LicensePlate = (string)dataReader["LicensePlate"],
+                        HasWiFi = (bool)dataReader["HasWiFi"],
+                        HasMicrophone = (bool)dataReader["HasMicrophone"],
+                        HasAirConditioner = (bool)dataReader["HasAirConditioner"],
+                        HasKitchen = (bool)dataReader["HasKitchen"],
+                        HasToilet = (bool)dataReader["HasToilet"]
+                    };
+
+                    driver = new DriverFull
+                    {
+                        Id = (int)dataReader["Id"],
+                        FirstName = (string)dataReader["FirstName"],
+                        LastName = (string)dataReader["LastName"],
+                        DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        Email = (string)dataReader["Email"],
+                        PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (ImageSharpTexture)dataReader["Image"],
+                        UserName = (string)dataReader["UserName"],
+                        Password = (string)dataReader["Password"],
+                        Car = car,
+                        DrivingLicencePicFront = (ImageSharpTexture)dataReader["DrivingLicencePicFront"],
+                        DrivingLicencePicBack = (ImageSharpTexture)dataReader["DrivingLicencePicBack"],
+                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                        Raiting = (double)dataReader["Raiting"],
+                    };
+                }
+            }
+
+            return driver;
+        }
+
+        /// <summary>
         /// Gets all guides
         /// </summary>
         /// <returns> List of guides </returns>
@@ -709,6 +771,64 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
             return photographers;
         }
+
+        /// <summary>
+        /// Gets Photographer by id from database
+        /// </summary>
+        /// <param name="id"> Photographer id </param>
+        /// <returns> Photographer full info </returns>
+        public PhotographerFull GetPhotographerById(int id)
+        {
+            var photographer = new PhotographerFull();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetPhotographerById"
+                };
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    dataReader.Read();
+                    
+                    var camera = new Camera
+                    {
+                        Id = (int)dataReader["CameraId"],
+                        IsProfessional = (bool)dataReader["IsProfessional"],
+                        Model = (string)dataReader["Model"]
+                    };
+
+                    photographer = new PhotographerFull
+                    {
+                        Id = (int)dataReader["Id"],
+                        FirstName = (string)dataReader["FirstName"],
+                        LastName = (string)dataReader["LastName"],
+                        Gender = (string)dataReader["Gender"],
+                        DataOfBirth = (DateTime)dataReader["Age"],
+                        Email = (string)dataReader["Email"],
+                        PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (ImageSharpTexture)dataReader["Picture"],
+                        UserName = (string)dataReader["UserName"],
+                        Camera = camera,
+                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                        Raiting = (double)dataReader["Raiting"],
+                        HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
+                        HasDron = (bool)dataReader["HasDron"],
+                        HasGopro = (bool)dataReader["HasGopro"],
+                        Profession = (string)dataReader["Profession"],
+                        WorkExperience = (string)dataReader["WorkExperience"]
+                    };
+                }
+            }
+
+            return photographer;
+        }
         #endregion Getting
 
 #region Updating
@@ -790,6 +910,10 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
 #region Deleting
 
+        /// <summary>
+        /// Deletes user from database
+        /// </summary>
+        /// <param name="id"> User id </param>
         public void DeleteUser(int id)
         {
             using(var connection = new SqlConnection(this.connectionString))
@@ -818,6 +942,52 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "DeleteGuide"
+                };
+
+                deleteCommand.Parameters.AddWithValue("@id", id);
+
+                connection.Open();
+
+                deleteCommand.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// Deletes Driver and  his car from database
+        /// </summary>
+        /// <param name="id"> Driver id </param>
+        public void DeleteDriver(int id)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var deleteCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "DeleteDriver"
+                };
+
+                deleteCommand.Parameters.AddWithValue("@id", id);
+
+                connection.Open();
+
+                deleteCommand.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// Deletes Photographer and  his camera from database
+        /// </summary>
+        /// <param name="id"> Photographer id </param>
+        public void DeletePhotographer(int id)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var deleteCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "DeletePhotographer"
                 };
 
                 deleteCommand.Parameters.AddWithValue("@id", id);
