@@ -3,9 +3,9 @@
 AS
 
 Delete from Users
-Where @id = Id
+Where Id = @id
 
 Delete from UserRole
-Where @id = UserId
+Where UserId = @id
 
 RETURN 0

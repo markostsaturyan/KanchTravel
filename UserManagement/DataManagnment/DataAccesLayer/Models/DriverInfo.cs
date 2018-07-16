@@ -2,7 +2,7 @@
 
 namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
-    public class DriverFull : UserFull
+    public class DriverInfo : UserInfo
     {
         public Car Car { get; set; }
 
@@ -12,6 +12,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
 
         public string KnowledgeOfLanguages { get; set; }
 
-        public double Raiting { get; set; }
+        public double Rating { get; set; }
+
+        public int NumberOfAppraisers { get; set; }
     }
 }

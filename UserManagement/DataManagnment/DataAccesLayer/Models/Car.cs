@@ -18,8 +18,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
 
         public ImageSharpTexture CarPicture3 { get; set; }
 
-        public string LicensePlate { get; set; }
-
         public bool HasWiFi { get; set; }
 
         public bool HasMicrophone { get; set; }
@@ -29,5 +27,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
         public bool HasKitchen { get; set; }
 
         public bool HasToilet { get; set; }
+
+        public string LicensePlate { get; set; }
     }
 }

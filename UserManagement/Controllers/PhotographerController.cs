@@ -14,9 +14,9 @@ namespace UserManagement.Controllers
     [Route("api/Photographer")]
     public class PhotographerController : Controller
     {
-        private readonly UsersDataAccesLayer usersDataAccessLayer;
+        private readonly DataAccesLayer usersDataAccessLayer;
 
-        public PhotographerController(UsersDataAccesLayer usersDataAccesLayer)
+        public PhotographerController(DataAccesLayer usersDataAccesLayer)
         {
             this.usersDataAccessLayer = usersDataAccessLayer;
         }
