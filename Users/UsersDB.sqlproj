@@ -60,39 +60,38 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Users.sql" />
-    <Build Include="Roles.sql" />
-    <Build Include="UserRole.sql" />
-    <Build Include="Drivers.sql" />
-    <Build Include="Guide.sql" />
-    <Build Include="Photographer.sql" />
-    <Build Include="Camera.sql" />
-    <Build Include="GuidePlaces.sql" />
-    <Build Include="Car.sql" />
-    <Build Include="GetByUserName.sql" />
-    <Build Include="GetUserByID.sql" />
     <None Include="Queries.sql" />
-    <Build Include="GetAllUserIdentifiers.sql" />
-    <Build Include="GetDrivers.sql" />
-    <Build Include="InsertUser.sql" />
-    <Build Include="GetAllDrivers.sql" />
-    <Build Include="SignUpForTheCamping.sql" />
-    <Build Include="CampingTrip%27sMembers.sql" />
-    <Build Include="RequestsOfDrivers.sql" />
-    <Build Include="RequestsOfGuides.sql" />
-    <Build Include="RequestsOfPhotographers.sql" />
-    <Build Include="UserVerification.sql" />
-    <Build Include="GetFullUserInfoById.sql" />
-    <Build Include="UpdateUserFullInfo.sql" />
-    <Build Include="GetUserEmailById.sql" />
-    <Build Include="UpdateApproveValue.sql" />
-    <Build Include="InsertUserVerificationCode.sql" />
-    <Build Include="DeleteUser.sql" />
-    <Build Include="GetDriverById.sql" />
+    <Build Include="Tables\Camera.sql" />
+    <Build Include="Tables\Car.sql" />
+    <Build Include="Tables\Drivers.sql" />
+    <Build Include="Tables\Guide.sql" />
+    <Build Include="Tables\GuidePlaces.sql" />
+    <Build Include="Tables\Photographer.sql" />
+    <Build Include="Tables\Roles.sql" />
+    <Build Include="Tables\UserRole.sql" />
+    <Build Include="Tables\Users.sql" />
+    <Build Include="StoredProcedures\AddUser.sql" />
+    <Build Include="StoredProcedures\GetAllUserIdentifiers.sql" />
+    <Build Include="StoredProcedures\GetByUserName.sql" />
+    <Build Include="StoredProcedures\GetDrivers.sql" />
+    <Build Include="StoredProcedures\GetUser.sql" />
+    <Build Include="StoredProcedures\GetUserByID.sql" />
+    <Build Include="StoredProcedures\InsertUser.sql" />
+    <Build Include="StoredProcedures\SignUpForTheCamping.sql" />
+    <Build Include="Tables\CampingTrip%27sMembers.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="UsersDB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="StoredProcedures\GetDriverById.sql" />
+    <Build Include="StoredProcedures\GetGuideById.sql" />
+    <Build Include="StoredProcedures\GetPhotographerById.sql" />
+    <Build Include="StoredProcedures\GetMembersOfTheCampingTrip.sql" />
+    <Build Include="StoredProcedures\DeleteMemberFromTheTrip.sql" />
   </ItemGroup>
 </Project>

@@ -24,17 +24,24 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/CampingTrips
-        //[Authorize(Policy ="For Sevak")]
-        
+        //[Authorize(Policy ="For Admin")]
+        [HttpGet(Name ="GetRegistrationCompleted")]
+        public async Task<IEnumerable<CampingTrip>> GetRegistrationCompleted()
+        {
+            return await campingTripRepository.GetAllRegistartionCompletedCampingTrips();
+        }
+
+        // GET: api/CampingTrips
+        //[Authorize(Policy ="For Admin")]
         [HttpGet]
         public async Task<IEnumerable<CampingTrip>> Get()
         {
-            return await campingTripRepository.GetAllCampingTrips();
+            return await campingTripRepository.GetAllRegistartionNotCompletedCampingTrips();
         }
 
         // GET: api/CampingTrips/5
         [HttpGet("{id}", Name = "Get")]
-        public async Task<CampingTrip> Get(string id)
+        public async Task<CampingTripFull> Get(string id)
         {
             return await campingTripRepository.GetCampingTrip(id);
         }
@@ -54,16 +61,17 @@ namespace CampingTripService.Controllers
             campingTripRepository.UpdateCampingTrip(id, ReadToObject(value));
         }
 
-       /* [HttpPut("{id}",Name ="PutDepartureDate")]
-        public void PutDepartureDate(string id, [FromBody]string value)
+        [HttpPut("{id}",Name ="PutDepartureDate")]
+        public void PutDepartureDate(string id, [FromBody]DateTime value)
         {
-            var deserializedDate = new DateTime();
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(value));
-            var ser = new DataContractJsonSerializer(deserializedDate.GetType());
-            deserializedDate = ser.ReadObject(ms) as DateTime;
-            ms.Close();
-            campingTripRepository.UpdateDepartureDate(id,)
-        }*/
+            campingTripRepository.UpdateDepartureDate(id, value);
+        }
+
+        [HttpPut("{id}",Name ="PutCountOfMembers")]
+        public void PutCountOfMembers(string id,[FromBody]int count)
+        {
+            campingTripRepository.UpdateCountOfMembers(id, count);
+        }
 
         // DELETE: api/ApiWithActions/5
         [Authorize(Policy = "Organizer Or Admin")]

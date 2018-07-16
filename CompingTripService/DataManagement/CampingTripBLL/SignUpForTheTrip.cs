@@ -3,34 +3,101 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using CampingTripService.DataManagement.Model;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using CampingTripService.DataManagement.Model.UsersDAL;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {
     public class SignUpForTheTrip : ISignUpForTheTrip
     {
-        [Authorize(Policy ="Only For Drivers")]
-        public Task AsDriver(int id,string CampingTripID)
+        private readonly CampingTripContext campingTripContext;
+
+        private readonly CampingTripRepository campingTripRepository;
+
+        public SignUpForTheTrip(IOptions<Settings> settings)
         {
-            throw new NotImplementedException();
+            campingTripContext = new CampingTripContext(settings);
+            campingTripRepository = new CampingTripRepository(settings);
+        }
+
+        [Authorize(Policy ="Only For Drivers")]
+        public async Task<UpdateResult> AsDriver(int id,string campingTripID)
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
+            var update = Builders<CampingTrip>.Update
+                            .Set(s => s.DriverID, id);
+
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
+        }
+
+        public async Task<UpdateResult> RemoveDriverFromTheTrip(string campingTripID)
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
+            var update = Builders<CampingTrip>.Update.Set(s => s.DriverID, 0);
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
         [Authorize(Policy ="Only For Guides")]
-        public Task AsGuide(int id,string CampingTripID)
+        public async Task<UpdateResult> AsGuide(int id, string campingTripID)
         {
-            throw new NotImplementedException();
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
+            var update = Builders<CampingTrip>.Update
+                            .Set(s => s.GuideID, id);
+
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
+        }
+
+        public async Task<UpdateResult> RemoveGuideFromTheTrip(string campingTripID)
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
+            var update = Builders<CampingTrip>.Update.Set(s => s.GuideID, 0);
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
         [Authorize(Policy ="Only For Photographers")]
-        public Task AsPhotographer(int id,string CampingTripID)
+        public async Task<UpdateResult> AsPhotographer(int id, string campingTripID)
         {
-            throw new NotImplementedException();
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
+            var update = Builders<CampingTrip>.Update
+                            .Set(s => s.PhotographerID, id);
+
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
-        [Authorize(Policy ="Users")]
-        public Task AsMember(int id,string CampingTripID)
+        public async Task<UpdateResult> RemovePhotographerFromTheTrip(string campingTripID)
         {
-            throw new NotImplementedException();
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
+            var update = Builders<CampingTrip>.Update.Set(s => s.PhotographerID, 0);
+            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
+        [Authorize(Policy = "Users")]
+        public async Task AsMember(int id, string campingTripID)
+        {
+            var campingTripFull = await campingTripRepository.GetCampingTrip(campingTripID);
+            var campingTrip = new CampingTrip(campingTripFull);
+            var userContext = new UserContext();
+            var user = userContext.GetUser(id);
+            if(campingTrip.MinAge <= user.Age && campingTrip.MaxAge >= user.Age)
+            {
+                userContext.SignUpForTheCamping(id, campingTripID);
+                campingTrip.CountOfMembers++;
+                if (campingTrip.CountOfMembers == campingTrip.MaxCountOfMembers)
+                {
+                    campingTrip.IsRegistrationCompleted = true;
+                }
+
+                await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
+
+            }
+        }
+
+        public void RemoveMemberFromTheTrip(int id, string campingTripID)
+        {
+            var userDal = new UsersDal();
+            userDal.RemoveMemberFromTheTrip(id, campingTripID);
+        }
     }
 }
