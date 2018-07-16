@@ -10,19 +10,25 @@ using Veldrid.ImageSharp;
 
 namespace UserManagement.DataManagnment.DataAccesLayer
 {
-    public class UsersDataAccesLayer
+    public class DataAccesLayer
     {
+#region Constructors and fields
+
         /// <summary>
         /// Connection string
         /// </summary>
         private readonly string connectionString;
 
-        public UsersDataAccesLayer(string connectionString)
+        public DataAccesLayer(string connectionString)
         {
             this.connectionString = connectionString;
         }
 
-#region Adding
+        
+
+        #endregion Constructors and fields
+
+        #region Adding
         /// <summary>
         /// Adds user to database
         /// </summary>
@@ -66,6 +72,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
             }
         }
 
+        
+
+
         /// <summary>
         /// Add userId and registration code in UserVerification table
         /// </summary>
@@ -99,9 +108,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Adds Guide to database
         /// </summary>
         /// <param name="guide"> The guide full info </param>
-        public void AddGuide(GuideFull guide)
+        public int AddGuide(GuideFull guide)
         {
-            var userFullInfo = new UserInfo
+            var userFullInfo = new UserFull
             {
                 FirstName = guide.FirstName,
                 LastName = guide.LastName,
@@ -111,7 +120,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = guide.Email,
                 Image = guide.Image,
                 UserName = guide.UserName,
-                Password = guide.Password
+                Password=guide.Password
             };
 
             var userId = AddUser(userFullInfo);
@@ -121,7 +130,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 var command = new SqlCommand
                 {
                     Connection = connection,
-                    CommandText = "INSERT INTO UsersDB.dbo.Guide VAULES(@userId, @educationGrade, @profession, @knowledgeOfLanguages, @workExperience, @rating, @approved)"
+                    CommandType=System.Data.CommandType.StoredProcedure,
+                    CommandText = "InsertGuideInfo"
                 };
 
                 command.Parameters.AddWithValue("@userId", userId);
@@ -130,10 +140,13 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 command.Parameters.AddWithValue("@knowledgeOfLanguages", guide.KnowledgeOfLanguages);
                 command.Parameters.AddWithValue("@workExperience", guide.WorkExperience);
                 command.Parameters.AddWithValue("@rating", guide.Raiting);
-                command.Parameters.AddWithValue("@approved", 0);
+
+                connection.Open();
 
                 command.ExecuteNonQuery();
             }
+
+            return userId;
         }
 
         /// <summary>
@@ -146,7 +159,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
             string hashedPassword = SecurityForPassword.HashSHA1(driver.Password + userGuid.ToString());
 
-            var userFullInfo = new UserInfo
+            var userFullInfo = new UserFull
             {
                 FirstName = driver.FirstName,
                 LastName = driver.LastName,
@@ -181,6 +194,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 commandForInsertDriver.ExecuteNonQuery();
             }
         }
+
+        
 
         /// <summary>
         /// Adds Driver's car to database
@@ -220,7 +235,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// <param name="photographer"> Photographer full info </param>
         public void AddPhotographer(PhotographerFull photographer)
         {
-            var userFullInfo = new UserInfo
+            var userFullInfo = new UserFull
             {
                 FirstName = photographer.FirstName,
                 LastName = photographer.LastName,
@@ -321,14 +336,61 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = (ImageSharpTexture)dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
-                        Role = (string)dataReader["Role"],
-                        Gender = (string)dataReader["Gender"],
+                        Gender = (string)dataReader["Gender"]
                     };
 
                 }
             }
 
             return user;
+        }
+
+        public GuideInfo GetGuideById(int id)
+        {
+            var guide = new GuideInfo();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetGuideInfoById"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    dataReader.Read();
+
+                    guide = new GuideInfo
+                    {
+                        Id = (int)dataReader["Id"],
+                        FirstName = (string)dataReader["FirstName"],
+                        LastName = (string)dataReader["LastName"],
+                        DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        Email = (string)dataReader["Email"],
+                        PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (ImageSharpTexture)dataReader["Image"],
+                        UserName = (string)dataReader["UserName"],
+                        Gender = (string)dataReader["Gender"],
+                        EducationGrade = (string)dataReader["EducationGrade"],
+                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                        Profession = (string)dataReader["Profession"],
+                        Raiting = (double)dataReader["Raiting"],
+                        WorkExperience = (string)dataReader["WorkExperience"]
+                    };
+
+                    guide.Places = GetGuidePalces(id);
+
+                }
+            }
+
+            return guide;
         }
 
         public string GetUserEmailById(int id)
@@ -375,13 +437,38 @@ namespace UserManagement.DataManagnment.DataAccesLayer
             }
         }
 
+        public string GetUserNamePasswordGuideAndEmailById(int id, out string password, out string guide, out string email)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetUserNamePasswordGuideAndEmailById"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                dataReader.Read();
+
+                guide = (string)dataReader["UserGuide"];
+                password = (string)dataReader["Password"];
+                email = (string)dataReader["Email"];
+
+                return (string)dataReader["UserName"];
+            }
+        }
+
         /// <summary>
         /// Gets all users
         /// </summary>
         /// <returns> List of Users </returns>
-        public List<UserInfo> GetAllUsers()
+        public List<GuideInfo> GetAllUsers()
         {
-            var users = new List<UserInfo>();
+            var users = new List<GuideInfo>();
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -399,7 +486,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 {
                     while (dataReader.Read())
                     {
-                        users.Add(new UserInfo
+                        users.Add(new GuideInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
@@ -409,9 +496,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = (ImageSharpTexture)dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
-                            Password = (string)dataReader["Password"],
-                            Role = (string)dataReader["Role"],
-                            IsActive = (bool)dataReader["IsActive"]
 
                         });
                     }
@@ -478,7 +562,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             DrivingLicencePicBack = (ImageSharpTexture)dataReader["DrivingLicencePicBack"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
-                            IsActive = (bool)dataReader["IsActive"]
                         });
                     }
                 }
@@ -524,7 +607,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
-                            IsActive = (bool)dataReader["IsActive"]
                         };
 
                         guide.Places = GetGuidePalces(guide.Id);
@@ -618,7 +700,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             },
                             Profession = (string)dataReader["Profession"],
                             WorkExperience = (string)dataReader["WorkExperiance"],
-                            IsActive = (bool)dataReader["IsActive"]
                         };
 
                         photographers.Add(photographer);
@@ -726,11 +807,54 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
                 deleteCommand.ExecuteNonQuery();
             }
-
-            //մեկել պետք ա ընթացիկ արշավների միջից ջնջել
         }
 
-#endregion Deleting
+        public void DeleteGuide(int id)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var deleteCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "DeleteGuide"
+                };
 
+                deleteCommand.Parameters.AddWithValue("@id", id);
+
+                connection.Open();
+
+                deleteCommand.ExecuteNonQuery();
+            }
+        }
+
+        #endregion Deleting
+
+        #region Validating
+
+        public bool UsarNameValidating(string userName)
+        {
+            using(var connection = new SqlConnection(this.connectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "UserNameCount"
+                };
+
+                command.Parameters.AddWithValue("@userName", userName);
+
+                connection.Open();
+
+                var count = (int)command.ExecuteScalar();
+
+                if (count == 0) return true;
+
+                return false;
+            }
+        }
+
+#endregion Validating
     }
 }

@@ -25,7 +25,7 @@ namespace UserManagement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton(new UsersDataAccesLayer(Configuration["ConnectionStrings:currentConnectionString"]));
+            services.AddSingleton(new DataAccesLayer(Configuration["ConnectionStrings:currentConnectionString"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

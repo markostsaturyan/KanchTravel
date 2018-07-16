@@ -2,7 +2,7 @@
 
 namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
-    public class GuideFull:UserInfo
+    public class GuideInfo:UserInfo
     {
         public string Profession { get; set; }
 
@@ -14,6 +14,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
 
         public List<string> Places { get; set; }
 
-        public string Password { get; set; }
+        public double RatingSize { get; set; }
+
+        public int NumberOfAppraisers { get; set; }
     }
 }

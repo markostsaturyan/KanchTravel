@@ -74,7 +74,6 @@
     <Build Include="Tables\Roles.sql" />
     <Build Include="Tables\UserRole.sql" />
     <Build Include="Tables\Users.sql" />
-    <Build Include="StoredProcedures\AddUser.sql" />
     <Build Include="StoredProcedures\GetAllUserIdentifiers.sql" />
     <Build Include="StoredProcedures\GetByUserName.sql" />
     <Build Include="StoredProcedures\GetDrivers.sql" />
@@ -85,7 +84,7 @@
     <Build Include="Tables\CampingTrip%27sMembers.sql" />
   </ItemGroup>
   <ItemGroup>
-    <RefactorLog Include="UsersDB.refactorlog" />
+    <RefactorLog Include="StoredProcedures\UsersDB.refactorlog" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedures\GetDriverById.sql" />
@@ -93,5 +92,21 @@
     <Build Include="StoredProcedures\GetPhotographerById.sql" />
     <Build Include="StoredProcedures\GetMembersOfTheCampingTrip.sql" />
     <Build Include="StoredProcedures\DeleteMemberFromTheTrip.sql" />
+    <Build Include="Tables\RequestsOfDrivers.sql" />
+    <Build Include="Tables\RequestsOfGuides.sql" />
+    <Build Include="Tables\RequestsOfPhotographers.sql" />
+    <Build Include="StoredProcedures\DeleteUser.sql" />
+    <Build Include="StoredProcedures\GetFullUserInfoById.sql" />
+    <Build Include="StoredProcedures\GetUserEmailById.sql" />
+    <Build Include="StoredProcedures\GetUserPasswordAndGuideById.sql" />
+    <Build Include="StoredProcedures\InsertUserVerificationCode.sql" />
+    <Build Include="StoredProcedures\UpdateApproveValue.sql" />
+    <Build Include="StoredProcedures\UpdateUserFullInfo.sql" />
+    <Build Include="Tables\UserVerification.sql" />
+    <Build Include="StoredProcedures\GetUserNamePasswordGuideAndEmailById.sql" />
+    <Build Include="StoredProcedures\UserNameCount.sql" />
+    <Build Include="StoredProcedures\GetGuideInfoById.sql" />
+    <Build Include="StoredProcedures\InsertGuideInfo.sql" />
+    <Build Include="StoredProcedures\DeleteGuide.sql" />
   </ItemGroup>
 </Project>
