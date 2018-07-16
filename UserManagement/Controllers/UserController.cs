@@ -64,7 +64,7 @@ namespace UserManagement.Controllers
                             Image=user.Image,
                             Password=user.Password,
                             PhoneNumber=user.PhoneNumber,
-                            Role
+                            //Role
 
 
 

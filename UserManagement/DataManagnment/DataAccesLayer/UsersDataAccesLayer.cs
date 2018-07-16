@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using UserManagement.DataManagnment.DataAccesLayer.Models;
 using UserManagement.DataManagnment.Security;
-using UserManagement.Verification;
 using Veldrid.ImageSharp;
 
 namespace UserManagement.DataManagnment.DataAccesLayer
@@ -99,7 +98,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// <param name="guide"> The guide full info </param>
         public int AddGuide(GuideFull guide)
         {
-            var userFullInfo = new UserInfo
+            var userFullInfo = new UserFull
             {
                 FirstName = guide.FirstName,
                 LastName = guide.LastName,
@@ -109,6 +108,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = guide.Email,
                 Image = guide.Image,
                 UserName = guide.UserName,
+                Password = guide.Password
             };
 
             var userId = AddUser(userFullInfo);
@@ -141,7 +141,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// <param name="driver"> Driver full info </param>
         public int AddDriver(DriverFull driver)
         {
-            var userFullInfo = new UserInfo
+            var userFullInfo = new UserFull
             {
                 FirstName = driver.FirstName,
                 LastName = driver.LastName,
@@ -151,6 +151,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = driver.Email,
                 Image = driver.Image,
                 UserName = driver.UserName,
+                Password = driver.Password
             };
 
             var userId = AddUser(userFullInfo);
@@ -216,7 +217,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// <param name="photographer"> Photographer full info </param>
         public int AddPhotographer(PhotographerFull photographer)
         {
-            var userFullInfo = new UserInfo
+            var userFullInfo = new UserFull
             {
                 FirstName = photographer.FirstName,
                 LastName = photographer.LastName,
@@ -226,6 +227,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = photographer.Email,
                 Image = photographer.Image,
                 UserName = photographer.UserName,
+                Password = photographer.Password
             };
 
             var userId = AddUser(userFullInfo);
@@ -406,7 +408,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = (ImageSharpTexture)dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
-                            Password = (string)dataReader["Password"],
                             Role = (string)dataReader["Role"],
                         });
                     }
@@ -506,7 +507,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 {
                     dataReader.Read();
 
-                    Car car = new Car
+                    var car = new Car
                     {
                         Id = (int)dataReader["CarId"],
                         Brand = (string)dataReader["Brand"],
@@ -685,6 +686,64 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
             return photographers;
         }
+
+        /// <summary>
+        /// Gets Photographer by id from database
+        /// </summary>
+        /// <param name="id"> Photographer id </param>
+        /// <returns> Photographer full info </returns>
+        public PhotographerFull GetPhotographerById(int id)
+        {
+            var photographer = new PhotographerFull();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetPhotographerById"
+                };
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    dataReader.Read();
+                    
+                    var camera = new Camera
+                    {
+                        Id = (int)dataReader["CameraId"],
+                        IsProfessional = (bool)dataReader["IsProfessional"],
+                        Model = (string)dataReader["Model"]
+                    };
+
+                    photographer = new PhotographerFull
+                    {
+                        Id = (int)dataReader["Id"],
+                        FirstName = (string)dataReader["FirstName"],
+                        LastName = (string)dataReader["LastName"],
+                        Gender = (string)dataReader["Gender"],
+                        DataOfBirth = (DateTime)dataReader["Age"],
+                        Email = (string)dataReader["Email"],
+                        PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (ImageSharpTexture)dataReader["Picture"],
+                        UserName = (string)dataReader["UserName"],
+                        Camera = camera,
+                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                        Raiting = (double)dataReader["Raiting"],
+                        HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
+                        HasDron = (bool)dataReader["HasDron"],
+                        HasGopro = (bool)dataReader["HasGopro"],
+                        Profession = (string)dataReader["Profession"],
+                        WorkExperience = (string)dataReader["WorkExperience"]
+                    };
+                }
+            }
+
+            return photographer;
+        }
         #endregion Getting
 
 #region Updating
@@ -766,6 +825,10 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
 #region Deleting
 
+        /// <summary>
+        /// Deletes user from database
+        /// </summary>
+        /// <param name="id"> User id </param>
         public void DeleteUser(int id)
         {
             using(var connection = new SqlConnection(this.connectionString))
@@ -787,7 +850,53 @@ namespace UserManagement.DataManagnment.DataAccesLayer
             //մեկել պետք ա ընթացիկ արշավների միջից ջնջել
         }
 
-#endregion Deleting
+        /// <summary>
+        /// Deletes Driver and  his car from database
+        /// </summary>
+        /// <param name="id"> Driver id </param>
+        public void DeleteDriver(int id)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var deleteCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "DeleteDriver"
+                };
+
+                deleteCommand.Parameters.AddWithValue("@id", id);
+
+                connection.Open();
+
+                deleteCommand.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// Deletes Photographer and  his camera from database
+        /// </summary>
+        /// <param name="id"> Photographer id </param>
+        public void DeletePhotographer(int id)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var deleteCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "DeletePhotographer"
+                };
+
+                deleteCommand.Parameters.AddWithValue("@id", id);
+
+                connection.Open();
+
+                deleteCommand.ExecuteNonQuery();
+            }
+        }
+
+        #endregion Deleting
 
     }
 }

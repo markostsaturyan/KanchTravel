@@ -10,7 +10,7 @@ namespace UserManagement.Controllers
     [Route("api/Driver")]
     public class DriverController : Controller
     {
-        private UsersDataAccesLayer usersDataAccessLayer;
+        private readonly UsersDataAccesLayer usersDataAccessLayer;
 
         public DriverController(UsersDataAccesLayer usersDataAccesLayer)
         {
@@ -53,7 +53,7 @@ namespace UserManagement.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            //this.usersDataAccessLayer.DeleteDriver(id);
+            this.usersDataAccessLayer.DeleteDriver(id);
         }
     }
 }
