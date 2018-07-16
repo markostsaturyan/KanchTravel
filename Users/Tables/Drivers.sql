@@ -5,7 +5,8 @@
 	[DrivingLicencePicFront] VARBINARY(MAX) NOT NULL,
 	[DrivingLicencePicBack] VARBINARY(MAX) NOT NULL, 
     [KnowledgeOfLanguages] NVARCHAR(MAX) NOT NULL, 
-    [Rating] FLOAT NOT NULL,
-	FOREIGN KEY (UserId) REFERENCES Users(Id),
+    [Rating] FLOAT NULL,
+	[NumberOfAppraisers] INT NULL, 
+    FOREIGN KEY (UserId) REFERENCES Users(Id),
 	FOREIGN KEY (CarId) REFERENCES Car(Id)
 )

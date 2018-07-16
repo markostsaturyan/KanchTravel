@@ -22,7 +22,5 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
         public ImageSharpTexture Image { get; set; }
 
         public string UserName { get; set; }
-
-        public string Role { get; set; }
     }
 }

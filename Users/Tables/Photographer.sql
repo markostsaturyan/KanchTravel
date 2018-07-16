@@ -8,7 +8,8 @@
     [HasDron] BIT NOT NULL, 
     [HasCameraStabilizator] BIT NOT NULL, 
     [HasGopro] BIT NOT NULL, 
-    [Rating] FLOAT NOT NULL, 
+    [Rating] FLOAT NULL, 
+    [NumberOfAppraisers] INT NULL, 
     FOREIGN KEY (UserId) REFERENCES Users(Id),
 	FOREIGN KEY (CameraId) REFERENCES Camera(Id)
 )
