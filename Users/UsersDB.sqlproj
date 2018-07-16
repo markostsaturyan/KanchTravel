@@ -90,6 +90,7 @@
     <Build Include="UpdateApproveValue.sql" />
     <Build Include="InsertUserVerificationCode.sql" />
     <Build Include="DeleteUser.sql" />
+    <Build Include="GetDriverById.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="UsersDB.refactorlog" />

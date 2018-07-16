@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using UserManagement.DataManagnment.DataAccesLayer.Models;
 using UserManagement.DataManagnment.DataAccesLayer;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +10,7 @@ namespace UserManagement.Controllers
     [Route("api/User")]
     public class UserController : Controller
     {
-        private UsersDataAccesLayer usersDataAccessLayer;
+        private readonly UsersDataAccesLayer usersDataAccessLayer;
 
         public UserController(UsersDataAccesLayer usersDataAccesLayer)
         {

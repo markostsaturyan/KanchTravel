@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using UserManagement.DataManagnment.DataAccesLayer.Models;
 using UserManagement.DataManagnment.Security;
 using UserManagement.Verification;
@@ -98,12 +96,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Adds Guide to database
         /// </summary>
         /// <param name="guide"> The guide full info </param>
-        public void AddGuide(GuideFull guide)
+        public int AddGuide(GuideFull guide)
         {
-            var userGuid = Guid.NewGuid();
-
-            string hashedPassword = SecurityForPassword.HashSHA1(guide.Password + userGuid.ToString());
-
             var userFullInfo = new UserFull
             {
                 FirstName = guide.FirstName,
@@ -114,9 +108,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = guide.Email,
                 Image = guide.Image,
                 UserName = guide.UserName,
-                Password = hashedPassword,
-                IsActive = guide.IsActive,
-                UserGuid = userGuid.ToString()
             };
 
             var userId = AddUser(userFullInfo);
@@ -137,23 +128,18 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 command.Parameters.AddWithValue("@rating", guide.Raiting);
                 command.Parameters.AddWithValue("@approved", 0);
 
-                command.ExecuteNonQuery();
-
-                // TODO sendEmail method isn't correct
-                SendVerificationLinkEmail.SendEmail();
+                command.ExecuteNonQuery();  
             }
+
+            return userId;
         }
 
         /// <summary>
         /// Adds Driver into database
         /// </summary>
         /// <param name="driver"> Driver full info </param>
-        public void AddDriver(DriverFull driver)
+        public int AddDriver(DriverFull driver)
         {
-            var userGuid = Guid.NewGuid();
-
-            string hashedPassword = SecurityForPassword.HashSHA1(driver.Password + userGuid.ToString());
-
             var userFullInfo = new UserFull
             {
                 FirstName = driver.FirstName,
@@ -164,9 +150,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = driver.Email,
                 Image = driver.Image,
                 UserName = driver.UserName,
-                Password = hashedPassword,
-                IsActive = driver.IsActive,
-                UserGuid = userGuid.ToString()
             };
 
             var userId = AddUser(userFullInfo);
@@ -190,6 +173,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
                 commandForInsertDriver.ExecuteNonQuery();
             }
+
+            return userId;
         }
 
         /// <summary>
@@ -228,12 +213,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Adds Photodrapher into database
         /// </summary>
         /// <param name="photographer"> Photographer full info </param>
-        public void AddPhotographer(PhotographerFull photographer)
+        public int AddPhotographer(PhotographerFull photographer)
         {
-            var userGuid = Guid.NewGuid();
-
-            string hashedPassword = SecurityForPassword.HashSHA1(photographer.Password + userGuid.ToString());
-
             var userFullInfo = new UserFull
             {
                 FirstName = photographer.FirstName,
@@ -244,9 +225,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = photographer.Email,
                 Image = photographer.Image,
                 UserName = photographer.UserName,
-                Password = hashedPassword,
-                IsActive = true,
-                UserGuid = userGuid.ToString()
             };
 
             var userId = AddUser(userFullInfo);
@@ -273,6 +251,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
                 commandForInsertPhotographer.ExecuteNonQuery();
             }
+
+            return userId;
         }
 
         /// <summary>
@@ -381,8 +361,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
                             Role = (string)dataReader["Role"],
-                            IsActive = (bool)dataReader["IsActive"]
-
                         });
                     }
                 }
@@ -448,13 +426,77 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             DrivingLicencePicBack = (ImageSharpTexture)dataReader["DrivingLicencePicBack"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
-                            IsActive = (bool)dataReader["IsActive"]
                         });
                     }
                 }
             }
 
             return drivers;
+        }
+
+        /// <summary>
+        /// Gets driver by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DriverFull GetDriverById(int id)
+        {
+            var driver = new DriverFull();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetDriverById"
+                };
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    dataReader.Read();
+
+                    Car car = new Car
+                    {
+                        Id = (int)dataReader["CarId"],
+                        Brand = (string)dataReader["Brand"],
+                        NumberOfSeats = (int)dataReader["NumberOfSeats"],
+                        FuelType = (string)dataReader["FuelType"],
+                        CarPicture1 = (ImageSharpTexture)dataReader["CarPicture1"],
+                        CarPicture2 = (ImageSharpTexture)dataReader["CarPicture2"],
+                        CarPicture3 = (ImageSharpTexture)dataReader["CarPicture3"],
+                        LicensePlate = (string)dataReader["LicensePlate"],
+                        HasWiFi = (bool)dataReader["HasWiFi"],
+                        HasMicrophone = (bool)dataReader["HasMicrophone"],
+                        HasAirConditioner = (bool)dataReader["HasAirConditioner"],
+                        HasKitchen = (bool)dataReader["HasKitchen"],
+                        HasToilet = (bool)dataReader["HasToilet"]
+                    };
+
+                    driver = new DriverFull
+                    {
+                        Id = (int)dataReader["Id"],
+                        FirstName = (string)dataReader["FirstName"],
+                        LastName = (string)dataReader["LastName"],
+                        DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        Email = (string)dataReader["Email"],
+                        PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (ImageSharpTexture)dataReader["Image"],
+                        UserName = (string)dataReader["UserName"],
+                        Password = (string)dataReader["Password"],
+                        Car = car,
+                        DrivingLicencePicFront = (ImageSharpTexture)dataReader["DrivingLicencePicFront"],
+                        DrivingLicencePicBack = (ImageSharpTexture)dataReader["DrivingLicencePicBack"],
+                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                        Raiting = (double)dataReader["Raiting"],
+                    };
+                }
+            }
+
+            return driver;
         }
 
         /// <summary>
@@ -494,7 +536,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
-                            IsActive = (bool)dataReader["IsActive"]
                         };
 
                         guide.Places = GetGuidePalces(guide.Id);
@@ -588,7 +629,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             },
                             Profession = (string)dataReader["Profession"],
                             WorkExperience = (string)dataReader["WorkExperiance"],
-                            IsActive = (bool)dataReader["IsActive"]
                         };
 
                         photographers.Add(photographer);

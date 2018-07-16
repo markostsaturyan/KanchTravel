@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
-    public class GuideFull:UserFull
+    public class GuideFull : UserFull
     {
         public string Profession { get; set; }
 
