@@ -3,6 +3,7 @@ using UserManagement.DataManagnment.DataAccesLayer;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.DataManagnment.DataAccesLayer.Models;
 using UserManagement.Verification;
+using UserManagement.Validation;
 
 namespace UserManagement.Controllers
 {
@@ -35,6 +36,11 @@ namespace UserManagement.Controllers
         [HttpPost]
         public void Post([FromBody]DriverInfo driver)
         {
+            var emailValidator = new EmailValidation();
+
+            if (!emailValidator.IsValidEmail(driver.Email))
+                return;
+
             var id = this.usersDataAccessLayer.AddDriver(driver);
 
             var code = this.usersDataAccessLayer.AddUserVerification(id);
@@ -44,9 +50,9 @@ namespace UserManagement.Controllers
         
         // PUT: api/Driver/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]DriverFull driver)
+        public void Put(int id, [FromBody]DriverInfo driver)
         {
-            //this.usersDataAccessLayer.UpdateDriverFullInfo(driver);
+            this.usersDataAccessLayer.UpdateDriverInfo(driver);
         }
         
         // DELETE: api/ApiWithActions/5

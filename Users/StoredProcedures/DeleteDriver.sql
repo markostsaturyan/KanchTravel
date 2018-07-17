@@ -2,13 +2,16 @@
 	@id int
 AS
 
+Delete from Car
+Where Id = (select CarId from Drivers where Id = @id)
+
 Delete from Users
 Where Id = @id
 
-Delete from Car
-Where Id = (SELECT CarId FROM Drivers WHERE UserId=@id)
+Delete from UserRole
+Where UserId = @id
 
-DELETE FROM Drivers
-WHERE UserId=@id
+Delete from Drivers
+Where UserId=@id
 
 RETURN 0

@@ -1,5 +1,5 @@
 ﻿using System;
-using Veldrid.ImageSharp;
+using System.Drawing;
 
 namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
@@ -19,7 +19,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
 
         public string Email { get; set; }
 
-        public ImageSharpTexture Image { get; set; }
+        public Image Image { get; set; }
 
         public string UserName { get; set; }
 

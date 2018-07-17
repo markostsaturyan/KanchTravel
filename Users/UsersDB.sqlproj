@@ -101,12 +101,16 @@
     <Build Include="StoredProcedures\GetUserPasswordAndGuideById.sql" />
     <Build Include="StoredProcedures\InsertUserVerificationCode.sql" />
     <Build Include="StoredProcedures\UpdateApproveValue.sql" />
-    <Build Include="StoredProcedures\UpdateUserFullInfo.sql" />
+    <Build Include="StoredProcedures\UpdateUserInfo.sql" />
     <Build Include="Tables\UserVerification.sql" />
     <Build Include="StoredProcedures\GetUserNamePasswordGuideAndEmailById.sql" />
     <Build Include="StoredProcedures\UserNameCount.sql" />
     <Build Include="StoredProcedures\GetGuideInfoById.sql" />
     <Build Include="StoredProcedures\InsertGuideInfo.sql" />
     <Build Include="StoredProcedures\DeleteGuide.sql" />
+    <Build Include="StoredProcedures\InsertDriverInfo.sql" />
+    <Build Include="StoredProcedures\InsertCar.sql" />
+    <Build Include="StoredProcedures\UpdateCarInfo.sql" />
+    <Build Include="StoredProcedures\DeleteDriver.sql" />
   </ItemGroup>
 </Project>

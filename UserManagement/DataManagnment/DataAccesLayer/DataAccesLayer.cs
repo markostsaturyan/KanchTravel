@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UserManagement.DataManagnment.DataAccesLayer.Models;
 using UserManagement.DataManagnment.Security;
 using Veldrid.ImageSharp;
@@ -48,11 +51,11 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
                 command.Parameters.AddWithValue("@firstName", user.FirstName);
                 command.Parameters.AddWithValue("@lastName", user.LastName);
-                command.Parameters.AddWithValue("@sex", user.Gender);
+                command.Parameters.AddWithValue("@gander", user.Gender);
                 command.Parameters.AddWithValue("@dateOfBirth", user.DataOfBirth);
                 command.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
                 command.Parameters.AddWithValue("@email", user.Email);
-                command.Parameters.AddWithValue("@picture", user.Image);
+                command.Parameters.AddWithValue("@picture", ImageToByteArray(user.Image));
                 command.Parameters.AddWithValue("@username", user.UserName);
                 command.Parameters.AddWithValue("@password", hashedPassword);
                 command.Parameters.AddWithValue("@userguid", userGuid);
@@ -159,7 +162,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Email = driver.Email,
                 Image = driver.Image,
                 UserName = driver.UserName,
-                Password = driver.Password
+                Password = driver.Password,
             };
 
             var userId = AddUser(userFullInfo);
@@ -170,15 +173,15 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 var commandForInsertDriver = new SqlCommand
                 {
                     Connection = connection,
-                    CommandText = "INSERT INTO UsersDB.dbo.Drivers VAULES(@userId, @carId, @drivingLicencePicFront, @drivingLicencePicBack, @knowledgeOfLanguages, @rating, @isApproved)"
+                    CommandType=System.Data.CommandType.StoredProcedure,
+                    CommandText = "InsertDriverInfo"
                 };
 
                 commandForInsertDriver.Parameters.AddWithValue("@userId", userId);
                 commandForInsertDriver.Parameters.AddWithValue("@carId", carId);
-                commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicFront", driver.DrivingLicencePicFront);
-                commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicBack", driver.DrivingLicencePicBack);
+                commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicFront", ImageToByteArray(driver.DrivingLicencePicFront));
+                commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicBack", ImageToByteArray(driver.DrivingLicencePicBack));
                 commandForInsertDriver.Parameters.AddWithValue("@knowledgeOfLanguages", driver.KnowledgeOfLanguages);
-                commandForInsertDriver.Parameters.AddWithValue("@isApproved", 0);
 
                 commandForInsertDriver.ExecuteNonQuery();
             }
@@ -200,21 +203,24 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 var commandForInsertCar = new SqlCommand
                 {
                     Connection = connection,
-                    CommandText = "INSERT INTO UsersDB.dbo.Car output INSERTED.Id VAULES(@brand, @numberOfSeats, @fuelType, @carPicture1, @carPicture2, @carPicture3, @licensePlate, @hasWiFi, @hasMicrophone, @hasAirConditioner, @hasKitchen, @hasToilet)"
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "InsertCar"
                 };
 
                 commandForInsertCar.Parameters.AddWithValue("@brand", car.Brand);
                 commandForInsertCar.Parameters.AddWithValue("@numberOfSeats", car.NumberOfSeats);
                 commandForInsertCar.Parameters.AddWithValue("@fuelType", car.FuelType);
-                commandForInsertCar.Parameters.AddWithValue("@carPicture1", car.CarPicture1);
-                commandForInsertCar.Parameters.AddWithValue("@carPicture2", car.CarPicture2);
-                commandForInsertCar.Parameters.AddWithValue("@carPicture3", car.CarPicture3);
+                commandForInsertCar.Parameters.AddWithValue("@carPicture1", ImageToByteArray(car.CarPicture1));
+                commandForInsertCar.Parameters.AddWithValue("@carPicture2", ImageToByteArray(car.CarPicture2));
+                commandForInsertCar.Parameters.AddWithValue("@carPicture3", ImageToByteArray(car.CarPicture3));
                 commandForInsertCar.Parameters.AddWithValue("@licensePlate", car.LicensePlate);
                 commandForInsertCar.Parameters.AddWithValue("@hasWiFi", car.HasWiFi);
                 commandForInsertCar.Parameters.AddWithValue("@hasMicrophone", car.HasMicrophone);
                 commandForInsertCar.Parameters.AddWithValue("@hasAirConditioner", car.HasAirConditioner);
                 commandForInsertCar.Parameters.AddWithValue("@hasKitchen", car.HasKitchen);
                 commandForInsertCar.Parameters.AddWithValue("@hasToilet", car.HasToilet);
+
+                connection.Open();
 
                 return (int)commandForInsertCar.ExecuteScalar();
             }
@@ -327,7 +333,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         DataOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (ImageSharpTexture)dataReader["Image"],
+                        Image = ByteArrayToImage(dataReader["Image"]),
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"]
                     };
@@ -491,7 +497,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             DataOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (ImageSharpTexture)dataReader["Picture"],
+                            Image = ByteArrayToImage(dataReader["Picture"]),
                             UserName = (string)dataReader["UserName"],
                             Gender = (string)dataReader["Gender"]
                         });
@@ -533,9 +539,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = (ImageSharpTexture)dataReader["CarPicture1"],
-                            CarPicture2 = (ImageSharpTexture)dataReader["CarPicture2"],
-                            CarPicture3 = (ImageSharpTexture)dataReader["CarPicture3"],
+                            CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
+                            CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
+                            CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
                             LicensePlate = (string)dataReader["LicensePlate"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
@@ -553,11 +559,11 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             Email = (string)dataReader["Email"],
                             Gender=(string)dataReader["Gender"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (ImageSharpTexture)dataReader["Picture"],
+                            Image = ByteArrayToImage(dataReader["Picture"]),
                             UserName = (string)dataReader["UserName"],
                             Car = car,
-                            DrivingLicencePicFront = (ImageSharpTexture)dataReader["DrivingLicencePicFront"],
-                            DrivingLicencePicBack = (ImageSharpTexture)dataReader["DrivingLicencePicBack"],
+                            DrivingLicencePicFront = ByteArrayToImage(dataReader["DrivingLicencePicFront"]),
+                            DrivingLicencePicBack = ByteArrayToImage(dataReader["DrivingLicencePicBack"]),
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Rating = (double)dataReader["Rating"],
                             NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
@@ -600,9 +606,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         Brand = (string)dataReader["Brand"],
                         NumberOfSeats = (int)dataReader["NumberOfSeats"],
                         FuelType = (string)dataReader["FuelType"],
-                        CarPicture1 = (ImageSharpTexture)dataReader["CarPicture1"],
-                        CarPicture2 = (ImageSharpTexture)dataReader["CarPicture2"],
-                        CarPicture3 = (ImageSharpTexture)dataReader["CarPicture3"],
+                        CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
+                        CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
+                        CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
                         HasWiFi = (bool)dataReader["HasWiFi"],
                         HasMicrophone = (bool)dataReader["HasMicrophone"],
                         HasAirConditioner = (bool)dataReader["HasAirConditioner"],
@@ -618,7 +624,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         DataOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (ImageSharpTexture)dataReader["Image"],
+                        Image = ByteArrayToImage(dataReader["Image"]),
                         UserName = (string)dataReader["UserName"],
                         Car = car,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -843,7 +849,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateUserFullInfo"
+                    CommandText = "UpdateUserInfo"
                 };
 
                 updateCommand.Parameters.AddWithValue("@id", user.Id);
@@ -852,7 +858,75 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@gender", user.Gender);
                 updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DataOfBirth);
                 updateCommand.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
-                updateCommand.Parameters.AddWithValue("@picture", user.Image);
+                updateCommand.Parameters.AddWithValue("@picture", ImageToByteArray(user.Image));
+
+                connection.Open();
+
+                updateCommand.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdateDriverInfo(DriverInfo driver)
+        {
+            var user = new UserInfo
+            {
+                Id = driver.Id,
+                FirstName = driver.FirstName,
+                LastName = driver.LastName,
+                Gender = driver.Gender,
+                DataOfBirth = driver.DataOfBirth,
+                PhoneNumber = driver.PhoneNumber,
+                Image = driver.Image
+            };
+
+            UpdateUserInfo(user);
+
+            UpdateCarInfo(driver.Car);
+
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var updateCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "UpdateDriverInfo"
+                };
+
+                updateCommand.Parameters.AddWithValue("@userId", driver.Id);
+                updateCommand.Parameters.AddWithValue("@drivingLicencePicFront", ImageToByteArray(driver.DrivingLicencePicFront));
+                updateCommand.Parameters.AddWithValue("@drivingLicencePicBack", ImageToByteArray(driver.DrivingLicencePicBack));
+                updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", driver.KnowledgeOfLanguages);
+
+                connection.Open();
+
+                updateCommand.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdateCarInfo(Car car)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var updateCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "UpdateCarInfo"
+                };
+
+                updateCommand.Parameters.AddWithValue("@carId", car.Id);
+                updateCommand.Parameters.AddWithValue("@barnd", car.Brand);
+                updateCommand.Parameters.AddWithValue("@fuelType", car.FuelType);
+                updateCommand.Parameters.AddWithValue("@numberOfSeats", car.NumberOfSeats);
+                updateCommand.Parameters.AddWithValue("@licensePlate", car.LicensePlate);
+                updateCommand.Parameters.AddWithValue("@carPicture1", ImageToByteArray(car.CarPicture1));
+                updateCommand.Parameters.AddWithValue("@carPicture2", ImageToByteArray(car.CarPicture2));
+                updateCommand.Parameters.AddWithValue("@carPicture3", ImageToByteArray(car.CarPicture3));
+                updateCommand.Parameters.AddWithValue("@hasAirConditioner", car.HasAirConditioner);
+                updateCommand.Parameters.AddWithValue("@hasWiFi", car.HasWiFi);
+                updateCommand.Parameters.AddWithValue("@hasToilet", car.HasToilet);
+                updateCommand.Parameters.AddWithValue("@hasMicrophone", car.HasMicrophone);
+                updateCommand.Parameters.AddWithValue("@hasKitchen", car.HasKitchen);
 
                 connection.Open();
 
@@ -1094,5 +1168,35 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         }
 
         #endregion Validating
+
+        #region Utility
+
+        public Image ByteArrayToImage(object picture)
+        {
+            Image img = null;
+            if (picture != null)
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                using (var ms = new MemoryStream())
+                {
+                    bf.Serialize(ms, picture);
+                    var bytesArr = ms.ToArray();
+                    var memstr = new MemoryStream(bytesArr);
+                    img = Image.FromStream(memstr);
+                }
+            }
+            return img;
+        }
+
+        public byte[] ImageToByteArray(Image img)
+        {
+            using (MemoryStream mStream = new MemoryStream())
+            {
+                img.Save(mStream, img.RawFormat);
+                return mStream.ToArray();
+            }
+        }
+
+        #endregion Utility
     }
 }

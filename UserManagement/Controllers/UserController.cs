@@ -39,12 +39,12 @@ namespace UserManagement.Controllers
         [HttpPost]
         public void Post([FromBody]UserInfo user)
         {
-            var id = this.usersDataAccessLayer.AddUser(user);
-
             var emailValidator = new EmailValidation();
 
             if (!emailValidator.IsValidEmail(user.Email))
                 return;
+
+            var id = this.usersDataAccessLayer.AddUser(user);
 
             var code = this.usersDataAccessLayer.AddUserVerification(id);
 

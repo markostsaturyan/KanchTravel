@@ -1,4 +1,5 @@
-﻿using Veldrid.ImageSharp;
+﻿using System.Drawing;
+using Veldrid.ImageSharp;
 
 namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
@@ -6,9 +7,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
     {
         public Car Car { get; set; }
 
-        public ImageSharpTexture DrivingLicencePicFront { get; set; }
+        public Image DrivingLicencePicFront { get; set; }
 
-        public ImageSharpTexture DrivingLicencePicBack { get; set; }
+        public Image DrivingLicencePicBack { get; set; }
 
         public string KnowledgeOfLanguages { get; set; }
 
