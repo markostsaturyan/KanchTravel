@@ -1,8 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[GetDrivers]
 AS
-	SELECT UserId, FirstName, LastName, DateOfBirth, Email, PhoneNumber, Picture, UserName, [Password], IsActive, 
-	DrivingLicencePicBack, DrivingLicencePicFront, KnowledgeOfLanguages, Rating, 
-	Car.Id as CarId, Car.Brand as Brand, CarPicture1, CarPicture2, CarPicture3, FuelType, Car.HasAirConditioner, Car.HasKitchen, Car.HasMicrophone, Car.HasToilet
+	SELECT UserId, FirstName, LastName, Gender, DateOfBirth, Email, PhoneNumber, Picture, UserName, DrivingLicencePicBack, DrivingLicencePicFront, KnowledgeOfLanguages, Rating, NumberOfAppraisers,
+	Car.Id as CarId, Car.Brand as Brand, NumberOfSeats, FuelType, CarPicture1, CarPicture2, CarPicture3, LicensePlate, HasWiFi, HasAirConditioner, HasKitchen, HasMicrophone, HasToilet
 	FROM Users JOIN Drivers ON Users.Id = Drivers.UserId
 	Join Car On Drivers.CarId=Car.Id
 RETURN 0

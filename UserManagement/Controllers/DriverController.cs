@@ -10,30 +10,30 @@ namespace UserManagement.Controllers
     [Route("api/Driver")]
     public class DriverController : Controller
     {
-        private readonly UsersDataAccesLayer usersDataAccessLayer;
+        private readonly DataAccesLayer usersDataAccessLayer;
 
-        public DriverController(UsersDataAccesLayer usersDataAccesLayer)
+        public DriverController(DataAccesLayer user)
         {
-            this.usersDataAccessLayer = usersDataAccessLayer;
+            this.usersDataAccessLayer = user;
         }
 
         // GET: api/Driver
         [HttpGet]
-        public IEnumerable<DriverFull> Get()
+        public IEnumerable<DriverInfo> Get()
         {
             return this.usersDataAccessLayer.GetAllDrivers();
         }
 
         // GET: api/Driver/5
         [HttpGet("{id}", Name = "Get")]
-        public DriverFull Get(int id)
+        public DriverInfo Get(int id)
         {
             return this.usersDataAccessLayer.GetDriverById(id);
         }
         
         // POST: api/Driver
         [HttpPost]
-        public void Post([FromBody]DriverFull driver)
+        public void Post([FromBody]DriverInfo driver)
         {
             var id = this.usersDataAccessLayer.AddDriver(driver);
 

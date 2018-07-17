@@ -5,14 +5,11 @@
 	@gender NVARCHAR(6),
     @dateOfBirth DATE, 
     @phoneNumber NVARCHAR(MAX), 
-    @email NVARCHAR(MAX), 
-	@picture VARBINARY(MAX),
-    @userName NVARCHAR(MAX), 
-    @password NVARCHAR(MAX)
+	@picture VARBINARY(MAX)
 AS
 
 UPDATE Users
-SET FirstName = @firstName, LastName=@lastName, Gender=@gender, DateOfBirth=@dateOfBirth, PhoneNumber=@phoneNumber,Email=@email, Picture=@picture, UserName=@userName, [Password]=@password
+SET FirstName = @firstName, LastName=@lastName, Gender=@gender, DateOfBirth=@dateOfBirth, PhoneNumber=@phoneNumber, Picture=@picture
 WHERE Id=@id;
 
 RETURN 0
