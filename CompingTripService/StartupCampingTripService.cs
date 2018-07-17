@@ -43,7 +43,6 @@ namespace CompingTripService
             {
                 options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
-                options.Database1 = Configuration.GetSection("MongoConnection:Database1").Value;
             });
             services.AddSingleton(new UserContext());
 

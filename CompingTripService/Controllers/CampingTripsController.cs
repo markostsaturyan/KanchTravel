@@ -9,11 +9,12 @@ using System.Runtime.Serialization.Json;
 using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Primitives;
 
 namespace CampingTripService.Controllers
 {
     [Produces("application/json")]
-    [Route("api/CampingTrips")]
+    [Route("api/campingtrips")]
     public class CampingTripsController : Controller
     {
         private readonly ICampingTripRepository campingTripRepository;
@@ -28,7 +29,29 @@ namespace CampingTripService.Controllers
         [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()
         {
-            return await campingTripRepository.GetAllRegistartionNotCompletedCampingTrips();
+            var queryString = this.HttpContext.Request.Query;
+            if(!queryString.TryGetValue("status", out StringValues status))
+            {
+                status = string.Empty;
+            }
+
+             if (status == "RegistrationCompleted")
+            {
+                return await campingTripRepository.GetAllRegistartionCompletedCampingTrips();
+            }
+            else if(status == "Completed")
+            {
+                return await campingTripRepository.GetAllCompletedCampingTrips();
+            }
+            else if(status == "InProgress")
+            {
+                return await campingTripRepository.GetAllRegistartionNotCompletedCampingTrips();
+            }
+            else
+            {
+                return await campingTripRepository.GetCampingTrips();
+            }
+            
         }
 
         // GET: api/CampingTrips/5

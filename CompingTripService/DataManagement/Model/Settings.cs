@@ -9,6 +9,5 @@ namespace CampingTripService.DataManagement.Model
     {
         public string ConnectionString;
         public string Database;
-        public string Database1;
     }
 }

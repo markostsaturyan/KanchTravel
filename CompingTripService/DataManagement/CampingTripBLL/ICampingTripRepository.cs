@@ -10,11 +10,11 @@ namespace CampingTripService.DataManagement.CampingTripBLL
     {
         Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTrips();
         Task<IEnumerable<CampingTripFull>> GetAllRegistartionNotCompletedCampingTrips();
+        Task<IEnumerable<CampingTripFull>> GetAllCompletedCampingTrips();
+        Task<IEnumerable<CampingTripFull>> GetCampingTrips();
         Task<CampingTripFull> GetCampingTrip(string id);
         Task AddCampingTrip(CampingTrip item);
         Task<DeleteResult> RemoveCampingTrip(string id);
         Task<ReplaceOneResult> UpdateCampingTrip(string id, CampingTrip trip);
-        Task<UpdateResult> UpdateDepartureDate(string id, DateTime departureDate);
-        Task<UpdateResult> UpdateCountOfMembers(string id, int count);
     }
 }

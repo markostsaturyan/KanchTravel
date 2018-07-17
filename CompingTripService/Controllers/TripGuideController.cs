@@ -10,29 +10,35 @@ using Microsoft.AspNetCore.Mvc;
 namespace CampingTripService.Controllers
 {
     [Produces("application/json")]
-    [Route("api/DriversOfCampingTrips")]
-    public class DriversOfCampingTripsController : Controller
+    [Route("api/TripGuide")]
+    public class TripGuideController : Controller
     {
+
         private readonly ISignUpForTheTrip signUpForTheTrip;
 
-        public DriversOfCampingTripsController(ISignUpForTheTrip signUpForTheTrip)
+        public TripGuideController(ISignUpForTheTrip signUpForTheTrip)
         {
             this.signUpForTheTrip = signUpForTheTrip;
         }
 
-        
-        // PUT: api/DriversOfCampingTrips/5
+        [HttpGet("{id}")]
+        public async Task<Guide> Get(string id)
+        {
+            return await this.signUpForTheTrip.GetGuide(id);
+        }
+
+        // PUT: api/TripGuide/5
         [HttpPut("{id}")]
         public async void Put(int id, [FromBody]string campingTripID)
         {
-            await this.signUpForTheTrip.AsDriver(id, campingTripID);
+            await this.signUpForTheTrip.AsGuide(id, campingTripID);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public async Task Delete(string campingTripID)
+        public async void Delete(string campingTripId)
         {
-            await this.signUpForTheTrip.RemoveDriverFromTheTrip(campingTripID);
+            await this.signUpForTheTrip.RemoveGuideFromTheTrip(campingTripId);
         }
     }
 }
