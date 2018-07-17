@@ -37,7 +37,6 @@ namespace CompingTripService
                     options.ApiName = "compingTrip";
                 });
             services.AddTransient<ICampingTripRepository,CampingTripRepository>();
-            services.AddTransient<ICompletedCampingTripRepository, CompletedCampingTripRepository>();
             services.AddTransient<ISignUpForTheTrip, SignUpForTheTrip>();
             services.Configure<Settings>(options =>
             {
