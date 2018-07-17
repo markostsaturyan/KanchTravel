@@ -26,7 +26,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTrips()
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, true);
-            var trips= await campingTripContext.CampingTrips.Find(filter).ToListAsync();
+            var filter1 = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var trips= await campingTripContext.CampingTrips.Find(filter & filter1).ToListAsync();
             var campingTripsFull = new List<CampingTripFull>();
             foreach(var trip in trips)
             {
@@ -38,7 +39,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionNotCompletedCampingTrips()
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, false);
-            var trips = await campingTripContext.CampingTrips.Find(filter).ToListAsync();
+            var filter1 = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var trips = await campingTripContext.CampingTrips.Find(filter & filter1).ToListAsync();
             var campingTripsFull = new List<CampingTripFull>();
             foreach (var trip in trips)
             {
@@ -46,6 +48,30 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             }
             return campingTripsFull;
         }
+
+        public async Task<IEnumerable<CampingTripFull>> GetAllCompletedCampingTrips()
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var trips = await campingTripContext.CampingTrips.Find(filter).ToListAsync();
+            var completedCampingTrips = new List<CampingTripFull>();
+            foreach (var trip in trips)
+            {
+                completedCampingTrips.Add(new CampingTripFull(trip));
+            }
+            return completedCampingTrips;
+        }
+
+        public async Task<IEnumerable<CampingTripFull>> GetCampingTrips()
+        {
+            var trips = await campingTripContext.CampingTrips.Find(_ => true).ToListAsync();
+            var campingTrips = new List<CampingTripFull>();
+            foreach (var trip in trips)
+            {
+                campingTrips.Add(new CampingTripFull(trip));
+            }
+            return campingTrips;
+        }
+
         public async Task<CampingTripFull> GetCampingTrip(string id)
         {
             var trip= await campingTripContext.CampingTrips
@@ -69,24 +95,5 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                                             , trip
                                             , new UpdateOptions { IsUpsert = true });
         }
-
-        public async Task<UpdateResult> UpdateDepartureDate(string id, DateTime departureDate)
-        {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
-            var update = Builders<CampingTrip>.Update
-                            .Set(s => s.DepartureDate, departureDate);
-
-            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
-        }
-
-        public async Task<UpdateResult> UpdateCountOfMembers(string id, int count)
-        {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, id);
-            var update = Builders<CampingTrip>.Update
-                            .Set(s => s.CountOfMembers, count);
-
-            return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
-        }
-
     }
 }

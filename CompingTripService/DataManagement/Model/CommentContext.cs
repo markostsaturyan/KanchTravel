@@ -7,22 +7,22 @@ using MongoDB.Driver;
 
 namespace CampingTripService.DataManagement.Model
 {
-    public class CompletedCampingTripContext
+    public class CommentContext
     {
         private readonly IMongoDatabase database;
 
-        public CompletedCampingTripContext(IOptions<Settings> settings)
+        public CommentContext(IOptions<Settings> settings)
         {
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)
-                database = client.GetDatabase(settings.Value.Database1);
+                database = client.GetDatabase(settings.Value.Database);
         }
 
-        public IMongoCollection<CompletedCampingTrip> CampingTrips
+        public IMongoCollection<Comment> Comments
         {
             get
             {
-                return database.GetCollection<CompletedCampingTrip>("CompletedCampingTrip");
+                return database.GetCollection<Comment>("Comments");
             }
         }
     }

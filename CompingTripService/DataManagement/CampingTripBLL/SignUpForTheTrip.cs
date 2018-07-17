@@ -7,6 +7,7 @@ using CampingTripService.DataManagement.Model;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using CampingTripService.DataManagement.Model.UsersDAL;
+using CampingTripService.DataManagement.Model.Users;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {
@@ -32,6 +33,32 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
+        public async  Task<Driver> GetDriver(string id)
+        {
+            var trip = await campingTripContext.CampingTrips
+                            .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
+                            .FirstOrDefaultAsync();
+            var userDal = new UsersDal();
+            return userDal.GetDriver(trip.DriverID);
+        }
+
+        public async Task<Guide> GetGuide(string id)
+        {
+            var trip = await campingTripContext.CampingTrips
+                            .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
+                            .FirstOrDefaultAsync();
+            var userDal = new UsersDal();
+            return userDal.GetGuide(trip.GuideID);
+        }
+
+        public async Task<Photographer> GetPhotographer(string id)
+        {
+            var trip = await campingTripContext.CampingTrips
+                            .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
+                            .FirstOrDefaultAsync();
+            var userDal = new UsersDal();
+            return userDal.GetPhotographer(trip.PhotographerID);
+        }
         public async Task<UpdateResult> RemoveDriverFromTheTrip(string campingTripID)
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
