@@ -105,7 +105,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Adds Guide to database
         /// </summary>
         /// <param name="guide"> The guide full info </param>
-        public int AddGuide(GuideFull guide)
+        public int AddGuide(GuideInfo guide)
         {
             var userFullInfo = new UserFull
             {
@@ -347,9 +347,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
             return user;
         }
 
-        public GuidePublicInfo GetGuideById(int id)
+        public GuideInfo GetGuideById(int id)
         {
-            var guide = new GuidePublicInfo();
+            var guide = new GuideInfo();
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -369,7 +369,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 {
                     dataReader.Read();
 
-                    guide = new GuidePublicInfo
+                    guide = new GuideInfo
                     {
                         Id = (int)dataReader["Id"],
                         FirstName = (string)dataReader["FirstName"],
@@ -377,7 +377,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         DataOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (ImageSharpTexture)dataReader["Image"],
+                        Image = ByteArrayToImage(dataReader["Image"]),
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"],
                         EducationGrade = (string)dataReader["EducationGrade"],
@@ -386,7 +386,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         Rating = (double)dataReader["Raiting"],
                         WorkExperience = (string)dataReader["WorkExperience"],
                         NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
-
                     };
 
                     guide.Places = GetGuidePalces(id);
@@ -525,7 +524,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetDrivers"
+                    CommandText = "GetAllDrivers"
                 };
 
                 connection.Open();
@@ -646,9 +645,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Gets all guides
         /// </summary>
         /// <returns> List of guides </returns>
-        public List<GuideFull> GetAllGuides()
+        public List<GuideInfo> GetAllGuides()
         {
-            var guides = new List<GuideFull>();
+            var guides = new List<GuideInfo>();
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -667,7 +666,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 {
                     while (dataReader.Read())
                     {
-                        var guide = new GuideFull
+                        var guide = new GuideInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
@@ -675,10 +674,16 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             DataOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (ImageSharpTexture)dataReader["Image"],
+                            Image = ByteArrayToImage(dataReader["Picture"]),
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                            Gender = (string)dataReader["Gender"],
+                            EducationGrade = (string)dataReader["EducationGrade"],
+                            Profession = (string)dataReader["Profession"],
+                            WorkExperience=(string)dataReader["WorkExperience"],
+                            Rating=(double)dataReader["Rating"],
+                            NumberOfAppraisers=(int)dataReader["NumberOfAppraisers"]
                         };
 
                         guide.Places = GetGuidePalces(guide.Id);
@@ -696,19 +701,23 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// </summary>
         /// <param name="id"> id of guide</param>
         /// <returns> List of places </returns>
-        private List<string> GetGuidePalces(int id)
+        public List<string> GetGuidePalces(int id)
         {
             var places = new List<string>();
 
             using (var connection = new SqlConnection(connectionString))
             {
-                connection.Open();
+                
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetGuidePlaces"
                 };
+
+                command.Parameters.AddWithValue("@id", id);
+
+                connection.Open();
 
                 var dataReader = command.ExecuteReader();
 
@@ -1001,7 +1010,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
             }
         }
 
-        public void UpdateGuigeFullInfo(GuideFull guide)
+        public void UpdateGuigeFullInfo(GuideInfo guide)
         {
             using (var connection = new SqlConnection(this.connectionString))
             {

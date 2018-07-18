@@ -9,7 +9,7 @@ using UserManagement.Verification;
 namespace UserManagement.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Guide")]
+    [Route("api/guide")]
     public class GuideController : Controller
     {
         private DataAccesLayer dataAccessLayer;
@@ -21,14 +21,14 @@ namespace UserManagement.Controllers
 
         // GET: api/Guide
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<GuideInfo> Get()
         {
-            return new string[] { "value1", "value2" };
+            return dataAccessLayer.GetAllGuides();
         }
 
         // GET: api/Guide/5
         [HttpGet("{id}", Name = "Get")]
-        public GuidePublicInfo Get(int id)
+        public GuideInfo Get(int id)
         {
             return this.dataAccessLayer.GetGuideById(id);
         }
