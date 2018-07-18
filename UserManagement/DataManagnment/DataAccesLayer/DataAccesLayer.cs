@@ -793,7 +793,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             DataOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (ImageSharpTexture)dataReader["Image"],
+                            Image = ByteArrayToImage(dataReader["Image"]),
                             UserName = (string)dataReader["UserName"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
@@ -861,7 +861,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         DataOfBirth = (DateTime)dataReader["Age"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (ImageSharpTexture)dataReader["Picture"],
+                        Image = ByteArrayToImage(dataReader["Picture"]),
                         UserName = (string)dataReader["UserName"],
                         Camera = camera,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -1095,7 +1095,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@hasDron", photographer.DataOfBirth);
                 updateCommand.Parameters.AddWithValue("@hasCameraStabilizator", photographer.PhoneNumber);
                 updateCommand.Parameters.AddWithValue("@hasGopro", photographer.Email);
-                updateCommand.Parameters.AddWithValue("@rating", photographer.Image);
+                updateCommand.Parameters.AddWithValue("@rating", photographer.Raiting);
 
                 connection.Open();
 

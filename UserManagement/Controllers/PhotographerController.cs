@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using UserManagement.DataManagnment.DataAccesLayer;
 using UserManagement.DataManagnment.DataAccesLayer.Models;
 using UserManagement.Verification;
+using UserManagement.Validation;
 
 namespace UserManagement.Controllers
 {
@@ -39,6 +40,11 @@ namespace UserManagement.Controllers
         [HttpPost]
         public void Post([FromBody]PhotographerInfo photographer)
         {
+            var emailValidator = new EmailValidation();
+
+            if (!emailValidator.IsValidEmail(photographer.Email))
+                return;
+
             var id = this.usersDataAccessLayer.AddPhotographer(photographer);
 
             var code = this.usersDataAccessLayer.AddUserVerification(id);

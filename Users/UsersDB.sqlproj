@@ -116,6 +116,12 @@
     <Build Include="StoredProcedures\UserManagement\UpdateGuideInfo.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdateGuidePlaces.sql" />
     <Build Include="StoredProcedures\UserManagement\InsertGuidePlaces.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeletePhotographer.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllPhotographers.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertCamera.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertPhotographer.sql" />
+    <Build Include="StoredProcedures\UserManagement\UpdateCameraInfo.sql" />
+    <Build Include="StoredProcedures\UserManagement\UpdatePhotographerInfo.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedures\CampingTrip\GetMembersOfTheCampingTrip.sql" />
