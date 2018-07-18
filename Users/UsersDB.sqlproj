@@ -112,5 +112,6 @@
     <Build Include="StoredProcedures\InsertCar.sql" />
     <Build Include="StoredProcedures\UpdateCarInfo.sql" />
     <Build Include="StoredProcedures\DeleteDriver.sql" />
+    <Build Include="StoredProcedures\GetAllPhotographers.sql" />
   </ItemGroup>
 </Project>

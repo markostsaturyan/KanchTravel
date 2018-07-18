@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace UserManagement.DataManagnment.DataAccesLayer.Models
+﻿namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
-    public class PhotographerFull:UserFull
+    public class PhotographerInfo : UserInfo
     {
         public Camera Camera { get; set; }
 
@@ -22,5 +17,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
         public bool HasCameraStabilizator { get; set; }
 
         public bool HasGopro { get; set; }
+
+        public int NumberOfAppraisers { get; set; }
     }
 }
