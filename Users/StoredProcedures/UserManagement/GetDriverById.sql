@@ -5,5 +5,5 @@ AS
 	Car.Id as CarId, Car.Brand as Brand, NumberOfSeats, FuelType, CarPicture1, CarPicture2, CarPicture3, LicensePlate, HasWiFi, HasAirConditioner, HasKitchen, HasMicrophone, HasToilet
 	FROM Users JOIN Drivers ON Users.Id = Drivers.UserId
 	Join Car On Drivers.CarId=Car.Id
-	Where UserId = @driverId
+	Where Users.Id = @driverId
 RETURN 0

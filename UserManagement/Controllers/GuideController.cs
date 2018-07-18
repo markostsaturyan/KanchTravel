@@ -35,13 +35,13 @@ namespace UserManagement.Controllers
         
         // POST: api/Guide
         [HttpPost]
-        public void Post([FromBody]GuideFull guide)
+        public void Post([FromBody]GuideInfo guide)
         {
-            var id = this.dataAccessLayer.AddGuide(guide);
-
             var emailValidator = new EmailValidation();
 
             if (!emailValidator.IsValidEmail(guide.Email)) return;
+
+            var id = this.dataAccessLayer.AddGuide(guide);
 
             var code = this.dataAccessLayer.AddUserVerification(id);
 
@@ -51,105 +51,10 @@ namespace UserManagement.Controllers
         
         // PUT: api/Guide/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]GuideFullWithConfirmation guide)
+        public void Put(int id, [FromBody]GuideInfo guide)
         {
-            var currentGuideName = this.dataAccessLayer.GetUserNamePasswordGuideAndEmailById(guide.Id, out string guideCurrentPassword, out string guideForHashing, out string userCurrentEmail);
-
-            if (guide.ConfirmationPassword != null)
-            {
-                var confirmationHashedPassword = (guide.ConfirmationPassword + guideForHashing).HashSHA1();
-
-                if (guide.UserName != currentGuideName && guideCurrentPassword == confirmationHashedPassword && this.dataAccessLayer.UsarNameValidating(guide.UserName))
-                {
-                    this.dataAccessLayer.UpdateUserInfo(new GuideInfo
-                    {
-                        Id = guide.Id,
-                        FirstName = guide.FirstName,
-                        LastName = guide.LastName,
-                        Gender = guide.Gender,
-                        DataOfBirth = guide.DataOfBirth,
-                        Email = guide.Email,
-                        Image = guide.Image,
-                        PhoneNumber = guide.PhoneNumber,
-                        UserName = guide.UserName,
-                        EducationGrade=guide.EducationGrade,
-                        KnowledgeOfLanguages=guide.KnowledgeOfLanguages,
-                        Places=guide.Places,
-                        Profession=guide.Profession,
-                        WorkExperience = guide.WorkExperience,
-                    });
-                }
-
-                if (guide.Password != null)
-                {
-                    if (guideCurrentPassword == confirmationHashedPassword)
-                    {
-                        this.dataAccessLayer.UpdateUserInfo(new GuideFull
-                        {
-                            Id = guide.Id,
-                            FirstName = guide.FirstName,
-                            LastName = guide.LastName,
-                            Gender = guide.Gender,
-                            DataOfBirth = guide.DataOfBirth,
-                            Email = guide.Email,
-                            Image = guide.Image,
-                            Password = guide.Password.HashSHA1(),
-                            PhoneNumber = guide.PhoneNumber,
-                            UserName = guide.UserName,
-                            EducationGrade = guide.EducationGrade,
-                            KnowledgeOfLanguages = guide.KnowledgeOfLanguages,
-                            Places = guide.Places,
-                            Profession = guide.Profession,
-                            WorkExperience = guide.WorkExperience
-                        });
-                    }
-                }
-
-                var emailValidator = new EmailValidation();
-
-                if (guide.Email != userCurrentEmail && guideCurrentPassword == confirmationHashedPassword && emailValidator.IsValidEmail(guide.Email))
-                {
-                    this.dataAccessLayer.UpdateUserInfo(new GuideInfo
-                    {
-                        Id = guide.Id,
-                        FirstName = guide.FirstName,
-                        LastName = guide.LastName,
-                        Gender = guide.Gender,
-                        DataOfBirth = guide.DataOfBirth,
-                        Email = guide.Email,
-                        Image = guide.Image,
-                        PhoneNumber = guide.PhoneNumber,
-                        UserName = guide.UserName,
-                        EducationGrade = guide.EducationGrade,
-                        KnowledgeOfLanguages = guide.KnowledgeOfLanguages,
-                        Places = guide.Places,
-                        Profession = guide.Profession,
-                        WorkExperience = guide.WorkExperience
-                    });
-                }
-            }
-            else
-            {
-                if (currentGuideName != guide.UserName || userCurrentEmail != guide.Email || guideCurrentPassword != guide.Password) return;
-
-                this.dataAccessLayer.UpdateUserInfo(new GuideInfo
-                {
-                    Id = guide.Id,
-                    FirstName = guide.FirstName,
-                    LastName = guide.LastName,
-                    Gender = guide.Gender,
-                    DataOfBirth = guide.DataOfBirth,
-                    Email = guide.Email,
-                    Image = guide.Image,
-                    PhoneNumber = guide.PhoneNumber,
-                    UserName = guide.UserName,
-                    EducationGrade = guide.EducationGrade,
-                    KnowledgeOfLanguages = guide.KnowledgeOfLanguages,
-                    Places = guide.Places,
-                    Profession = guide.Profession,
-                    WorkExperience = guide.WorkExperience
-                });
-            }
+           
+                this.dataAccessLayer.UpdateGuideInfo(guide);
         }
         
         // DELETE: api/ApiWithActions/5

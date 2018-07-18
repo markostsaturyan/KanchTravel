@@ -107,7 +107,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// <param name="guide"> The guide full info </param>
         public int AddGuide(GuideInfo guide)
         {
-            var userFullInfo = new UserFull
+            var userInfo = new UserInfo
             {
                 FirstName = guide.FirstName,
                 LastName = guide.LastName,
@@ -120,7 +120,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 Password = guide.Password
             };
 
-            var userId = AddUser(userFullInfo);
+            var userId = AddUser(userInfo);
+
+            AddGuidePlaces(guide.Id, guide.Places);
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -136,7 +138,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 command.Parameters.AddWithValue("@profession", guide.Profession);
                 command.Parameters.AddWithValue("@knowledgeOfLanguages", guide.KnowledgeOfLanguages);
                 command.Parameters.AddWithValue("@workExperience", guide.WorkExperience);
-                command.Parameters.AddWithValue("@rating", guide.Raiting);
 
                 connection.Open();
 
@@ -144,6 +145,31 @@ namespace UserManagement.DataManagnment.DataAccesLayer
             }
 
             return userId;
+        }
+
+        public void AddGuidePlaces(int id, List<string> places)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                for (int i = 0; i < places.Count; i++)
+                {
+                    var command = new SqlCommand()
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "InsertGuidePlaces"
+                    };
+
+                    command.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@places", places[i]);
+
+                    connection.Open();
+
+                    command.ExecuteNonQuery();
+
+                    connection.Close();
+                }
+            }
         }
 
         /// <summary>
@@ -382,7 +408,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         Profession = (string)dataReader["Profession"],
                         Rating = (double)dataReader["Raiting"],
                         WorkExperience = (string)dataReader["WorkExperience"],
-                        NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
+                        NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"],
                     };
 
                     guide.Places = GetGuidePalces(id);
@@ -982,9 +1008,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@gender", guide.Gender);
                 updateCommand.Parameters.AddWithValue("@dateOfBirth", guide.DataOfBirth);
                 updateCommand.Parameters.AddWithValue("@phoneNumber", guide.PhoneNumber);
-                updateCommand.Parameters.AddWithValue("@email", guide.Email);
                 updateCommand.Parameters.AddWithValue("@picture", guide.Image);
-                updateCommand.Parameters.AddWithValue("@userName", guide.UserName);
                 updateCommand.Parameters.AddWithValue("@workExperience", guide.WorkExperience);
                 updateCommand.Parameters.AddWithValue("@profession", guide.Profession);
                 updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", guide.KnowledgeOfLanguages);
@@ -993,47 +1017,12 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 connection.Open();
 
                 updateCommand.ExecuteNonQuery();
-
-                UpadateGuidePlaces(guide.Id, guide.Places);
-
             }
+
+            UpadateGuidePlaces(guide.Id, guide.Places);
         }
 
-        public void UpdateGuigeFullInfo(GuideInfo guide)
-        {
-            using (var connection = new SqlConnection(this.connectionString))
-            {
-                var updateCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateGuideInfo"
-                };
-
-                updateCommand.Parameters.AddWithValue("@id", guide.Id);
-                updateCommand.Parameters.AddWithValue("@firstName", guide.FirstName);
-                updateCommand.Parameters.AddWithValue("@lastName", guide.LastName);
-                updateCommand.Parameters.AddWithValue("@gender", guide.Gender);
-                updateCommand.Parameters.AddWithValue("@dateOfBirth", guide.DataOfBirth);
-                updateCommand.Parameters.AddWithValue("@phoneNumber", guide.PhoneNumber);
-                updateCommand.Parameters.AddWithValue("@email", guide.Email);
-                updateCommand.Parameters.AddWithValue("@picture", guide.Image);
-                updateCommand.Parameters.AddWithValue("@userName", guide.UserName);
-                updateCommand.Parameters.AddWithValue("@password", guide.Password);
-                updateCommand.Parameters.AddWithValue("@workExperience", guide.WorkExperience);
-                updateCommand.Parameters.AddWithValue("@profession", guide.Profession);
-                updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", guide.KnowledgeOfLanguages);
-                updateCommand.Parameters.AddWithValue("@educationGrade", guide.EducationGrade);
-
-                connection.Open();
-
-                updateCommand.ExecuteNonQuery();
-
-                UpadateGuidePlaces(guide.Id, guide.Places);
-            }
-        }
-
-        private void UpadateGuidePlaces(int id, List<string> places)
+        public void UpadateGuidePlaces(int id, List<string> places)
         {
             using (var connection = new SqlConnection(this.connectionString))
             {
@@ -1043,7 +1032,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                     {
                         Connection = connection,
                         CommandType = System.Data.CommandType.StoredProcedure,
-                        CommandText = "AddGuidePlace"
+                        CommandText = "UpdateGuidePlaces"
                     };
 
                     command.Parameters.AddWithValue("@id", id);
@@ -1055,7 +1044,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
                     connection.Close();
                 }
-
             }
         }
 
