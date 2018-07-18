@@ -5,6 +5,6 @@
 	@drivingLicencePicBack varbinary(Max),
 	@knowledgeOfLanguages float
 AS
-	INSERT INTO Drivers(UserId, CarId,DrivingLicencePicFront,DrivingLicencePicBack,KnowledgeOfLanguages)
+	INSERT INTO Drivers(UserId, CarId, DrivingLicencePicFront, DrivingLicencePicBack, KnowledgeOfLanguages)
 	Values(@userId, @carId, @drivingLicencePicFront, @drivingLicencePicBack, @knowledgeOfLanguages)
 RETURN 0
