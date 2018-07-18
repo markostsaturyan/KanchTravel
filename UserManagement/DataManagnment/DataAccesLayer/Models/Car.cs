@@ -1,4 +1,4 @@
-﻿using Veldrid.ImageSharp;
+﻿using System.Drawing;
 
 namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
@@ -12,11 +12,11 @@ namespace UserManagement.DataManagnment.DataAccesLayer.Models
 
         public string FuelType { get; set; }
 
-        public ImageSharpTexture CarPicture1 { get; set; }
+        public Image CarPicture1 { get; set; }
 
-        public ImageSharpTexture CarPicture2 { get; set; }
+        public Image CarPicture2 { get; set; }
 
-        public ImageSharpTexture CarPicture3 { get; set; }
+        public Image CarPicture3 { get; set; }
 
         public bool HasWiFi { get; set; }
 

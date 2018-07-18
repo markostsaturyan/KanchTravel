@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication", "Authentic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampingTripService", "CompingTripService\CampingTripService.csproj", "{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3B1FD068-891B-4958-A44D-094034E37349}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement", "UserManagement\UserManagement.csproj", "{B7BA522C-418E-4F4B-8A44-8452CCFC6DEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kanch", "Kanch\Kanch.csproj", "{D188EC79-360F-468E-9AEE-53E2D24AF651}"
@@ -35,10 +33,6 @@ Global
 		{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B0CAF2E-371B-4A6D-9FEF-F12053A3CBD3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B1FD068-891B-4958-A44D-094034E37349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B1FD068-891B-4958-A44D-094034E37349}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B1FD068-891B-4958-A44D-094034E37349}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B1FD068-891B-4958-A44D-094034E37349}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7BA522C-418E-4F4B-8A44-8452CCFC6DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7BA522C-418E-4F4B-8A44-8452CCFC6DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7BA522C-418E-4F4B-8A44-8452CCFC6DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU

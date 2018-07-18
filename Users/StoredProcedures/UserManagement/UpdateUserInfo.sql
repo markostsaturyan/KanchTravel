@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[UpdateUserFullInfo]
+﻿CREATE PROCEDURE [dbo].[UpdateUserInfo]
 	@id INT, 
     @firstName NVARCHAR(MAX), 
     @lastName NVARCHAR(MAX), 
