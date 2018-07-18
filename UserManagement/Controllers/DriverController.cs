@@ -8,7 +8,7 @@ using UserManagement.Validation;
 namespace UserManagement.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Driver")]
+    [Route("api/driver")]
     public class DriverController : Controller
     {
         private readonly DataAccesLayer usersDataAccessLayer;

@@ -62,6 +62,7 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="StoredProcedures" />
+    <Folder Include="StoredProcedures\UserManagement" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Queries.sql" />
@@ -76,10 +77,7 @@
     <Build Include="Tables\Users.sql" />
     <Build Include="StoredProcedures\GetAllUserIdentifiers.sql" />
     <Build Include="StoredProcedures\GetByUserName.sql" />
-    <Build Include="StoredProcedures\GetDrivers.sql" />
-    <Build Include="StoredProcedures\GetAllUsers.sql" />
     <Build Include="StoredProcedures\GetUserByID.sql" />
-    <Build Include="StoredProcedures\InsertUser.sql" />
     <Build Include="StoredProcedures\SignUpForTheCamping.sql" />
     <Build Include="Tables\CampingTrip%27sMembers.sql" />
   </ItemGroup>
@@ -87,7 +85,6 @@
     <RefactorLog Include="StoredProcedures\UsersDB.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="StoredProcedures\GetDriverById.sql" />
     <Build Include="StoredProcedures\GetGuideById.sql" />
     <Build Include="StoredProcedures\GetPhotographerById.sql" />
     <Build Include="StoredProcedures\GetMembersOfTheCampingTrip.sql" />
@@ -95,22 +92,29 @@
     <Build Include="Tables\RequestsOfDrivers.sql" />
     <Build Include="Tables\RequestsOfGuides.sql" />
     <Build Include="Tables\RequestsOfPhotographers.sql" />
-    <Build Include="StoredProcedures\DeleteUser.sql" />
-    <Build Include="StoredProcedures\GetFullUserInfoById.sql" />
     <Build Include="StoredProcedures\GetUserEmailById.sql" />
     <Build Include="StoredProcedures\GetUserPasswordAndGuideById.sql" />
-    <Build Include="StoredProcedures\InsertUserVerificationCode.sql" />
     <Build Include="StoredProcedures\UpdateApproveValue.sql" />
-    <Build Include="StoredProcedures\UpdateUserInfo.sql" />
     <Build Include="Tables\UserVerification.sql" />
     <Build Include="StoredProcedures\GetUserNamePasswordGuideAndEmailById.sql" />
     <Build Include="StoredProcedures\UserNameCount.sql" />
     <Build Include="StoredProcedures\GetGuideInfoById.sql" />
     <Build Include="StoredProcedures\InsertGuideInfo.sql" />
     <Build Include="StoredProcedures\DeleteGuide.sql" />
-    <Build Include="StoredProcedures\InsertDriverInfo.sql" />
-    <Build Include="StoredProcedures\InsertCar.sql" />
-    <Build Include="StoredProcedures\UpdateCarInfo.sql" />
     <Build Include="StoredProcedures\DeleteDriver.sql" />
+    <Build Include="StoredProcedures\GetAllGuides.sql" />
+    <Build Include="StoredProcedures\GetGuidePlaces.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllUsers.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetFullUserInfoById.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertCar.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertUser.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertUserVerificationCode.sql" />
+    <Build Include="StoredProcedures\UserManagement\UpdateUserInfo.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteUser.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllDrivers.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetDriverById.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertDriverInfo.sql" />
+    <Build Include="StoredProcedures\UserManagement\UpdateCarInfo.sql" />
+    <Build Include="StoredProcedures\UserManagement\UpdateDriverInfo.sql" />
   </ItemGroup>
 </Project>
