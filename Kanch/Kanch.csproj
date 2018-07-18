@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D188EC79-360F-468E-9AEE-53E2D24AF651}</ProjectGuid>
+    <ProjectGuid>{B691D63B-5613-44C2-A44F-5D8AFC5C5D5E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Kanch</RootNamespace>
     <AssemblyName>Kanch</AssemblyName>
@@ -54,7 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Registration.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -62,8 +62,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
