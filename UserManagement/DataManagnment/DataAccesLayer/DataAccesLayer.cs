@@ -256,9 +256,9 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Adds Photodrapher into database
         /// </summary>
         /// <param name="photographer"> Photographer full info </param>
-        public int AddPhotographer(PhotographerFull photographer)
+        public int AddPhotographer(PhotographerInfo photographer)
         {
-            var userFullInfo = new UserFull
+            var userFullInfo = new UserInfo
             {
                 FirstName = photographer.FirstName,
                 LastName = photographer.LastName,
@@ -279,7 +279,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 var commandForInsertPhotographer = new SqlCommand
                 {
                     Connection = connection,
-                    CommandText = "INSERT INTO UsersDB.dbo.Photographer VAULES(@userId, @cameraId, @profession, @knowledgeOfLanguages, @workExperience, @hasDron, @hasCameraStabilizator, @hasGopro, @rating, @isApproved)"
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "InsertPhotographer"
                 };
 
                 commandForInsertPhotographer.Parameters.AddWithValue("@userId", userId);
@@ -291,7 +292,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 commandForInsertPhotographer.Parameters.AddWithValue("@hasCameraStabilizator", photographer.HasCameraStabilizator);
                 commandForInsertPhotographer.Parameters.AddWithValue("@hasGopro", photographer.HasGopro);
                 commandForInsertPhotographer.Parameters.AddWithValue("@raiting", photographer.Raiting);
-                commandForInsertPhotographer.Parameters.AddWithValue("@approved", 0);
+
+                connection.Open();
 
                 commandForInsertPhotographer.ExecuteNonQuery();
             }
@@ -311,13 +313,14 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                 var commandForInsertCamera = new SqlCommand
                 {
                     Connection = connection,
-                    CommandText = "INSERT INTO UsersDB.dbo.Camera output INSERTED.Id VAULES(@isProfessional, @model)"
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "InsertCamera"
                 };
 
                 commandForInsertCamera.Parameters.AddWithValue("@isProfessional", camera.IsProfessional);
                 commandForInsertCamera.Parameters.AddWithValue("@model", camera.Model);
 
-
+                connection.Open();
                 return (int)commandForInsertCamera.ExecuteScalar();
             }
         }
@@ -611,13 +614,14 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
             using (var connection = new SqlConnection(connectionString))
             {
-                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetDriverById"
                 };
+
+                connection.Open();
 
                 var dataReader = command.ExecuteReader();
 
@@ -673,7 +677,6 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
             using (var connection = new SqlConnection(connectionString))
             {
-                
                 var command = new SqlCommand
                 {
                     Connection = connection,
@@ -760,13 +763,12 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// Gets all photographers
         /// </summary>
         /// <returns> List of photographers </returns>
-        public List<PhotographerFull> GetAllPhotographers()
+        public List<PhotographerInfo> GetAllPhotographers()
         {
-            var photographers = new List<PhotographerFull>();
+            var photographers = new List<PhotographerInfo>();
 
             using (var connection = new SqlConnection(connectionString))
             {
-                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
@@ -774,23 +776,25 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                     CommandText = "GetAllPhotographers"
                 };
 
+                connection.Open();
+
                 var dataReader = command.ExecuteReader();
 
                 if (dataReader.HasRows)
                 {
                     while (dataReader.Read())
                     {
-                        var photographer = new PhotographerFull
+                        var photographer = new PhotographerInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
+                            Gender = (string)dataReader["Gender"],
                             DataOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = (ImageSharpTexture)dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
-                            Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
                             HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
@@ -804,6 +808,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                             },
                             Profession = (string)dataReader["Profession"],
                             WorkExperience = (string)dataReader["WorkExperiance"],
+                            NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                         };
 
                         photographers.Add(photographer);
@@ -819,19 +824,20 @@ namespace UserManagement.DataManagnment.DataAccesLayer
         /// </summary>
         /// <param name="id"> Photographer id </param>
         /// <returns> Photographer full info </returns>
-        public PhotographerFull GetPhotographerById(int id)
+        public PhotographerInfo GetPhotographerById(int id)
         {
-            var photographer = new PhotographerFull();
+            var photographer = new PhotographerInfo();
 
             using (var connection = new SqlConnection(connectionString))
             {
-                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetPhotographerById"
                 };
+
+                connection.Open();
 
                 var dataReader = command.ExecuteReader();
 
@@ -846,7 +852,7 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         Model = (string)dataReader["Model"]
                     };
 
-                    photographer = new PhotographerFull
+                    photographer = new PhotographerInfo
                     {
                         Id = (int)dataReader["Id"],
                         FirstName = (string)dataReader["FirstName"],
@@ -864,7 +870,8 @@ namespace UserManagement.DataManagnment.DataAccesLayer
                         HasDron = (bool)dataReader["HasDron"],
                         HasGopro = (bool)dataReader["HasGopro"],
                         Profession = (string)dataReader["Profession"],
-                        WorkExperience = (string)dataReader["WorkExperience"]
+                        WorkExperience = (string)dataReader["WorkExperience"],
+                        NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                     };
                 }
             }
@@ -903,6 +910,10 @@ namespace UserManagement.DataManagnment.DataAccesLayer
             }
         }
 
+        /// <summary>
+        /// Updates Driver info
+        /// </summary>
+        /// <param name="driver"> new Driver </param>
         public void UpdateDriverInfo(DriverInfo driver)
         {
             var user = new UserInfo
@@ -1044,6 +1055,76 @@ namespace UserManagement.DataManagnment.DataAccesLayer
 
                     connection.Close();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Updates Photographer info
+        /// </summary>
+        /// <param name="photographer"> New Photographer </param>
+        public void UpdatePhotographerInfo(PhotographerInfo photographer)
+        {
+            var user = new UserInfo
+            {
+                Id = photographer.Id,
+                FirstName = photographer.FirstName,
+                LastName = photographer.LastName,
+                Gender = photographer.Gender,
+                DataOfBirth = photographer.DataOfBirth,
+                PhoneNumber = photographer.PhoneNumber,
+                Image = photographer.Image
+            };
+
+            UpdateUserInfo(user);
+
+            UpdateCamera(photographer.Camera);
+
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var updateCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "UpdatePhotographerInfo"
+                };
+
+                updateCommand.Parameters.AddWithValue("@userId", photographer.Id);
+                updateCommand.Parameters.AddWithValue("@profession", photographer.FirstName);
+                updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", photographer.LastName);
+                updateCommand.Parameters.AddWithValue("@workExperience", photographer.Gender);
+                updateCommand.Parameters.AddWithValue("@hasDron", photographer.DataOfBirth);
+                updateCommand.Parameters.AddWithValue("@hasCameraStabilizator", photographer.PhoneNumber);
+                updateCommand.Parameters.AddWithValue("@hasGopro", photographer.Email);
+                updateCommand.Parameters.AddWithValue("@rating", photographer.Image);
+
+                connection.Open();
+
+                updateCommand.ExecuteNonQuery();
+            }
+        }
+
+        /// <summary>
+        /// Updates camera info
+        /// </summary>
+        /// <param name="camera"> New Camera </param>
+        public void UpdateCamera(Camera camera)
+        {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                var updateCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "UpdateCameraInfo"
+                };
+
+                updateCommand.Parameters.AddWithValue("@id", camera.Id);
+                updateCommand.Parameters.AddWithValue("@isProfessional", camera.IsProfessional);
+                updateCommand.Parameters.AddWithValue("@model", camera.Model);
+
+                connection.Open();
+
+                updateCommand.ExecuteNonQuery();
             }
         }
 

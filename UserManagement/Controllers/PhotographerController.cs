@@ -16,28 +16,28 @@ namespace UserManagement.Controllers
     {
         private readonly DataAccesLayer usersDataAccessLayer;
 
-        public PhotographerController(DataAccesLayer usersDataAccesLayer)
+        public PhotographerController(DataAccesLayer users)
         {
-            this.usersDataAccessLayer = usersDataAccessLayer;
+            this.usersDataAccessLayer = users;
         }
 
         // GET: api/Photographer
         [HttpGet]
-        public IEnumerable<PhotographerFull> Get()
+        public IEnumerable<PhotographerInfo> Get()
         {
             return this.usersDataAccessLayer.GetAllPhotographers();
         }
 
         // GET: api/Photographer/5
         [HttpGet("{id}", Name = "Get")]
-        public PhotographerFull Get(int id)
+        public PhotographerInfo Get(int id)
         {
             return this.usersDataAccessLayer.GetPhotographerById(id);
         }
         
         // POST: api/Photographer
         [HttpPost]
-        public void Post([FromBody]PhotographerFull photographer)
+        public void Post([FromBody]PhotographerInfo photographer)
         {
             var id = this.usersDataAccessLayer.AddPhotographer(photographer);
 
@@ -48,9 +48,9 @@ namespace UserManagement.Controllers
         
         // PUT: api/Photographer/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]PhotographerInfo photographer)
         {
-            // TODO
+            this.usersDataAccessLayer.UpdatePhotographerInfo(photographer);
         }
         
         // DELETE: api/ApiWithActions/5
