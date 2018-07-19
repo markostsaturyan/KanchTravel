@@ -1,4 +1,4 @@
-﻿namespace UserManagement.DataManagnment.DataAccesLayer.Models
+﻿namespace UserManagement.DataManagement.DataAccesLayer.Models
 {
     public class Camera
     {

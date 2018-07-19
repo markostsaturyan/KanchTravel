@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace UserManagement.DataManagnment.DataAccesLayer.Models
+namespace UserManagement.DataManagement.DataAccesLayer.Models
 {
     public class UserInfo
     {

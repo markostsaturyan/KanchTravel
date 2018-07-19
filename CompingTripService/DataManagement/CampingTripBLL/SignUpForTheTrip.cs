@@ -23,7 +23,6 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             campingTripRepository = new CampingTripRepository(settings);
         }
 
-        [Authorize(Policy ="Only For Drivers")]
         public async Task<UpdateResult> AsDriver(int id,string campingTripID)
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
@@ -66,7 +65,6 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
-        [Authorize(Policy ="Only For Guides")]
         public async Task<UpdateResult> AsGuide(int id, string campingTripID)
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
@@ -83,7 +81,6 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
-        [Authorize(Policy ="Only For Photographers")]
         public async Task<UpdateResult> AsPhotographer(int id, string campingTripID)
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
@@ -100,7 +97,6 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
-        [Authorize(Policy = "Users")]
         public async Task AsMember(int id, string campingTripID)
         {
             var campingTripFull = await campingTripRepository.GetCampingTrip(campingTripID);

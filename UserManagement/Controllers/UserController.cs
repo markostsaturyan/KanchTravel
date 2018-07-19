@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UserManagement.DataManagnment.DataAccesLayer.Models;
-using UserManagement.DataManagnment.DataAccesLayer;
+using UserManagement.DataManagement.DataAccesLayer.Models;
+using UserManagement.DataManagement.DataAccesLayer;
 using Microsoft.AspNetCore.Authorization;
 using UserManagement.Verification;
 using UserManagement.Validation;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace UserManagement.Controllers
 {
@@ -20,7 +21,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/User
-        [Authorize(Policy ="OnlyForAdmin")]
+        [Authorize]
         [HttpGet]
         public IEnumerable<UserInfo> Get()
         {
@@ -28,7 +29,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/User/5
-        [Authorize(Policy ="OnlyForUser")]
+        [Authorize]
         [HttpGet("{id}", Name = "Get")]
         public UserInfo Get(int id)
         {
@@ -37,18 +38,36 @@ namespace UserManagement.Controllers
 
         // POST: api/User
         [HttpPost]
-        public void Post([FromBody]UserInfo user)
+        public Status Post([FromBody]UserInfo user)
         {
             var emailValidator = new EmailValidation();
 
-            if (!emailValidator.IsValidEmail(user.Email))
-                return;
+            if (!emailValidator.IsValidEmail(user.Email)) return new Status
+            {
+                StatusCode = 2002,
+                IsOk = false,
+                Message = "Email is not valid"
+            };
 
-            var id = this.usersDataAccessLayer.AddUser(user);
+            if (!this.usersDataAccessLayer.IsValidUserName(user.UserName)) return new Status
+            {
+                StatusCode = 2001,
+                IsOk = false,
+                Message = "UserName is not valid"
+            };
 
-            var code = this.usersDataAccessLayer.AddUserVerification(id);
+            this.usersDataAccessLayer.AddUser(user);
+
+            var code = this.usersDataAccessLayer.AddUserVerification(user.UserName);
 
             SendVerificationLinkEmail.SendEmail(user.Email, code);
+
+            return new Status
+            {
+                StatusCode = 1000,
+                IsOk = true,
+                Message = "Your account is crated."
+            };
         }
 
         // PUT: api/User/5
@@ -62,11 +81,26 @@ namespace UserManagement.Controllers
         // DELETE: api/ApiWithActions/5
         [Authorize(Policy = "OnlyForUser")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public Status Delete(int id)
         {
+            if (this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
+            {
+                // 2100 - deleting is feiled because user is organizer
+                StatusCode = 2100,
+                IsOk = false,
+                Message = "You can not delete your account because you are organizer."
+            };
+
+            this.usersDataAccessLayer.DeleteUserFromCampingTrips(id);
+
             this.usersDataAccessLayer.DeleteUser(id);
 
-            //Ջնջել յուզերին ընթացիկ արշավներից
+            return new Status
+            {
+                StatusCode=1002,
+                IsOk = true,
+                Message = "Your account deleted."
+            };
         }
     }
 }

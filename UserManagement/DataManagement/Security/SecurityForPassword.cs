@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UserManagement.DataManagnment.Security
+namespace UserManagement.DataManagement.Security
 {
     public static class SecurityForPassword
     {

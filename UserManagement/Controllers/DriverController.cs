@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using UserManagement.DataManagnment.DataAccesLayer;
+using UserManagement.DataManagement.DataAccesLayer;
 using Microsoft.AspNetCore.Mvc;
-using UserManagement.DataManagnment.DataAccesLayer.Models;
+using UserManagement.DataManagement.DataAccesLayer.Models;
 using UserManagement.Verification;
 using UserManagement.Validation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace UserManagement.Controllers
 {
@@ -19,6 +20,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/Driver
+        [Authorize]
         [HttpGet]
         public IEnumerable<DriverInfo> Get()
         {
@@ -26,6 +28,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/Driver/5
+        [Authorize]
         [HttpGet("{id}", Name = "Get")]
         public DriverInfo Get(int id)
         {
@@ -34,32 +37,68 @@ namespace UserManagement.Controllers
         
         // POST: api/Driver
         [HttpPost]
-        public void Post([FromBody]DriverInfo driver)
+        public Status Post([FromBody]DriverInfo driver)
         {
             var emailValidator = new EmailValidation();
 
-            if (!emailValidator.IsValidEmail(driver.Email))
-                return;
+            if (!emailValidator.IsValidEmail(driver.Email)) return new Status
+            {
+                StatusCode = 2002,
+                IsOk = false,
+                Message = "Email is not valid"
+            };
 
-            var id = this.usersDataAccessLayer.AddDriver(driver);
+            if (!this.usersDataAccessLayer.IsValidUserName(driver.UserName)) return new Status
+            {
+                StatusCode = 2001,
+                IsOk = false,
+                Message = "UserName is not valid"
+            };
 
-            var code = this.usersDataAccessLayer.AddUserVerification(id);
+            this.usersDataAccessLayer.AddDriver(driver);
 
-            SendVerificationLinkEmail.SendEmail(driver.Email, code);
+            return new Status
+            {
+                StatusCode = 1000,
+                IsOk = true,
+                Message = "Your account is crated."
+            };
+
         }
         
         // PUT: api/Driver/5
+        [Authorize(Policy ="OnlyForDriver")]
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]DriverInfo driver)
         {
             this.usersDataAccessLayer.UpdateDriverInfo(driver);
         }
-        
+
         // DELETE: api/ApiWithActions/5
+        [Authorize(Policy = "OnlyForDriver")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public Status Delete(int id)
         {
+            if (this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
+            {   
+                // 2100 - deleting is feiled because user is organizer
+                StatusCode = 2100,
+                IsOk = false,
+                Message = "You can not delete your account becouse you are organizer."
+            };
+
             this.usersDataAccessLayer.DeleteDriver(id);
+
+            this.usersDataAccessLayer.DeleteDriverFromCampingTrips(id);
+
+            this.usersDataAccessLayer.DeleteUserFromCampingTrips(id);
+
+            return new Status
+            {
+                StatusCode = 1000,
+                IsOk = true,
+                Message = "Your account deleted."
+            };
         }
     }
 }

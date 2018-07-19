@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
-using Veldrid.ImageSharp;
 
-namespace UserManagement.DataManagnment.DataAccesLayer.Models
+namespace UserManagement.DataManagement.DataAccesLayer.Models
 {
     public class DriverInfo : UserInfo
     {

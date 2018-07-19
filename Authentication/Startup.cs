@@ -42,16 +42,14 @@ namespace Authentication
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
             services.AddTransient<IProfileService, ProfileService>();
 
-            /*services.AddAuthorization(options =>
-                {
-                    options.AddPolicy("OnlyForArgishti",
-                   policy => policy.RequireRole("Role for Argishti"));
-                    options.AddPolicy("For Sevak", policy =>
-                    {
-                        policy.RequireUserName("Sevak"); policy.RequireClaim("Profile", "Programer", "Student");
-                    });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("OnlyForUser", policy => policy.RequireRole("User"));
+                options.AddPolicy("OnlyForDriver", policy => policy.RequireRole("Driver"));
+                options.AddPolicy("OnlyForGuide", policy => policy.RequireRole("Guide"));
+                options.AddPolicy("OnlyForPhotographer", policy => policy.RequireRole("Phothographer"));
 
-                });*/
+            });
         }
 
         /// <summary>

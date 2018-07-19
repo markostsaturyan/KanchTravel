@@ -6,9 +6,8 @@
     @workExperience NVARCHAR(MAX),
     @hasDron BIT,
     @hasCameraStabilizator BIT,
-    @hasGopro BIT,
-    @rating FLOAT
+    @hasGopro BIT
 AS
 	INSERT INTO Photographer
-	VALUES(@userId, @cameraId, @profession, @knowledgeOfLanguages, @workExperience, @hasDron, @hasCameraStabilizator, @hasGopro, @rating, @numberOfAppraisers)
+	VALUES(@userId, @cameraId, @profession, @knowledgeOfLanguages, @workExperience, @hasDron, @hasCameraStabilizator, @hasGopro)
 RETURN 0

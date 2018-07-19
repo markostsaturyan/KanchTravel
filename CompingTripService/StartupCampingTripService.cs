@@ -47,7 +47,7 @@ namespace CompingTripService
 
             services.Configure<UserContext>(options =>
             {
-                options.ConnectionString = Configuration.GetSection("ConnectionStrings:currentConnectionString").Value;
+                options.ConnectionString = Configuration.GetSection("SqlConnection:ConnectionString").Value;
             });
         }
 

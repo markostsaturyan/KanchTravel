@@ -108,7 +108,7 @@
     <Build Include="StoredProcedures\UserManagement\GetUserEmailById.sql" />
     <Build Include="StoredProcedures\UserManagement\GetUserPasswordAndGuideById.sql" />
     <Build Include="StoredProcedures\UserManagement\UserNameCount.sql" />
-    <Build Include="StoredProcedures\UserManagement\GetUserNamePasswordGuideAndEmailById.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetUserNameById.sql" />
     <Build Include="StoredProcedures\CampingTrip\DeleteMemberFromTheTrip.sql" />
     <Build Include="StoredProcedures\CampingTrip\GetByUserName.sql" />
     <Build Include="StoredProcedures\CampingTrip\GetGuideById.sql" />
@@ -122,6 +122,17 @@
     <Build Include="StoredProcedures\UserManagement\InsertPhotographer.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdateCameraInfo.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdatePhotographerInfo.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteUserFromCampingTrips.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteUserVerification.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllNonApprovedDrivers.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetNonApprovedDriverById.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteDriverVerification.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllNonApprovedGuides.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetNonApprovedGuideById.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteGuideVerification.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllNonApprovedPhotographers.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetNonApprovedPhotographerById.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeletePhotographerVerification.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedures\CampingTrip\GetMembersOfTheCampingTrip.sql" />
