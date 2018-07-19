@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampingTripService", "Compi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement", "UserManagement\UserManagement.csproj", "{B7BA522C-418E-4F4B-8A44-8452CCFC6DEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kanch", "Kanch\Kanch.csproj", "{B691D63B-5613-44C2-A44F-5D8AFC5C5D5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{B7BA522C-418E-4F4B-8A44-8452CCFC6DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7BA522C-418E-4F4B-8A44-8452CCFC6DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7BA522C-418E-4F4B-8A44-8452CCFC6DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B691D63B-5613-44C2-A44F-5D8AFC5C5D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B691D63B-5613-44C2-A44F-5D8AFC5C5D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B691D63B-5613-44C2-A44F-5D8AFC5C5D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B691D63B-5613-44C2-A44F-5D8AFC5C5D5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
