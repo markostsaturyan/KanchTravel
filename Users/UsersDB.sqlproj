@@ -82,9 +82,6 @@
     <RefactorLog Include="StoredProcedures\UsersDB.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\RequestsOfDrivers.sql" />
-    <Build Include="Tables\RequestsOfGuides.sql" />
-    <Build Include="Tables\RequestsOfPhotographers.sql" />
     <Build Include="Tables\UserVerification.sql" />
     <Build Include="StoredProcedures\UserManagement\GetAllUsers.sql" />
     <Build Include="StoredProcedures\UserManagement\GetFullUserInfoById.sql" />
@@ -133,6 +130,20 @@
     <Build Include="StoredProcedures\UserManagement\GetAllNonApprovedPhotographers.sql" />
     <Build Include="StoredProcedures\UserManagement\GetNonApprovedPhotographerById.sql" />
     <Build Include="StoredProcedures\UserManagement\DeletePhotographerVerification.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllCars.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetCarsByNumberOfSeats.sql" />
+    <Build Include="Tables\RequestsForServices.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllServicesRequests.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetServiceRequestsByUserId.sql" />
+    <Build Include="Tables\ServicesRequestsResponse.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertServiceRequest.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteServicesRequests.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllServicesRequestResponses.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetServicesRequestResponsesByUserId.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetServicesRequestResponsesByCampingTripId.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertServiceRequestResponse.sql" />
+    <Build Include="StoredProcedures\UserManagement\UpdateServiceRequestResponse.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteServiceRequestResponse.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedures\CampingTrip\GetMembersOfTheCampingTrip.sql" />

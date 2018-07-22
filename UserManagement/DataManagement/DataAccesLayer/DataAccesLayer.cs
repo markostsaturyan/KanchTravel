@@ -76,7 +76,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
         
 
-
         /// <summary>
         /// Add userId and registration code in UserVerification table
         /// </summary>
@@ -222,8 +221,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
             return userId;
         }
 
-
-
         /// <summary>
         /// Adds Driver's car to database
         /// </summary>
@@ -330,6 +327,48 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 return (int)commandForInsertCamera.ExecuteScalar();
             }
         }
+
+        public void AddServiceRequest(ServiceRequest serviceRequest)
+        {
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var commandForInsertServiceRequest = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "InsertServiceRequest"
+                };
+
+                commandForInsertServiceRequest.Parameters.AddWithValue("@userId", serviceRequest.UserId);
+                commandForInsertServiceRequest.Parameters.AddWithValue("@campingTripId", serviceRequest.CampingTripId);
+
+                connection.Open();
+
+                commandForInsertServiceRequest.ExecuteNonQuery();
+            }
+        }
+
+        public void AddServiceRequestResponse(ServiceRequestResponse response)
+        {
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var commandForInsert = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "InsertServiceRequestResponse"
+                };
+
+                commandForInsert.Parameters.AddWithValue("@userId", response.UserId);
+                commandForInsert.Parameters.AddWithValue("@campingTripId", response.CampingTripId);
+                commandForInsert.Parameters.AddWithValue("@price", response.Price);
+
+                connection.Open();
+
+                commandForInsert.ExecuteNonQuery();
+            }
+        }
+
         #endregion Adding
 
         #region Getting
@@ -1202,8 +1241,278 @@ namespace UserManagement.DataManagement.DataAccesLayer
             return photographer;
         }
 
-        
+        public IEnumerable<CarInfo> GetAllCars()
+        {
+            var cars = new List<CarInfo>();
 
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetAllCars"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        var car = new CarInfo
+                        {
+                            Id = (int)dataReader["CarId"],
+                            DriverId = (int)dataReader["UserId"],
+                            Brand = (string)dataReader["Brand"],
+                            NumberOfSeats = (int)dataReader["NumberOfSeats"],
+                            FuelType = (string)dataReader["FuelType"],
+                            CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
+                            CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
+                            CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
+                            HasWiFi = (bool)dataReader["HasWiFi"],
+                            HasMicrophone = (bool)dataReader["HasMicrophone"],
+                            HasAirConditioner = (bool)dataReader["HasAirConditioner"],
+                            HasKitchen = (bool)dataReader["HasKitchen"],
+                            HasToilet = (bool)dataReader["HasToilet"],
+                        };
+
+                        cars.Add(car);
+                    }
+                }
+            }
+
+            return cars;
+        }
+
+        public IEnumerable<CarInfo> GetCarByNumberOfSeats(int numberOfSeats)
+        {
+            var cars = new List<CarInfo>();
+
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetAllCars"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        var car = new CarInfo
+                        {
+                            Id = (int)dataReader["CarId"],
+                            DriverId = (int)dataReader["UserId"],
+                            Brand = (string)dataReader["Brand"],
+                            NumberOfSeats = (int)dataReader["NumberOfSeats"],
+                            FuelType = (string)dataReader["FuelType"],
+                            CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
+                            CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
+                            CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
+                            HasWiFi = (bool)dataReader["HasWiFi"],
+                            HasMicrophone = (bool)dataReader["HasMicrophone"],
+                            HasAirConditioner = (bool)dataReader["HasAirConditioner"],
+                            HasKitchen = (bool)dataReader["HasKitchen"],
+                            HasToilet = (bool)dataReader["HasToilet"],
+                            LicensePlate=(string)dataReader["LicensePlate"]
+                        };
+
+                        cars.Add(car);
+                    }
+                }
+            }
+
+            return cars;
+        }
+
+        public IEnumerable<ServiceRequest> GetAllServicesRequests()
+        {
+            var serviceRequests = new List<ServiceRequest>();
+
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetAllServicesRequests"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        serviceRequests.Add(new ServiceRequest
+                        {
+                            Id = (int)dataReader["Id"],
+                            UserId = (int)dataReader["UserId"],
+                            CampingTripId = (string)dataReader["CampingTripId"]
+                        });
+                    }
+                }
+            }
+
+            return serviceRequests;
+        }
+
+        public IEnumerable<ServiceRequest> GetServiceRequestsByUserId(int userid)
+        {
+            var serviceRequests = new List<ServiceRequest>();
+
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetServiceRequestsByUserId"
+                };
+
+                connection.Open();
+
+                command.Parameters.AddWithValue("@userId", userid);
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        serviceRequests.Add(new ServiceRequest
+                        {
+                            Id=(int)dataReader["Id"],
+                            UserId = userid,
+                            CampingTripId = (string)dataReader["CampingTripId"]
+                        });
+                    }
+                }
+            }
+
+            return serviceRequests;
+        }
+
+        public IEnumerable<ServiceRequestResponse> GetAllServicesRequestResponses()
+        {
+            var serviceRequestResponses = new List<ServiceRequestResponse>();
+
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetAllServicesRequestResponses"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        serviceRequestResponses.Add(new ServiceRequestResponse
+                        {
+                            Id = (int)dataReader["Id"],
+                            UserId = (int)dataReader["UserId"],
+                            CampingTripId = (string)dataReader["CampingTripId"],
+                            Price = (double)dataReader["Price"]
+                        });
+                    }
+                }
+            }
+
+            return serviceRequestResponses;
+        }
+
+        public IEnumerable<ServiceRequestResponse> GetServicesRequestResponsesByCampingTripId(string campingTripId)
+        {
+            var serviceRequestResponses = new List<ServiceRequestResponse>();
+
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetServicesRequestResponsesByCampingTripId"
+                };
+
+                connection.Open();
+
+                command.Parameters.AddWithValue("@campingTripId", campingTripId);
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        serviceRequestResponses.Add(new ServiceRequestResponse
+                        {
+                            Id = (int)dataReader["Id"],
+                            UserId = (int)dataReader["UserId"],
+                            CampingTripId = campingTripId,
+                            Price = (double)dataReader["Price"]
+                        });
+                    }
+                }
+            }
+
+            return serviceRequestResponses;
+        }
+
+        public IEnumerable<ServiceRequestResponse> GetServicesRequestResponsesByUserId(int userId)
+        {
+            var serviceRequestResponses = new List<ServiceRequestResponse>();
+
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetServicesRequestResponsesByUserId"
+                };
+
+                connection.Open();
+
+                command.Parameters.AddWithValue("@userId", userId);
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        serviceRequestResponses.Add(new ServiceRequestResponse
+                        {
+                            Id = (int)dataReader["Id"],
+                            UserId = userId,
+                            CampingTripId = (string)dataReader["CampingTripId"],
+                            Price = (double)dataReader["Price"]
+                        });
+                    }
+                }
+            }
+
+            return serviceRequestResponses;
+        }
+        
         #endregion Getting
 
         #region Updating
@@ -1454,6 +1763,26 @@ namespace UserManagement.DataManagement.DataAccesLayer
             }
         }
 
+        public void UpdateServiceRequestResponse(int id, ServiceRequestResponse response)
+        {
+            using (var connection = new SqlConnection(this.sqlConnectionString))
+            {
+                var updateCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "UpdateServiceRequestResponse"
+                };
+
+                updateCommand.Parameters.AddWithValue("@id", response.Id);
+                updateCommand.Parameters.AddWithValue("@price", response.Price);
+
+                connection.Open();
+
+                updateCommand.ExecuteNonQuery();
+            }
+        }
+
         #endregion Updating
 
         #region Deleting
@@ -1691,6 +2020,44 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 };
 
                 deleteCommand.Parameters.AddWithValue("@userName", userName);
+
+                connection.Open();
+
+                deleteCommand.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteServicesRequests(int id)
+        {
+            using (var connection = new SqlConnection(this.sqlConnectionString))
+            {
+                var deleteCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "DeleteServiceRequest"
+                };
+
+                deleteCommand.Parameters.AddWithValue("@id", id);
+
+                connection.Open();
+
+                deleteCommand.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteServiceRequestResponse(int id)
+        {
+            using (var connection = new SqlConnection(this.sqlConnectionString))
+            {
+                var deleteCommand = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "DeleteServiceRequestResponse"
+                };
+
+                deleteCommand.Parameters.AddWithValue("@id", id);
 
                 connection.Open();
 
