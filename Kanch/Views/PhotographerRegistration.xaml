@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="Kanch.Views.PhotographerRegistration"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kanch"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="23"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="222" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockProfession" Text="Profession:" VerticalAlignment="Top" Width="110" />
+        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxProfession" VerticalAlignment="Top" Width="222" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockPWorkExperience" Text="Work experience:" VerticalAlignment="Top" Width="110" />
+        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxWorkExperience" VerticalAlignment="Top" Width="222" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockCameraModel" Text="Camera's model:" VerticalAlignment="Top" Width="110" />
+        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxCameraModel" VerticalAlignment="Top" Width="222" />
+
+        <TextBlock Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockIsProfessional" Text="Is professional:" VerticalAlignment="Top" Width="110" />
+        <CheckBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="checkBoxIsProfessional" VerticalAlignment="Top" Width="222" />
+
+    </Grid>
+</UserControl>

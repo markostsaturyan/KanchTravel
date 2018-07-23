@@ -1,8 +1,13 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Drawing;
 
-namespace UserManagement.DataManagnment.DataAccesLayer.Models
+namespace Kanch.DataModel
 {
-    public class DriverInfo : UserInfo
+    class Driver:User
     {
         public Car Car { get; set; }
 
