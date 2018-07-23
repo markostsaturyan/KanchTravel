@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using CampingTripService.DataManagement.Model.Users;
-using System.Drawing.Imaging;
 using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -13,8 +9,8 @@ namespace CampingTripService.DataManagement.Model.UsersDAL
 {
     public class UsersDal
     {
-
         public string ConnectionString { get; set; }
+
         public User GetUser(int id)
         {
             var user = new User();

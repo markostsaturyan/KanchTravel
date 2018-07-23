@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UserManagement.DataManagnment.DataAccesLayer.Models
+namespace UserManagement.DataManagement.DataAccesLayer.Models
 {
     public class GuideInfo:UserInfo
     {

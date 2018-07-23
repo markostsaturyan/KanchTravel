@@ -82,9 +82,6 @@
     <RefactorLog Include="StoredProcedures\UsersDB.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\RequestsOfDrivers.sql" />
-    <Build Include="Tables\RequestsOfGuides.sql" />
-    <Build Include="Tables\RequestsOfPhotographers.sql" />
     <Build Include="Tables\UserVerification.sql" />
     <Build Include="StoredProcedures\UserManagement\GetAllUsers.sql" />
     <Build Include="StoredProcedures\UserManagement\GetFullUserInfoById.sql" />
@@ -108,7 +105,7 @@
     <Build Include="StoredProcedures\UserManagement\GetUserEmailById.sql" />
     <Build Include="StoredProcedures\UserManagement\GetUserPasswordAndGuideById.sql" />
     <Build Include="StoredProcedures\UserManagement\UserNameCount.sql" />
-    <Build Include="StoredProcedures\UserManagement\GetUserNamePasswordGuideAndEmailById.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetUserNameById.sql" />
     <Build Include="StoredProcedures\CampingTrip\DeleteMemberFromTheTrip.sql" />
     <Build Include="StoredProcedures\CampingTrip\GetByUserName.sql" />
     <Build Include="StoredProcedures\CampingTrip\GetGuideById.sql" />
@@ -122,6 +119,31 @@
     <Build Include="StoredProcedures\UserManagement\InsertPhotographer.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdateCameraInfo.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdatePhotographerInfo.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteUserFromCampingTrips.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteUserVerification.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllNonApprovedDrivers.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetNonApprovedDriverById.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteDriverVerification.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllNonApprovedGuides.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetNonApprovedGuideById.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteGuideVerification.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllNonApprovedPhotographers.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetNonApprovedPhotographerById.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeletePhotographerVerification.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllCars.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetCarsByNumberOfSeats.sql" />
+    <Build Include="Tables\RequestsForServices.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllServicesRequests.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetServiceRequestsByUserId.sql" />
+    <Build Include="Tables\ServicesRequestsResponse.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertServiceRequest.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteServicesRequests.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetAllServicesRequestResponses.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetServicesRequestResponsesByUserId.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetServicesRequestResponsesByCampingTripId.sql" />
+    <Build Include="StoredProcedures\UserManagement\InsertServiceRequestResponse.sql" />
+    <Build Include="StoredProcedures\UserManagement\UpdateServiceRequestResponse.sql" />
+    <Build Include="StoredProcedures\UserManagement\DeleteServiceRequestResponse.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedures\CampingTrip\GetMembersOfTheCampingTrip.sql" />

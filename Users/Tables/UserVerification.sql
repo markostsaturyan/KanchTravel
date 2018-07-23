@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[UserVerification]
 (
-	[UserId] INT NOT NULL PRIMARY KEY, 
+	[UserName] NVARCHAR(MAX) NOT NULL PRIMARY KEY, 
     [Code] INT NOT NULL,
-	FOREIGN KEY (UserId) REFERENCES Users(Id)
+	FOREIGN KEY ([UserName]) REFERENCES Users(UserName)
 )
