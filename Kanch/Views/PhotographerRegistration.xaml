@@ -19,16 +19,16 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockProfession" Text="Profession:" VerticalAlignment="Top" Width="110" />
-        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxProfession" VerticalAlignment="Top" Width="222" />
+        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxProfession" VerticalAlignment="Top" Width="222" Text="{Binding Path = PhotographerViewModel.Profession, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockPWorkExperience" Text="Work experience:" VerticalAlignment="Top" Width="110" />
-        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxWorkExperience" VerticalAlignment="Top" Width="222" />
+        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxWorkExperience" VerticalAlignment="Top" Width="222" Text="{Binding Path = PhotographerViewModel.WorkExperience, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockCameraModel" Text="Camera's model:" VerticalAlignment="Top" Width="110" />
-        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxCameraModel" VerticalAlignment="Top" Width="222" />
+        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxCameraModel" VerticalAlignment="Top" Width="222" Text="{Binding Path = PhotographerViewModel.CameraModel, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockIsProfessional" Text="Is professional:" VerticalAlignment="Top" Width="110" />
-        <CheckBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="checkBoxIsProfessional" VerticalAlignment="Top" Width="222" />
+        <CheckBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="checkBoxIsProfessional" VerticalAlignment="Top" Width="222" IsChecked="{Binding Path = PhotographerViewModel.IsProfessional, Mode=TwoWay}"/>
 
     </Grid>
 </UserControl>

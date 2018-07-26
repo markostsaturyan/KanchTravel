@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kanch.DataModel
 {
-    class Camera
+    public class Camera
     {
         public int Id { get; set; }
 

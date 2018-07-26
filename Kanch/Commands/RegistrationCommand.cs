@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Kanch.Commands
 {
-    class RegistrationCommand : RelayCommand
+    class RegistrationCommand<T> 
     {
-        public override bool CanExecute(object parameter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Execute(object parameter)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

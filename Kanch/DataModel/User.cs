@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Kanch.DataModel
 {
-    class User
+
+    public class User
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,6 +16,6 @@ namespace Kanch.DataModel
         public string Gender { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-
+        public string Password { get; set; }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Kanch.ViewModel;
 
 namespace Kanch.Views
 {
@@ -27,13 +28,13 @@ namespace Kanch.Views
             InitializeComponent();
         }
 
-        public void Reset()
+       /* public void Reset()
         {
             this.textBoxCameraModel.Text = "";
             this.textBoxProfession.Text = "";
             this.textBoxWorkExperience.Text = "";
             this.checkBoxIsProfessional.IsChecked = false;
-        }
+        }*/
 
 
 

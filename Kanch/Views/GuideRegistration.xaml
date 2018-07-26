@@ -11,26 +11,34 @@
             <RowDefinition Height="23"/>
             <RowDefinition Height="23"/>
             <RowDefinition Height="23"/>
-            <RowDefinition Height="23"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="222" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockProfession" Text="Profession:" VerticalAlignment="Top" Width="110" />
-        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxProfession" VerticalAlignment="Top" Width="222" />
+        <TextBlock Grid.Row = "0" Grid.Column = "0"  HorizontalAlignment = "Left" Name = "textBlockProfession" Text = "Profession:" VerticalAlignment = "Top" Width = "110" />
+        <TextBox Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Left"  Name = "textBoxProfession" VerticalAlignment = "Top" Width = "222" Text="{Binding Path = GuideViewModel.Profession, Mode=TwoWay}"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockEducationGrade" Text="Education grade:" VerticalAlignment="Top" Width="110" />
-        <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxEducationGrade" VerticalAlignment="Top" Width="222" />
-
-        <TextBlock Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockKnowledgeOfLanguages" Text="Knowledge of languages" VerticalAlignment="Top" Width="110" />
-        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxKnowledgeOfLanguages" VerticalAlignment="Top" Width="222" />
-
-        <TextBlock Grid.Row="3" Grid.Column="0"  HorizontalAlignment="Left" Name="textBlockWorkExperience" Text="Work experience" VerticalAlignment="Top" Width="110" />
-        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  Name="textBoxWorkExperience" VerticalAlignment="Top" Width="222" />
-
+        <TextBlock Grid.Row = "1" Grid.Column = "0"  HorizontalAlignment = "Left" Name = "textBlockEducationGrade" Text = "Education grade:" VerticalAlignment = "Top" Width = "110" />
+        <TextBox Grid.Row = "1" Grid.Column = "1" HorizontalAlignment = "Left"  Name = "textBoxEducationGrade" VerticalAlignment = "Top" Width = "222" Text="{Binding Path = GuideViewModel.EducationGrade, Mode=TwoWay}"/>
         
+        <TextBlock Grid.Row = "2" Grid.Column = "0"  HorizontalAlignment = "Left" Name = "textBlockWorkExperience" Text = "Work experience" VerticalAlignment = "Top" Width = "110" />
+        <TextBox Grid.Row = "2" Grid.Column = "1" HorizontalAlignment = "Left"  Name = "textBoxWorkExperience" VerticalAlignment = "Top" Width = "222" Text="{Binding Path = GuideViewModel.WorkExperience, Mode=TwoWay}"/>
 
+        <TextBlock Grid.Row = "3" HorizontalAlignment = "Left" Name = "textBlockKnowledgesOfLanguages" Text = "Languages:" VerticalAlignment = "Top" />
+        <ListBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Name="listBoxLanguages"
+             ItemsSource="{Binding Path=GuideViewModel.Languages}"
+             VerticalAlignment="Top">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Text}"
+                     IsChecked="{Binding Path=IsSelected, Mode=TwoWay}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
     </Grid>
 </UserControl>
