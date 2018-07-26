@@ -39,8 +39,5 @@ namespace Kanch.Views
             this.checkBoxHasKitchen.IsChecked = false;
             this.checkBoxHasToilet.IsChecked = false;
         }
-
-
-
     }
 }

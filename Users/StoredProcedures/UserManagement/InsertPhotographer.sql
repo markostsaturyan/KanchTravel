@@ -8,6 +8,6 @@
     @hasCameraStabilizator BIT,
     @hasGopro BIT
 AS
-	INSERT INTO Photographer
+	INSERT INTO Photographer(UserId, CameraId, Profession, KnowledgeOfLanguages, WorkExperience, HasDron, HasCameraStabilizator, HasGopro)
 	VALUES(@userId, @cameraId, @profession, @knowledgeOfLanguages, @workExperience, @hasDron, @hasCameraStabilizator, @hasGopro)
 RETURN 0

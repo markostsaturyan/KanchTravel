@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace UserManagement.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Photographer")]
+    [Route("api/photographer")]
     public class PhotographerController : Controller
     {
         private readonly DataAccesLayer usersDataAccessLayer;
@@ -33,7 +33,7 @@ namespace UserManagement.Controllers
 
         // GET: api/Photographer/5
         [Authorize]
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public PhotographerInfo Get(int id)
         {
             return this.usersDataAccessLayer.GetPhotographerById(id);

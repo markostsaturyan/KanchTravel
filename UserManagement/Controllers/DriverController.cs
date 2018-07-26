@@ -29,7 +29,7 @@ namespace UserManagement.Controllers
 
         // GET: api/Driver/5
         [Authorize]
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public DriverInfo Get(int id)
         {
             return this.usersDataAccessLayer.GetDriverById(id);

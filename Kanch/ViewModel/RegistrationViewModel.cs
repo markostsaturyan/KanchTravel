@@ -17,6 +17,9 @@ namespace Kanch.ViewModel
     class RegistrationViewModel:INotifyPropertyChanged
     {
         private PhotographerViewModel photographerViewModel;
+
+
+
         public PhotographerViewModel PhotographerViewModel
         {
             get { return this.photographerViewModel; }
@@ -31,6 +34,7 @@ namespace Kanch.ViewModel
         }
 
         private DriverViewModel driverViewModel;
+
         public DriverViewModel DriverViewModel
         {
             get { return this.driverViewModel; }
@@ -43,7 +47,9 @@ namespace Kanch.ViewModel
                 }
             }
         }
+
         private GuideViewModel guideViewModel;
+
         public GuideViewModel GuideViewModel
         {
             get { return this.guideViewModel; }
@@ -68,6 +74,7 @@ namespace Kanch.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(string info)
         {
             if (PropertyChanged != null)
