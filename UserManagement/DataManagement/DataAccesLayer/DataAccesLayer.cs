@@ -2085,7 +2085,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
             return true;
         }
 
-        public bool CodeIsValid(KeyValuePair<string, int> userNameCode)
+        public bool CodeIsValid(VerificationInfo verification)
         {
             using (var connection = new SqlConnection(this.sqlConnectionString))
             {
@@ -2096,21 +2096,21 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandText = "GetVerificationCode"
                 };
 
-                command.Parameters.AddWithValue("@userName", userNameCode.Key);
+                command.Parameters.AddWithValue("@userName", verification.UserName);
 
                 connection.Open();
 
                 var reader = command.ExecuteReader();
 
-                if (!reader.HasRows) throw new UserManagementException
+                if (!reader.HasRows) return false;/* throw new UserManagementException
                 {
                     ExceptionCode=5000,
                     Source = "CodeIsValid",
-                };
+                };*/
 
                 reader.Read();
 
-                if ((int)reader["Code"] == userNameCode.Value) return true;
+                if ((int)reader["Code"] == verification.Code) return true;
 
                 return false;
             }

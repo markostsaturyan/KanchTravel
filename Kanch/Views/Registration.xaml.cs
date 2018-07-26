@@ -41,13 +41,10 @@ namespace Kanch.Views
         }
 
 
-         private void Login_Click(object sender, RoutedEventArgs e)
-
-         {
-
-             Login login = new Login();
-
-         }
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login();
+        }
 
 
 

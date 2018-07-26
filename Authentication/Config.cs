@@ -31,7 +31,7 @@ namespace Authentication
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "MobileClient",
+                    ClientId = "kanchDesktopApp",
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 

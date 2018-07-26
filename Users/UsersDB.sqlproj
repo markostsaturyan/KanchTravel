@@ -144,6 +144,7 @@
     <Build Include="StoredProcedures\UserManagement\InsertServiceRequestResponse.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdateServiceRequestResponse.sql" />
     <Build Include="StoredProcedures\UserManagement\DeleteServiceRequestResponse.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetVerificationCode.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedures\CampingTrip\GetMembersOfTheCampingTrip.sql" />

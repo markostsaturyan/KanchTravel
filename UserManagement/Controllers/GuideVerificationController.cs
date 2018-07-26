@@ -13,7 +13,7 @@ namespace UserManagement.Controllers
 {
     [Authorize(Policy ="OnlyForAdmin")]
     [Produces("application/json")]
-    [Route("api/GuideVerification")]
+    [Route("api/guideverification")]
     public class GuideVerificationController : Controller
     {
         private readonly DataAccesLayer dataAccesLayer;
@@ -31,7 +31,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/GuideVerification/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public GuideInfo Get(int id)
         {
             return this.dataAccesLayer.GetNonApprovedGuideById(id);
