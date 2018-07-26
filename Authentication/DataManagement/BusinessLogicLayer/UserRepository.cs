@@ -10,7 +10,7 @@ namespace Authentication.DataManagement.BusinessLogicLayer
 
         public UserRepository(IConfiguration configuration)
         {
-            this.dataAccessLayer = new AuthDataAccessLayer(configuration["ConnectionStrings:currentConnectionString"]);
+            this.dataAccessLayer = new AuthDataAccessLayer(configuration["SqlConnection:ConnectionString"]);
         }
 
         public User FindUserAsync(string userName)

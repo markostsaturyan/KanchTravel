@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[InsertUserVerificationCode]
-	@id int,
+	@userName nvarchar(Max),
 	@code int
 AS
 
-Insert into UserVerification(UserId,Code)
-Values(@id,@code)
+Insert into UserVerification(UserName,Code)
+Values(@userName,@code)
 	
 RETURN 0

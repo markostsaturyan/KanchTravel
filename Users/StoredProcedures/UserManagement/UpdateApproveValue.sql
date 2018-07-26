@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[UpdateApproveValue]
-	@id int,
+	@userName int,
 	@approveNewValue int
 AS
 
 UPDATE Users
 SET IsApproved=@approveNewValue
-WHERE Id=@id;
+WHERE UserName=@userName;
 
 RETURN 0

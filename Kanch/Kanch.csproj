@@ -36,6 +36,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.5.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,6 +59,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Registration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DriverRegistration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuideRegistration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -64,11 +89,36 @@
     </Page>
     <Page Include="Registration.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PhotographerRegistration.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Commands\RegistrationCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="DataModel\Camera.cs" />
+    <Compile Include="DataModel\Car.cs" />
+    <Compile Include="DataModel\Driver.cs" />
+    <Compile Include="DataModel\Guide.cs" />
+    <Compile Include="DataModel\Photographer.cs" />
+    <Compile Include="DataModel\User.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\DriverViewModel.cs" />
+    <Compile Include="ViewModel\GuideViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\PhotographerViewModel.cs" />
+    <Compile Include="ViewModel\RegistrationViewModel.cs" />
+    <Compile Include="Views\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
@@ -80,6 +130,15 @@
     <Compile Include="Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\DriverRegistration.xaml.cs">
+      <DependentUpon>DriverRegistration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuideRegistration.xaml.cs">
+      <DependentUpon>GuideRegistration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhotographerRegistration.xaml.cs">
+      <DependentUpon>PhotographerRegistration.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +159,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -109,10 +169,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompingTripService\CampingTripService.csproj">
-      <Project>{9b0caf2e-371b-4a6d-9fef-f12053a3cbd3}</Project>
-      <Name>CampingTripService</Name>
-    </ProjectReference>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

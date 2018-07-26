@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using UserManagement.DataManagnment.DataAccesLayer;
-using UserManagement.DataManagnment.DataAccesLayer.Models;
-using UserManagement.DataManagnment.Security;
+using UserManagement.DataManagement.DataAccesLayer;
+using UserManagement.DataManagement.DataAccesLayer.Models;
+using UserManagement.DataManagement.Security;
 using UserManagement.Validation;
 using UserManagement.Verification;
 
@@ -35,21 +36,36 @@ namespace UserManagement.Controllers
         
         // POST: api/Guide
         [HttpPost]
-        public void Post([FromBody]GuideInfo guide)
+        public Status Post([FromBody]GuideInfo guide)
         {
             var emailValidator = new EmailValidation();
 
-            if (!emailValidator.IsValidEmail(guide.Email)) return;
+            if (!emailValidator.IsValidEmail(guide.Email)) return new Status
+            {
+                StatusCode = 2002,
+                IsOk = false,
+                Message = "Email is not valid"
+            };
+
+            if (!this.dataAccessLayer.IsValidUserName(guide.UserName)) return new Status
+            {
+                StatusCode = 2001,
+                IsOk = false,
+                Message = "UserName is not valid"
+            };
 
             var id = this.dataAccessLayer.AddGuide(guide);
 
-            var code = this.dataAccessLayer.AddUserVerification(id);
-
-            SendVerificationLinkEmail.SendEmail(guide.Email, code);
-
+            return new Status
+            {
+                StatusCode = 1000,
+                IsOk = true,
+                Message = "Your account is crated."
+            };
         }
         
         // PUT: api/Guide/5
+        [Authorize(Policy = "OnlyForGuide")]
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]GuideInfo guide)
         {
@@ -58,12 +74,30 @@ namespace UserManagement.Controllers
         }
         
         // DELETE: api/ApiWithActions/5
+        [Authorize(Policy ="OnlyForGuide")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public Status Delete(int id)
         {
+            if (this.dataAccessLayer.IsOrganaizer(id)) return new Status
+            {   
+                // 2100 - deleting is feiled because user is organizer
+                StatusCode = 2100,
+                IsOk = false,
+                Message = "You can not delete your account becouse you are organizer."
+            };
+
             this.dataAccessLayer.DeleteGuide(id);
 
-            //Ջնջել ընթացիկ արշավներից
+            this.dataAccessLayer.DeleteGuideFromCampingTrips(id);
+
+            this.dataAccessLayer.DeleteUserFromCampingTrips(id);
+
+            return new Status
+            {
+                StatusCode = 1000,
+                IsOk = true,
+                Message = "Your account deleted."
+            };
         }
     }
 }
