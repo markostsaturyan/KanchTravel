@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
@@ -24,7 +22,6 @@ namespace CampingTripService.Controllers
             this.campingTripRepository = campingTripRepository;
         }
 
-        // GET: api/CampingTrips
         //[Authorize(Policy ="For Admin")]
         [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()

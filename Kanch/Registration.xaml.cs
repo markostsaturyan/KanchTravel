@@ -25,6 +25,7 @@ namespace Kanch
     {
         public Registration()
         {
+            // Send request to gets camping trips
             InitializeComponent();
         }
 

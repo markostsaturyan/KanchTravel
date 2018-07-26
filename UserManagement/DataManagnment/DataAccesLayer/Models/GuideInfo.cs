@@ -2,7 +2,7 @@
 
 namespace UserManagement.DataManagnment.DataAccesLayer.Models
 {
-    public class GuideInfo:UserInfo
+    public class GuideInfo : UserInfo
     {
         public string Profession { get; set; }
 
