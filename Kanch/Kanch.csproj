@@ -273,16 +273,20 @@
     <Compile Include="DataModel\Status.cs" />
     <Compile Include="DataModel\User.cs" />
     <Compile Include="DataModel\VerificationInfo.cs" />
+    <Compile Include="DriverInfoValidation.cs" />
+    <Compile Include="GuideInfoValidation.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PhotographerInfoValidation.cs" />
     <Compile Include="Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profile\ProfileViewModel.cs" />
+    <Compile Include="UserInfoValidation.cs" />
     <Compile Include="Verification.xaml.cs">
       <DependentUpon>Verification.xaml</DependentUpon>
     </Compile>

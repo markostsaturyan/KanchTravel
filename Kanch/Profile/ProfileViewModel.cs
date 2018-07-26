@@ -12,6 +12,8 @@ namespace Kanch.Profile
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public 
+
         public User User { get; set; }
 
     }
