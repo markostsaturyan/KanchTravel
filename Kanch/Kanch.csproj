@@ -263,30 +263,33 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\AsyncCommand.cs" />
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\RegistrationCommand.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="DataModel\Camera.cs" />
+    <Compile Include="DataModel\CampingTrip.cs" />
     <Compile Include="DataModel\Car.cs" />
     <Compile Include="DataModel\Driver.cs" />
+    <Compile Include="DataModel\Food.cs" />
     <Compile Include="DataModel\Guide.cs" />
     <Compile Include="DataModel\Photographer.cs" />
     <Compile Include="DataModel\Status.cs" />
     <Compile Include="DataModel\User.cs" />
     <Compile Include="DataModel\VerificationInfo.cs" />
-    <Compile Include="DriverInfoValidation.cs" />
-    <Compile Include="GuideInfoValidation.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PhotographerInfoValidation.cs" />
     <Compile Include="Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profile\ProfileViewModel.cs" />
-    <Compile Include="UserInfoValidation.cs" />
+    <Compile Include="Validation\DriverInfoValidation.cs" />
+    <Compile Include="Validation\GuideInfoValidation.cs" />
+    <Compile Include="Validation\PhotographerInfoValidation.cs" />
+    <Compile Include="Validation\UserInfoValidation.cs" />
     <Compile Include="Verification.xaml.cs">
       <DependentUpon>Verification.xaml</DependentUpon>
     </Compile>
@@ -295,6 +298,7 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PhotographerViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="Views\Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
@@ -339,6 +343,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\addPhoto.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
