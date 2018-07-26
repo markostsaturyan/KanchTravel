@@ -87,8 +87,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\RegistrationCommand.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="DataModel\Camera.cs" />
     <Compile Include="DataModel\Car.cs" />
     <Compile Include="DataModel\Driver.cs" />
@@ -98,11 +99,16 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\DriverInfoValidation.cs" />
+    <Compile Include="Validation\GuideInfoValidation.cs" />
+    <Compile Include="Validation\PhotographerInfoValidation.cs" />
+    <Compile Include="Validation\UserInfoValidation.cs" />
     <Compile Include="ViewModel\DriverViewModel.cs" />
     <Compile Include="ViewModel\GuideViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PhotographerViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="Views\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -147,7 +153,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Content Include="Images\addPhoto.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

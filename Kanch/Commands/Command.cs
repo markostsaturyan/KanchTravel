@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Kanch.Commands
 {
-    public abstract class RelayCommand : ICommand
+    public abstract class Command : ICommand
     {
         public event EventHandler CanExecuteChanged
         {

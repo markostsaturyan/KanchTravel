@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kanch.DataModel
 {
-    class Guide:User
+    public class Guide:User
     {
         public string Profession { get; set; }
 

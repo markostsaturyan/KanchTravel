@@ -17,6 +17,34 @@ namespace Kanch.ViewModel
     class RegistrationViewModel:INotifyPropertyChanged
     {
         private PhotographerViewModel photographerViewModel;
+
+        private DriverViewModel driverViewModel;
+
+        private GuideViewModel guideViewModel;
+
+        private UserViewModel userViewModel;
+
+        private PhotographerRegistration photographerRegistration;
+
+        private DriverRegistration driverRegistration;
+
+        private GuideRegistration guideRegistration;
+
+        private string errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return this.errorMessage; }
+            set
+            {
+                if (this.errorMessage == value)
+                {
+                    this.errorMessage = value;
+                    NotifyPropertyChanged("ErrorMessage");
+                }
+            }
+        }
+
         public PhotographerViewModel PhotographerViewModel
         {
             get { return this.photographerViewModel; }
@@ -30,7 +58,6 @@ namespace Kanch.ViewModel
             }
         }
 
-        private DriverViewModel driverViewModel;
         public DriverViewModel DriverViewModel
         {
             get { return this.driverViewModel; }
@@ -43,7 +70,7 @@ namespace Kanch.ViewModel
                 }
             }
         }
-        private GuideViewModel guideViewModel;
+
         public GuideViewModel GuideViewModel
         {
             get { return this.guideViewModel; }
@@ -60,20 +87,120 @@ namespace Kanch.ViewModel
             }
         }
 
+        public UserViewModel UserViewModel
+        {
+            get { return this.userViewModel; }
+            set
+            {
+                if(this.userViewModel != null)
+                {
+                    this.userViewModel = value;
+                    this.NotifyPropertyChanged("UserViewModel");
+                }
+            }
+        }
+
+        public DriverRegistration DriverRegistration
+        {
+            get { return this.driverRegistration; }
+            set
+            {
+                if(this.driverRegistration != null)
+                {
+                    this.driverRegistration = value;
+                    this.NotifyPropertyChanged("DriverRegistration");
+                }
+            }
+        }
+
+        public PhotographerRegistration PhotographerRegistration
+        {
+            get { return this.photographerRegistration; }
+            set
+            {
+                if(this.photographerRegistration != null)
+                {
+                    this.photographerRegistration = value;
+                    this.NotifyPropertyChanged("PhotographerRegistration");
+                }
+            }
+        }
+
+        public GuideRegistration GuideRegistration
+        {
+            get { return this.guideRegistration; }
+            set
+            {
+                if(this.guideRegistration != null)
+                {
+                    this.guideRegistration = value;
+                    this.NotifyPropertyChanged("GuideRegistration");
+                }
+            }
+        }
+
         public RegistrationViewModel()
         {
             photographerViewModel = new PhotographerViewModel();
             guideViewModel = new GuideViewModel();
             driverViewModel = new DriverViewModel();
+            userViewModel = new UserViewModel();
+            photographerRegistration = new PhotographerRegistration();
+            guideRegistration = new GuideRegistration();
+            driverRegistration = new DriverRegistration();
+        }
+
+        public void Reset()
+        {
+            this.DriverViewModel.Reset();
+            this.PhotographerViewModel.Reset();
+            this.GuideViewModel.Reset();
+            this.UserViewModel.Reset();
+        }
+
+        public bool RegistrationValidation()
+        {
+            if(!UserViewModel.UserInfoValidationResult(out string userErrorMessage))
+            {
+                this.ErrorMessage = userErrorMessage;
+                return false;
+            }
+
+            if (DriverViewModel.DriverVisible == Visibility.Visible)
+            {
+                if(!DriverViewModel.DriverInfoValidation(out string driverErrorMessage))
+                {
+                    this.ErrorMessage = driverErrorMessage;
+                    return false;
+                }
+            }
+
+            if(GuideViewModel.GuideVisible == Visibility.Visible)
+            {
+                if(!GuideViewModel.GuideInfoValidation(out string guideErrorMessage))
+                {
+                    this.ErrorMessage = guideErrorMessage;
+                    return false;
+                }
+            }
+
+            if(PhotographerViewModel.PhotographerVisible == Visibility.Visible)
+            {
+                if(!PhotographerViewModel.PhotographerInfoValidation(out string photographerErrorMessage))
+                {
+                    this.ErrorMessage = photographerErrorMessage;
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(string info)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
     }
 }

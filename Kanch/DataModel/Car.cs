@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Kanch.DataModel
 {
-    class Car
+    public class Car
     {
         public int Id { get; set; }
 
