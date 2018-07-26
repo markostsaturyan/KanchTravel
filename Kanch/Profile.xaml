@@ -1,0 +1,28 @@
+﻿<Window x:Class="Kanch.Profile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kanch"
+        mc:Ignorable="d"
+        Title="Profile" Height="300" Width="567.293">
+    <Grid>
+
+        <Grid HorizontalAlignment="Left" Width="100">
+
+            <StackPanel Orientation="Horizontal">
+
+                <Image></Image>
+                
+                <StackPanel Orientation="Vertical">
+                    
+                </StackPanel>
+                
+            </StackPanel>
+            
+            
+        </Grid>
+        
+
+    </Grid>
+</Window>

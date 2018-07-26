@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Kanch.DataModel
 {
-
     class User
     {
         public string FirstName { get; set; }
