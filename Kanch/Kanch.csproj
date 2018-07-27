@@ -285,7 +285,7 @@
     <Compile Include="Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Profile\ProfileViewModel.cs" />
+    <Compile Include="ProfileComponents\ProfileViewModel.cs" />
     <Compile Include="Validation\DriverInfoValidation.cs" />
     <Compile Include="Validation\GuideInfoValidation.cs" />
     <Compile Include="Validation\PhotographerInfoValidation.cs" />
@@ -345,7 +345,9 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\addPhoto.png" />
+    <Content Include="Images\addPhoto.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

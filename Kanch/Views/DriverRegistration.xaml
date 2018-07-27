@@ -33,9 +33,9 @@
         <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Name="textBoxLicensePlate" VerticalAlignment="Top" Width="222" Text="{Binding Path = DriverViewModel.LicensePlate, Mode=TwoWay}"/>
 
         <TextBlock Grid.Row="4" HorizontalAlignment="Left" Name="textBlockMoreInformation" Text="More information:" VerticalAlignment="Top"/>
-        <ListBox Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Name="listBoxMoreInformation"
+        <ListBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Name="listBoxMoreInformation"
              ItemsSource="{Binding Path=DriverViewModel.MoreInformation}"
-             VerticalAlignment="Top">
+             VerticalAlignment="Top" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <CheckBox Content="{Binding Text}"
@@ -47,13 +47,13 @@
 
         <TextBlock Grid.Row="5" HorizontalAlignment="Left" Name="textBlockCarPictures" Text="Add photo of the car :" VerticalAlignment="Top" />
         <StackPanel Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Name="stackPanelCarPictures" VerticalAlignment="Top" Orientation="Horizontal">
-            <Button Height="50" Width="50" Command="{Binding Path=DriverViewModel.AddCarPicture1}">
+            <Button Height="50" Width="50" Command="{Binding Path=DriverViewModel.AddCarPicture1}" CommandParameter="1">
                 <Image Name="carPicture1" Source="{Binding Path=DriverViewModel.CarPicture1,Mode=TwoWay}"/>
             </Button>
-            <Button Width="50" Command="{Binding Path=DriverViewModel.AddCarPicture2}">
-                <Image Name="carPicture2" Source="{Binding Path=DriverViewModel.CarPicture2,Mode=TwoWay}"/>
+            <Button Width="50" Command="{Binding Path=DriverViewModel.AddCarPicture2}" CommandParameter="2">
+                <Image Name="carPicture2" Source="{Binding Path=DriverViewModel.CarPicture2, Mode=TwoWay}" />
             </Button>
-            <Button Width="50" Command="{Binding Path=DriverViewModel.AddCarPicture3}">
+            <Button Width="50" Command="{Binding Path=DriverViewModel.AddCarPicture3}" CommandParameter="3">
                 <Image Name="carPicture3" Source="{Binding Path=DriverViewModel.CarPicture3}"/>
             </Button>
         </StackPanel>

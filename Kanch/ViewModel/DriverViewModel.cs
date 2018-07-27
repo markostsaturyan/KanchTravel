@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Kanch.Commands;
 using Kanch.DataModel;
 
 namespace Kanch.ViewModel
@@ -27,6 +32,9 @@ namespace Kanch.ViewModel
         private ImageSource carPicture2;
         private ImageSource carPicture3;
         private List<ListItem> languages;
+        public ICommand AddCarPicture1 { get; set; }
+        public ICommand AddCarPicture2 { get; set; }
+        public ICommand AddCarPicture3 { get; set; }
         public Driver Driver
         {
             get
@@ -210,6 +218,9 @@ namespace Kanch.ViewModel
             this.MoreInformation.Add(new ListItem() { Text = "HasAirConditioner", IsSelected = false });
             this.MoreInformation.Add(new ListItem() { Text = "HasKitchen", IsSelected = false });
             this.MoreInformation.Add(new ListItem() { Text = "HasToilet", IsSelected = false });
+            this.AddCarPicture1 = new Command(AddCarPhoto);
+            this.AddCarPicture2 = new Command(AddCarPhoto);
+            this.AddCarPicture3 = new Command(AddCarPhoto);
         }
 
         private void NotifyPropertyChanged(string info)
@@ -264,23 +275,6 @@ namespace Kanch.ViewModel
             }
             return true;
         }
-        public void Reset()
-        {
-            this.BrandOfCar = "";
-            this.NumberOfSeats = 0;
-            this.FuelType = "";
-            foreach(var info in this.MoreInformation)
-            {
-                info.IsSelected = false;
-            }
-            this.LicensePlate = null;
-            foreach(var language in this.Languages)
-            {
-                language.IsSelected = false;
-            }
-
-        }
-
 
         public bool DriverInfoValidation(out string status)
         {
@@ -297,8 +291,65 @@ namespace Kanch.ViewModel
                 return false;
             return true;
         }
-        
 
+        public void Reset()
+        {
+            this.BrandOfCar = "";
+            this.NumberOfSeats = 0;
+            this.FuelType = "";
+            foreach (var info in this.MoreInformation)
+            {
+                info.IsSelected = false;
+            }
+            this.LicensePlate = null;
+            foreach (var language in this.Languages)
+            {
+                language.IsSelected = false;
+            }
+
+        }
+        public void AddCarPhoto(object numberOfPhoto)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            //For any other formats
+            fileDialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (numberOfPhoto.ToString() == "1")
+                    CarPicture1 = ConvertImageToImageSource(Bitmap.FromFile(fileDialog.FileName));
+                else if (numberOfPhoto.ToString() == "2")
+                    CarPicture2 = ConvertImageToImageSource(Bitmap.FromFile(fileDialog.FileName));
+                else
+                    CarPicture3 = ConvertImageToImageSource(Bitmap.FromFile(fileDialog.FileName));
+
+            }
+        }
+
+        private ImageSource ConvertImageToImageSource(System.Drawing.Image image)
+        {
+            // ImageSource ...
+
+            BitmapImage bi = new BitmapImage();
+
+            bi.BeginInit();
+
+            MemoryStream ms = new MemoryStream();
+
+            // Save to a memory stream...
+
+            image.Save(ms, ImageFormat.Bmp);
+
+            // Rewind the stream...
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            // Tell the WPF image to use this stream...
+
+            bi.StreamSource = ms;
+
+            bi.EndInit();
+            return bi;
+        }
         public class ListItem:INotifyPropertyChanged
         {
             private bool isSelected;

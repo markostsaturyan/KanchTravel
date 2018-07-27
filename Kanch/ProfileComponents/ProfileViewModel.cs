@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kanch.Profile
+namespace Kanch.ProfileComponents
 {
     public class ProfileViewModel : INotifyPropertyChanged
     {
@@ -58,12 +58,12 @@ namespace Kanch.Profile
             
         }
 
-        public List<CampingTrip> GetCampingTrips()
+       /* public List<CampingTrip> GetCampingTrips()
         {
             httpClient.SetBearerToken(ConfigurationSettings.AppSettings["accessToken"]);
 
             httpClient.GetAsync()
-        } 
+        }*/ 
 
     }
 }

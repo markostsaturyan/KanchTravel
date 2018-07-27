@@ -30,14 +30,16 @@ namespace Kanch.Views
         DriverRegistration driverRegistration;
         GuideRegistration guideRegistration;
         PhotographerRegistration photographerRegistration;
+        RegistrationViewModel registrationViewModel;
 
         public Registration()
         {
-            this.DataContext = new RegistrationViewModel();
+            this.registrationViewModel = new RegistrationViewModel();
+            this.DataContext = this.registrationViewModel;
             InitializeComponent();
-            driverRegistration = new DriverRegistration();
+            /*driverRegistration = new DriverRegistration();
             guideRegistration = new GuideRegistration();
-            photographerRegistration = new PhotographerRegistration();
+            photographerRegistration = new PhotographerRegistration();**/
         }
 
 
@@ -48,13 +50,6 @@ namespace Kanch.Views
 
 
 
-        private void ResetClick(object sender, RoutedEventArgs e)
-
-        {
-            var dataContext = (DataContext as RegistrationViewModel);
-            dataContext.Reset();
-
-        }
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
