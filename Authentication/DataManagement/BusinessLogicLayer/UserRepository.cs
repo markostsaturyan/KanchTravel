@@ -23,7 +23,9 @@ namespace Authentication.DataManagement.BusinessLogicLayer
                 UserName = user.UserName,
                 Password = user.Password,
                 Role = user.Role,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
+                HashGuide=user.UserGuid
+                
             };
         }
 

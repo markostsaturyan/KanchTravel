@@ -275,6 +275,7 @@
     <Compile Include="DataModel\Photographer.cs" />
     <Compile Include="DataModel\Status.cs" />
     <Compile Include="DataModel\User.cs" />
+    <Compile Include="DataModel\UserIdentity.cs" />
     <Compile Include="DataModel\VerificationInfo.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -285,7 +286,7 @@
     <Compile Include="Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Profile\ProfileViewModel.cs" />
+    <Compile Include="ProfileComponents\ProfileViewModel.cs" />
     <Compile Include="Validation\DriverInfoValidation.cs" />
     <Compile Include="Validation\GuideInfoValidation.cs" />
     <Compile Include="Validation\PhotographerInfoValidation.cs" />

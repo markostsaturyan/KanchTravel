@@ -7,4 +7,17 @@
         public double Measure { get; set; }
         public double Price { get; set; }
     }
+
+    public enum TypeOfCampingTrip
+    {
+        Excursion,
+        Campaign,
+        CampingTrip
+    }
+
+    public enum TypeOfOrganization
+    {
+        OrderByUser,
+        OrderByAdmin
+    }
 }

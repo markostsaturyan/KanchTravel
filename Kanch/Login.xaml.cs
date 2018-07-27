@@ -1,7 +1,10 @@
-﻿using IdentityModel.Client;
+﻿using IdentityModel;
+using IdentityModel.Client;
+using Kanch.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -58,7 +61,7 @@ namespace Kanch
             }
 
             // request token
-            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(userName.Text, password.Password);
+            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(userName.Text, password.Password, "compingTrip userManagement offline_access");
 
             if (tokenResponse.IsError)
             {
@@ -67,9 +70,23 @@ namespace Kanch
                 return;
             }
 
-            ConfigurationSettings.AppSettings["accessToken"] = tokenResponse.AccessToken;
+            var handler = new JwtSecurityTokenHandler().ReadJwtToken(tokenResponse.AccessToken);
 
-            //միացնում ենք պռոֆիլի պատուհանը
+            var userId = handler.Claims.First(claim => claim.Type == "user_id");
+
+            var role = handler.Claims.First(claim => claim.Type == JwtClaimTypes.Role);
+
+            ConfigurationSettings.AppSettings.Set("refreshToken", tokenResponse.RefreshToken);
+
+            ConfigurationSettings.AppSettings.Set("role", role.Value);
+
+            ConfigurationSettings.AppSettings.Set("userId", userId.Value);
+
+            this.Close();
+
+            var profile = new Profile();
+
+            profile.Show();
         }
 
         private void RetryConnectClick(object sender, RoutedEventArgs e)

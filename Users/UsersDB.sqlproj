@@ -107,7 +107,6 @@
     <Build Include="StoredProcedures\UserManagement\UserNameCount.sql" />
     <Build Include="StoredProcedures\UserManagement\GetUserNameById.sql" />
     <Build Include="StoredProcedures\CampingTrip\DeleteMemberFromTheTrip.sql" />
-    <Build Include="StoredProcedures\CampingTrip\GetByUserName.sql" />
     <Build Include="StoredProcedures\CampingTrip\GetGuideById.sql" />
     <Build Include="StoredProcedures\UserManagement\GetGuideInfoById.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdateGuideInfo.sql" />
@@ -145,6 +144,8 @@
     <Build Include="StoredProcedures\UserManagement\UpdateServiceRequestResponse.sql" />
     <Build Include="StoredProcedures\UserManagement\DeleteServiceRequestResponse.sql" />
     <Build Include="StoredProcedures\UserManagement\GetVerificationCode.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetByUserId.sql" />
+    <Build Include="StoredProcedures\UserManagement\GetByUserName.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedures\CampingTrip\GetMembersOfTheCampingTrip.sql" />

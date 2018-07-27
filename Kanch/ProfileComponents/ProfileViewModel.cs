@@ -1,4 +1,5 @@
 ﻿using Kanch.DataModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,11 +9,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kanch.Profile
+namespace Kanch.ProfileComponents
 {
     public class ProfileViewModel : INotifyPropertyChanged
     {
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private HttpClient httpClient;
@@ -53,16 +53,24 @@ namespace Kanch.Profile
 
         public ProfileViewModel()
         {
-            httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
-            
+            httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"])
+            };
+
         }
 
-        public List<CampingTrip> GetCampingTrips()
+        public async void GetCampingTripsAsync()
         {
             httpClient.SetBearerToken(ConfigurationSettings.AppSettings["accessToken"]);
 
-            httpClient.GetAsync()
+            var response = await httpClient.GetAsync("api/CampingTrips");
+
+            var content = response.Content;
+
+            var jsonContent = await content.ReadAsStringAsync();
+
+            CampingTrips = JsonConvert.DeserializeObject<List<CampingTrip>>(jsonContent);
         } 
 
     }

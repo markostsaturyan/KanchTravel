@@ -16,7 +16,8 @@ namespace Authentication
         {
             return new List<ApiResource>
             {
-                new ApiResource("compingTrip", "CompingTrip")
+                new ApiResource("compingTrip", "CompingTrip"),
+                new ApiResource("userManagement","UserManagement")
             };
         }
 
@@ -39,8 +40,11 @@ namespace Authentication
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "compingTrip" },
 
+                    AllowedScopes = { "compingTrip", "userManagement", "offline_access"},
+                    AllowOfflineAccess =true,
+                    RefreshTokenUsage = TokenUsage.ReUse,
+                    AbsoluteRefreshTokenLifetime = 15780000
                 }
             };
         }

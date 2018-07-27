@@ -51,7 +51,6 @@ namespace UserManagement
                     policy.RequireRole("Guide");
                     policy.RequireRole("Phothographer");
                 });
-
             });
 
         }
