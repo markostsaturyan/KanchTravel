@@ -14,6 +14,8 @@ namespace UserManagement
     {
         public static void Main(string[] args)
         {
+            Console.Title = "UserManagement";
+
             BuildWebHost(args).Run();
         }
 

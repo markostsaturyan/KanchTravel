@@ -12,7 +12,7 @@ using System.Security.Claims;
 namespace UserManagement.Controllers
 {
     [Produces("application/json")]
-    [Route("api/ServicesRequestsResponse")]
+    [Route("api/servicesrequestsresponse")]
     public class ServicesRequestsResponseController : Controller
     {
         private readonly DataAccesLayer dataAccessLayer;
@@ -32,7 +32,7 @@ namespace UserManagement.Controllers
 
         // GET: api/ServicesRequestsResponse/5
         [Authorize(Policy ="OnlyForAdmin")]
-        [HttpGet("{campingTripId}", Name = "Get")]
+        [HttpGet("{id}")]
         public IEnumerable<ServiceRequestResponse> Get(string campingTripId)
         {
             return this.dataAccessLayer.GetServicesRequestResponsesByCampingTripId(campingTripId);

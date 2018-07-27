@@ -39,6 +39,7 @@ namespace Authentication.DataManagement.DataAccesLayer
                         user.Password = (string)dataReader["Password"];
                         user.Role = (string)dataReader["RoleName"];
                         user.IsActive = (bool)dataReader["IsActive"];
+                        user.UserGuid = (string)dataReader["UserGuid"];
                     }
                 }
             }
@@ -58,7 +59,7 @@ namespace Authentication.DataManagement.DataAccesLayer
                     CommandText = "GetByUserId"
                 };
 
-                command.Parameters.AddWithValue("@userId", id);
+                command.Parameters.AddWithValue("@id", id);
 
                 connection.Open();
 

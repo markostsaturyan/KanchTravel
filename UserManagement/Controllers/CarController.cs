@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace UserManagement.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Car")]
+    [Route("api/car")]
     public class CarController : Controller
     {
         private readonly DataAccesLayer dataAccesLayer;
@@ -29,7 +29,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/Car/5
-        [HttpGet("{numberOfSeats}", Name = "Get")]
+        [HttpGet("{id}")]
         public IEnumerable<CarInfo> Get(int numberOfSeats)
         {
             return this.dataAccesLayer.GetCarByNumberOfSeats(numberOfSeats);

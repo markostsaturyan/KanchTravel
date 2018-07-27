@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace Authentication
 {
@@ -7,6 +8,8 @@ namespace Authentication
     {
         public static void Main(string[] args)
         {
+            Console.Title = "Authentication";
+
             BuildWebHost(args).Run();
         }
 

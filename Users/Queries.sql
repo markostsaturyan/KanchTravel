@@ -9,8 +9,8 @@ Values('Admin'),
 
 
 
-Insert into UsersDB.dbo.Users (FirstName, LastName, Sex, DateOfBirth, PhoneNumber, Email, UserName, [Password], IsActive)
-Values('Anjela', 'Badalyan', 1, '19960830', '+37498889928', 'anjelabadalyan96@gmail.com','anjela','anjela', 1 )
+Insert into Users (FirstName, LastName, Gender, DateOfBirth, PhoneNumber, Email, UserName, [Password], IsActive,UserGuid,IsApproved)
+Values('Anjela', 'Badalyan', 'Male', '19960830', '+37498889928', 'anjelabadalyan96@gmail.com','anjela','anjela', 1, 10, 0)
 
 	SELECT UserId, FirstName, LastName, DateOfBirth, Email, PhoneNumber, Picture, UserName, [Password], IsActive, 
 	DrivingLicencePicBack, DrivingLicencePicFront, KnowledgeOfLanguages, Rating, 

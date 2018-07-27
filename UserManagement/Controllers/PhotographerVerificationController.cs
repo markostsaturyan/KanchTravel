@@ -9,7 +9,7 @@ namespace UserManagement.Controllers
 {
     [Authorize(Policy ="OnlyForAdmin")]
     [Produces("application/json")]
-    [Route("api/PhotographerVerification")]
+    [Route("api/photographerVerification")]
     public class PhotographerVerificationController : Controller
     {
         private readonly DataAccesLayer dataAccesLayer;
@@ -27,7 +27,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/PhotographerVerification/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public PhotographerInfo Get(int id)
         {
             return this.dataAccesLayer.GetNonApprovedPhotographerById(id);

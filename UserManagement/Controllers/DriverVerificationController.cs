@@ -13,7 +13,7 @@ namespace UserManagement.Controllers
 {
     [Authorize(Policy ="OnlyForAdmin")]
     [Produces("application/json")]
-    [Route("api/DriverVerification")]
+    [Route("api/driververification")]
     public class DriverVerificationController : Controller
     {
         private readonly DataAccesLayer dataAccesLayer;
@@ -31,7 +31,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/DriverVerification/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public DriverInfo Get(int id)
         {
             return this.dataAccesLayer.GetNonApprovedDriverById(id);

@@ -27,7 +27,7 @@ namespace Authentication.Validators
                 //get your user model from db (by username - in my case its email)
                 var user = userRepository.FindUserAsync(context.UserName);
 
-                var password = context.Password + user.HashGuide.HashSHA1();
+                var password = context.Password;// + user.HashGuide.HashSHA1();
 
                 if (user != null)
                 {
@@ -55,7 +55,7 @@ namespace Authentication.Validators
             }
         }
 
-        public static IEnumerable<Claim> GetUserClaims(User user)
+        public static List<Claim> GetUserClaims(User user)
         {
             return new List<Claim>
             {

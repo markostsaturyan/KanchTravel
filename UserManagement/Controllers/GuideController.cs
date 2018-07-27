@@ -28,7 +28,7 @@ namespace UserManagement.Controllers
         }
 
         // GET: api/Guide/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public GuideInfo Get(int id)
         {
             return this.dataAccessLayer.GetGuideById(id);

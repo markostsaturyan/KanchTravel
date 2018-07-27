@@ -133,7 +133,7 @@
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Height="20" HorizontalAlignment="Left"  x:Name ="errormessage" VerticalAlignment="Top" OpacityMask="Crimson" Foreground="#FFE5572C" />
+            <TextBlock Height="20" HorizontalAlignment="Left"  x:Name ="errormessage" VerticalAlignment="Top" OpacityMask="Crimson" Foreground="#FFE5572C" Text="{Binding Path=RegistrationViewModel.ErrorMessage, Mode=TwoWay}" />
 
             <TextBlock Margin ="10,0" HorizontalAlignment="Left" Name="textBlockFirstname" Text="First Name:" VerticalAlignment="Top"  Grid.Row="1" />
 
@@ -157,21 +157,21 @@
 
 
 
-            <TextBox Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxFirstName" VerticalAlignment="Top" Width="222" Grid.Row="1" Grid.Column="1" />
+            <TextBox Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxFirstName" VerticalAlignment="Top" Width="222" Grid.Row="1" Grid.Column="1" Text="{Binding Path = UserViewModel.FirstName, Mode=TwoWay}" />
 
-            <TextBox Margin ="0,0,10,0" HorizontalAlignment="Left" Name="textBoxLastName" VerticalAlignment="Top" Width="222" Grid.Row="2" Grid.Column="1"/>
+            <TextBox Margin ="0,0,10,0" HorizontalAlignment="Left" Name="textBoxLastName" VerticalAlignment="Top" Width="222" Grid.Row="2" Grid.Column="1" Text="{Binding Path = UserViewModel.LastName, Mode=TwoWay}"/>
 
-            <TextBox Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxUserName" VerticalAlignment="Top" Width="222" Grid.Row="3" Grid.Column="1"/>
+            <TextBox Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxUserName" VerticalAlignment="Top" Width="222" Grid.Row="3" Grid.Column="1" Text="{Binding Path = UserViewModel.UserName, Mode=TwoWay}"/>
 
-            <DatePicker Margin ="0,0,10,0" HorizontalAlignment="Left" Name="textBoxDateOfBirth" VerticalAlignment="Top" Width="222" Grid.Row="4" Grid.Column="1" />
+            <DatePicker Margin ="0,0,10,0" HorizontalAlignment="Left" Name="textBoxDateOfBirth" VerticalAlignment="Top" Width="222" Grid.Row="4" Grid.Column="1" Text="{Binding Path = UserViewModel.DateOfBirth, Mode=TwoWay}"/>
 
-            <StackPanel Margin ="0,0,10,0" Orientation="Horizontal" Grid.Row="5" Grid.Column="1">
-                <RadioButton Width="60" x:Name = "male" GroupName="Gender" Content = "Male" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <RadioButton Width="60" x:Name = "female"  GroupName = "Gender" Content = "Female" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <StackPanel Margin ="0,0,10,0" Orientation="Horizontal" Grid.Row="5" Grid.Column="1" >
+                <RadioButton Width="60" x:Name = "male" GroupName="Gender" Content = "Male" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding Path = UserViewModel.Male, Mode=TwoWay}"/>
+                <RadioButton Width="60" x:Name = "female"  GroupName = "Gender" Content = "Female" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding Path = UserViewModel.Female, Mode=TwoWay}"/>
             </StackPanel>
-            <TextBox  Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxEmail" VerticalAlignment="Top" Width="222" Grid.Row="6" Grid.Column="1" />
+            <TextBox  Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxEmail" VerticalAlignment="Top" Width="222" Grid.Row="6" Grid.Column="1" Text="{Binding Path = UserViewModel.Email, Mode=TwoWay}"/>
 
-            <TextBox  Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxPhoneNumber" VerticalAlignment="Top" Width="222" Grid.Row="7" Grid.Column="1"/>
+            <TextBox  Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxPhoneNumber" VerticalAlignment="Top" Width="222" Grid.Row="7" Grid.Column="1" Text="{Binding Path = UserViewModel.PhoneNumber,Mode=TwoWay}"/>
 
             <ComboBox  Margin ="0,0,10,0" HorizontalAlignment="Left" Name="Role" VerticalAlignment="Top" Width="222" Grid.Row="8" Grid.Column="1" SelectionChanged="Role_SelectionChanged"  >
                 <ComboBoxItem x:Name="user" Content="User" IsSelected="True"/>
@@ -200,9 +200,9 @@
 
             <StackPanel Margin ="0,0,10,0" Orientation="Horizontal" Grid.Column="1" Grid.Row="12">
 
-                <Button Margin ="0,0,50,0" Content="Submit" Height="23" HorizontalAlignment="Left"  Name="Submit" VerticalAlignment="Top" Width="70" Click="Submit_Click" Grid.Row="1" />
+                <Button Margin ="0,0,50,0" Content="Submit" Height="23" HorizontalAlignment="Left"  Name="Submit" VerticalAlignment="Top" Width="70" Command="{Binding Path=RegistrationCommand.SubmitCommand}" Grid.Row="1" />
 
-                <Button  Content="Reset" Height="23" HorizontalAlignment="Left" Name="button2" VerticalAlignment="Top" Width="70" Click="button2_Click" Grid.Row="1" />
+                <Button  Content="Reset" Height="23" HorizontalAlignment="Left" Name="button2" VerticalAlignment="Top" Width="70" Command="{Binding Path=RegistrationViewModel.ResetCommand}" Grid.Row="1" />
             </StackPanel>
         </Grid>
     </Grid>

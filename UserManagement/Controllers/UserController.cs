@@ -30,7 +30,7 @@ namespace UserManagement.Controllers
 
         // GET: api/User/5
         [Authorize]
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public UserInfo Get(int id)
         {
             return this.usersDataAccessLayer.GetUserById(id);
@@ -53,7 +53,7 @@ namespace UserManagement.Controllers
             {
                 StatusCode = 2001,
                 IsOk = false,
-                Message = "UserName is not valid"
+                Message = "UserName is already existing"
             };
 
             this.usersDataAccessLayer.AddUser(user);
