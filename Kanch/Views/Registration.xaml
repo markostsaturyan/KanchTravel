@@ -202,7 +202,7 @@
 
                 <Button Margin ="0,0,50,0" Content="Submit" Height="23" HorizontalAlignment="Left"  Name="Submit" VerticalAlignment="Top" Width="70" Command="{Binding Path=RegistrationCommand.SubmitCommand}" Grid.Row="1" />
 
-                <Button  Content="Reset" Height="23" HorizontalAlignment="Left" Name="button2" VerticalAlignment="Top" Width="70" Command="{Binding Path=RegistrationCommand.ResetCommand}" Grid.Row="1" />
+                <Button  Content="Reset" Height="23" HorizontalAlignment="Left" Name="button2" VerticalAlignment="Top" Width="70" Command="{Binding Path=RegistrationViewModel.ResetCommand}" Grid.Row="1" />
             </StackPanel>
         </Grid>
     </Grid>

@@ -7,17 +7,59 @@ using System.Windows.Input;
 
 namespace Kanch.Commands
 {
-    public abstract class Command : ICommand
+    public class Command : ICommand
     {
-        public event EventHandler CanExecuteChanged
-        {
-            add => CommandManager.RequerySuggested += value;
+        private Action<object> execute;
 
-            remove => CommandManager.RequerySuggested -= value;
+        private Predicate<object> canExecute;
+
+        private event EventHandler CanExecuteChangedInternal;
+
+        public Command(Action<object> execute)
+            : this(execute, (p) => true)
+        {
         }
 
-        public abstract bool CanExecute(object parameter);
+        public Command(Action<object> execute, Predicate<object> canExecute)
+        {
+            if (execute == null)
+            {
+                throw new ArgumentNullException("execute");
+            }
 
-        public abstract void Execute(object parameter);
+            if (canExecute == null)
+            {
+                throw new ArgumentNullException("canExecute");
+            }
+
+            this.execute = execute;
+            this.canExecute = canExecute;
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+                this.CanExecuteChangedInternal += value;
+            }
+
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+                this.CanExecuteChangedInternal -= value;
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+                return this.canExecute != null && this.canExecute(parameter);
+        }
+
+        public void Execute(object parameter)
+        {
+            this.execute(parameter);
+        }
     }
 }
+

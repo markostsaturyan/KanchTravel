@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Data;
 using System.ComponentModel;
+using System.Windows.Input;
+using Kanch.Commands;
 
 namespace Kanch.ViewModel
 {
@@ -31,6 +33,8 @@ namespace Kanch.ViewModel
         private GuideRegistration guideRegistration;
 
         private string errorMessage;
+
+        public ICommand ResetCommand { get; set; }
 
         public string ErrorMessage
         {
@@ -148,6 +152,7 @@ namespace Kanch.ViewModel
             photographerRegistration = new PhotographerRegistration();
             guideRegistration = new GuideRegistration();
             driverRegistration = new DriverRegistration();
+            ResetCommand = new Command((o) => Reset());
         }
 
         public void Reset()
