@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace CampingTripService.DataManagement.Model
+namespace Kanch.DataManagement.Model
 {
     public class CommentContext
     {

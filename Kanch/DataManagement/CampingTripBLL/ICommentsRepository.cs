@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CampingTripService.DataManagement.Model;
+using Kanch.DataManagement.Model;
 
-namespace CampingTripService.DataManagement.CampingTripBLL
+namespace Kanch.DataManagement.CampingTripBLL
 {
     public interface ICommentsRepository
     {

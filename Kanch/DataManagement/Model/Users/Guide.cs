@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CampingTripService.DataManagement.Model.Users
+namespace Kanch.DataManagement.Model.Users
 {
     public class Guide:User
     {

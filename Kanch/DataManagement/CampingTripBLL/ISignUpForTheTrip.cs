@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using CampingTripService.DataManagement.Model.Users;
+using Kanch.DataManagement.Model.Users;
 using MongoDB.Driver;
 
-namespace CampingTripService.DataManagement.CampingTripBLL
+namespace Kanch.DataManagement.CampingTripBLL
 {
     public interface ISignUpForTheTrip
     {

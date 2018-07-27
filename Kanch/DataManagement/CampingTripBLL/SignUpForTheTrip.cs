@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using CampingTripService.DataManagement.Model;
+using Kanch.DataManagement.Model;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using CampingTripService.DataManagement.Model.UsersDAL;
-using CampingTripService.DataManagement.Model.Users;
+using Kanch.DataManagement.Model.UsersDAL;
+using Kanch.DataManagement.Model.Users;
 
-namespace CampingTripService.DataManagement.CampingTripBLL
+namespace Kanch.DataManagement.CampingTripBLL
 {
     public class SignUpForTheTrip : ISignUpForTheTrip
     {

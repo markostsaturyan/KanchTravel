@@ -1,7 +1,7 @@
 ﻿using System.Data.SqlClient;
-using CampingTripService.DataManagement.Model.Users;
+using Kanch.DataManagement.Model.Users;
 
-namespace CampingTripService.DataManagement.Model
+namespace Kanch.DataManagement.Model
 {
     public class UserContext
     {

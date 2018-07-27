@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Kanch.DataManagement.Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace Kanch
 {
@@ -28,11 +28,11 @@ namespace Kanch
             }
         }
 
-        public void GetCampingTrips()
+        public async void GetCampingTripsAsync()
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = "http://localhost:5001/";
+                client.BaseAddress = new Uri("http://localhost:5001/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -56,7 +56,5 @@ namespace Kanch
             }
 
         }
-
-
     }
 }

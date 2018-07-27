@@ -3,26 +3,68 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:properties="clr-namespace:Kanch.Properties"
       xmlns:local="clr-namespace:Kanch"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Home" WindowTitle="Kanch">
+      Title="Home" WindowTitle="Kanch" Background="White">
 
-
+    <!--<Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Kanch/Views/Login.xaml"/>
+                <ResourceDictionary Source="../Kanch/Views/Registration.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>-->
+    
     <Grid>
-        <Label x:Name="TitleOfPage" Content="Kanch" HorizontalContentAlignment="Left" Grid.Row="0">
-        </Label>
-        
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <ListView.ItemTemplate>
-            
-        </ListView.ItemTemplate>
+        <Rectangle Grid.Row="0" Fill="#447FE5" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <DockPanel LastChildFill="True">
+                <Button Background="#447FE5" HorizontalAlignment="Left" BorderBrush="{x:Null}">
+                    <DockPanel LastChildFill="True">
+                        <Image DockPanel.Dock="Left" Source="/Images/KanchLogo.png" Width="40"/>
+                        <TextBlock DockPanel.Dock="Left" Text="'Kanch' Travel Club"  FontSize="30" />
+                    </DockPanel>
+                </Button>
+                
+            </DockPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="4" >
+                <Button Content="About Us" Width="70" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#447FE5" />
+                <Button Content="Log In"  Width="70" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#447FE5" />
+                <Button Content="Sign Up" Width="70" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#447FE5" />
+            </StackPanel>
+        </Grid>
+        
+        <ListView Grid.Row="1" ItemsSource="{Binding CampingTrips}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+                        <TextBlock Text="{Binding Place}">
+
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
     </Grid>
-    
+
 </Page>

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CampingTripService.DataManagement.Model;
+using Kanch.DataManagement.Model;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace CampingTripService.DataManagement.CampingTripBLL
+namespace Kanch.DataManagement.CampingTripBLL
 {
     public class CommentsRepository:ICommentsRepository
     {

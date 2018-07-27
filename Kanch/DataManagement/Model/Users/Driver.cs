@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
 
-namespace Kanch.DataModel
+namespace Kanch.DataManagement.Model.Users
 {
-    class Car
+    public class Car
     {
         public int Id { get; set; }
 
@@ -18,6 +18,8 @@ namespace Kanch.DataModel
 
         public Image CarPicture3 { get; set; }
 
+        public string LicensePlate { get; set; }
+
         public bool HasWiFi { get; set; }
 
         public bool HasMicrophone { get; set; }
@@ -27,7 +29,18 @@ namespace Kanch.DataModel
         public bool HasKitchen { get; set; }
 
         public bool HasToilet { get; set; }
+    }
 
-        public string LicensePlate { get; set; }
+    public class Driver:User
+    {
+        public Car Car { get; set; }
+
+        public Image DrivingLicencePicFront { get; set; }
+
+        public Image DrivingLicencePicBack { get; set; }
+
+        public string KnowledgeOfLanguages { get; set; }
+
+        public double Rating { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace CampingTripService.DataManagement.Model.Users
+namespace Kanch.DataManagement.Model.Users
 {
     public class User
     {

@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using Kanch.Views;
-using Kanch.ViewModel;
-using System.Text.RegularExpressions;
-using System.Data.SqlClient;
-using System.Data;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Kanch.ViewModel
 {
@@ -70,10 +58,7 @@ namespace Kanch.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string info)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
     }
 }

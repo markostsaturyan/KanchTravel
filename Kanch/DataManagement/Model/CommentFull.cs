@@ -1,7 +1,7 @@
-﻿using CampingTripService.DataManagement.Model.Users;
-using CampingTripService.DataManagement.Model.UsersDAL;
+﻿using Kanch.DataManagement.Model.Users;
+using Kanch.DataManagement.Model.UsersDAL;
 
-namespace CampingTripService.DataManagement.Model
+namespace Kanch.DataManagement.Model
 {
     public class CommentFull
     {

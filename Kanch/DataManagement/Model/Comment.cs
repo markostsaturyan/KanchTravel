@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace CampingTripService.DataManagement.Model
+namespace Kanch.DataManagement.Model
 {
     public class Comment
     {
