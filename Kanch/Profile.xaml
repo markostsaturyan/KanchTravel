@@ -1,0 +1,60 @@
+﻿<Window x:Class="Kanch.Profile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kanch.ProfileComponents"
+        xmlns:localViews="clr-namespace:Kanch.ProfileComponents.Views"
+        mc:Ignorable="d"
+        Title="Profile" Height="Auto" Width="Auto">
+
+    <Window.Resources>
+
+        <DataTemplate x:Key="UserMainInfo" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:UserMainInfo />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DriverMainInfo" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:DriverMainInfo />
+        </DataTemplate>
+
+        <DataTemplate x:Key="PhotographerMainInfo" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:PhotographerMainInfo />
+        </DataTemplate>
+
+        <DataTemplate x:Key="GuideMainInfo" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:GuideMainInfo />
+        </DataTemplate>
+
+        <DataTemplate x:Key="UserOpportunities" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:UsersՕpportunities />
+        </DataTemplate>
+
+        <DataTemplate x:Key="CampingTrips" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:CampingTrips />
+        </DataTemplate>
+        
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid Width="180" HorizontalAlignment="Left">
+
+            <StackPanel Orientation="Vertical">
+
+                <ContentPresenter Name="userMainInfoPresenter" Height="100" Width="180"></ContentPresenter>
+
+                <ContentPresenter Name="userOpportunities" Height="100" Width="180"></ContentPresenter>
+
+                <ContentPresenter Name="additionalOpportunities" Height="Auto" Width="180"></ContentPresenter>
+            </StackPanel>
+        </Grid>
+
+        <Grid HorizontalAlignment="Right" Width="575">
+
+            <ContentPresenter Name="mainPage" Width="Auto" HorizontalAlignment="Right"></ContentPresenter>
+        
+        </Grid>
+    </Grid>
+
+</Window>

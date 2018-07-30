@@ -55,7 +55,7 @@ namespace Authentication.Validators
             }
         }
 
-        public static IEnumerable<Claim> GetUserClaims(User user)
+        public static List<Claim> GetUserClaims(User user)
         {
             return new List<Claim>
             {

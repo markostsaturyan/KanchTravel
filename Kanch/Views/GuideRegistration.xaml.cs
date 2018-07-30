@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Kanch.ViewModel;
 
 namespace Kanch.Views
 {
@@ -28,13 +29,18 @@ namespace Kanch.Views
             InitializeComponent();
         }
 
-        public void Reset()
+       /* public void Reset()
         {
-            this.textBoxKnowledgeOfLanguages.Text = "";
+            this.checkBoxArmenian.IsChecked = null;
+            this.checkBoxEnglish.IsChecked = null;
+            this.checkBoxFrench.IsChecked = null;
+            this.checkBoxGerman.IsChecked = null;
+            this.checkBoxItalian.IsChecked = null;
+            this.checkBoxRussian.IsChecked = null;
             this.textBoxEducationGrade.Text = "";
             this.textBoxProfession.Text = "";
             this.textBoxWorkExperience.Text = "";
-        }
+        }*/
 
 
 

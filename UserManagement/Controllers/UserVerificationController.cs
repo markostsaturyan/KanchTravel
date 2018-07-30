@@ -16,13 +16,12 @@ namespace UserManagement.Controllers
             this.dataAccesLayer = dataAccesLayer;
         }
 
-
         [HttpPost]
-        public Status Post([FromBody]KeyValuePair<string,int> userNameCode)
+        public Status Post([FromBody]VerificationInfo verification)
         {
-            if (this.dataAccesLayer.CodeIsValid(userNameCode))
+            if (this.dataAccesLayer.CodeIsValid(verification))
             {
-                this.dataAccesLayer.UpdateApproveValue(userNameCode.Key, 1);
+                this.dataAccesLayer.UpdateApproveValue(verification.UserName, 1);
 
                 return new Status
                 {
@@ -40,11 +39,5 @@ namespace UserManagement.Controllers
             };
         }
         
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{userName}")]
-        public void Delete(string userName)
-        {
-            this.dataAccesLayer.DeleteUserVerification(userName);
-        }
     }
 }

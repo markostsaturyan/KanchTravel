@@ -1,0 +1,53 @@
+﻿<Window x:Class="Kanch.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kanch"
+        mc:Ignorable="d"
+        Title="Login" Height="250" Width="300" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            
+                <TextBlock Text="User Name " HorizontalAlignment="Left"></TextBlock>
+
+                <TextBox x:Name="userName" Width="150" Margin="15,0,0,0" HorizontalAlignment="Right" TextChanged="ChangeVisibility"/>
+            
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            
+                <TextBlock Text="Password"/>
+
+                <PasswordBox x:Name="password" Width="150" Margin="27,0,0,0" HorizontalAlignment="Right" PasswordChanged="ChangeVisibility"/>
+            
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10">
+    
+                <Button Name="login" Height="20" Width="50" Content="Login" Margin="0,10,0,10" Click="LoginClick" > </Button>
+                
+                <TextBlock>
+                    <Hyperlink Name="registration" Click="RegistrationClick" FontSize="14" FontStyle="Normal">You are not yet registered</Hyperlink>
+                </TextBlock>
+            
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+
+                <TextBlock Name="statusMessage" Height="45" Visibility = "Visible" HorizontalAlignment="Center"></TextBlock>
+
+                <TextBlock Name="retryConnectTextBlock" Visibility="Hidden" HorizontalAlignment="Center">
+                    
+                    <Hyperlink Name="retryConnect" Click="RetryConnectClick" FontSize="14" FontStyle="Normal">Retry connect</Hyperlink>
+
+                </TextBlock>
+            
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

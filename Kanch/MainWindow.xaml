@@ -6,8 +6,10 @@
         xmlns:views="clr-namespace:Kanch.Views"
         xmlns:local="clr-namespace:Kanch"
         mc:Ignorable="d"
-        Title="MainWindow">
+        Title="MainWindow" Width="589">
     <Grid>
-        <views:Registration/>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <views:Registration/>
+        </ScrollViewer>
     </Grid>
 </Window>

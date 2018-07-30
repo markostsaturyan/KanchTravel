@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kanch.DataModel
+﻿namespace Kanch.DataModel
 {
-    class Camera
+    public class Camera
     {
         public int Id { get; set; }
 

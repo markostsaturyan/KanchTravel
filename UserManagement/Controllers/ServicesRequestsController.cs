@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace UserManagement.Controllers
 {
     [Produces("application/json")]
-    [Route("api/ServicesRequests")]
+    [Route("api/servicesrequests")]
     public class ServicesRequestsController : Controller
     {
         private readonly DataAccesLayer dataAccesLayer;
@@ -31,7 +31,7 @@ namespace UserManagement.Controllers
 
         // GET: api/ServicesRequests/5
         [Authorize(Policy ="OnlyForADGP")]
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public IEnumerable<ServiceRequest> Get(int id)
         {
             return this.dataAccesLayer.GetServiceRequestsByUserId(id);

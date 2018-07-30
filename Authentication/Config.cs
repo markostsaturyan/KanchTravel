@@ -16,7 +16,8 @@ namespace Authentication
         {
             return new List<ApiResource>
             {
-                new ApiResource("compingTrip", "CompingTrip")
+                new ApiResource("compingTrip", "CompingTrip"),
+                new ApiResource("userManagement","UserManagement")
             };
         }
 
@@ -31,7 +32,7 @@ namespace Authentication
                 // resource owner password grant client
                 new Client
                 {
-                    ClientId = "MobileClient",
+                    ClientId = "kanchDesktopApp",
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
@@ -39,8 +40,11 @@ namespace Authentication
                     {
                         new Secret("secret".Sha256())
                     },
-                    AllowedScopes = { "compingTrip" },
 
+                    AllowedScopes = { "compingTrip", "userManagement", "offline_access"},
+                    AllowOfflineAccess =true,
+                    RefreshTokenUsage = TokenUsage.ReUse,
+                    AbsoluteRefreshTokenLifetime = 15780000
                 }
             };
         }

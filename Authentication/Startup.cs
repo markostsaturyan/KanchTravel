@@ -29,7 +29,9 @@ namespace Authentication
             services.AddSingleton(Configuration);
 
             //my user repository
-            services.AddSingleton(new UserRepository(Configuration));
+            //services.AddSingleton(new UserRepository(Configuration));
+
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddMvc();
 
@@ -41,28 +43,6 @@ namespace Authentication
 
             services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
             services.AddTransient<IProfileService, ProfileService>();
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("OnlyForAdmin", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("OnlyForUser", policy => policy.RequireRole("User"));
-                options.AddPolicy("OnlyForDriver", policy => policy.RequireRole("Driver"));
-                options.AddPolicy("OnlyForGuide", policy => policy.RequireRole("Guide"));
-                options.AddPolicy("OnlyForPhotographer", policy => policy.RequireRole("Phothographer"));
-                options.AddPolicy("OnlyForADGP", policy => {
-                    policy.RequireRole("Admin");
-                    policy.RequireRole("User");
-                    policy.RequireRole("Driver");
-                    policy.RequireRole("Guide");
-                    policy.RequireRole("Phothographer");
-                });
-                options.AddPolicy("OnlyForDGP", policy => {
-                    policy.RequireRole("Driver");
-                    policy.RequireRole("Guide");
-                    policy.RequireRole("Phothographer");
-                });
-
-            });
         }
 
         /// <summary>

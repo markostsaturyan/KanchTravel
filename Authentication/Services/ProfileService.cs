@@ -33,10 +33,8 @@ namespace Authentication.Services
 
                     if (user != null)
                     {
-                        var claims = GetUserClaims(user);
-
                         //set issued claims to return
-                        context.IssuedClaims = claims.Where(x => context.RequestedClaimTypes.Contains(x.Type)).ToList();
+                        context.IssuedClaims = GetUserClaims(user);
                     }
                 }
                 else
@@ -53,9 +51,7 @@ namespace Authentication.Services
                         // issue the claims for the user
                         if (user != null)
                         {
-                            var claims = ResourceOwnerPasswordValidator.GetUserClaims(user);
-
-                            context.IssuedClaims = claims.Where(x => context.RequestedClaimTypes.Contains(x.Type)).ToList();
+                            context.IssuedClaims = ResourceOwnerPasswordValidator.GetUserClaims(user);
                         }
                     }
                 }
@@ -92,7 +88,7 @@ namespace Authentication.Services
             }
         }
 
-        private IEnumerable<Claim> GetUserClaims(User user)
+        private List<Claim> GetUserClaims(User user)
         {
             return new List<Claim>
             {
