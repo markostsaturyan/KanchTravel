@@ -303,8 +303,8 @@ namespace Kanch.ViewModel
                 return false;
             else if (!EmailValidation(ref status))
                 return false;
-           /* else if (!PasswordValidation(ref status))
-                return false;*/
+            else if (!PasswordValidation(ref status))
+                return false;
             else if (!PhoneNumberValidation(ref status))
                 return false;
             return true;

@@ -59,6 +59,26 @@ namespace Kanch.Views
             myWindow.Close();
         }
 
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+
+        {
+
+            // converting sender to Password box
+
+            var passwordBox = (PasswordBox)sender;
+
+
+
+            // setting to view model fields
+
+            if (passwordBox == this.password)
+
+                registrationViewModel.UserViewModel.Password = passwordBox.Password;
+
+            else this.registrationViewModel.UserViewModel.ConfirmPassword = passwordBox.Password;
+
+        }
+
         private void Role_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = sender as ComboBox;

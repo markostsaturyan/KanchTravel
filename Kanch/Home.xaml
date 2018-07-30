@@ -40,17 +40,14 @@
             <StackPanel Orientation="Horizontal" Grid.Column="4" >
                 <Button Content="About Us" Width="70" Height="35" 
                         VerticalAlignment="Bottom" HorizontalAlignment="Right" 
-                        Click="AboutUs_Button_Click"
                         BorderBrush="{x:Null}" Background="#447FE5" />
                 <Button Content="Log In"  Width="70" Height="35" 
                         VerticalAlignment="Bottom" 
                         HorizontalAlignment="Right"
-                        Click="LogIn_Button_Click"
                         BorderBrush="{x:Null}" Background="#447FE5" />
                 <Button Content="Sign Up" Width="70" Height="35" 
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Right"
-                        Click="SignUp_Button_Click"
                         BorderBrush="{x:Null}" Background="#447FE5" />
             </StackPanel>
             

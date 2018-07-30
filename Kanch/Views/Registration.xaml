@@ -117,11 +117,11 @@
             <local:PhotographerRegistration Grid.Row="9" Grid.Column="1" Visibility = "{Binding Path = PhotographerViewModel.PhotographerVisible}">
             </local:PhotographerRegistration>
 
-            <PasswordBox  Margin ="0,0,10,0" HorizontalAlignment="Left" Name="passwordBox1" VerticalAlignment="Top" Width="222" Grid.Row="10" Grid.Column="1"/>
+            <PasswordBox  Margin ="0,0,10,0"  HorizontalAlignment="Left" Name="password" VerticalAlignment="Top" Width="222" Grid.Row="10" Grid.Column="1" PasswordChanged="{Binding Path = PasswordBox_PasswordChanged}" />
 
             <!--For password-->
 
-            <PasswordBox  Margin ="0,0,10,0" HorizontalAlignment="Left" Name="passwordBoxConfirm" VerticalAlignment="Top" Width="222" Grid.Row="11" Grid.Column="1" />
+            <PasswordBox  Margin ="0,0,10,0" HorizontalAlignment="Left" Name="passwordConfirm" VerticalAlignment="Top" Width="222" Grid.Row="11" Grid.Column="1" PasswordChanged="{Binding  Path = PasswordBox_PasswordChanged}" />
 
 
 
