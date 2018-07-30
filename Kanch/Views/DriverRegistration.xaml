@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
@@ -69,5 +70,15 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <TextBlock Grid.Row="7" HorizontalAlignment="Left" Name="textBlockDrivingLicencePics"  VerticalAlignment="Top" >Add photo of your driving <LineBreak/> licence:</TextBlock>
+        <StackPanel Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" Name="stackPanelDrivingLicencePics" VerticalAlignment="Top" Orientation="Horizontal">
+            <Button Height="50" Width="50" Command="{Binding Path=DriverViewModel.AddDrivingLicencePicFront}" CommandParameter="Front">
+                <Image Name="drivingLicencePicFront" Source="{Binding Path=DriverViewModel.DrivingLicencePicFront,Mode=TwoWay}"/>
+            </Button>
+            <Button Width="50" Command="{Binding Path=DriverViewModel.AddDrivingLicencePicBack}" CommandParameter="Back">
+                <Image Name="drivingLicencePicBack" Source="{Binding Path=DriverViewModel.DrivingLicencePicBack, Mode=TwoWay}" />
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>
