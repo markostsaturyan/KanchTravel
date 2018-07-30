@@ -348,6 +348,7 @@ namespace Kanch.ViewModel
             bi.StreamSource = ms;
 
             bi.EndInit();
+
             return bi;
         }
         public class ListItem:INotifyPropertyChanged

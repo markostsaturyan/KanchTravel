@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kanch.ProfileComponents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,12 @@ namespace Kanch
         public Profile()
         {
             InitializeComponent();
+
+            var profileViewModel = new ProfileViewModel();
+
+            userMainInfoPresenter.ContentTemplate = this.FindResource("UserMainInfo") as DataTemplate;
+            userOpportunities.ContentTemplate = this.FindResource("UserOpportunities") as DataTemplate;
+            
         }
     }
 }

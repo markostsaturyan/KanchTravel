@@ -1,6 +1,6 @@
-﻿namespace Kanch.DataModel
+﻿namespace Kanch.ProfileComponents.DataModel
 {
-    public class Camera
+    public class CameraInfo
     {
         public int Id { get; set; }
 

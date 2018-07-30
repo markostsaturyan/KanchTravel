@@ -42,10 +42,14 @@ namespace Kanch
             var registration = new MainWindow();
 
             registration.Show();
+
+            this.Close();
         }
 
         private async void LoginClick(object sender, RoutedEventArgs e)
         {
+            statusMessage.Visibility = Visibility.Hidden;
+
             if (userName.Text == "")
             {
                 statusMessage.Text = "Please enter the user name";

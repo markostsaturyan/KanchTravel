@@ -1,9 +1,13 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Media;
 
-namespace Kanch.DataModel
+namespace Kanch.ProfileComponents.DataModel
 {
-    public class User
+    public class UserInfo
     {
         public int Id { get; set; }
 
@@ -19,7 +23,7 @@ namespace Kanch.DataModel
 
         public string Email { get; set; }
 
-        public Image Image { get; set; }
+        public ImageSource Image { get; set; }
 
         public string UserName { get; set; }
 

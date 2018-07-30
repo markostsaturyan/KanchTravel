@@ -1,8 +1,8 @@
-﻿using System.Drawing;
+﻿using System.Windows.Media;
 
-namespace Kanch.DataModel
+namespace Kanch.ProfileComponents.DataModel
 {
-    public class Car
+    public class CarInfo
     {
         public int Id { get; set; }
 
@@ -12,11 +12,11 @@ namespace Kanch.DataModel
 
         public string FuelType { get; set; }
 
-        public Image CarPicture1 { get; set; }
+        public ImageSource CarPicture1 { get; set; }
 
-        public Image CarPicture2 { get; set; }
+        public ImageSource CarPicture2 { get; set; }
 
-        public Image CarPicture3 { get; set; }
+        public ImageSource CarPicture3 { get; set; }
 
         public bool HasWiFi { get; set; }
 
@@ -29,5 +29,6 @@ namespace Kanch.DataModel
         public bool HasToilet { get; set; }
 
         public string LicensePlate { get; set; }
+
     }
 }

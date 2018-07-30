@@ -3,26 +3,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Kanch"
+        xmlns:local="clr-namespace:Kanch.ProfileComponents"
+        xmlns:localViews="clr-namespace:Kanch.ProfileComponents.Views"
         mc:Ignorable="d"
-        Title="Profile" Height="300" Width="567.293">
-    <Grid>
+        Title="Profile" Height="Auto" Width="Auto">
 
-        <Grid HorizontalAlignment="Left" Width="100">
+    <Window.Resources>
 
-            <StackPanel Orientation="Horizontal">
+        <DataTemplate x:Key="UserMainInfo" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:UserMainInfo />
+        </DataTemplate>
 
-                <Image></Image>
-                
-                <StackPanel Orientation="Vertical">
-                    
-                </StackPanel>
-                
-            </StackPanel>
-            
-            
-        </Grid>
+        <DataTemplate x:Key="DriverMainInfo" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:DriverMainInfo />
+        </DataTemplate>
+
+        <DataTemplate x:Key="PhotographerMainInfo" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:PhotographerMainInfo />
+        </DataTemplate>
+
+        <DataTemplate x:Key="GuideMainInfo" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:GuideMainInfo />
+        </DataTemplate>
+
+        <DataTemplate x:Key="UserOpportunities" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:UsersՕpportunities />
+        </DataTemplate>
         
+    </Window.Resources>
+
+    <Grid Width="180" HorizontalAlignment="Left">
+
+        <StackPanel Orientation="Vertical">        
+        
+            <ContentPresenter Name="userMainInfoPresenter" Height="100" Width="180"></ContentPresenter>
+        
+            <ContentPresenter Name="userOpportunities" Height="100" Width="180"></ContentPresenter>
+
+            <ContentControl Name="additionalOpportunities" Height="Auto" Width="180"></ContentControl>
+            
+        </StackPanel>
 
     </Grid>
 </Window>

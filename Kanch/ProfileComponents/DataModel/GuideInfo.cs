@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Kanch.DataModel
+namespace Kanch.ProfileComponents.DataModel
 {
-    public class Guide:User
+    public class GuideInfo:UserInfo
     {
         public string Profession { get; set; }
 
@@ -18,4 +22,5 @@ namespace Kanch.DataModel
 
         public int NumberOfAppraisers { get; set; }
     }
+
 }

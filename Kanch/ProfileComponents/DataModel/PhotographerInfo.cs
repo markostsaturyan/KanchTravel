@@ -1,8 +1,8 @@
-﻿namespace Kanch.DataModel
+﻿namespace Kanch.ProfileComponents.DataModel
 {
-    public class Photographer:User
+    public class PhotographerInfo:UserInfo
     {
-        public Camera Camera { get; set; }
+        public CameraInfo Camera { get; set; }
 
         public string KnowledgeOfLanguages { get; set; }
 
