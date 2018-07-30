@@ -55,14 +55,14 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
                 command.Parameters.AddWithValue("@firstName", user.FirstName);
                 command.Parameters.AddWithValue("@lastName", user.LastName);
-                command.Parameters.AddWithValue("@gander", user.Gender);
-                command.Parameters.AddWithValue("@dateOfBirth", user.DataOfBirth);
+                command.Parameters.AddWithValue("@gender", user.Gender);
+                command.Parameters.AddWithValue("@dateOfBirth", user.DateOfBirth);
                 command.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
                 command.Parameters.AddWithValue("@email", user.Email);
                 command.Parameters.AddWithValue("@picture", ImageToByteArray(user.Image));
                 command.Parameters.AddWithValue("@username", user.UserName);
                 command.Parameters.AddWithValue("@password", hashedPassword);
-                command.Parameters.AddWithValue("@userguid", userGuid);
+                command.Parameters.AddWithValue("@userGuid", userGuid);
 
                 connection.Open();
 
@@ -83,7 +83,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
         /// <returns>The registration code</returns>
         public int AddUserVerification(string userName)
         {
-            using (var connection = new SqlConnection())
+            using (var connection = new SqlConnection(this.sqlConnectionString))
             {
                 var verifCommand = new SqlCommand
                 {
@@ -96,7 +96,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
                 var randNumber = rand.Next(1000, 9999);
 
-                verifCommand.Parameters.AddWithValue("@userId", userName);
+                verifCommand.Parameters.AddWithValue("@userName", userName);
                 verifCommand.Parameters.AddWithValue("@code", randNumber);
 
                 connection.Open();
@@ -118,7 +118,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 FirstName = guide.FirstName,
                 LastName = guide.LastName,
                 Gender = guide.Gender,
-                DataOfBirth = guide.DataOfBirth,
+                DateOfBirth = guide.DateOfBirth,
                 PhoneNumber = guide.PhoneNumber,
                 Email = guide.Email,
                 Image = guide.Image,
@@ -189,7 +189,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 FirstName = driver.FirstName,
                 LastName = driver.LastName,
                 Gender = driver.Gender,
-                DataOfBirth = driver.DataOfBirth,
+                DateOfBirth = driver.DateOfBirth,
                 PhoneNumber = driver.PhoneNumber,
                 Email = driver.Email,
                 Image = driver.Image,
@@ -267,7 +267,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 FirstName = photographer.FirstName,
                 LastName = photographer.LastName,
                 Gender = photographer.Gender,
-                DataOfBirth = photographer.DataOfBirth,
+                DateOfBirth = photographer.DateOfBirth,
                 PhoneNumber = photographer.PhoneNumber,
                 Email = photographer.Email,
                 Image = photographer.Image,
@@ -404,7 +404,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["Id"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = ByteArrayToImage(dataReader["Image"]),
@@ -445,7 +445,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["Id"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = ByteArrayToImage(dataReader["Image"]),
@@ -563,7 +563,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = ByteArrayToImage(dataReader["Picture"]),
@@ -624,7 +624,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Id = (int)dataReader["UserId"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             Gender=(string)dataReader["Gender"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
@@ -691,7 +691,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["UserId"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = ByteArrayToImage(dataReader["Image"]),
@@ -738,7 +738,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = ByteArrayToImage(dataReader["Picture"]),
@@ -831,7 +831,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
                             Gender = (string)dataReader["Gender"],
-                            DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = ByteArrayToImage(dataReader["Image"]),
@@ -899,7 +899,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
                         Gender = (string)dataReader["Gender"],
-                        DataOfBirth = (DateTime)dataReader["Age"],
+                        DateOfBirth = (DateTime)dataReader["Age"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = ByteArrayToImage(dataReader["Picture"]),
@@ -963,7 +963,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Id = (int)dataReader["UserId"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             Gender = (string)dataReader["Gender"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
@@ -1023,7 +1023,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["UserId"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = ByteArrayToImage(dataReader["Image"]),
@@ -1064,7 +1064,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = ByteArrayToImage(dataReader["Picture"]),
@@ -1115,7 +1115,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["Id"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = ByteArrayToImage(dataReader["Image"]),
@@ -1161,7 +1161,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
                             Gender = (string)dataReader["Gender"],
-                            DataOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = ByteArrayToImage(dataReader["Image"]),
@@ -1222,7 +1222,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
                         Gender = (string)dataReader["Gender"],
-                        DataOfBirth = (DateTime)dataReader["Age"],
+                        DateOfBirth = (DateTime)dataReader["Age"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = ByteArrayToImage(dataReader["Picture"]),
@@ -1535,7 +1535,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@firstName", user.FirstName);
                 updateCommand.Parameters.AddWithValue("@lastName", user.LastName);
                 updateCommand.Parameters.AddWithValue("@gender", user.Gender);
-                updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DataOfBirth);
+                updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DateOfBirth);
                 updateCommand.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
                 updateCommand.Parameters.AddWithValue("@picture", ImageToByteArray(user.Image));
 
@@ -1557,7 +1557,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 FirstName = driver.FirstName,
                 LastName = driver.LastName,
                 Gender = driver.Gender,
-                DataOfBirth = driver.DataOfBirth,
+                DateOfBirth = driver.DateOfBirth,
                 PhoneNumber = driver.PhoneNumber,
                 Image = driver.Image
             };
@@ -1652,7 +1652,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@firstName", guide.FirstName);
                 updateCommand.Parameters.AddWithValue("@lastName", guide.LastName);
                 updateCommand.Parameters.AddWithValue("@gender", guide.Gender);
-                updateCommand.Parameters.AddWithValue("@dateOfBirth", guide.DataOfBirth);
+                updateCommand.Parameters.AddWithValue("@dateOfBirth", guide.DateOfBirth);
                 updateCommand.Parameters.AddWithValue("@phoneNumber", guide.PhoneNumber);
                 updateCommand.Parameters.AddWithValue("@picture", guide.Image);
                 updateCommand.Parameters.AddWithValue("@workExperience", guide.WorkExperience);
@@ -1705,7 +1705,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 FirstName = photographer.FirstName,
                 LastName = photographer.LastName,
                 Gender = photographer.Gender,
-                DataOfBirth = photographer.DataOfBirth,
+                DateOfBirth = photographer.DateOfBirth,
                 PhoneNumber = photographer.PhoneNumber,
                 Image = photographer.Image
             };
@@ -1727,7 +1727,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@profession", photographer.FirstName);
                 updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", photographer.LastName);
                 updateCommand.Parameters.AddWithValue("@workExperience", photographer.Gender);
-                updateCommand.Parameters.AddWithValue("@hasDron", photographer.DataOfBirth);
+                updateCommand.Parameters.AddWithValue("@hasDron", photographer.DateOfBirth);
                 updateCommand.Parameters.AddWithValue("@hasCameraStabilizator", photographer.PhoneNumber);
                 updateCommand.Parameters.AddWithValue("@hasGopro", photographer.Email);
                 updateCommand.Parameters.AddWithValue("@rating", photographer.Raiting);
@@ -2163,11 +2163,16 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
         public byte[] ImageToByteArray(Image img)
         {
-            using (MemoryStream mStream = new MemoryStream())
+            if (img != null)
             {
-                img.Save(mStream, img.RawFormat);
-                return mStream.ToArray();
+                using (MemoryStream mStream = new MemoryStream())
+                {
+                    img.Save(mStream, img.RawFormat);
+                    return mStream.ToArray();
+                }
             }
+            else
+                return null;
         }
 
         #endregion Utility

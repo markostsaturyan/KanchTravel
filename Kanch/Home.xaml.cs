@@ -20,9 +20,13 @@ namespace Kanch
     /// </summary>
     public partial class Home : Page
     {
+        private HomeViewModel viewModel;
+
         public Home()
         {
             InitializeComponent();
+            viewModel = new HomeViewModel();
+            this.DataContext = viewModel;
         }
     }
 }

@@ -141,7 +141,7 @@ namespace Kanch.ProfileComponents
 
             userId = Convert.ToInt32(ConfigurationSettings.AppSettings["userId"]);
 
-            JoinToTrip=new Command(JoinToTripAsync)
+            JoinToTrip = new Command(JoinToTripAsync);
 
         }
 

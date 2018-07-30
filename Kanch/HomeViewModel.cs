@@ -1,16 +1,20 @@
-﻿using System;
+﻿using Kanch.Commands;
+using Kanch.DataManagement.Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Windows.Input;
 
 namespace Kanch
 {
-    class HomeViewModel : INotifyPropertyChanged
+    class HomeViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public BaseViewModel ViewModel { get; set; }
+
+        public ICommand LoginCommand { get; set; }
 
         private List<CampingTripFull> campingTrips = new List<CampingTripFull>();
 
@@ -24,15 +28,21 @@ namespace Kanch
             set
             {
                 campingTrips = value;
-                this.PropertyChanged(this, new PropertyChangedEventArgs("CampingTrips"));
+                //this.PropertyChanged(this, new PropertyChangedEventArgs("CampingTrips"));
             }
         }
 
-        public void GetCampingTrips()
+        public HomeViewModel()
+        {
+            this.GetCampingTripsAsync();
+            //LoginCommand = new Command(() => );
+        }
+
+        public async void GetCampingTripsAsync()
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = "http://localhost:5001/";
+                client.BaseAddress = new Uri("http://localhost:5001/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -56,7 +66,5 @@ namespace Kanch
             }
 
         }
-
-
     }
 }

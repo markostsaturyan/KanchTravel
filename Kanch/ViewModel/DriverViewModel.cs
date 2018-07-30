@@ -4,11 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -32,9 +28,15 @@ namespace Kanch.ViewModel
         private ImageSource carPicture2;
         private ImageSource carPicture3;
         private List<ListItem> languages;
+        private ImageSource drivingLicencePicFront;
+        private ImageSource drivingLicencePicBack;
+       // private BitmapImage addImage;
+        public BitmapImage AddImage { get; set; }
         public ICommand AddCarPicture1 { get; set; }
         public ICommand AddCarPicture2 { get; set; }
         public ICommand AddCarPicture3 { get; set; }
+        public ICommand AddDrivingLicencePicFront { get; set; }
+        public ICommand AddDrivingLicencePicBack { get; set; }
         public Driver Driver
         {
             get
@@ -194,11 +196,37 @@ namespace Kanch.ViewModel
             }
         }
 
+        public ImageSource DrivingLicencePicFront
+        {
+            get { return this.drivingLicencePicFront; }
+            set
+            {
+                if (this.drivingLicencePicFront != value)
+                {
+                    this.drivingLicencePicFront = value;
+                    NotifyPropertyChanged("DrivingLicencePicFront");
+                }
+            }
+        }
+
+        public ImageSource DrivingLicencePicBack
+        {
+            get { return this.drivingLicencePicBack; }
+            set
+            {
+                if (this.drivingLicencePicBack != value)
+                {
+                    this.drivingLicencePicBack = value;
+                    NotifyPropertyChanged("DrivingLicencePicBack");
+                }
+            }
+        }
+
         public DriverViewModel()
         {
 
-            var addImage = new BitmapImage(new Uri(String.Format("Images/addPhoto.png"), UriKind.Relative));
-            addImage.Freeze();
+            this.AddImage = new BitmapImage(new Uri(String.Format("Images/addPhoto.png"), UriKind.Relative));
+            AddImage.Freeze();
 
             this.driverVisible = Visibility.Collapsed;
             this.Languages = new List<ListItem>();
@@ -208,9 +236,11 @@ namespace Kanch.ViewModel
             this.Languages.Add(new ListItem() { Text = "German", IsSelected = false });
             this.Languages.Add(new ListItem() { Text = "Italian", IsSelected = false });
             this.Languages.Add(new ListItem() { Text = "French", IsSelected = false });
-            this.CarPicture1 = addImage;
-            this.CarPicture2 = addImage;
-            this.CarPicture3 = addImage;
+            this.CarPicture1 = AddImage;
+            this.CarPicture2 = AddImage;
+            this.CarPicture3 = AddImage;
+            this.DrivingLicencePicBack = AddImage;
+            this.DrivingLicencePicFront = AddImage;
 
             this.MoreInformation = new List<ListItem>();
             this.MoreInformation.Add(new ListItem() { Text = "HasWiFi", IsSelected = false });
@@ -221,6 +251,23 @@ namespace Kanch.ViewModel
             this.AddCarPicture1 = new Command(AddCarPhoto);
             this.AddCarPicture2 = new Command(AddCarPhoto);
             this.AddCarPicture3 = new Command(AddCarPhoto);
+            this.AddDrivingLicencePicBack = new Command(AddDrivingLicencePic);
+            this.AddDrivingLicencePicFront = new Command(AddDrivingLicencePic);
+        }
+
+        private void AddDrivingLicencePic(object obj)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            //For any other formats
+            fileDialog.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (obj.ToString() == "Front")
+                    DrivingLicencePicFront = ConvertImageToImageSource(Bitmap.FromFile(fileDialog.FileName));
+                else if (obj.ToString() == "Back")
+                    DrivingLicencePicBack = ConvertImageToImageSource(Bitmap.FromFile(fileDialog.FileName));
+
+            }
         }
 
         private void NotifyPropertyChanged(string info)
@@ -268,7 +315,7 @@ namespace Kanch.ViewModel
         }
         private bool CarPicturesValidation(ref string status)
         {
-            if (CarPicture1 == null && CarPicture2 == null && CarPicture3 == null)
+            if (CarPicture1 == AddImage && CarPicture2 == AddImage && CarPicture3 == AddImage)
             {
                 status = "Add at least one photo of the car.";
                 return false;
@@ -289,6 +336,18 @@ namespace Kanch.ViewModel
                 return false;
             else if (!CarPicturesValidation(ref status))
                 return false;
+            else if (!DrivingLicencePicValidation(ref status))
+                return false;
+            return true;
+        }
+
+        private bool DrivingLicencePicValidation(ref string status)
+        {
+            if(this.DrivingLicencePicFront == this.AddImage || this.DrivingLicencePicBack == this.AddImage)
+            {
+                status = "Add driving licence's back and front parts photos.";
+                return false;
+            }
             return true;
         }
 
@@ -306,6 +365,11 @@ namespace Kanch.ViewModel
             {
                 language.IsSelected = false;
             }
+            this.CarPicture1 = this.AddImage;
+            this.CarPicture2 = this.AddImage;
+            this.CarPicture3 = this.AddImage;
+            this.DrivingLicencePicBack = this.AddImage;
+            this.DrivingLicencePicFront = this.AddImage;
 
         }
         public void AddCarPhoto(object numberOfPhoto)

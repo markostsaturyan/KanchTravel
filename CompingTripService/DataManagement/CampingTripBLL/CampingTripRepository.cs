@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CampingTripService.DataManagement.Model;
-using CampingTripService.DataManagement.Model.Users;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 

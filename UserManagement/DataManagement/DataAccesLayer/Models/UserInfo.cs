@@ -13,7 +13,7 @@ namespace UserManagement.DataManagement.DataAccesLayer.Models
 
         public string Gender { get; set; }
 
-        public DateTime DataOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public string PhoneNumber { get; set; }
 
