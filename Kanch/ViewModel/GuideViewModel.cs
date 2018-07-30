@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Kanch.ViewModel
 {
-    public class GuideViewModel:INotifyPropertyChanged
+    public class GuideViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private Visibility guideVisible;

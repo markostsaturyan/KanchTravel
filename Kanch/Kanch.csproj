@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="IdentityModel, Version=3.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityModel.3.6.1\lib\net461\IdentityModel.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="IdentityServer4, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityServer4.2.2.0\lib\netstandard2.0\IdentityServer4.dll</HintPath>
@@ -251,6 +252,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AboutUs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -291,10 +296,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="AboutUs.xaml.cs">
+      <DependentUpon>AboutUs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AboutUsViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BaseViewModel.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\RegistrationCommand.cs" />
@@ -352,6 +362,7 @@
     </Compile>
     <Compile Include="ViewModel\DriverViewModel.cs" />
     <Compile Include="ViewModel\GuideViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PhotographerViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
@@ -405,15 +416,11 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\aboutUsBack.jpg" />
     <Content Include="Images\addPhoto.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Images\KanchLogo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="Images\wild_flowers_and_grass_weeds_png_kl_by_cactuskim-d7mn9z6.png" />
+    <Resource Include="Images\KanchLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 using Kanch.Commands;
+using Kanch.Views;
 
 namespace Kanch.ViewModel
 {
-    class RegistrationViewModel:INotifyPropertyChanged
+    class RegistrationViewModel : INotifyPropertyChanged
     {
         private PhotographerViewModel photographerViewModel;
 

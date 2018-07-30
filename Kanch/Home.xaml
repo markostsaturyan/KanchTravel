@@ -5,19 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:properties="clr-namespace:Kanch.Properties"
       xmlns:local="clr-namespace:Kanch"
+      xmlns:views="clr-namespace:Kanch.Views"
+      xmlns:viewModels="clr-namespace:Kanch.ViewModel"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Home" WindowTitle="Kanch" Background="White">
 
-    <!--<Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Kanch/Views/Login.xaml"/>
-                <ResourceDictionary Source="../Kanch/Views/Registration.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>-->
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -38,18 +31,29 @@
             <DockPanel LastChildFill="True">
                 <Button Background="#447FE5" HorizontalAlignment="Left" BorderBrush="{x:Null}">
                     <DockPanel LastChildFill="True">
-                        <Image DockPanel.Dock="Left" Source="/Images/KanchLogo.png" Width="40"/>
-                        <TextBlock DockPanel.Dock="Left" Text="'Kanch' Travel Club"  FontSize="30" />
+                        <Image DockPanel.Dock="Left" Source="/Images/KanchLogo.png" Width="50"/>
+                        <TextBlock DockPanel.Dock="Left" Text="'Kanch' Travel Club" FontStyle="Italic" FontSize="40" />
                     </DockPanel>
                 </Button>
-                
             </DockPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Column="4" >
-                <Button Content="About Us" Width="70" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#447FE5" />
-                <Button Content="Log In"  Width="70" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#447FE5" />
-                <Button Content="Sign Up" Width="70" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#447FE5" />
+                <Button Content="About Us" Width="70" Height="35" 
+                        VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                        Click="AboutUs_Button_Click"
+                        BorderBrush="{x:Null}" Background="#447FE5" />
+                <Button Content="Log In"  Width="70" Height="35" 
+                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="Right"
+                        Click="LogIn_Button_Click"
+                        BorderBrush="{x:Null}" Background="#447FE5" />
+                <Button Content="Sign Up" Width="70" Height="35" 
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Click="SignUp_Button_Click"
+                        BorderBrush="{x:Null}" Background="#447FE5" />
             </StackPanel>
+            
         </Grid>
         
         <ListView Grid.Row="1" ItemsSource="{Binding CampingTrips}">

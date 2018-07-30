@@ -1,16 +1,20 @@
-﻿using Kanch.DataManagement.Model;
+﻿using Kanch.Commands;
+using Kanch.DataManagement.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Windows.Input;
 
 namespace Kanch
 {
-    class HomeViewModel : INotifyPropertyChanged
+    class HomeViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public BaseViewModel ViewModel { get; set; }
+
+        public ICommand LoginCommand { get; set; }
 
         private List<CampingTripFull> campingTrips = new List<CampingTripFull>();
 
@@ -26,6 +30,12 @@ namespace Kanch
                 campingTrips = value;
                 this.PropertyChanged(this, new PropertyChangedEventArgs("CampingTrips"));
             }
+        }
+
+        public HomeViewModel()
+        {
+            this.GetCampingTripsAsync();
+            //LoginCommand = new Command(() => );
         }
 
         public async void GetCampingTripsAsync()

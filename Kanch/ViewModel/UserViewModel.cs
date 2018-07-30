@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace Kanch.ViewModel
 {
-    public class UserViewModel: INotifyPropertyChanged
+    public class UserViewModel : INotifyPropertyChanged
     {
 
         private string firstName;
