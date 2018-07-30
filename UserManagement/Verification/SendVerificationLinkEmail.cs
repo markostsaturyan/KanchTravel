@@ -4,68 +4,53 @@ using System.Net.Mail;
 
 namespace UserManagement.Verification
 {
-    public class SendVerificationLinkEmail
+    public class SendVerificationCodeEmail
     {
-        public static void SendEmail(string userMail,int code)
+        private NetworkCredential _networkCredential;
+
+        /// <summary>
+        /// SMTP client
+        /// </summary>
+        private SmtpClient _smtpClient;
+
+        /// <summary>
+        /// Creates new instance of MailService
+        /// </summary>
+        /// <param name="networkCredential">Network credentials</param>
+        public SendVerificationCodeEmail(NetworkCredential networkCredential)
         {
-            MailAddress from = new MailAddress("shtatev4991@gmail.com", "Kanch Admin");
-            MailAddress to = new MailAddress(userMail, "Dear Traveler");
-            MailMessage message = new MailMessage(from, to)
+            // constructing 
+            this._networkCredential = networkCredential;
+
+            this._smtpClient = new SmtpClient()
             {
-                Subject = "Your account is successfull created.",
-                Body = code.ToString()
+                Host = "smtp.gmail.com",
+                Port = 587,
+                Credentials = networkCredential,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network
             };
-
-            SmtpClient client = new SmtpClient()
-            {
-                Credentials = CredentialCache.DefaultNetworkCredentials
-            };
-
-            try
-            {
-                client.Send(message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception caught in CreateBccTestMessage(): {0}",
-                            ex.ToString());
-            }
-
         }
 
-        public static void CreateBccTestMessage(string server, string activationcode, string email, string scheme, string host, string port)
+        /// <summary>
+        /// Sends verification key to the given mail address,
+        /// </summary>
+        /// <param name="to">Mail address</param>
+        /// <param name="verifyKey">Verifiaction key</param>
+        public void Send(string to, string verifyKey)
         {
-            var varifyUrl = scheme + "://" + host + ":" + port + "/JobSeeker/ActivateAccount/" + activationcode;
-
-            MailAddress from = new MailAddress("shtatev4991@gmail.com", "Kanch Admin");
-            MailAddress to = new MailAddress(email, "Dear Traveler");
-            MailMessage message = new MailMessage(from, to)
+            // constructing message
+            var mail = new MailMessage
             {
-                Subject = "Your account is successfull created.",
-                Body = @"<br/><br/>We are excited to tell you that your account is" +
-                " successfully created. Please click on the below link to verify your account" +
-                " <br/><br/><a href='" + varifyUrl + "'>" + varifyUrl + "</a> "
+                From = new MailAddress("no-reply.recipeverify@gmail.com"),
+                Subject = "Recipe User Verify Service",
+                Body = verifyKey
             };
 
-            MailAddress bcc = new MailAddress("manager1@contoso.com");
-            message.Bcc.Add(bcc);
-            SmtpClient client = new SmtpClient()
-            {
-                Credentials = CredentialCache.DefaultNetworkCredentials
-            };
+            mail.To.Add(to);
 
-            Console.WriteLine("Sending an e-mail message to {0} and {1}.",
-                to.DisplayName, message.Bcc.ToString());
-
-            try
-            {
-                client.Send(message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception caught in CreateBccTestMessage(): {0}",
-                            ex.ToString());
-            }
+            // sending message
+            this._smtpClient.Send(mail);
         }
     }
 }
