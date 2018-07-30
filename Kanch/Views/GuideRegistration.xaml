@@ -13,6 +13,7 @@
             <RowDefinition Height="23"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />
@@ -38,7 +39,15 @@
                      IsChecked="{Binding Path=IsSelected, Mode=TwoWay}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-
         </ListBox>
+        <TextBlock Grid.Row="4" HorizontalAlignment="Left" Name="textBlockPlaces" Text="Places you can guide:" VerticalAlignment="Top" />
+        <StackPanel Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Name="textBoxPlaces" Width="172" Text="{Binding Path=GuideViewModel.InputPlace,Mode=TwoWay}" />
+                <Button Name="addAPlace" Width="50" Command="{Binding Path = GuideViewModel.InputPlaceCommand}">Add</Button>
+            </StackPanel>
+            <ListBox  Name="listBoxPlaces" ItemsSource="{Binding Path=GuideViewModel.Places}" >
+            </ListBox>
+        </StackPanel>
     </Grid>
 </UserControl>

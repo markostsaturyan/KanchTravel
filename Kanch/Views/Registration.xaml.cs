@@ -51,8 +51,10 @@ namespace Kanch.Views
 
 
 
-        private void Submit_Click(object sender, RoutedEventArgs e)
+        private void Submitbutto(object sender, RoutedEventArgs e)
         {
+            var myWindow = Window.GetWindow(this);
+            myWindow.Close();
         }
 
         private void Role_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -84,6 +86,7 @@ namespace Kanch.Views
                 dataContext.DriverViewModel.DriverVisible = Visibility.Collapsed;
                 dataContext.GuideViewModel.GuideVisible = Visibility.Collapsed;
             }
+
         }
 
        

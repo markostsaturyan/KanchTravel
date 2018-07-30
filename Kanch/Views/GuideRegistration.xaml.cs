@@ -29,18 +29,18 @@ namespace Kanch.Views
             InitializeComponent();
         }
 
-       /* public void Reset()
-        {
-            this.checkBoxArmenian.IsChecked = null;
-            this.checkBoxEnglish.IsChecked = null;
-            this.checkBoxFrench.IsChecked = null;
-            this.checkBoxGerman.IsChecked = null;
-            this.checkBoxItalian.IsChecked = null;
-            this.checkBoxRussian.IsChecked = null;
-            this.textBoxEducationGrade.Text = "";
-            this.textBoxProfession.Text = "";
-            this.textBoxWorkExperience.Text = "";
-        }*/
+        /* public void Reset()
+         {
+             this.checkBoxArmenian.IsChecked = null;
+             this.checkBoxEnglish.IsChecked = null;
+             this.checkBoxFrench.IsChecked = null;
+             this.checkBoxGerman.IsChecked = null;
+             this.checkBoxItalian.IsChecked = null;
+             this.checkBoxRussian.IsChecked = null;
+             this.textBoxEducationGrade.Text = "";
+             this.textBoxProfession.Text = "";
+             this.textBoxWorkExperience.Text = "";
+         }*/
 
 
 

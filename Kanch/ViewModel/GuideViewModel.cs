@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
+using Kanch.Commands;
 
 namespace Kanch.ViewModel
 {
@@ -12,6 +17,8 @@ namespace Kanch.ViewModel
         private string educationGrade;
         private string workExperience;
         private List<ListItem> languages;
+        private ObservableCollection<string> places;
+        private string inputPlace;
 
         public Visibility GuideVisible
         {
@@ -91,6 +98,31 @@ namespace Kanch.ViewModel
             }
         }
 
+        public ObservableCollection<string> Places
+        {
+            get { return this.places; }
+            set
+            {
+                this.places.Add(value.ToString());
+                NotifyPropertyChanged("Places");
+            }
+        }
+
+        public ICommand InputPlaceCommand { get; set; }
+
+        public string InputPlace
+        {
+            get { return this.inputPlace; }
+            set
+            {
+                if (this.inputPlace != value)
+                {
+                    this.inputPlace = value;
+                    NotifyPropertyChanged("InputPlace");
+                }
+            }
+        }
+
         public GuideViewModel()
         {
             this.GuideVisible = Visibility.Collapsed;
@@ -101,6 +133,17 @@ namespace Kanch.ViewModel
             Languages.Add(new ListItem() { Text = "German", IsSelected = false });
             Languages.Add(new ListItem() { Text = "Italian", IsSelected = false });
             Languages.Add(new ListItem() { Text = "French", IsSelected = false });
+            this.places = new ObservableCollection<string>();
+            this.InputPlaceCommand = new Command(AddPlace);
+        }
+
+        private void AddPlace(object obj)
+        {
+            if (InputPlace != null)
+            {
+                this.Places.Add(InputPlace);
+                InputPlace = "";
+            }
         }
 
         private void NotifyPropertyChanged(string info)

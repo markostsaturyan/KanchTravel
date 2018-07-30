@@ -180,8 +180,8 @@ namespace Kanch.ViewModel
             this.PhoneNumber = null;
             this.Password = null;
             this.ConfirmPassword = null;
-            this.male = false;
-            this.female = false;
+            this.Male = null;
+            this.Female = null;
         }
 
 
@@ -278,7 +278,7 @@ namespace Kanch.ViewModel
                 index++;
             while (index < PhoneNumber.Length)
             {
-                if (PhoneNumber[index] <= '0' || PhoneNumber[index] >= '9')
+                if (PhoneNumber[index] < '0' || PhoneNumber[index] > '9')
                 {
                     status = "Enter a valid phone number.";
                     return false;
@@ -303,8 +303,8 @@ namespace Kanch.ViewModel
                 return false;
             else if (!EmailValidation(ref status))
                 return false;
-            else if (!PasswordValidation(ref status))
-                return false;
+           /* else if (!PasswordValidation(ref status))
+                return false;*/
             else if (!PhoneNumberValidation(ref status))
                 return false;
             return true;

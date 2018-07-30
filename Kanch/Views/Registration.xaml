@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid Background="#bfd8bf">
+    <Grid Background="#3385ad">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="*" />
@@ -28,81 +28,9 @@
 
             <!--Button as a Link button using style-->
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Login" Cursor="Hand" Margin="10,0" Click="Login_Click">
-
-                    <Button.Template>
-
-                        <ControlTemplate TargetType="Button">
-
-                            <TextBlock TextDecorations="Underline">
-
-                    <ContentPresenter />
-
-                            </TextBlock>
-
-                        </ControlTemplate>
-
-                    </Button.Template>
-
-                    <Button.Style>
-
-                        <Style TargetType="Button">
-
-                            <Setter Property="Foreground" Value="Navy" />
-
-                            <Style.Triggers>
-
-                                <Trigger Property="IsMouseOver" Value="true">
-
-                                    <Setter Property="Foreground" Value="Red" />
-
-                                </Trigger>
-
-                            </Style.Triggers>
-
-                        </Style>
-
-                    </Button.Style>
-
-                </Button>
-
-                <Button Margin="0,0,0,10" Content="Home" Cursor="Hand" Click="Login_Click">
-
-                    <Button.Template>
-
-                        <ControlTemplate TargetType="Button">
-
-                            <TextBlock TextDecorations="Underline">
-
-                    <ContentPresenter />
-
-                            </TextBlock>
-
-                        </ControlTemplate>
-
-                    </Button.Template>
-
-                    <Button.Style>
-
-                        <Style TargetType="Button">
-
-                            <Setter Property="Foreground" Value="Navy" />
-
-                            <Style.Triggers>
-
-                                <Trigger Property="IsMouseOver" Value="true">
-
-                                    <Setter Property="Foreground" Value="Red" />
-
-                                </Trigger>
-
-                            </Style.Triggers>
-
-                        </Style>
-
-                    </Button.Style>
-                </Button>
+            <StackPanel Orientation="Horizontal" Grid.Column="4" HorizontalAlignment="Right">
+                <Button Content="Log In"  Width="70" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#447FE5" />
+                <Button Content="Sign Up" Width="70" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" BorderBrush="{x:Null}" Background="#447FE5" />
             </StackPanel>
         </Grid>
 
@@ -133,7 +61,7 @@
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Height="20" HorizontalAlignment="Left"  x:Name ="errormessage" VerticalAlignment="Top" OpacityMask="Crimson" Foreground="#FFE5572C" Text="{Binding Path=RegistrationViewModel.ErrorMessage, Mode=TwoWay}" />
+            <TextBlock Height="20" HorizontalAlignment="Left"  x:Name ="errormessage" VerticalAlignment="Top" OpacityMask="Crimson" Foreground="#FFE5572C" Text="{Binding Path=ErrorMessage, Mode=TwoWay}" />
 
             <TextBlock Margin ="10,0" HorizontalAlignment="Left" Name="textBlockFirstname" Text="First Name:" VerticalAlignment="Top"  Grid.Row="1" />
 
@@ -163,7 +91,8 @@
 
             <TextBox Margin ="0,0,10,0" HorizontalAlignment="Left"  Name="textBoxUserName" VerticalAlignment="Top" Width="222" Grid.Row="3" Grid.Column="1" Text="{Binding Path = UserViewModel.UserName, Mode=TwoWay}"/>
 
-            <DatePicker Margin ="0,0,10,0" HorizontalAlignment="Left" Name="textBoxDateOfBirth" VerticalAlignment="Top" Width="222" Grid.Row="4" Grid.Column="1" Text="{Binding Path = UserViewModel.DateOfBirth, Mode=TwoWay}"/>
+            <DatePicker Margin ="0,0,10,0" HorizontalAlignment="Left" Name="textBoxDateOfBirth" VerticalAlignment="Top" Width="222" Grid.Row="4" Grid.Column="1" SelectedDate ="{Binding Path = UserViewModel.DateOfBirth, Mode=TwoWay}" DisplayDateStart="1/1/1900"
+    DisplayDateEnd="3/31/9999"/>
 
             <StackPanel Margin ="0,0,10,0" Orientation="Horizontal" Grid.Row="5" Grid.Column="1" >
                 <RadioButton Width="60" x:Name = "male" GroupName="Gender" Content = "Male" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding Path = UserViewModel.Male, Mode=TwoWay}"/>
@@ -200,9 +129,9 @@
 
             <StackPanel Margin ="0,0,10,0" Orientation="Horizontal" Grid.Column="1" Grid.Row="12">
 
-                <Button Margin ="0,0,50,0" Content="Submit" Height="23" HorizontalAlignment="Left"  Name="Submit" VerticalAlignment="Top" Width="70" Command="{Binding Path=RegistrationCommand.SubmitCommand}" Grid.Row="1" />
+                <Button Margin ="0,0,50,0" Content="Submit" Height="23" HorizontalAlignment="Left"  Name="Submit" VerticalAlignment="Top" Width="70" Command="{Binding Path = SubmitCommand}" Grid.Row="1" />
 
-                <Button  Content="Reset" Height="23" HorizontalAlignment="Left" Name="button2" VerticalAlignment="Top" Width="70" Command="{Binding Path=RegistrationViewModel.ResetCommand}" Grid.Row="1" />
+                <Button  Content="Reset" Height="23" HorizontalAlignment="Left" Name="button2" VerticalAlignment="Top" Width="70" Command="{Binding Path = ResetCommand}" Grid.Row="1" />
             </StackPanel>
         </Grid>
     </Grid>
