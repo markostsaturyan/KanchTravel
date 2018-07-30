@@ -1,4 +1,5 @@
 ﻿using IdentityModel.Client;
+using Kanch.Commands;
 using Kanch.DataModel;
 using Kanch.ProfileComponents.DataModel;
 using Newtonsoft.Json;
@@ -9,6 +10,7 @@ using System.Configuration;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Http;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -23,6 +25,8 @@ namespace Kanch.ProfileComponents
         #endregion
 
         #region Properties and fields
+
+        private int userId;
 
         private string accessToken;
 
@@ -116,7 +120,13 @@ namespace Kanch.ProfileComponents
             }
         }
 
-#endregion
+        #endregion
+
+        #region Commands
+
+        ICommand JoinToTrip;
+
+        #endregion
 
         public ProfileViewModel()
         {
@@ -128,6 +138,11 @@ namespace Kanch.ProfileComponents
             };
 
             httpClient.SetBearerToken(this.accessToken);
+
+            userId = Convert.ToInt32(ConfigurationSettings.AppSettings["userId"]);
+
+            JoinToTrip=new Command(JoinToTripAsync)
+
         }
 
         public async void GetCampingTripsAsync()
@@ -285,6 +300,15 @@ namespace Kanch.ProfileComponents
             };
 
             Photographer = photographerInfo;
+        }
+
+        public async void JoinToTripAsync(object campingTripId)
+        {
+            var tripId = campingTripId as string;
+
+            if (tripId == null) return;
+
+            await httpClient.PutAsync("api/MembersOfCampingTrip/"+userId, new StringContent(tripId));
         }
 
         private async void ConnectToServerAndGettingAccessTokenAsync()

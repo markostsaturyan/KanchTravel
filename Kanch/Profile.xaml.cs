@@ -28,6 +28,7 @@ namespace Kanch
 
             userMainInfoPresenter.ContentTemplate = this.FindResource("UserMainInfo") as DataTemplate;
             userOpportunities.ContentTemplate = this.FindResource("UserOpportunities") as DataTemplate;
+            mainPage.ContentTemplate = this.FindResource("CampingTrips") as DataTemplate;
             
         }
     }

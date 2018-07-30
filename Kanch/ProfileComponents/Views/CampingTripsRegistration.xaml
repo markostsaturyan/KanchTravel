@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="Kanch.ProfileComponents.Views.CampingTripsRegistration"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="575" Background="AliceBlue">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="1">
+
+            <TextBox Text="{Binding TripRegistration.Place}"></TextBox>
+
+            <TextBox Text = "{Binding TripRegistration.Direction}" />
+
+            <DatePicker Text="{Binding TripRegistration.DepartureDate}"/>
+
+            <DatePicker Text="{Binding TripRegistration.ArrivalDate}"/>
+
+            <TextBlock Text="{Binding TripRegistration.MinAge}"/>
+
+            <TextBlock Text="{Binding TripRegistration.MaxAge}"/>
+
+            <TextBlock Text="{Binding MinCountOfMembers}"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>Maximum Count of Members</TextBlock>
+
+                <TextBlock Text="{Binding MaxCountOfMembers}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock> Count of Members</TextBlock>
+
+                <TextBlock Text="{Binding CountOfMembers}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock>Orgainzer</TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Organizer.FirstName}"/>
+
+                    <TextBlock Text="{Binding Organizer.LastName}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock>Driver</TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Driver.FirstName}"/>
+
+                    <TextBlock Text="{Binding Driver.LastName}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock>Guide</TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Guide.FirstName}"/>
+
+                    <TextBlock Text="{Binding Guide.LastName}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+                <TextBlock>Photographer</TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Photographer.FirstName}"/>
+
+                    <TextBlock Text="{Binding Photographer.LastName}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+
+                <TextBlock>Foods</TextBlock>
+
+                <ListView ItemsSource="{Binding Food}"/>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+
+                <TextBlock Text="Price"/>
+
+                <TextBlock Text="{Binding PriceOfTrip}"/>
+
+            </StackPanel>
+
+            <Button Name="join" Content="Join" Height="100" Width="100" Command="{Binding JoinToTrip}" CommandParameter="{Binding Id}"></Button>
+
+        </StackPanel>
+
+        <StackPanel>
+
+            <TextBlock Text = "Place:"/>
+            <TextBlock Text="Direction"/>
+            <TextBlock Text="Departure Date:"/>
+            <TextBlock Text="Arrival Date:"/>
+            <TextBlock Text="Minimum Age"/>
+            <TextBlock Text="Maximum Age"/>
+            <TextBlock Text="Minimum Count of Members"/>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

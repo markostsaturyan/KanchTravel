@@ -243,6 +243,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\CampingTripsRegistration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProfileComponents\Views\DriverMainInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -309,6 +313,7 @@
     <Compile Include="Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProfileComponents\AdminViewModel.cs" />
     <Compile Include="ProfileComponents\DataModel\CameraInfo.cs" />
     <Compile Include="ProfileComponents\DataModel\CampingTripInfo.cs" />
     <Compile Include="ProfileComponents\DataModel\CarInfo.cs" />
@@ -317,9 +322,16 @@
     <Compile Include="ProfileComponents\DataModel\GuideInfo.cs" />
     <Compile Include="ProfileComponents\DataModel\PhotographerInfo.cs" />
     <Compile Include="ProfileComponents\DataModel\UserInfo.cs" />
+    <Compile Include="ProfileComponents\DriverViewModel.cs" />
+    <Compile Include="ProfileComponents\GuideViewModel.cs" />
+    <Compile Include="ProfileComponents\PhotographerViewModel.cs" />
     <Compile Include="ProfileComponents\ProfileViewModel.cs" />
+    <Compile Include="ProfileComponents\UserViewModel.cs" />
     <Compile Include="ProfileComponents\Views\CampingTrips.xaml.cs">
       <DependentUpon>CampingTrips.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\CampingTripsRegistration.xaml.cs">
+      <DependentUpon>CampingTripsRegistration.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\Views\DriverMainInfo.xaml.cs">
       <DependentUpon>DriverMainInfo.xaml</DependentUpon>

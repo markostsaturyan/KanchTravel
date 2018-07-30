@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using CampingTripService.DataManagement.CampingTripBLL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/MembersOfCampingTrip")]
     public class MembersOfCampingTripController : Controller

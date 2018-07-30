@@ -29,20 +29,32 @@
         <DataTemplate x:Key="UserOpportunities" DataType="{x:Type local:ProfileViewModel}">
             <localViews:UsersՕpportunities />
         </DataTemplate>
+
+        <DataTemplate x:Key="CampingTrips" DataType="{x:Type local:ProfileViewModel}">
+            <localViews:CampingTrips />
+        </DataTemplate>
         
     </Window.Resources>
 
-    <Grid Width="180" HorizontalAlignment="Left">
+    <Grid>
 
-        <StackPanel Orientation="Vertical">        
+        <Grid Width="180" HorizontalAlignment="Left">
+
+            <StackPanel Orientation="Vertical">
+
+                <ContentPresenter Name="userMainInfoPresenter" Height="100" Width="180"></ContentPresenter>
+
+                <ContentPresenter Name="userOpportunities" Height="100" Width="180"></ContentPresenter>
+
+                <ContentPresenter Name="additionalOpportunities" Height="Auto" Width="180"></ContentPresenter>
+            </StackPanel>
+        </Grid>
+
+        <Grid HorizontalAlignment="Right" Width="575">
+
+            <ContentPresenter Name="mainPage" Width="Auto" HorizontalAlignment="Right"></ContentPresenter>
         
-            <ContentPresenter Name="userMainInfoPresenter" Height="100" Width="180"></ContentPresenter>
-        
-            <ContentPresenter Name="userOpportunities" Height="100" Width="180"></ContentPresenter>
-
-            <ContentControl Name="additionalOpportunities" Height="Auto" Width="180"></ContentControl>
-            
-        </StackPanel>
-
+        </Grid>
     </Grid>
+
 </Window>

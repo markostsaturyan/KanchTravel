@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
-    <Grid Height="Auto" Width="Auto">
+    <Grid Height="300" Width="300">
         
         <ListView Name="campingTrips" ItemsSource="{Binding CampingTrips}">
             
@@ -111,13 +111,15 @@
 
                 </StackPanel>
 
-                <StackPanel>
+                <StackPanel Orientation="Horizontal">
                     
                     <TextBlock Text="Price"/>
 
                     <TextBlock Text="{Binding PriceOfTrip}"/>
 
                 </StackPanel>
+
+                <Button Name="join" Content="Join" Height="100" Width="100" Command="{Binding JoinToTrip}" CommandParameter="{Binding Id}"></Button>
                 
             </StackPanel>   
         
