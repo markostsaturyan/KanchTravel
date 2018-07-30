@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using UserManagement.DataManagement.DataAccesLayer.Models;
 using UserManagement.DataManagement.DataAccesLayer;
 using UserManagement.Verification;
+using System.Net;
 
 namespace UserManagement.Controllers
 {
@@ -43,9 +44,12 @@ namespace UserManagement.Controllers
         {
             var code = this.dataAccesLayer.AddUserVerification(guide.UserName);
 
-            SendVerificationLinkEmail.SendEmail(guide.Email, code);
+            var emailSender = new SendVerificationCodeEmail(new NetworkCredential("noreply.recipeverify@gmail.com", "159recipe@&)"));
+
+            emailSender.Send(guide.Email, code.ToString());
+
         }
-        
+
         // PUT: api/GuideVerification/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)

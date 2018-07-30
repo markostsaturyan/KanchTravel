@@ -6,6 +6,7 @@ using UserManagement.Verification;
 using UserManagement.Validation;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Net;
 
 namespace UserManagement.Controllers
 {
@@ -60,7 +61,9 @@ namespace UserManagement.Controllers
 
             var code = this.usersDataAccessLayer.AddUserVerification(user.UserName);
 
-            SendVerificationLinkEmail.SendEmail(user.Email, code);
+            var emailSender=new SendVerificationCodeEmail(new NetworkCredential("noreply.recipeverify@gmail.com","159recipe@&)"));
+                
+            emailSender.Send(user.Email, code.ToString());
 
             return new Status
             {

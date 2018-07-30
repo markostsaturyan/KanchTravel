@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using UserManagement.DataManagement.DataAccesLayer;
 using UserManagement.DataManagement.DataAccesLayer.Models;
 using UserManagement.Verification;
+using System.Net;
 
 namespace UserManagement.Controllers
 {
@@ -39,9 +40,12 @@ namespace UserManagement.Controllers
         {
             var code = this.dataAccesLayer.AddUserVerification(photographer.UserName);
 
-            SendVerificationLinkEmail.SendEmail(photographer.Email, code);
+            var emailSender = new SendVerificationCodeEmail(new NetworkCredential("noreply.recipeverify@gmail.com", "159recipe@&)"));
+
+            emailSender.Send(photographer.Email, code.ToString());
+
         }
-        
+
         // PUT: api/PhotographerVerification/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
