@@ -1,17 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Kanch.Commands;
+using Kanch.DataModel;
+using Newtonsoft.Json;
 
 namespace Kanch.ViewModel
 {
+    /// <summary>
+    /// Class for User registration.
+    /// </summary>
     public class UserViewModel : INotifyPropertyChanged
     {
-
+        private string errorMessage;
         private string firstName;
         private string lastName;
         private string userName;
@@ -23,6 +33,25 @@ namespace Kanch.ViewModel
         private string password;
         private string confirmPassword;
 
+        /// <summary>
+        /// Property for Error message.
+        /// </summary>
+        public string ErrorMessage
+        {
+            get { return this.errorMessage; }
+            set
+            {
+                if (this.errorMessage != value)
+                {
+                    this.errorMessage = value;
+                    NotifyPropertyChanged("ErrorMessage");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Firs name of the user.
+        /// </summary>
         public string FirstName
         {
             get
@@ -39,6 +68,9 @@ namespace Kanch.ViewModel
             }
         }
 
+        /// <summary>
+        /// Last name of the user.
+        /// </summary>
         public string LastName
         {
             get
@@ -55,6 +87,9 @@ namespace Kanch.ViewModel
             }
         }
 
+        /// <summary>
+        /// Username to unique a user.
+        /// </summary>
         public string UserName
         {
             get
@@ -71,6 +106,9 @@ namespace Kanch.ViewModel
             }
         }
 
+        /// <summary>
+        /// Email to send a verification code.
+        /// </summary>
         public string Email
         {
             get { return this.email; }
@@ -84,6 +122,9 @@ namespace Kanch.ViewModel
             }
         }
 
+        /// <summary>
+        /// User's date of birth.
+        /// </summary>
         public DateTime DateOfBirth
         {
             get { return this.dateOfBirth; }
@@ -97,6 +138,9 @@ namespace Kanch.ViewModel
             }
         }
 
+        /// <summary>
+        /// Property for male gender.
+        /// </summary>
         public bool? Male
         {
             get { return this.male; }
@@ -106,6 +150,10 @@ namespace Kanch.ViewModel
                 NotifyPropertyChanged("Male");
             }
         }
+
+        /// <summary>
+        /// Property for female gender.
+        /// </summary>
         public bool? Female
         {
             get { return this.female; }
@@ -116,6 +164,9 @@ namespace Kanch.ViewModel
             }
         }
 
+        /// <summary>
+        /// Phone number of the user to contact with him.
+        /// </summary>
         public string PhoneNumber
         {
             get
@@ -132,6 +183,9 @@ namespace Kanch.ViewModel
             }
         }
 
+        /// <summary>
+        /// Password of the user.
+        /// </summary>
         public string Password
         {
             get
@@ -148,6 +202,13 @@ namespace Kanch.ViewModel
             }
         }
 
+        public ICommand SubmitCommand { get; set; }
+
+        public ICommand ResetCommand { get; set; }
+
+        /// <summary>
+        /// Confirm password.
+        /// </summary>
         public string ConfirmPassword
         {
             get
@@ -163,6 +224,13 @@ namespace Kanch.ViewModel
                 }
             }
         }
+
+        public UserViewModel()
+        {
+            this.ResetCommand = new Command((o) => Reset());
+            this.SubmitCommand = new Command((o) => Submit());
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -184,103 +252,155 @@ namespace Kanch.ViewModel
             this.Female = null;
         }
 
-
-        private bool FirstNameValidation(ref string status)
+        public async void Submit()
         {
-            if (FirstName == null)
+            if (UserInfoValidationResult())
             {
-                status = "Enter your first name.";
+                if(await Registration())
+                {
+                    var verification = new Verification();
+                    var myWindow = Application.Current.MainWindow;
+                    verification.Show();
+                    myWindow.Close();
+                }
+            }
+
+            return;
+        }
+
+        public async Task<bool> Registration()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            var user = new User()
+            {
+                FirstName    =  this.FirstName,
+                LastName     =  this.LastName,
+                UserName     =  this.UserName,
+                Email        =  this.Email,
+                DateOfBirth  =  this.DateOfBirth,
+                PhoneNumber  =  this.PhoneNumber,
+                Password     =  this.Password,
+            };
+            if (Male == true)
+            {
+                user.Gender = "Male";
+            }
+            else
+            {
+                user.Gender = "Female";
+            }
+
+            var requestResult = await client.PostAsync("api/User", new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"));
+            var content = requestResult.Content;
+
+            var jsonContent = content.ReadAsStringAsync().Result;
+
+            var status = JsonConvert.DeserializeObject<Status>(jsonContent);
+            if (!status.IsOk)
+            {
+                this.ErrorMessage = status.Message;
                 return false;
             }
             return true;
         }
 
-        private bool LastNameValidation(ref string status)
+        private bool FirstNameValidation()
         {
-            if (LastName == null)
+            if (this.FirstName == null)
             {
-                status = "Enter your last name";
+                this.ErrorMessage = "Enter your first name.";
                 return false;
             }
             return true;
         }
 
-        private bool UserNameValidation(ref string status)
+        private bool LastNameValidation()
         {
-            if (UserName == null)
+            if (this.LastName == null)
             {
-                status = "Enter a user name";
+                this.ErrorMessage = "Enter your last name";
                 return false;
             }
             return true;
         }
 
-        private bool DateOfBirthValidation(ref string status)
+        private bool UserNameValidation()
         {
-            if (DateOfBirth == null)
+            if (this.UserName == null)
             {
-                status = "Enter your date of birth";
+                this.ErrorMessage = "Enter a user name";
                 return false;
             }
             return true;
         }
 
-        private bool GenderValidation(ref string status)
+        private bool DateOfBirthValidation()
         {
-            if (male == null && female == null)
+            if (this.DateOfBirth == null)
             {
-                status = "Check your gender";
+                this.ErrorMessage = "Enter your date of birth";
                 return false;
             }
             return true;
         }
 
-        private bool EmailValidation(ref string status)
+        private bool GenderValidation()
         {
-            if (Email.Length == 0)
+            if (this.male == null && this.female == null)
             {
-                status = "Enter an email.";
-                return false;
-            }
-            else if (!Regex.IsMatch(email, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
-
-            {
-                status = "Enter a valid email.";
+                this.ErrorMessage = "Check your gender";
                 return false;
             }
             return true;
         }
 
-        private bool PasswordValidation(ref string status)
+        private bool EmailValidation()
         {
-            if (Password.Length == 0)
+            if (this.Email.Length == 0)
             {
-                status = "Enter password.";
+                this.ErrorMessage = "Enter an email.";
                 return false;
             }
-            else if (ConfirmPassword.Length == 0)
+            else if (!Regex.IsMatch(this.Email, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
+
             {
-                status = "Enter Confirm password.";
-                return false;
-            }
-            else if (Password != ConfirmPassword)
-            {
-                status = "Confirm password must be same as password.";
+                this.ErrorMessage = "Enter a valid email.";
                 return false;
             }
             return true;
         }
 
-        private bool PhoneNumberValidation(ref string status)
+        private bool PasswordValidation()
+        {
+            if (this.Password.Length == 0)
+            {
+                this.ErrorMessage = "Enter password.";
+                return false;
+            }
+            else if (this.ConfirmPassword.Length == 0)
+            {
+                this.ErrorMessage = "Enter Confirm password.";
+                return false;
+            }
+            else if (this.Password != this.ConfirmPassword)
+            {
+                this.ErrorMessage = "Confirm password must be same as password.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool PhoneNumberValidation()
         {
             int index = 0;
-            if (PhoneNumber[0] == '+')
+            if (this.PhoneNumber[0] == '+')
                 index++;
-            while (index < PhoneNumber.Length)
+            while (index < this.PhoneNumber.Length)
             {
-                if (PhoneNumber[index] < '0' || PhoneNumber[index] > '9')
+                if (this.PhoneNumber[index] < '0' || this.PhoneNumber[index] > '9')
                 {
-                    status = "Enter a valid phone number.";
+                    this.ErrorMessage = "Enter a valid phone number.";
                     return false;
                 }
                 index++;
@@ -288,24 +408,23 @@ namespace Kanch.ViewModel
             return true;
         }
 
-        public bool UserInfoValidationResult(out string status)
+        public bool UserInfoValidationResult()
         {
-            status = "";
-            if (!FirstNameValidation(ref status))
+            if (!FirstNameValidation())
                 return false;
-            else if (!LastNameValidation(ref status))
+            else if (!LastNameValidation())
                 return false;
-            else if (!UserNameValidation(ref status))
+            else if (!UserNameValidation())
                 return false;
-            else if (!DateOfBirthValidation(ref status))
+            else if (!DateOfBirthValidation())
                 return false;
-            else if (!GenderValidation(ref status))
+            else if (!GenderValidation())
                 return false;
-            else if (!EmailValidation(ref status))
+            else if (!EmailValidation())
                 return false;
-            else if (!PasswordValidation(ref status))
+            else if (!PasswordValidation())
                 return false;
-            else if (!PhoneNumberValidation(ref status))
+            else if (!PhoneNumberValidation())
                 return false;
             return true;
         }

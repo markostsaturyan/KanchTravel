@@ -26,7 +26,31 @@ namespace Kanch.Views
 
         public GuideRegistration()
         {
+            this.DataContext = new GuideViewModel();
             InitializeComponent();
+        }
+
+        public void LoginClick(object sender, EventArgs e)
+        {
+            var login = new Login();
+            var myWindow = Window.GetWindow(this);
+            login.Show();
+            myWindow.Close();
+        }
+
+        public void HomeClick(object sender, EventArgs e)
+        {
+            var home = new Home();
+            var myWindow = Window.GetWindow(this);
+            //home.Show();
+            myWindow.Close();
+        }
+        
+        public void RegistrationClick(object sender, EventArgs e)
+        {
+            var window = Application.Current.MainWindow;
+            var presenter = window.FindName("RegistrationPresent") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("MainRegistrationPage") as DataTemplate;
         }
 
         /* public void Reset()

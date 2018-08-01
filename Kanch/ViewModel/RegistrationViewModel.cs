@@ -173,27 +173,8 @@ namespace Kanch.ViewModel
         {
             if (RegistrationValidation())
             {
-                if (DriverViewModel.DriverVisible == Visibility.Visible)
-                {
-                    if (!await RegisterAsDriver())
-                        return;
-                }
-                else if (PhotographerViewModel.PhotographerVisible == Visibility.Visible)
-                {
-                    if (await RegisterAsPhotographer())
-                        return;
-                    
-                }
-                else if (GuideViewModel.GuideVisible == Visibility.Visible)
-                {
-                    if (await RegisterAsGuide())
-                        return;
-                }
-                else
-                {
-                    if (await RegisterAsUser())
-                        return;
-                }
+                if (await RegisterAsUser())
+                    return;
                 ErrorMessage = "It's ok.";
                 Reset();
             }
@@ -394,38 +375,7 @@ namespace Kanch.ViewModel
 
         public bool RegistrationValidation()
         {
-            if(!UserViewModel.UserInfoValidationResult(out string userErrorMessage))
-            {
-                this.ErrorMessage = userErrorMessage;
-                return false;
-            }
-
-            if (DriverViewModel.DriverVisible == Visibility.Visible)
-            {
-                if(!DriverViewModel.DriverInfoValidation(out string driverErrorMessage))
-                {
-                    this.ErrorMessage = driverErrorMessage;
-                    return false;
-                }
-            }
-
-            if(GuideViewModel.GuideVisible == Visibility.Visible)
-            {
-                if(!GuideViewModel.GuideInfoValidation(out string guideErrorMessage))
-                {
-                    this.ErrorMessage = guideErrorMessage;
-                    return false;
-                }
-            }
-
-            if(PhotographerViewModel.PhotographerVisible == Visibility.Visible)
-            {
-                if(!PhotographerViewModel.PhotographerInfoValidation(out string photographerErrorMessage))
-                {
-                    this.ErrorMessage = photographerErrorMessage;
-                    return false;
-                }
-            }
+            
 
             return true;
         }

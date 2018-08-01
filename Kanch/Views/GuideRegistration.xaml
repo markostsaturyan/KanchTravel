@@ -7,47 +7,193 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="23"/>
-            <RowDefinition Height="23"/>
-            <RowDefinition Height="23"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" />
-            <ColumnDefinition Width="222" />
-        </Grid.ColumnDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.Background>
+                    <ImageBrush ImageSource="/Images/nature3.jpg" Opacity="0.7"/>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row = "0" Grid.Column = "0"  HorizontalAlignment = "Left" Name = "textBlockProfession" Text = "Profession:" VerticalAlignment = "Top" Width = "110" />
-        <TextBox Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Left"  Name = "textBoxProfession" VerticalAlignment = "Top" Width = "222" Text="{Binding Path = GuideViewModel.Profession, Mode=TwoWay}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="80" />
+                </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row = "1" Grid.Column = "0"  HorizontalAlignment = "Left" Name = "textBlockEducationGrade" Text = "Education grade:" VerticalAlignment = "Top" Width = "110" />
-        <TextBox Grid.Row = "1" Grid.Column = "1" HorizontalAlignment = "Left"  Name = "textBoxEducationGrade" VerticalAlignment = "Top" Width = "222" Text="{Binding Path = GuideViewModel.EducationGrade, Mode=TwoWay}"/>
-        
-        <TextBlock Grid.Row = "2" Grid.Column = "0"  HorizontalAlignment = "Left" Name = "textBlockWorkExperience" Text = "Work experience" VerticalAlignment = "Top" Width = "110" />
-        <TextBox Grid.Row = "2" Grid.Column = "1" HorizontalAlignment = "Left"  Name = "textBoxWorkExperience" VerticalAlignment = "Top" Width = "222" Text="{Binding Path = GuideViewModel.WorkExperience, Mode=TwoWay}"/>
+                <!--end Button as a Link button using style-->
 
-        <TextBlock Grid.Row = "3" HorizontalAlignment = "Left" Name = "textBlockKnowledgesOfLanguages" Text = "Languages:" VerticalAlignment = "Top" />
-        <ListBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" Name="listBoxLanguages"
-             ItemsSource="{Binding Path=GuideViewModel.Languages}"
-             VerticalAlignment="Top">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <CheckBox Content="{Binding Text}"
-                     IsChecked="{Binding Path=IsSelected, Mode=TwoWay}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <TextBlock Grid.Row="4" HorizontalAlignment="Left" Name="textBlockPlaces" Text="Places you can guide:" VerticalAlignment="Top" />
-        <StackPanel Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBox Name="textBoxPlaces" Width="172" Text="{Binding Path=GuideViewModel.InputPlace,Mode=TwoWay}" />
-                <Button Name="addAPlace" Width="50" Command="{Binding Path = GuideViewModel.InputPlaceCommand}">Add</Button>
-            </StackPanel>
-            <ListBox  Name="listBoxPlaces" ItemsSource="{Binding Path=GuideViewModel.Places}" >
-            </ListBox>
-        </StackPanel>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="/Images/KanchLogo.png" Height="90" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <TextBlock  VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="30" FontStyle="Italic" FontFamily="Times New Roman"  Background="White" Opacity="0.7">K a n c h</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="30" Width="70" Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Cursor="Hand" Click="LoginClick">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">LogIn</TextBlock>
+                        </Button>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="30" Width="70" Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Cursor="Hand" Click="HomeClick">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Home</TextBlock>
+                        </Button>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="30" Width="80" Opacity="0.8" FontFamily="Arial" Cursor="Hand" Click="RegistrationClick">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Registration</TextBlock>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+
+                <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" >
+                    <!--end Button as a Link button using style-->
+
+
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="30" />  <!-- 1-->
+                        <RowDefinition Height="30" />  <!-- 2-->
+                        <RowDefinition Height="30" />  <!-- 3-->
+                        <RowDefinition Height="30" />  <!-- 4-->
+                        <RowDefinition Height="30" />  <!-- 5-->
+                        <RowDefinition Height="30" />  <!-- 6-->
+                        <RowDefinition Height="30" />  <!-- 7-->
+                        <RowDefinition Height="30" />  <!-- 8-->
+                        <RowDefinition Height="30" />  <!-- 9-->
+                        <RowDefinition Height="30" />  <!-- 10-->
+                        <RowDefinition Height="Auto" />  <!-- 11-->
+                        <RowDefinition Height="Auto" />  <!-- 12-->
+                        <RowDefinition Height="Auto" />  <!-- 13 -->
+                        <RowDefinition Height="30" />  <!-- 14 -->
+                        <RowDefinition Height="30" />  <!-- 15 -->
+                        <RowDefinition Height="30" />  <!-- 16 -->
+                                                       <!-- 17 -->
+                                                       <!-- 18 -->
+                                                       <!-- 19 -->
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="137"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock   Height = "25" HorizontalAlignment="Left"  x:Name ="errormessage" VerticalAlignment="Top" OpacityMask="Crimson" Foreground="#FFE5572C" Text="{Binding Path=ErrorMessage, Mode=TwoWay}" />
+
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockFirstname"              Text = "First Name:"            Grid.Row = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockLastName"               Text = "Last Name:"             Grid.Row = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockUserName"               Text = "User Name:"             Grid.Row = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockDateOfBirth"            Text = "Date Of Birth:"         Grid.Row = "4" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" x:Name = "Gender"                        Text = "Gender:"                Grid.Row = "5" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockEmail"                  Text = "Email:"                 Grid.Row = "6" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockPhoneNumber"            Text = "Phone Number"           Grid.Row = "7" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137" />
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockProfession"             Text = "Profession:"            Grid.Row = "8" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockEducationGrade"         Text = "Education Grade:"       Grid.Row = "9" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                                                        
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockWorkExperience"         Text = "Work Experience:"       Grid.Row = "10" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+
+                    <TextBlock Height = "90" Margin = "10,0" Name = "textBlockKnowledgesOfLanguages"                                    Grid.Row = "11" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137">Languages <LineBreak/> you know</TextBlock>
+
+                    <TextBlock   Height = "80" Margin = "10,0" Name = "textBlockPlaces"                                                 Grid.Row = "12" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137">Places you <LineBreak/> can guide</TextBlock>
+
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockPassword"               Text = "Password:"              Grid.Row = "13" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+                                                                                                 
+                    <TextBlock   Height = "25" Margin = "10,0" Name = "textBlockConfirmPwd"             Text = "Confirm Password:"      Grid.Row = "14" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
+
+
+
+                    <TextBox     Height = "25" Margin = "0,0,10,0" Name = "textBoxFirstName"   Grid.Row = "1"  VerticalAlignment = "Center" HorizontalAlignment = "Left"   Width = "222" Grid.Column = "1" Text = "{Binding Path = FirstName, Mode = TwoWay}" />
+
+                    <TextBox     Height = "25" Margin = "0,0,10,0" Name = "textBoxLastName"    Grid.Row = "2"  VerticalAlignment = "Center" HorizontalAlignment = "Left"   Width = "222" Grid.Column = "1" Text = "{Binding Path = LastName,  Mode = TwoWay}" />
+
+                    <TextBox     Height = "25" Margin = "0,0,10,0" Name = "textBoxUserName"    Grid.Row = "3"  VerticalAlignment = "Center" HorizontalAlignment = "Left"   Width = "222" Grid.Column = "1" Text = "{Binding Path = UserName,  Mode = TwoWay}" />
+
+                    <DatePicker  Height = "25" Margin = "0,0,10,0" Name = "textBoxDateOfBirth" Grid.Row = "4"  VerticalAlignment = "Center" HorizontalAlignment = "Left"   Width = "222" Grid.Column = "1" SelectedDate ="{Binding Path = DateOfBirth, Mode = TwoWay}" DisplayDate="1/1/1900" DisplayDateStart="1/1/1900" DisplayDateEnd="3/31/9999"/>
+
+                    <StackPanel  Height = "25" Margin = "0,0,10,0"  Grid.Row = "5" Grid.Column = "1"  HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "222" Background = "White" Orientation = "Horizontal">
+                        <RadioButton Width="120" x:Name = "male"    GroupName="Gender"   Content = "Male"   HorizontalAlignment = "Center" VerticalAlignment = "Center" IsChecked = "{Binding Path = Male,   Mode = TwoWay}" />
+                        <RadioButton Width="60"  x:Name = "female"  GroupName = "Gender" Content = "Female" HorizontalAlignment = "Center" VerticalAlignment = "Center" IsChecked = "{Binding Path = Female, Mode = TwoWay}" />
+                    </StackPanel>
+                    <TextBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left"  Name = "textBoxEmail"          VerticalAlignment = "Center" Width = "222" Grid.Row = "6"  Grid.Column = "1" Text = "{Binding Path = Email,          Mode = TwoWay}" />
+                                                                                                                                                                                                                                                                 
+                    <TextBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left"  Name = "textBoxPhoneNumber"    VerticalAlignment = "Center" Width = "222" Grid.Row = "7"  Grid.Column = "1" Text = "{Binding Path = PhoneNumber,    Mode = TwoWay}" />
+                                                                                                                                                                                                                                                                 
+                    <TextBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left"  Name = "textBoxProfession"     VerticalAlignment = "Center" Width = "222" Grid.Row = "8"  Grid.Column = "1" Text = "{Binding Path = Profession,     Mode = TwoWay}" />
+                                                                                                                                                                                                                                                                 
+                    <TextBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left"  Name = "textBoxEducationGrade" VerticalAlignment = "Center" Width = "222" Grid.Row = "9"  Grid.Column = "1" Text = "{Binding Path = EducationGrade, Mode = TwoWay}" />
+
+                    <TextBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left"  Name = "textBoxWorkExperience" VerticalAlignment = "Center" Width = "222" Grid.Row = "10" Grid.Column = "1" Text = "{Binding Path = WorkExperience, Mode = TwoWay}" />
+
+
+
+                    <ListBox Margin = "0,0,10,0" 
+                        Grid.Column = "1" 
+                        Grid.Row = "11" 
+                        Width = "222"
+                        HorizontalAlignment = "Left" 
+                        Name = "listBoxLanguages"
+                        ItemsSource = "{Binding Path = Languages}"
+                        VerticalAlignment = "Center">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox 
+                                    Content = "{Binding Text}"
+                                    IsChecked = "{Binding Path = IsSelected, Mode = TwoWay}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel 
+                        Margin = "0,0,10,0"
+                        Grid.Column = "1" 
+                        Grid.Row = "12"
+                        Width = "222"
+                        HorizontalAlignment = "Left" 
+                        VerticalAlignment = "Center" 
+                        Orientation = "Vertical">
+                        <StackPanel Orientation = "Horizontal">
+                            <TextBox Name = "textBoxPlaces" Width = "172" Text = "{Binding Path = InputPlace, Mode = TwoWay}" />
+                            <Button Name = "addAPlace" Width = "50" HorizontalAlignment = "Center" VerticalAlignment = "Center" FontFamily = "Times New Roman" FontStyle = "Italic" FontSize = "14" Command = "{Binding Path = InputPlaceCommand}">A d d</Button>
+                        </StackPanel>
+                        <ListBox  Name="listBoxPlaces" ItemsSource="{Binding Path = Places}" >
+                        </ListBox>
+                    </StackPanel>
+
+                    <PasswordBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "password"        VerticalAlignment = "Center" Width = "222" Grid.Row = "13" Grid.Column = "1" />
+
+                    <!--For password-->
+
+                    <PasswordBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "passwordConfirm" VerticalAlignment = "Center" Width = "222" Grid.Row = "14" Grid.Column = "1"  />
+
+
+
+
+
+                    <StackPanel Margin = "0,0,10,0" Orientation  = "Horizontal" Grid.Column = "1" Grid.Row = "15">
+
+                        <Button  Height = "30" HorizontalAlignment = "Left"  Name = "Submit" VerticalAlignment = "Center" Width = "80" Command = "{Binding Path = SubmitCommand}" Grid.Row = "1"  >
+                            <TextBlock HorizontalAlignment = "Center" VerticalAlignment = "Center"  FontFamily = "Times New Roman" FontStyle = "Italic" FontSize = "14">S u b m i t</TextBlock>
+                        </Button>
+
+                        <Button  Height = "30" HorizontalAlignment = "Left" Name = "button2" VerticalAlignment = "Center" Width = "150" Command = "{Binding Path = ResetCommand}" Grid.Row = "1" Margin = "25,0">
+                            <TextBlock HorizontalAlignment = "Center" VerticalAlignment = "Center" FontFamily = "Times New Roman" FontStyle = "Italic" FontSize = "14">R e s e t</TextBlock>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+
+
     </Grid>
 </UserControl>
