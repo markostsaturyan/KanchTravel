@@ -396,25 +396,6 @@
     <Compile Include="Verification.xaml.cs">
       <DependentUpon>Verification.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataManagement\CampingTripBLL\CampingTripRepository.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\CommentsRepository.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\ICampingTripRepository.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\ICommentsRepository.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\ISignUpForTheTrip.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\SignUpForTheTrip.cs" />
-    <Compile Include="DataManagement\Model\CampingTrip.cs" />
-    <Compile Include="DataManagement\Model\CampingTripContext.cs" />
-    <Compile Include="DataManagement\Model\CampingTripFull.cs" />
-    <Compile Include="DataManagement\Model\Comment.cs" />
-    <Compile Include="DataManagement\Model\CommentContext.cs" />
-    <Compile Include="DataManagement\Model\CommentFull.cs" />
-    <Compile Include="DataManagement\Model\Settings.cs" />
-    <Compile Include="DataManagement\Model\UserContext.cs" />
-    <Compile Include="DataManagement\Model\UsersDAL\UsersDal.cs" />
-    <Compile Include="DataManagement\Model\Users\Driver.cs" />
-    <Compile Include="DataManagement\Model\Users\Guide.cs" />
-    <Compile Include="DataManagement\Model\Users\Photographer.cs" />
-    <Compile Include="DataManagement\Model\Users\User.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

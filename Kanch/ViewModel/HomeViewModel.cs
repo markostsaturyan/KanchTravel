@@ -1,5 +1,5 @@
 ﻿using Kanch.Commands;
-using Kanch.DataManagement.Model;
+using Kanch.DataModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,9 +14,9 @@ namespace Kanch.ViewModel
     {
         public ICommand LoginCommand { get; set; }
 
-        private List<CampingTripFull> campingTrips = new List<CampingTripFull>();
+        private List<CampingTrip> campingTrips = new List<CampingTrip>();
 
-        public List<CampingTripFull> CampingTrips
+        public List<CampingTrip> CampingTrips
         {
             get
             {
@@ -54,7 +54,7 @@ namespace Kanch.ViewModel
                 {
                     var responseBody = await response.Content.ReadAsStringAsync();
 
-                    var trips = JsonConvert.DeserializeObject<List<CampingTripFull>>(responseBody);
+                    var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(responseBody);
 
                     foreach (var trip in trips)
                     {

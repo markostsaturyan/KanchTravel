@@ -4,8 +4,8 @@
     <Color x:Key="BackgroundColor1" A="200" R="0" G="115" B="179"/>
     <Color x:Key="BackgroundColor2" A="200" R="0" G="61" B="94"/>
 
-    <Color x:Key="MouseOverBackgroundColor1" A="255" R="0" G="156" B="231"/>
-    <Color x:Key="MouseOverBackgroundColor2" A="255" R="0" G="90" B="155"/>
+    <Color x:Key="MouseOverBackgroundColor1" A="200" R="0" G="156" B="231"/>
+    <Color x:Key="MouseOverBackgroundColor2" A="200" R="0" G="90" B="155"/>
 
     <SolidColorBrush x:Key="BorderBrush" Color="#ECECEC"/>
 
