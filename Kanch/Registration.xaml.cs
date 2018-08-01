@@ -23,6 +23,10 @@ namespace Kanch
         public MainWindow()
         {
             InitializeComponent();
+            RegistrationPresent.ContentTemplate = this.FindResource("MainRegistrationPage") as DataTemplate;
         }
+
     }
+
+
 }

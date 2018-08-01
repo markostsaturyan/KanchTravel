@@ -63,7 +63,6 @@ namespace UserManagement.Controllers
                 IsOk = true,
                 Message = "Your account is crated."
             };
-
         }
         
         // PUT: api/Driver/5

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using UserManagement.DataManagement.DataAccesLayer.Models;
 using UserManagement.DataManagement.DataAccesLayer;
 using UserManagement.Verification;
+using System.Net;
 
 namespace UserManagement.Controllers
 {
@@ -43,7 +44,9 @@ namespace UserManagement.Controllers
         {
             var code = this.dataAccesLayer.AddUserVerification(driver.UserName);
 
-            SendVerificationLinkEmail.SendEmail(driver.Email, code);
+            var emailSender = new SendVerificationCodeEmail(new NetworkCredential("noreply.recipeverify@gmail.com", "159recipe@&)"));
+
+            emailSender.Send(driver.Email, code.ToString());
         }
         
         // PUT: api/DriverVerification/5
