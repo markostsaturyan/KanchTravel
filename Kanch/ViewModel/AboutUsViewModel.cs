@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kanch
+namespace Kanch.ViewModel
 {
     class AboutUsViewModel : INotifyPropertyChanged
     {

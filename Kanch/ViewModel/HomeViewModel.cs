@@ -8,12 +8,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows.Input;
 
-namespace Kanch
+namespace Kanch.ViewModel
 {
-    class HomeViewModel : BaseViewModel
+    class HomeViewModel
     {
-        public BaseViewModel ViewModel { get; set; }
-
         public ICommand LoginCommand { get; set; }
 
         private List<CampingTripFull> campingTrips = new List<CampingTripFull>();

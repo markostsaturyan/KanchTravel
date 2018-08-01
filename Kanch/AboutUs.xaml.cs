@@ -19,13 +19,11 @@ namespace Kanch
     /// <summary>
     /// Interaction logic for AboutUs.xaml
     /// </summary>
-    public partial class AboutUs : Page
+    public partial class AboutUs : UserControl
     {
-        private AboutUsViewModel viewModel;
         public AboutUs()
         {
             InitializeComponent();
-            this.viewModel = new AboutUsViewModel();
         }
 
         private void ScrollChanged(object sender, ScrollEventArgs e)
