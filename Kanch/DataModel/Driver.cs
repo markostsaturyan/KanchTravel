@@ -8,9 +8,9 @@ namespace Kanch.DataModel
         public Car Car { get; set; }
 
         
-        public Image DrivingLicencePicFront { get; set; }
+        public byte[] DrivingLicencePicFront { get; set; }
 
-        public Image DrivingLicencePicBack { get; set; }
+        public byte[] DrivingLicencePicBack { get; set; }
 
         public string KnowledgeOfLanguages { get; set; }
 
