@@ -54,6 +54,7 @@
             <ContentPresenter Name="mainPage" HorizontalAlignment="Right"/>
 
         </Grid>
+        
     </Grid>
 
 </Window>

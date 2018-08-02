@@ -18,9 +18,9 @@ namespace Kanch.ProfileComponents.Views
     /// <summary>
     /// Interaction logic for GuideMainInfo.xaml
     /// </summary>
-    public partial class GuideMainInfo : UserControl
+    public partial class GuideMain: UserControl
     {
-        public GuideMainInfo()
+        public GuideMain()
         {
             InitializeComponent();
         }
