@@ -21,6 +21,8 @@ namespace CampingTripService.Controllers
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody]string campingTripId)
         {
+
+
             await this.signUpForTheTrip.AsMember(id, campingTripId);
         }
         

@@ -13,6 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement", "UserManag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kanch", "Kanch\Kanch.csproj", "{B691D63B-5613-44C2-A44F-5D8AFC5C5D5E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A9E7079B-2E70-4BC8-9103-531F8F1CD815}"
+	ProjectSection(SolutionItems) = preProject
+		StatusCodes.txt = StatusCodes.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

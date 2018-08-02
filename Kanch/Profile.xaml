@@ -3,57 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Kanch.ProfileComponents"
-        xmlns:localViews="clr-namespace:Kanch.ProfileComponents.Views"
+        xmlns:viewModels="clr-namespace:Kanch.ProfileComponents.ViewModels"
+        xmlns:views="clr-namespace:Kanch.ProfileComponents.Views"
         mc:Ignorable="d"
         Title="Profile" Height="Auto" Width="Auto">
 
     <Window.Resources>
 
-        <DataTemplate x:Key="UserMainInfo" DataType="{x:Type local:ProfileViewModel}">
-            <localViews:UserMainInfo />
+        <DataTemplate x:Key="UserMain">
+            <views:UserMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="DriverMainInfo" DataType="{x:Type local:ProfileViewModel}">
-            <localViews:DriverMainInfo />
+        <DataTemplate x:Key="DriverMain">
+            <views:DriverMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="PhotographerMainInfo" DataType="{x:Type local:ProfileViewModel}">
-            <localViews:PhotographerMainInfo />
+        <DataTemplate x:Key="PhotographerMain">
+            <views:PhotographerMain/>
         </DataTemplate>
 
-        <DataTemplate x:Key="GuideMainInfo" DataType="{x:Type local:ProfileViewModel}">
-            <localViews:GuideMainInfo />
+        <DataTemplate x:Key="GuideMain">
+            <views:GuideMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="UserOpportunities" DataType="{x:Type local:ProfileViewModel}">
-            <localViews:UsersՕpportunities />
+        <DataTemplate x:Key="AdminMain">
+            <views:AdminMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="CampingTrips" DataType="{x:Type local:ProfileViewModel}">
-            <localViews:CampingTrips />
+        <DataTemplate x:Key="CampingTrips">
+            <views:CampingTrips />
         </DataTemplate>
-        
+
+        <DataTemplate x:Key="CampingTripsRegistration">
+            <views:CampingTrips />
+        </DataTemplate>
+
+
     </Window.Resources>
 
     <Grid>
 
         <Grid Width="180" HorizontalAlignment="Left">
 
-            <StackPanel Orientation="Vertical">
+            <ContentPresenter Name="userMainInfoPresenter" Width="180"/>
 
-                <ContentPresenter Name="userMainInfoPresenter" Height="100" Width="180"></ContentPresenter>
-
-                <ContentPresenter Name="userOpportunities" Height="100" Width="180"></ContentPresenter>
-
-                <ContentPresenter Name="additionalOpportunities" Height="Auto" Width="180"></ContentPresenter>
-            </StackPanel>
         </Grid>
 
         <Grid HorizontalAlignment="Right" Width="575">
 
-            <ContentPresenter Name="mainPage" Width="Auto" HorizontalAlignment="Right"></ContentPresenter>
-        
+            <ContentPresenter Name="mainPage" HorizontalAlignment="Right"/>
+
         </Grid>
     </Grid>
 

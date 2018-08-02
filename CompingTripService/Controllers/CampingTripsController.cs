@@ -59,7 +59,7 @@ namespace CampingTripService.Controllers
         }
 
         // POST: api/CampingTrips
-        [Authorize(Policy = "Users")]
+        [Authorize]
         [HttpPost]
         public void Post([FromBody]string value)
         {

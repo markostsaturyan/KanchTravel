@@ -1,4 +1,4 @@
-﻿namespace UserManagement.DataManagement.DataAccesLayer.Models
+﻿namespace CampingTripService.DataManagement.Model
 {
     public class Status
     {
