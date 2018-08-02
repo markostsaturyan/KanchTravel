@@ -18,9 +18,9 @@ namespace Kanch.ProfileComponents.Views
     /// <summary>
     /// Interaction logic for PhotographerMainInfo.xaml
     /// </summary>
-    public partial class PhotographerMainInfo : UserControl
+    public partial class PhotographerMain : UserControl
     {
-        public PhotographerMainInfo()
+        public PhotographerMain()
         {
             InitializeComponent();
         }

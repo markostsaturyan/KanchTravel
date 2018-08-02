@@ -1,4 +1,5 @@
-﻿using Kanch.Commands;
+﻿using IdentityModel.Client;
+using Kanch.Commands;
 using Kanch.DataModel;
 using Kanch.ProfileComponents.DataModel;
 using Kanch.ProfileComponents.Utilities;
@@ -7,26 +8,31 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
     public class UserViewModel: INotifyPropertyChanged
     {
-        
+        #region Events
         public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+        #region Commands
 
         public ICommand JoinToTrip { get; set; }
 
-        public string StatusMessage;
+        public ICommand DismissInTrip { get; set; }
+
+#endregion
+
+        #region Properties and fields
+        public int ErrorCode;
+
+        public string ErrorMessage;
+
+        private TokenClient tokenClient;
 
         private HttpClient httpClient;
 
@@ -81,13 +87,27 @@ namespace Kanch.ProfileComponents.ViewModels
 
         }
 
+        #endregion
+
         public UserViewModel()
         {
+
+
             JoinToTrip = new Command(JoinToTripAsync, CanIJoinToTrip);
+            DismissInTrip = new Command(DismissInTripAsync, CanDismissTrip);
+            ConnectToServerAndGettingRefreshTokenAsync();
+            httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            GetUserInfoAsync();
+            GetCampingTripsAsync();
         }
 
         public async void GetUserInfoAsync()
         {
+            var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]);
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
             var response = await httpClient.GetAsync("api/User/" + ConfigurationSettings.AppSettings["userId"]);
 
             var content = response.Content;
@@ -118,6 +138,10 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var trip = this.generalCampingTrips.Find(campingTrip => campingTrip.ID == tripId);
 
+            var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]);
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
             var response = await httpClient.PutAsync("api/MembersOfCampingTrip/" + User.Id, new StringContent(tripId));
 
             var content = response.Content;
@@ -129,6 +153,8 @@ namespace Kanch.ProfileComponents.ViewModels
             if (status.StatusCode == 5001)
             {
                 trip.IAmJoined = true;
+                trip.CanIJoin = false;
+                trip.MembersOfCampingTrip.Add(this.user);
                 trip.Status = "I joined to trip";
             }
         }
@@ -163,7 +189,23 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public async void DismissInTripAsync(object campingTripId)
         {
+            var tripId = campingTripId as string;
 
+            var trip = this.generalCampingTrips.Find(campingTrip => campingTrip.ID == tripId);
+
+            var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]);
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var response = await httpClient.DeleteAsync("api/MembersOfCampingTrip/" + User.Id + "/" + tripId);
+
+            if (response.IsSuccessStatusCode)
+            {
+                trip.IAmJoined = false;
+                trip.CanIJoin = true;
+                trip.MembersOfCampingTrip.Remove(this.user);
+                trip.Status = "You went out of the campaign list";
+            }
         }
 
         public bool CanDismissTrip(object campingTripId)
@@ -174,15 +216,18 @@ namespace Kanch.ProfileComponents.ViewModels
 
             if (trip == null)
             {
-                trip.Status = "Trip is not found";
+                trip.Status = "Trip is not found.";
                 return false;
             }
 
+            if (!trip.IAmJoined)
+            {
+                trip.Status = "You are not registered to this campaign.";
+                return false;
+            }
 
-
+            return true;
         }
-
-
 
         public async void GetCampingTripsAsync()
         {
@@ -251,6 +296,24 @@ namespace Kanch.ProfileComponents.ViewModels
             GeneralCampingTrips = campingTrips;
 
             MyOrderedCampingTrips = myOrderedtrips;
+        }
+
+        private async void ConnectToServerAndGettingRefreshTokenAsync()
+        {
+            var disco = await DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]);
+
+            if (disco.IsError)
+            {
+                ErrorCode = 404;
+
+                ErrorMessage = disco.Error;
+
+                return;
+            }
+            else
+            {
+                tokenClient = new TokenClient(disco.TokenEndpoint, "kanchDesktopApp", "secret");
+            }
         }
     }
 }

@@ -18,9 +18,9 @@ namespace Kanch.ProfileComponents.Views
     /// <summary>
     /// Interaction logic for DriverMainInfo.xaml
     /// </summary>
-    public partial class DriverMainInfo : UserControl
+    public partial class DriverMain : UserControl
     {
-        public DriverMainInfo()
+        public DriverMain()
         {
             InitializeComponent();
         }
