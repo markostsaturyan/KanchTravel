@@ -44,5 +44,11 @@ namespace Kanch.ProfileComponents.DataModel
         public bool IsRegistrationCompleted { get; set; }
 
         public List<UserInfo> MembersOfCampingTrip { get; set; }
+
+        public bool CanIJoin { get; set; }
+
+        public bool IAmJoined { get; set; }
+
+        public string Status { get; set; }
     }
 }
