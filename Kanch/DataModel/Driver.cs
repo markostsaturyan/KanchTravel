@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Newtonsoft.Json;
 
 namespace Kanch.DataModel
 {
@@ -6,6 +7,7 @@ namespace Kanch.DataModel
     {
         public Car Car { get; set; }
 
+        
         public Image DrivingLicencePicFront { get; set; }
 
         public Image DrivingLicencePicBack { get; set; }

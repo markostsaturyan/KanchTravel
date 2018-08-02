@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,16 +17,16 @@ using Kanch.ViewModel;
 namespace Kanch.Views
 {
     /// <summary>
-    /// Interaction logic for PhotographerRegistration.xaml
+    /// Interaction logic for UserRegistration.xaml
     /// </summary>
-    public partial class PhotographerRegistration : UserControl
+    public partial class UserRegistration : UserControl
     {
-
-        public PhotographerRegistration()
+        public UserRegistration()
         {
-            this.DataContext = new PhotographerViewModel();
+            this.DataContext = new UserViewModel();
             InitializeComponent();
         }
+
 
         public void LoginClick(object sender, EventArgs e)
         {
@@ -52,13 +51,32 @@ namespace Kanch.Views
             presenter.ContentTemplate = window.FindResource("MainRegistrationPage") as DataTemplate;
         }
 
-        /* public void Reset()
-         {
-             this.textBoxCameraModel.Text = "";
-             this.textBoxProfession.Text = "";
-             this.textBoxWorkExperience.Text = "";
-             this.checkBoxIsProfessional.IsChecked = false;
-         }*/
+        private void Submitbutto(object sender, RoutedEventArgs e)
+        {
+            var myWindow = Window.GetWindow(this);
+            myWindow.Close();
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+
+        {
+
+            // converting sender to Password box
+
+            var passwordBox = (PasswordBox)sender;
+            var dataContext = DataContext as UserViewModel;
+
+
+            // setting to view model fields
+
+            if (passwordBox == this.password)
+
+                dataContext.Password = passwordBox.Password;
+
+            else dataContext.ConfirmPassword = passwordBox.Password;
+
+        }
+
 
 
 

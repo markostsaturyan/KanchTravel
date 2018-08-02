@@ -12,7 +12,16 @@ namespace Kanch.ViewModel
     public class GuideViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private Visibility guideVisible;
+        private string firstName;
+        private string lastName;
+        private string userName;
+        private string email;
+        private bool? male;
+        private bool? female;
+        private DateTime dateOfBirth;
+        private string phoneNumber;
+        private string password;
+        private string confirmPassword;
         private string profession;
         private string educationGrade;
         private string workExperience;
@@ -20,19 +29,143 @@ namespace Kanch.ViewModel
         private ObservableCollection<string> places;
         private string inputPlace;
 
-        public Visibility GuideVisible
+        public string FirstName
         {
             get
             {
-                return guideVisible;
+                return this.firstName;
             }
-
             set
             {
-                if (guideVisible != value)
+                if (this.firstName != value)
                 {
-                    guideVisible = value;
-                    NotifyPropertyChanged("GuideVisible");
+                    this.firstName = value;
+                    NotifyPropertyChanged("FirstName");
+                }
+            }
+        }
+
+        public string LastName
+        {
+            get
+            {
+                return this.lastName;
+            }
+            set
+            {
+                if (this.lastName != value)
+                {
+                    this.lastName = value;
+                    NotifyPropertyChanged("LastName");
+                }
+            }
+        }
+
+        public string UserName
+        {
+            get
+            {
+                return this.userName;
+            }
+            set
+            {
+                if (this.userName != value)
+                {
+                    this.userName = value;
+                    NotifyPropertyChanged("UserName");
+                }
+            }
+        }
+
+        public string Email
+        {
+            get { return this.email; }
+            set
+            {
+                if (this.email != value)
+                {
+                    this.email = value;
+                    NotifyPropertyChanged("Email");
+                }
+            }
+        }
+
+        public DateTime DateOfBirth
+        {
+            get { return this.dateOfBirth; }
+            set
+            {
+                if (this.dateOfBirth != value)
+                {
+                    this.dateOfBirth = value;
+                    NotifyPropertyChanged("DateOfBirth");
+                }
+            }
+        }
+
+        public bool? Male
+        {
+            get { return this.male; }
+            set
+            {
+                this.male = value;
+                NotifyPropertyChanged("Male");
+            }
+        }
+        public bool? Female
+        {
+            get { return this.female; }
+            set
+            {
+                this.female = value;
+                NotifyPropertyChanged("Female");
+            }
+        }
+
+        public string PhoneNumber
+        {
+            get
+            {
+                return this.phoneNumber;
+            }
+            set
+            {
+                if (this.phoneNumber != value)
+                {
+                    this.phoneNumber = value;
+                    NotifyPropertyChanged("PhoneNumber");
+                }
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return this.password;
+            }
+            set
+            {
+                if (this.password != value)
+                {
+                    this.password = value;
+                    NotifyPropertyChanged("Password");
+                }
+            }
+        }
+
+        public string ConfirmPassword
+        {
+            get
+            {
+                return this.confirmPassword;
+            }
+            set
+            {
+                if (this.confirmPassword != value)
+                {
+                    this.confirmPassword = value;
+                    NotifyPropertyChanged("ConfirmPassword");
                 }
             }
         }
@@ -125,7 +258,6 @@ namespace Kanch.ViewModel
 
         public GuideViewModel()
         {
-            this.GuideVisible = Visibility.Collapsed;
             Languages = new List<ListItem>();
             Languages.Add(new ListItem() { Text = "Armenian", IsSelected = false });
             Languages.Add(new ListItem() { Text = "Russian", IsSelected = false });

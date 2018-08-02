@@ -1,12 +1,11 @@
-﻿<Page x:Class="Kanch.AboutUs"
+﻿<UserControl x:Class="Kanch.AboutUs"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Kanch"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="AboutUs" Background="White">
+      d:DesignHeight="450" d:DesignWidth="800" Background="White">
 
     <Grid ScrollBar.Scroll="ScrollChanged">
         <Grid.RowDefinitions>
@@ -29,43 +28,46 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <!--<Label Grid.Column="0" Content="Hiking tours in Armenia." VerticalAlignment="Top" FontSize="14"/>
+            <ListView>
+                <!--<Label Grid.Column="0" Content="Hiking tours in Armenia." VerticalAlignment="Top" FontSize="14"/>
             <Label Content="📞 +37493637235 +37494424757" VerticalAlignment="Top" FontSize="14"/>-->
-            <TextBlock Grid.Column="0" FontSize="14" FontWeight="Medium" Foreground="#100468">
-                <LineBreak/>
-                <Run FontSize="38" FontWeight="Bold">WHO WE ARE?</Run>
-                <LineBreak/>
-                <Run FontSize="18" FontStyle="Italic">Hiking tours in Armenia.</Run>
-                <LineBreak/>
-                <LineBreak/>
-                'Kanch' team organizes weekly hiking and climbing. 
-                <LineBreak/>
-                We also organize tours for schoolchildren.
-                <LineBreak/>
-                <LineBreak/>
-                <Run FontSize="18" FontStyle="Italic">For Tourists</Run>
-                <LineBreak/>
-                <LineBreak/>
-                There are around 40 hiking and excursion destinations 
-                <LineBreak/>
-                for different groups. If necessary, we also care about food.
-                <LineBreak/>
-                <LineBreak/>
-                <Run FontSize="18" FontStyle="Italic">Tented Camps</Run>
-                <LineBreak/>
-                <LineBreak/>
-                Two-day and three-day tented camps, as well as summer camps 
-                <LineBreak/>
-                for children and students of different ages.
-                <LineBreak/>
-                <LineBreak/>
-                <Run FontSize="18" FontStyle="Italic">Cars and Buses</Run>
-                <LineBreak/>
-                <LineBreak/>
-                'Kanch' provides cars and buses with 4 to 50 seats.
-            </TextBlock>
+                <TextBlock Grid.Column="0" FontSize="14" FontWeight="Medium" Foreground="#100468">
+                    <LineBreak/>
+                    <Run FontSize="38" FontWeight="Bold">WHO WE ARE?</Run>
+                    <LineBreak/>
+                    <Run FontSize="18" FontStyle="Italic">Hiking tours in Armenia.</Run>
+                    <LineBreak/>
+                    <LineBreak/>
+                    'Kanch' team organizes weekly hiking and climbing. 
+                    <LineBreak/>
+                    We also organize tours for schoolchildren.
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run FontSize="18" FontStyle="Italic">For Tourists</Run>
+                    <LineBreak/>
+                    <LineBreak/>
+                    There are around 40 hiking and excursion destinations 
+                    <LineBreak/>
+                    for different groups. If necessary, we also care about food.
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run FontSize="18" FontStyle="Italic">Tented Camps</Run>
+                    <LineBreak/>
+                    <LineBreak/>
+                    Two-day and three-day tented camps, as well as summer camps 
+                    <LineBreak/>
+                    for children and students of different ages.
+                    <LineBreak/>
+                    <LineBreak/>
+                    <Run FontSize="18" FontStyle="Italic">Cars and Buses</Run>
+                    <LineBreak/>
+                    <LineBreak/>
+                    'Kanch' provides cars and buses with 4 to 50 seats.
+                </TextBlock>
+            </ListView>
+            
             <Image Grid.Column="1" Height="250" HorizontalAlignment="Right" VerticalAlignment="Top" Source="/Images/aboutUsBack.jpg"/>
 
         </Grid>
     </Grid>
-</Page>
+</UserControl>

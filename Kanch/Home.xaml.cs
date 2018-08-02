@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Kanch
@@ -18,15 +17,11 @@ namespace Kanch
     /// <summary>
     /// Interaction logic for Home.xaml
     /// </summary>
-    public partial class Home : Page
+    public partial class Home : Window
     {
-        private HomeViewModel viewModel;
-
         public Home()
         {
             InitializeComponent();
-            viewModel = new HomeViewModel();
-            this.DataContext = viewModel;
         }
     }
 }

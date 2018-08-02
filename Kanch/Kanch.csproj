@@ -244,7 +244,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Registration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -280,11 +280,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\ButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Verification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Registration.xaml">
+    <Page Include="Views\ChooseRegistrationType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserRegistration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -311,12 +323,11 @@
     <Compile Include="AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AboutUsViewModel.cs" />
+    <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BaseViewModel.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\RegistrationCommand.cs" />
@@ -333,8 +344,8 @@
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
@@ -382,25 +393,6 @@
     <Compile Include="Verification.xaml.cs">
       <DependentUpon>Verification.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataManagement\CampingTripBLL\CampingTripRepository.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\CommentsRepository.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\ICampingTripRepository.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\ICommentsRepository.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\ISignUpForTheTrip.cs" />
-    <Compile Include="DataManagement\CampingTripBLL\SignUpForTheTrip.cs" />
-    <Compile Include="DataManagement\Model\CampingTrip.cs" />
-    <Compile Include="DataManagement\Model\CampingTripContext.cs" />
-    <Compile Include="DataManagement\Model\CampingTripFull.cs" />
-    <Compile Include="DataManagement\Model\Comment.cs" />
-    <Compile Include="DataManagement\Model\CommentContext.cs" />
-    <Compile Include="DataManagement\Model\CommentFull.cs" />
-    <Compile Include="DataManagement\Model\Settings.cs" />
-    <Compile Include="DataManagement\Model\UserContext.cs" />
-    <Compile Include="DataManagement\Model\UsersDAL\UsersDal.cs" />
-    <Compile Include="DataManagement\Model\Users\Driver.cs" />
-    <Compile Include="DataManagement\Model\Users\Guide.cs" />
-    <Compile Include="DataManagement\Model\Users\Photographer.cs" />
-    <Compile Include="DataManagement\Model\Users\User.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -413,13 +405,16 @@
     <Compile Include="ViewModel\PhotographerViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
-    <Compile Include="Views\Registration.xaml.cs">
-      <DependentUpon>Registration.xaml</DependentUpon>
+    <Compile Include="Views\ChooseRegistrationType.xaml.cs">
+      <DependentUpon>ChooseRegistrationType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserRegistration.xaml.cs">
+      <DependentUpon>UserRegistration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HomeViewModel.cs" />
+    <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="OrderCampingTrip.xaml.cs">
       <DependentUpon>OrderCampingTrip.xaml</DependentUpon>
     </Compile>
@@ -462,6 +457,11 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\nature3.jpg" />
+    <Resource Include="Images\phoneImage.jpg" />
+    <Resource Include="Images\nature.jpg" />
+    <Resource Include="Images\nature1.jpg" />
+    <Resource Include="Images\nature2.jpg" />
     <Resource Include="Images\aboutUsBack.jpg" />
     <Content Include="Images\addPhoto.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
