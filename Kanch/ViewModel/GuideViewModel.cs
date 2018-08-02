@@ -316,7 +316,7 @@ namespace Kanch.ViewModel
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
-            var guide = new Photographer()
+            var guide = new Guide()
             {
                 FirstName = this.FirstName,
                 LastName = this.LastName,
@@ -325,6 +325,9 @@ namespace Kanch.ViewModel
                 DateOfBirth = this.DateOfBirth,
                 PhoneNumber = this.PhoneNumber,
                 Password = this.Password,
+                Profession=this.Profession,
+                WorkExperience=this.WorkExperience,
+                EducationGrade=this.EducationGrade,
             };
             if (Male == true)
             {
