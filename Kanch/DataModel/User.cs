@@ -19,7 +19,7 @@ namespace Kanch.DataModel
 
         public string Email { get; set; }
 
-        public Image Image { get; set; }
+        public byte[] Image { get; set; }
 
         public string UserName { get; set; }
 

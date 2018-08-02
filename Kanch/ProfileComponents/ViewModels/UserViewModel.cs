@@ -94,7 +94,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var jsonContent = await content.ReadAsStringAsync();
 
-            var user = JsonConvert.DeserializeObject<User>(jsonContent);
+            var user = JsonConvert.DeserializeObject<Photographer>(jsonContent);
 
             var userinfo = new UserInfo
             {

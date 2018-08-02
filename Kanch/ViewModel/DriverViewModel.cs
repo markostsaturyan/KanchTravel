@@ -673,15 +673,15 @@ namespace Kanch.ViewModel
             }
 
             if (this.CarPicture1 != this.AddImage)
-                driver.Car.CarPicture1 = BitmapImage2Bitmap(this.CarPicture1);
+                driver.Car.CarPicture1 = ImageSourceToBytes(this.CarPicture1);
             if (this.CarPicture2 != this.AddImage)
-                driver.Car.CarPicture2 = BitmapImage2Bitmap(this.CarPicture2);
+                driver.Car.CarPicture2 = ImageSourceToBytes(this.CarPicture2);
             if (this.CarPicture3 != this.AddImage)
-                driver.Car.CarPicture3 = BitmapImage2Bitmap(this.CarPicture3);
+                driver.Car.CarPicture3 = ImageSourceToBytes(this.CarPicture3);
             if (this.DrivingLicencePicBack != this.AddImage)
-                driver.DrivingLicencePicBack = BitmapImage2Bitmap(this.DrivingLicencePicBack);
+                driver.DrivingLicencePicBack = ImageSourceToBytes(this.DrivingLicencePicBack);
             if (this.DrivingLicencePicFront != this.AddImage)
-                driver.DrivingLicencePicFront = BitmapImage2Bitmap(this.DrivingLicencePicFront);
+                driver.DrivingLicencePicFront = ImageSourceToBytes(this.DrivingLicencePicFront);
             driver.KnowledgeOfLanguages = "";
             foreach(var language in this.Languages)
             {
@@ -689,11 +689,9 @@ namespace Kanch.ViewModel
                     driver.KnowledgeOfLanguages += language.Text + ',';
             }
 
-            var json = JsonConvert.SerializeObject(driver);
 
-            var dri = new StringContent(json);
 
-            var requestResult = await client.PostAsync("api/Driver",dri);
+            var requestResult = await client.PostAsync("api/Driver", new StringContent(JsonConvert.SerializeObject(driver), Encoding.UTF8, "application/json"));
             var content = requestResult.Content;
 
             var jsonContent = content.ReadAsStringAsync().Result;
@@ -781,7 +779,28 @@ namespace Kanch.ViewModel
             return bi;
         }
 
-        private Bitmap BitmapImage2Bitmap(ImageSource imageSource)
+        public byte[] ImageSourceToBytes(ImageSource imageSource)
+        {
+            byte[] bytes = null;
+            var bitmapSource = imageSource as BitmapSource;
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            if (bitmapSource != null)
+            {
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+
+                using (var stream = new MemoryStream())
+                {
+                    encoder.Save(stream);
+                    bytes = stream.ToArray();
+                }
+            }
+
+            return bytes;
+        }
+
+
+
+        /*private Bitmap BitmapImage2Bitmap(ImageSource imageSource)
         {
             var i =new ImageSourceValueSerializer();
 
@@ -800,7 +819,7 @@ namespace Kanch.ViewModel
                 //...
                 return bitmap;
             }
-        }
+        }*/
         public class ListItem:INotifyPropertyChanged
         {
             private bool isSelected;

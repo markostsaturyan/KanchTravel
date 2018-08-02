@@ -272,7 +272,7 @@ namespace Kanch.ViewModel
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
-            var user = new User()
+            var user = new Photographer()
             {
                 FirstName    =  this.FirstName,
                 LastName     =  this.LastName,

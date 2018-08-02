@@ -185,7 +185,7 @@ namespace Kanch.ViewModel
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
-            var user = new User()
+            var user = new Photographer()
             {
                 FirstName = UserViewModel.FirstName,
                 LastName = UserViewModel.LastName,
@@ -222,7 +222,7 @@ namespace Kanch.ViewModel
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
-            var guide = new Guide()
+            var guide = new Photographer()
             {
                 FirstName = UserViewModel.FirstName,
                 LastName = UserViewModel.LastName,
@@ -280,7 +280,7 @@ namespace Kanch.ViewModel
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
-            var photographer = new User()
+            var photographer = new Photographer()
             {
                 FirstName = UserViewModel.FirstName,
                 LastName = UserViewModel.LastName,
@@ -339,7 +339,7 @@ namespace Kanch.ViewModel
                     LicensePlate = DriverViewModel.LicensePlate
                 }
         };
-            if (DriverViewModel.CarPicture1 != DriverViewModel.AddImage)
+          /*  if (DriverViewModel.CarPicture1 != DriverViewModel.AddImage)
                 driver.Car.CarPicture1 = BitmapImage2Bitmap(DriverViewModel.CarPicture1);
             if (DriverViewModel.CarPicture2 != DriverViewModel.AddImage)
                 driver.Car.CarPicture2 = BitmapImage2Bitmap(DriverViewModel.CarPicture2);
@@ -356,7 +356,7 @@ namespace Kanch.ViewModel
             else
             {
                 driver.Gender = "Female";
-            }
+            }*/
 
             var requestResult = await client.PostAsync("api/Driver", new StringContent(JsonConvert.SerializeObject(driver), Encoding.UTF8, "application/json"));
             var content = requestResult.Content;

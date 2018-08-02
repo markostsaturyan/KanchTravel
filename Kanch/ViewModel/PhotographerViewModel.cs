@@ -1,7 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
+using System.Net.Http;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
+using Kanch.Commands;
+using Kanch.DataModel;
+using Newtonsoft.Json;
 
 namespace Kanch.ViewModel
 {
@@ -20,6 +29,7 @@ namespace Kanch.ViewModel
         private string password;
         private string confirmPassword;
         private string profession;
+        private List<ListItem> languages;
         private string workExperience;
         private List<ListItem> moreInformation;
         private string cameraModel;
@@ -179,6 +189,19 @@ namespace Kanch.ViewModel
             }
         }
 
+        public List<ListItem> Languages
+        {
+            get { return this.languages; }
+            set
+            {
+                if (this.languages != value)
+                {
+                    this.languages = value;
+                    NotifyPropertyChanged("Languages");
+                }
+            }
+        }
+
         public string Profession
         {
             get
@@ -258,16 +281,38 @@ namespace Kanch.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
 
+        public ICommand ResetCommand { get; set; }
+        public ICommand SubmitCommand { get; set; }
+
         public PhotographerViewModel()
         {
             this.MoreInformation = new List<ListItem>();
             this.MoreInformation.Add(new ListItem() { Text = "HasGopro", IsSelected = false });
             this.MoreInformation.Add(new ListItem() { Text = "HasCameraStabilizator", IsSelected = false });
             this.MoreInformation.Add(new ListItem() { Text = "HasDron", IsSelected = false });
+
+            this.Languages = new List<ListItem>();
+            this.Languages.Add(new ListItem() { Text = "Armenian", IsSelected = false });
+            this.Languages.Add(new ListItem() { Text = "Russian", IsSelected = false });
+            this.Languages.Add(new ListItem() { Text = "English", IsSelected = false });
+            this.Languages.Add(new ListItem() { Text = "German", IsSelected = false });
+            this.Languages.Add(new ListItem() { Text = "Italian", IsSelected = false });
+            this.Languages.Add(new ListItem() { Text = "French", IsSelected = false });
+            this.ResetCommand = new Command((o) => Reset());
+            this.SubmitCommand = new Command((o) => Submit());
         }
 
         public void Reset()
         {
+            this.FirstName = null;
+            this.LastName = null;
+            this.UserName = null;
+            this.Email = null;
+            this.PhoneNumber = null;
+            this.Password = null;
+            this.ConfirmPassword = null;
+            this.Male = null;
+            this.Female = null;
             this.Profession = "";
             this.WorkExperience = "";
             this.CameraModel = "";
@@ -278,44 +323,233 @@ namespace Kanch.ViewModel
             }
         }
 
-        private bool ProfessionValidation(ref string status)
+        public async void Submit()
         {
-            if (Profession == null)
+            if (PhotographerInfoValidationResult())
             {
-                status = "Enter your profession.";
+                if (await Registration())
+                {
+                    var verification = new Verification();
+                    var myWindow = Application.Current.MainWindow;
+                    verification.Show();
+                    myWindow.Close();
+                }
+            }
+
+            return;
+        }
+
+        public async Task<bool> Registration()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            var photographer = new Photographer()
+            {
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                UserName = this.UserName,
+                Email = this.Email,
+                DateOfBirth = this.DateOfBirth,
+                PhoneNumber = this.PhoneNumber,
+                Password = this.Password,
+                Profession = this.Profession,
+                WorkExperience = this.WorkExperience,
+                HasGopro = this.MoreInformation[0].IsSelected,
+                HasCameraStabilizator = this.MoreInformation[1].IsSelected,
+                HasDron = this.MoreInformation[2].IsSelected,
+                Camera = new Camera()
+                {
+                    Model = this.CameraModel,
+                    IsProfessional = this.IsProfessional
+                }
+            };
+            if (Male == true)
+            {
+                photographer.Gender = "Male";
+            }
+            else
+            {
+                photographer.Gender = "Female";
+            }
+
+            photographer.KnowledgeOfLanguages = "";
+            foreach (var language in this.Languages)
+            {
+                if (language.IsSelected)
+                    photographer.KnowledgeOfLanguages += language.Text + ',';
+            }
+
+
+            var requestResult = await client.PostAsync("api/Photographer", new StringContent(JsonConvert.SerializeObject(photographer), Encoding.UTF8, "application/json"));
+            var content = requestResult.Content;
+
+            var jsonContent = content.ReadAsStringAsync().Result;
+
+            var status = JsonConvert.DeserializeObject<Status>(jsonContent);
+            if (!status.IsOk)
+            {
+                this.ErrorMessage = status.Message;
                 return false;
             }
             return true;
         }
 
-        private bool WorkExperienceValidation(ref string status)
+        private bool FirstNameValidation()
         {
-            if (WorkExperience == null)
+            if (this.FirstName == null)
             {
-                status = "Enter your work experience.";
+                this.ErrorMessage = "Enter your first name.";
                 return false;
             }
             return true;
         }
 
-        private bool CameraModelValidation(ref string status)
+        private bool LastNameValidation()
         {
-            if (CameraModel == null)
+            if (this.LastName == null)
             {
-                status = "Enter model of the Camera.";
+                this.ErrorMessage = "Enter your last name";
                 return false;
             }
             return true;
         }
 
-        public bool PhotographerInfoValidation(out string status)
+        private bool UserNameValidation()
         {
-            status = "";
-            if (!ProfessionValidation(ref status))
+            if (this.UserName == null)
+            {
+                this.ErrorMessage = "Enter a user name";
                 return false;
-            else if (!WorkExperienceValidation(ref status))
+            }
+            return true;
+        }
+
+        private bool DateOfBirthValidation()
+        {
+            if (this.DateOfBirth == null)
+            {
+                this.ErrorMessage = "Enter your date of birth";
                 return false;
-            else if (!CameraModelValidation(ref status))
+            }
+            return true;
+        }
+
+        private bool GenderValidation()
+        {
+            if (this.male == null && this.female == null)
+            {
+                this.ErrorMessage = "Check your gender";
+                return false;
+            }
+            return true;
+        }
+
+        private bool EmailValidation()
+        {
+            if (this.Email.Length == 0)
+            {
+                this.ErrorMessage = "Enter an email.";
+                return false;
+            }
+            else if (!Regex.IsMatch(this.Email, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
+
+            {
+                this.ErrorMessage = "Enter a valid email.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool PasswordValidation()
+        {
+            if (this.Password.Length == 0)
+            {
+                this.ErrorMessage = "Enter password.";
+                return false;
+            }
+            else if (this.ConfirmPassword.Length == 0)
+            {
+                this.ErrorMessage = "Enter Confirm password.";
+                return false;
+            }
+            else if (this.Password != this.ConfirmPassword)
+            {
+                this.ErrorMessage = "Confirm password must be same as password.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool PhoneNumberValidation()
+        {
+            int index = 0;
+            if (this.PhoneNumber[0] == '+')
+                index++;
+            while (index < this.PhoneNumber.Length)
+            {
+                if (this.PhoneNumber[index] < '0' || this.PhoneNumber[index] > '9')
+                {
+                    this.ErrorMessage = "Enter a valid phone number.";
+                    return false;
+                }
+                index++;
+            }
+            return true;
+        }
+
+        private bool ProfessionValidation()
+        {
+            if (this.Profession == null)
+            {
+                this.ErrorMessage = "Enter your profession.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool WorkExperienceValidation()
+        {
+            if (this.WorkExperience == null)
+            {
+                this.ErrorMessage = "Enter your work experience.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool CameraModelValidation()
+        {
+            if (this.CameraModel == null)
+            {
+                this.ErrorMessage = "Enter model of the Camera.";
+                return false;
+            }
+            return true;
+        }
+
+        public bool PhotographerInfoValidationResult()
+        {
+            if (!FirstNameValidation())
+                return false;
+            else if (!LastNameValidation())
+                return false;
+            else if (!UserNameValidation())
+                return false;
+            else if (!DateOfBirthValidation())
+                return false;
+            else if (!GenderValidation())
+                return false;
+            else if (!EmailValidation())
+                return false;
+            else if (!PasswordValidation())
+                return false;
+            else if (!PhoneNumberValidation())
+                return false;
+            else if (!ProfessionValidation())
+                return false;
+            else if (!WorkExperienceValidation())
+                return false;
+            else if (!CameraModelValidation())
                 return false;
             return true;
         }

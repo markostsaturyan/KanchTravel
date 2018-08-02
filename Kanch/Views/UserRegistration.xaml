@@ -39,7 +39,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="30" Width="70" Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Cursor="Hand" Click="LoginClick">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">LogIn</TextBlock>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Log In</TextBlock>
                         </Button>
                         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="30" Width="70" Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Cursor="Hand" Click="HomeClick">
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Home</TextBlock>

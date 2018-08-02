@@ -386,10 +386,6 @@
     <Compile Include="ProfileComponents\Views\UserMain.xaml.cs">
       <DependentUpon>UserMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validation\DriverInfoValidation.cs" />
-    <Compile Include="Validation\GuideInfoValidation.cs" />
-    <Compile Include="Validation\PhotographerInfoValidation.cs" />
-    <Compile Include="Validation\UserInfoValidation.cs" />
     <Compile Include="Verification.xaml.cs">
       <DependentUpon>Verification.xaml</DependentUpon>
     </Compile>

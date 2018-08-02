@@ -27,13 +27,13 @@ namespace Kanch.DataModel
 
         public int MaxCountOfMembers { get; set; }
 
-        public User Organzier { get; set; }
+        public Photographer Organzier { get; set; }
 
         public int CountOfMembers { get; set; }
 
         public Driver Driver { get; set; }
 
-        public Guide Guide { get; set; }
+        public Photographer Guide { get; set; }
 
         public Photographer Photographer { get; set; }
 
@@ -43,6 +43,6 @@ namespace Kanch.DataModel
 
         public bool IsRegistrationCompleted { get; set; }
 
-        public List<User> MembersOfCampingTrip { get; set; }
+        public List<Photographer> MembersOfCampingTrip { get; set; }
     }
 }
