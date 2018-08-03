@@ -2,6 +2,9 @@
 using CampingTripService.DataManagement.CampingTripBLL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
+using CampingTripService.DataManagement.Model.Users;
+using CampingTripService.DataManagement.Model;
 
 namespace CampingTripService.Controllers
 {
@@ -17,12 +20,22 @@ namespace CampingTripService.Controllers
             this.signUpForTheTrip = signUpForTheTrip;
         }
 
+        [HttpGet("{id}")]
+        public List<User> Get(string id)
+        {
+            return this.signUpForTheTrip.GetMembersOfCampingTrip(id);
+        }
+
+        [HttpGet("{id}")]
+        public List<CampingTripFull> Get(int userId)
+        {
+            return this.signUpForTheTrip.GetUserRegisteredCampingTrips(userId);
+        }
+
         // PUT: api/MembersOfCampingTrip/5
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody]string campingTripId)
         {
-
-
             await this.signUpForTheTrip.AsMember(id, campingTripId);
         }
 

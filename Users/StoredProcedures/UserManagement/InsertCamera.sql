@@ -3,6 +3,8 @@
 	@model nvarchar(Max)
 AS
 	INSERT INTO Camera(IsProfessional, Model) 
-	OUTPUT SCOPE_IDENTITY() 
+	Output inserted.Id
 	VALUES(@isProfessional, @model)
+	
+
 RETURN 0

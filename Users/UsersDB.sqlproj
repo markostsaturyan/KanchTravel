@@ -146,6 +146,7 @@
     <Build Include="StoredProcedures\UserManagement\GetVerificationCode.sql" />
     <Build Include="StoredProcedures\UserManagement\GetByUserId.sql" />
     <Build Include="StoredProcedures\UserManagement\GetByUserName.sql" />
+    <Build Include="StoredProcedures\CampingTrip\GetUserRegisteredCampingTrips.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedures\CampingTrip\GetMembersOfTheCampingTrip.sql" />

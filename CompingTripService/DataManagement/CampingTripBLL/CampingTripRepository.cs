@@ -27,6 +27,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, true);
             var filter1 = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
             var trips= await campingTripContext.CampingTrips.Find(filter & filter1).ToListAsync();
+
             var campingTripsFull = new List<CampingTripFull>();
             foreach(var trip in trips)
             {
@@ -93,6 +94,19 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                           .ReplaceOneAsync(n => n.ID.Equals(id)
                                             , trip
                                             , new UpdateOptions { IsUpsert = true });
+        }
+
+        public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTripsForUsers()
+        {
+            var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, true);
+            var filter1 = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var trips = await campingTripContext.CampingTrips.Find(filter & filter1).ToListAsync();
+            var campingTripsFull = new List<CampingTripFull>();
+            foreach (var trip in trips)
+            {
+                campingTripsFull.Add(new CampingTripFull(trip));
+            }
+            return campingTripsFull;
         }
     }
 }

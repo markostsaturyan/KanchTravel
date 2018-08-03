@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using CampingTripService.DataManagement.Model;
 using CampingTripService.DataManagement.Model.Users;
 using MongoDB.Driver;
 
@@ -17,5 +19,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         Task<UpdateResult> RemovePhotographerFromTheTrip(string campingTripID);
         Task AsMember(int id,string CampingTripID);
         void RemoveMemberFromTheTrip(int id, string CampingTripID);
+        List<User> GetMembersOfCampingTrip(string campingTripId);
+        List<CampingTripFull> GetUserRegisteredCampingTrips(int userId);
     }
 }

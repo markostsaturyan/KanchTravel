@@ -8,6 +8,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
     public interface ICampingTripRepository
     {
         Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTrips();
+
+        Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTripsForUsers();
         Task<IEnumerable<CampingTripFull>> GetAllRegistartionNotCompletedCampingTrips();
         Task<IEnumerable<CampingTripFull>> GetAllCompletedCampingTrips();
         Task<IEnumerable<CampingTripFull>> GetCampingTrips();

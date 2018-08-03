@@ -11,6 +11,7 @@ namespace CampingTripService.DataManagement.Model.UsersDAL
     {
         public string ConnectionString { get; set; }
 
+
         public User GetUser(int id)
         {
             var user = new User();
@@ -201,6 +202,37 @@ namespace CampingTripService.DataManagement.Model.UsersDAL
 
                 return guide;
             }
+        }
+        public List<string> GetUserRegisteredCampingTripsId(int userId)
+        {
+            var campingTrips = new List<string>();
+            
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetUserRegisteredCampingTrips"
+                };
+
+                command.Parameters.AddWithValue("@userId", userId);
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        campingTrips.Add((string)dataReader["CampingTripID"]);
+                    }
+                }
+            }
+
+            return campingTrips;
+
         }
 
         public Photographer GetPhotographer(int id)
