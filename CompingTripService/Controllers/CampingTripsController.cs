@@ -52,7 +52,7 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/CampingTrips/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public async Task<CampingTripFull> Get(string id)
         {
             return await campingTripRepository.GetCampingTrip(id);
@@ -74,7 +74,7 @@ namespace CampingTripService.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [Authorize(Policy = "Organizer Or Admin")]
+        //[Authorize(Policy = "Organizer Or Admin")]
         [HttpDelete("{id}")]
         public void Delete(string id)
         {

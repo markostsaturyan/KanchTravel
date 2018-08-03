@@ -6,10 +6,12 @@ using Kanch.ProfileComponents.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Net.Http;
 using System.Windows.Input;
+using System.Linq;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
@@ -24,6 +26,14 @@ namespace Kanch.ProfileComponents.ViewModels
         public ICommand JoinToTrip { get; set; }
 
         public ICommand DismissInTrip { get; set; }
+
+        public ICommand AddFoodInTripFoods { get; set; }
+
+        public ICommand EditFood { get; set; }
+
+        public ICommand AddDirection { get; set; }
+
+        public ICommand DeleteDirection { get; set; }
 
 #endregion
 
@@ -54,9 +64,9 @@ namespace Kanch.ProfileComponents.ViewModels
 
         }
 
-        private List<CampingTripInfo> generalCampingTrips;
+        private ObservableCollection<CampingTripInfo> generalCampingTrips;
 
-        public List<CampingTripInfo> GeneralCampingTrips
+        public ObservableCollection<CampingTripInfo> GeneralCampingTrips
         {
             get
             {
@@ -71,9 +81,9 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
 
-        private List<CampingTripInfo> myOrderedCampingTrips;
+        private ObservableCollection<CampingTripInfo> myOrderedCampingTrips;
 
-        public List<CampingTripInfo> MyOrderedCampingTrips {
+        public ObservableCollection<CampingTripInfo> MyOrderedCampingTrips {
             get
             {
                 return this.myOrderedCampingTrips;
@@ -87,19 +97,92 @@ namespace Kanch.ProfileComponents.ViewModels
 
         }
 
+        private CampingTripInfo tripRegistration;
+        
+        public CampingTripInfo TripRegistration
+        {
+            get
+            {
+                return this.tripRegistration;
+            }
+            set
+            {
+                this.tripRegistration = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TripRegistration"));
+            }
+        }
+
+        private FoodInfo registrationFood;
+
+        public FoodInfo RegistrationFood
+        {
+            get
+            {
+                return this.registrationFood;
+            }
+            set
+            {
+                this.registrationFood = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RegistrationFood"));
+            }
+        }
+
+        private string direction;
+
+        public string Direction
+        {
+            get
+            {
+                return this.direction;
+            }
+
+            set
+            {
+                this.direction = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Direction"));
+            }
+        }
+
         #endregion
 
         public UserViewModel()
         {
-
-
             JoinToTrip = new Command(JoinToTripAsync, CanIJoinToTrip);
             DismissInTrip = new Command(DismissInTripAsync, CanDismissTrip);
+            AddFoodInTripFoods = new Command(o => AddFoodInRegistrationTripFoods(), o => CanAddFoodInTripFoods());
+            AddDirection = new Command(o => AddDirectionToRegistrationTrip());
+            this.TripRegistration = new CampingTripInfo();
+            this.RegistrationFood = new FoodInfo();
+            this.Direction = "";
             ConnectToServerAndGettingRefreshTokenAsync();
             httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
             GetUserInfoAsync();
             GetCampingTripsAsync();
+        }
+
+        public void AddFoodInRegistrationTripFoods()
+        {
+            this.tripRegistration.Food.Add(registrationFood);
+
+            registrationFood = new FoodInfo();
+        }
+
+        public bool CanAddFoodInTripFoods()
+        {
+            if (registrationFood.Name == null || registrationFood.Name == "" || registrationFood.Measure == 0) return false;
+
+
+            return true;
+        }
+
+        public void EditTripFood(object name)
+        {
+            var foodName = name as string;
+
+            if (foodName == null) throw new ArgumentNullException("Food name is null");
+
+            registrationFood = tripRegistration.Food.Where(food => food.Name == foodName).First();
         }
 
         public async void GetUserInfoAsync()
@@ -136,7 +219,7 @@ namespace Kanch.ProfileComponents.ViewModels
         {
             var tripId = campingTripId as string;
 
-            var trip = this.generalCampingTrips.Find(campingTrip => campingTrip.ID == tripId);
+            var trip = this.generalCampingTrips.Where(campingTrip => campingTrip.ID == tripId).First();
 
             var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]);
 
@@ -168,7 +251,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 throw new ArgumentException("Invalid value for camping trip id");
             }
 
-            var trip = this.generalCampingTrips.Find(campingTrip => campingTrip.ID == tripId);
+            var trip = this.generalCampingTrips.Where(campingTrip => campingTrip.ID == tripId).First();
 
             if (trip == null)
             {
@@ -191,7 +274,7 @@ namespace Kanch.ProfileComponents.ViewModels
         {
             var tripId = campingTripId as string;
 
-            var trip = this.generalCampingTrips.Find(campingTrip => campingTrip.ID == tripId);
+            var trip = this.generalCampingTrips.Where(campingTrip => campingTrip.ID == tripId).First();
 
             var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]);
 
@@ -212,7 +295,7 @@ namespace Kanch.ProfileComponents.ViewModels
         {
             var tripId = campingTripId as string;
 
-            var trip = this.generalCampingTrips.Find(campingTrip => campingTrip.ID == tripId);
+            var trip = this.generalCampingTrips.Where(campingTrip => campingTrip.ID == tripId).First();
 
             if (trip == null)
             {
@@ -229,6 +312,16 @@ namespace Kanch.ProfileComponents.ViewModels
             return true;
         }
 
+        public void AddDirectionToRegistrationTrip()
+        {
+            this.tripRegistration.Direction.Add(this.direction);
+        }
+
+        public void DeleteDirectionInRegistrationTrip(object selectedItem)
+        {
+
+        }
+
         public async void GetCampingTripsAsync()
         {
             var response = await httpClient.GetAsync("api/CampingTrips");
@@ -239,9 +332,9 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var trips = JsonConvert.DeserializeObject<List<CampingTripInfo>>(jsonContent);
 
-            var myOrderedtrips = new List<CampingTripInfo>();
+            var myOrderedtrips = new ObservableCollection<CampingTripInfo>();
 
-            var campingTrips = new List<CampingTripInfo>();
+            var campingTrips = new ObservableCollection<CampingTripInfo>();
 
             var zeroTime = new DateTime(1, 1, 1);
 

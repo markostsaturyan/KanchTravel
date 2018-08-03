@@ -27,8 +27,8 @@ namespace CampingTripService.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [Route("api/MembersOfCampingTrip/{id:int}/{campingTripId:string}")]
-        [HttpDelete("{id:int},{campingTripId:string}")]
+        [Route("api/MembersOfCampingTrip/{id:int}/{campingTripId}")]
+        [HttpDelete("{id:int},{campingTripId}")]
         public void Delete(int id,string campingTripId)
         {
             this.signUpForTheTrip.RemoveMemberFromTheTrip(id, campingTripId);
