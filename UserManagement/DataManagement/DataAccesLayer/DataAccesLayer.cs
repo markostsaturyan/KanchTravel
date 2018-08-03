@@ -391,6 +391,8 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandText = "GetFullUserInfoById"
                 };
 
+                command.Parameters.AddWithValue("@userId", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -404,13 +406,21 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["Id"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"]
                     };
+
+                    if (dataReader["Picture"] == DBNull.Value)
+                    {
+                        user.Image = null;
+                    }
+                    else
+                    {
+                        user.Image = (byte[])dataReader["Picture"];
+                    }
 
                 }
             }

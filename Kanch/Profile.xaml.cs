@@ -27,7 +27,7 @@ namespace Kanch
 
             userMainInfoPresenter.ContentTemplate = this.FindResource("UserMain") as DataTemplate;
             mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
-            this.DataContext = new UserViewModel();
+
         }
     }
 }

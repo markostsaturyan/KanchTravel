@@ -29,6 +29,7 @@ namespace Kanch.Views
         public void UserClick(object sender,EventArgs e)
         {
             var window = Application.Current.MainWindow;
+
             var presenter = window.FindName("RegistrationPresent") as ContentPresenter;
             presenter.ContentTemplate = window.FindResource("UserRegistration") as DataTemplate;
         }

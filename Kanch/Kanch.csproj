@@ -325,6 +325,8 @@
     <Compile Include="AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProfileComponents\ViewModels\CampingTripViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -453,6 +455,12 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\female.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\male.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Images\nature3.jpg" />
     <Resource Include="Images\phoneImage.jpg" />
     <Resource Include="Images\nature.jpg" />

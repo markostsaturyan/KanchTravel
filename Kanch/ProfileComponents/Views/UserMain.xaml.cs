@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kanch.ProfileComponents.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Kanch.ProfileComponents.Views
     {
         public UserMain()
         {
+            this.DataContext = new UserViewModel();
             InitializeComponent();
         }
     }

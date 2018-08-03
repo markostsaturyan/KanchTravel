@@ -43,6 +43,8 @@ namespace Kanch
 
             registration.Show();
 
+            Application.Current.MainWindow = registration;
+
             this.Close();
         }
 
@@ -86,11 +88,13 @@ namespace Kanch
 
             ConfigurationSettings.AppSettings.Set("userId", userId.Value);
 
-            this.Close();
-
             var profile = new Profile();
 
             profile.Show();
+
+            Application.Current.MainWindow = profile;
+
+            this.Close();
         }
 
         private void RetryConnectClick(object sender, RoutedEventArgs e)
