@@ -25,11 +25,27 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
+        <TextBox Text="{Binding TripRegistration.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"></TextBox>
 
-         <TextBox Text="{Binding TripRegistration.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"></TextBox>
-
-        <TextBox Text = "{Binding TripRegistration.Direction,Mode=TwoWay}" Grid.Column="1" Grid.Row="1"/>
-
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+            <TextBox Text = "{Binding RegistrationDirection,Mode=TwoWay}" Width="90" Grid.Column="1" Grid.Row="1"/>
+            <TextBlock Margin="10,0,10,0">
+                <Hyperlink Command="{Binding AddDirection}" FontSize="20" >
+                    +
+                </Hyperlink>
+            </TextBlock>
+            <ListView Name="directionsList" ItemsSource="{Binding TripRegistration.Direction}" Width="341" HorizontalAlignment="Right">
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>
+                        <Hyperlink Command="{Binding DeleteDirection}" CommandParameter="{Binding ElementName=directionsList.SelectedItem}">
+                            -
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </ListView>
+        </StackPanel>
         <DatePicker Text="{Binding TripRegistration.DepartureDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
 
         <DatePicker Text="{Binding TripRegistration.ArrivalDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
@@ -57,7 +73,7 @@
                 </ComboBox>
             </StackPanel>
             <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" FontSize="20">
-                <Hyperlink>+</Hyperlink>
+                <Hyperlink Command="{Binding AddFoodToTripFoods}">+</Hyperlink>
             </TextBlock>
         </StackPanel>
 
@@ -67,7 +83,7 @@
                 <TextBlock Text="{Binding Measure,Mode=TwoWay}"/>
                 <TextBlock Text="{Binding MeasurementUnit, Mode=TwoWay}"/>
                 <TextBlock>
-                    <Hyperlink Command="{Binding EditFood}">Edit</Hyperlink>
+                    <Hyperlink Command="{Binding EditFood}" CommandParameter="{Binding Name}">Edit</Hyperlink>
                 </TextBlock>           
             </StackPanel>
         </ListView>
