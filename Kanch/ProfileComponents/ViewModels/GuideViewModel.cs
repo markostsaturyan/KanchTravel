@@ -63,7 +63,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var jsonContent = await content.ReadAsStringAsync();
 
-            var guide = JsonConvert.DeserializeObject<Photographer>(jsonContent);
+            var guide = JsonConvert.DeserializeObject<Guide>(jsonContent);
 
             var guideInfo = new GuideInfo
             {
@@ -73,7 +73,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 Gender = guide.Gender,
                 DateOfBirth = guide.DateOfBirth,
                 Email = guide.Email,
-                Image = ImageConverter.ConvertImageToImageSource(guide.Image),
+               // Image = ImageConverter.ConvertImageToImageSource(guide.Image),
                 EducationGrade = guide.EducationGrade,
                 PhoneNumber = guide.PhoneNumber,
                 KnowledgeOfLanguages = guide.KnowledgeOfLanguages,

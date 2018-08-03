@@ -286,6 +286,7 @@ namespace Kanch.ViewModel
 
         public PhotographerViewModel()
         {
+            this.DateOfBirth = DateTime.Now;
             this.MoreInformation = new List<ListItem>();
             this.MoreInformation.Add(new ListItem() { Text = "HasGopro", IsSelected = false });
             this.MoreInformation.Add(new ListItem() { Text = "HasCameraStabilizator", IsSelected = false });
@@ -308,6 +309,7 @@ namespace Kanch.ViewModel
             this.LastName = null;
             this.UserName = null;
             this.Email = null;
+            this.DateOfBirth = DateTime.Now;
             this.PhoneNumber = null;
             this.Password = null;
             this.ConfirmPassword = null;

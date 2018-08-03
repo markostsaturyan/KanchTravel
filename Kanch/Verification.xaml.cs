@@ -29,7 +29,7 @@ namespace Kanch
         public Verification()
         {
             InitializeComponent();
-            this.userName = userName;
+            this.userName = ConfigurationSettings.AppSettings["userName"];
         }
 
         private void VerifyClick(object sender, RoutedEventArgs e)

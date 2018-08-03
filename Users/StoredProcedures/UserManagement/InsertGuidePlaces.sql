@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[InsertGuidePlaces]
 	@id int,
-	@place int
+	@place nvarchar(Max)
 AS
 
 Insert into GuidePlaces(UserId,Places)

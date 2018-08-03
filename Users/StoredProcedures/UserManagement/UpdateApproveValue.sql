@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[UpdateApproveValue]
-	@userName int,
-	@approveNewValue int
+	@userName nvarchar(400),
+	@approveNewValue bit
 AS
 
 UPDATE Users

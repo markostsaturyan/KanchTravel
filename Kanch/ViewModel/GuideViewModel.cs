@@ -283,6 +283,7 @@ namespace Kanch.ViewModel
 
         public GuideViewModel()
         {
+            this.DateOfBirth = DateTime.Now;
             Languages = new List<ListItem>();
             Languages.Add(new ListItem() { Text = "Armenian", IsSelected = false });
             Languages.Add(new ListItem() { Text = "Russian", IsSelected = false });
@@ -344,7 +345,7 @@ namespace Kanch.ViewModel
                 if (language.IsSelected)
                     guide.KnowledgeOfLanguages += language.Text + ',';
             }
-
+            guide.Places = new List<string>();
             foreach(var place in this.Places)
             {
                 guide.Places.Add(place);
@@ -383,6 +384,7 @@ namespace Kanch.ViewModel
             this.FirstName = null;
             this.LastName = null;
             this.UserName = null;
+            this.DateOfBirth = DateTime.Now;
             this.Email = null;
             this.PhoneNumber = null;
             this.Password = null;
