@@ -71,7 +71,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 Email = photographer.Email,
                 PhoneNumber = photographer.PhoneNumber,
                 DateOfBirth = photographer.DateOfBirth,
-                Image = ImageConverter.ConvertImageToImageSource(photographer.Image),
+               // Image = ImageConverter.ConvertImageToImageSource(photographer.Image),
                 UserName = photographer.UserName,
                 Camera = new CameraInfo
                 {

@@ -369,6 +369,7 @@ namespace Kanch.ViewModel
 
             this.AddImage = new BitmapImage(new Uri(String.Format("Images/addPhoto.png"), UriKind.Relative));
             AddImage.Freeze();
+            this.DateOfBirth = DateTime.Now;
 
             this.Languages = new List<ListItem>();
             this.Languages.Add(new ListItem() { Text = "Armenian", IsSelected = false });
@@ -394,6 +395,7 @@ namespace Kanch.ViewModel
             this.AddCarPicture3 = new Command(AddCarPhoto);
             this.AddDrivingLicencePicBack = new Command(AddDrivingLicencePic);
             this.AddDrivingLicencePicFront = new Command(AddDrivingLicencePic);
+
 
             this.SubmitCommand = new Command((o) => Submit());
             this.ResetCommand = new Command((o) => Reset());
@@ -711,6 +713,7 @@ namespace Kanch.ViewModel
             this.LastName = null;
             this.UserName = null;
             this.Email = null;
+            this.dateOfBirth = DateTime.Now;
             this.PhoneNumber = null;
             this.Password = null;
             this.ConfirmPassword = null;
@@ -799,27 +802,6 @@ namespace Kanch.ViewModel
         }
 
 
-
-        /*private Bitmap BitmapImage2Bitmap(ImageSource imageSource)
-        {
-            var i =new ImageSourceValueSerializer();
-
-
-            // BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
-
-            using (MemoryStream outStream = new MemoryStream())
-            {
-                BitmapEncoder enc = new BmpBitmapEncoder();
-                BitmapImage bitmapImage = imageSource as BitmapImage;
-                enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-                enc.Save(outStream);
-
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
-                BitmapSource bmp = (BitmapSource)bitmapImage;
-                //...
-                return bitmap;
-            }
-        }*/
         public class ListItem:INotifyPropertyChanged
         {
             private bool isSelected;

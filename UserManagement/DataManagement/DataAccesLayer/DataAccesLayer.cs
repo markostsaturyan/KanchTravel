@@ -128,7 +128,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
             var userId = AddUser(userInfo);
 
-            AddGuidePlaces(guide.Id, guide.Places);
+            AddGuidePlaces(userId, guide.Places);
 
             using (var connection = new SqlConnection(sqlConnectionString))
             {
@@ -167,7 +167,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     };
 
                     command.Parameters.AddWithValue("@id", id);
-                    command.Parameters.AddWithValue("@places", places[i]);
+                    command.Parameters.AddWithValue("@place", places[i]);
 
                     connection.Open();
 
@@ -214,7 +214,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicFront", driver.DrivingLicencePicFront);
                 commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicBack", driver.DrivingLicencePicBack);
                 commandForInsertDriver.Parameters.AddWithValue("@knowledgeOfLanguages", driver.KnowledgeOfLanguages);
-
+                connection.Open();
                 commandForInsertDriver.ExecuteNonQuery();
             }
 
@@ -1225,7 +1225,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["Age"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (byte[])dataReader["Picture"]),
+                        Image = (byte[])dataReader["Picture"],
                         UserName = (string)dataReader["UserName"],
                         Camera = camera,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -1617,7 +1617,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
             }
         }
 
-        public void UpdateApproveValue(string userName, int value)
+        public void UpdateApproveValue(string userName, bool value)
         {
             using (var connection = new SqlConnection(this.sqlConnectionString))
             {

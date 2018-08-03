@@ -197,7 +197,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var jsonContent = await content.ReadAsStringAsync();
 
-            var user = JsonConvert.DeserializeObject<Photographer>(jsonContent);
+            var user = JsonConvert.DeserializeObject<User>(jsonContent);
 
             var userinfo = new UserInfo
             {
@@ -209,7 +209,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 UserName = user.UserName,
-                Image = ImageConverter.ConvertImageToImageSource(user.Image),
+                //Image = ImageConverter.ConvertImageToImageSource(user.Image),
             };
 
             User = userinfo;

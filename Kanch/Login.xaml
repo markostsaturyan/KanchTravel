@@ -5,35 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kanch"
         mc:Ignorable="d"
-        Title="Login" Height="250" Width="300" ResizeMode="NoResize">
+        Title="Login" Height="350" Width="450" ResizeMode="NoResize">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/nature3.jpg" Opacity="0.7"/>
+        </Grid.Background>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
 
-            
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            
-                <TextBlock Text="User Name " HorizontalAlignment="Left"></TextBlock>
+
+                <TextBlock Text="User Name " VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width="100"></TextBlock>
 
                 <TextBox x:Name="userName" Width="150" Margin="15,0,0,0" HorizontalAlignment="Right" TextChanged="ChangeVisibility"/>
-            
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            
-                <TextBlock Text="Password"/>
 
-                <PasswordBox x:Name="password" Width="150" Margin="27,0,0,0" HorizontalAlignment="Right" PasswordChanged="ChangeVisibility"/>
-            
             </StackPanel>
-            
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+
+                <TextBlock Text="Password" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "100"/>
+
+                <PasswordBox x:Name="password" Width="150" Margin="15,0,0,0" HorizontalAlignment="Right" PasswordChanged="ChangeVisibility"/>
+
+            </StackPanel>
+
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="10">
-    
-                <Button Name="login" Height="20" Width="50" Content="Login" Margin="0,10,0,10" Click="LoginClick" > </Button>
-                
-                <TextBlock>
-                    <Hyperlink Name="registration" Click="RegistrationClick" FontSize="14" FontStyle="Normal">You are not yet registered</Hyperlink>
+
+                <Button Name="login" Height="50" Width="70"  Margin="0,10,0,10" Click="LoginClick" >
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                        Log In
+                    </TextBlock>
+                </Button>
+
+                <TextBlock Background="White" Opacity="0.7">
+                    <Hyperlink Name="registration" Click="RegistrationClick" FontSize="14" FontStyle="Normal" >You are not yet registered</Hyperlink>
                 </TextBlock>
-            
+
             </StackPanel>
 
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
@@ -45,7 +52,7 @@
                     <Hyperlink Name="retryConnect" Click="RetryConnectClick" FontSize="14" FontStyle="Normal">Retry connect</Hyperlink>
 
                 </TextBlock>
-            
+
             </StackPanel>
 
         </StackPanel>

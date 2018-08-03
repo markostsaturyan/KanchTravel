@@ -73,7 +73,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 Gender = guide.Gender,
                 DateOfBirth = guide.DateOfBirth,
                 Email = guide.Email,
-                Image = ImageConverter.ConvertImageToImageSource(guide.Image),
+               // Image = ImageConverter.ConvertImageToImageSource(guide.Image),
                 EducationGrade = guide.EducationGrade,
                 PhoneNumber = guide.PhoneNumber,
                 KnowledgeOfLanguages = guide.KnowledgeOfLanguages,

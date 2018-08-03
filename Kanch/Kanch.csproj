@@ -400,7 +400,6 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PhotographerViewModel.cs" />
-    <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="Views\ChooseRegistrationType.xaml.cs">
       <DependentUpon>ChooseRegistrationType.xaml</DependentUpon>
