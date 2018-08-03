@@ -6,12 +6,20 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using Kanch.Commands;
+using System.Text.RegularExpressions;
+using System.Net.Http;
+using System.Configuration;
+using Kanch.DataModel;
+using Newtonsoft.Json;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Kanch.ViewModel
 {
     public class GuideViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private string errorMessage;
         private string firstName;
         private string lastName;
         private string userName;
@@ -28,6 +36,19 @@ namespace Kanch.ViewModel
         private List<ListItem> languages;
         private ObservableCollection<string> places;
         private string inputPlace;
+
+        public  string ErrorMessage
+        {
+            get { return this.errorMessage; }
+            set
+            {
+                if (this.errorMessage != value)
+                {
+                    this.errorMessage = value;
+                    NotifyPropertyChanged("ErrorMessage");
+                }
+            }
+        }
 
         public string FirstName
         {
@@ -243,6 +264,10 @@ namespace Kanch.ViewModel
 
         public ICommand InputPlaceCommand { get; set; }
 
+        public ICommand ResetCommand { get; set; }
+
+        public ICommand SubmitCommand { get; set; }
+
         public string InputPlace
         {
             get { return this.inputPlace; }
@@ -258,6 +283,7 @@ namespace Kanch.ViewModel
 
         public GuideViewModel()
         {
+            this.DateOfBirth = DateTime.Now;
             Languages = new List<ListItem>();
             Languages.Add(new ListItem() { Text = "Armenian", IsSelected = false });
             Languages.Add(new ListItem() { Text = "Russian", IsSelected = false });
@@ -267,6 +293,76 @@ namespace Kanch.ViewModel
             Languages.Add(new ListItem() { Text = "French", IsSelected = false });
             this.places = new ObservableCollection<string>();
             this.InputPlaceCommand = new Command(AddPlace);
+            this.ResetCommand = new Command((o) => Reset());
+            this.SubmitCommand = new Command((o) => Submit());
+        }
+
+        private async void Submit()
+        {
+            if (GuideInfoValidationResult())
+            {
+                if (await Registration())
+                {
+                    var verification = new Verification();
+                    var myWindow = System.Windows.Application.Current.MainWindow;
+                    verification.Show();
+                    myWindow.Close();
+                }
+            }
+
+            return;
+        }
+
+        public async Task<bool> Registration()
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            var guide = new Guide()
+            {
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                UserName = this.UserName,
+                Email = this.Email,
+                DateOfBirth = this.DateOfBirth,
+                PhoneNumber = this.PhoneNumber,
+                Password = this.Password,
+                Profession=this.Profession,
+                WorkExperience=this.WorkExperience,
+                EducationGrade=this.EducationGrade,
+            };
+            if (Male == true)
+            {
+                guide.Gender = "Male";
+            }
+            else
+            {
+                guide.Gender = "Female";
+            }
+
+            guide.KnowledgeOfLanguages = "";
+            foreach (var language in this.Languages)
+            {
+                if (language.IsSelected)
+                    guide.KnowledgeOfLanguages += language.Text + ',';
+            }
+            guide.Places = new List<string>();
+            foreach(var place in this.Places)
+            {
+                guide.Places.Add(place);
+            }
+
+            var requestResult = await client.PostAsync("api/Guide", new StringContent(JsonConvert.SerializeObject(guide), Encoding.UTF8, "application/json"));
+            var content = requestResult.Content;
+
+            var jsonContent = content.ReadAsStringAsync().Result;
+
+            var status = JsonConvert.DeserializeObject<Status>(jsonContent);
+            if (!status.IsOk)
+            {
+                this.ErrorMessage = status.Message;
+                return false;
+            }
+            return true;
         }
 
         private void AddPlace(object obj)
@@ -285,53 +381,182 @@ namespace Kanch.ViewModel
 
         public void Reset()
         {
+            this.FirstName = null;
+            this.LastName = null;
+            this.UserName = null;
+            this.DateOfBirth = DateTime.Now;
+            this.Email = null;
+            this.PhoneNumber = null;
+            this.Password = null;
+            this.ConfirmPassword = null;
+            this.Male = null;
+            this.Female = null;
             this.Profession = "";
             this.EducationGrade = "";
             this.WorkExperience = "";
+            this.Places.Clear();
             foreach (var language in this.Languages)
             {
                 language.IsSelected = false;
             }
         }
 
-        private bool ProfessionValidation(ref string status)
+        private bool FirstNameValidation()
         {
-            if (Profession == null)
+            if (this.FirstName == null)
             {
-                status = "Enter your profession.";
+                this.ErrorMessage = "Enter your first name.";
                 return false;
             }
             return true;
         }
 
-        private bool EducationGradeValidation(ref string status)
+        private bool LastNameValidation()
         {
-            if (EducationGrade == null)
+            if (this.LastName == null)
             {
-                status = "Enter your education grade.";
+                this.ErrorMessage = "Enter your last name";
                 return false;
             }
             return true;
         }
 
-        private bool WorkExperienceValidation(ref string status)
+        private bool UserNameValidation()
         {
-            if (WorkExperience == null)
+            if (this.UserName == null)
             {
-                status = "Enter your work experience.";
+                this.ErrorMessage = "Enter a user name";
                 return false;
             }
             return true;
         }
 
-        public bool GuideInfoValidation(out string status)
+        private bool DateOfBirthValidation()
         {
-            status = "";
-            if (!ProfessionValidation(ref status))
+            if (this.DateOfBirth == null)
+            {
+                this.ErrorMessage = "Enter your date of birth";
                 return false;
-            else if (!EducationGradeValidation(ref status))
+            }
+            return true;
+        }
+
+        private bool GenderValidation()
+        {
+            if (this.male == null && this.female == null)
+            {
+                this.ErrorMessage = "Check your gender";
                 return false;
-            else if (!WorkExperienceValidation(ref status))
+            }
+            return true;
+        }
+
+        private bool EmailValidation()
+        {
+            if (this.Email.Length == 0)
+            {
+                this.ErrorMessage = "Enter an email.";
+                return false;
+            }
+            else if (!Regex.IsMatch(this.Email, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
+
+            {
+                this.ErrorMessage = "Enter a valid email.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool PasswordValidation()
+        {
+            if (this.Password.Length == 0)
+            {
+                this.ErrorMessage = "Enter password.";
+                return false;
+            }
+            else if (this.ConfirmPassword.Length == 0)
+            {
+                this.ErrorMessage = "Enter Confirm password.";
+                return false;
+            }
+            else if (this.Password != this.ConfirmPassword)
+            {
+                this.ErrorMessage = "Confirm password must be same as password.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool PhoneNumberValidation()
+        {
+            int index = 0;
+            if (this.PhoneNumber[0] == '+')
+                index++;
+            while (index < this.PhoneNumber.Length)
+            {
+                if (this.PhoneNumber[index] < '0' || this.PhoneNumber[index] > '9')
+                {
+                    this.ErrorMessage = "Enter a valid phone number.";
+                    return false;
+                }
+                index++;
+            }
+            return true;
+        }
+
+        private bool ProfessionValidation()
+        {
+            if (this.Profession == null)
+            {
+                this.ErrorMessage = "Enter your profession.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool EducationGradeValidation()
+        {
+            if (this.EducationGrade == null)
+            {
+                this.ErrorMessage = "Enter your education grade.";
+                return false;
+            }
+            return true;
+        }
+
+        private bool WorkExperienceValidation()
+        {
+            if (this.WorkExperience == null)
+            {
+                this.ErrorMessage = "Enter your work experience.";
+                return false;
+            }
+            return true;
+        }
+
+        public bool GuideInfoValidationResult()
+        {
+            if (!FirstNameValidation())
+                return false;
+            else if (!LastNameValidation())
+                return false;
+            else if (!UserNameValidation())
+                return false;
+            else if (!DateOfBirthValidation())
+                return false;
+            else if (!GenderValidation())
+                return false;
+            else if (!EmailValidation())
+                return false;
+            else if (!PasswordValidation())
+                return false;
+            else if (!PhoneNumberValidation())
+                return false;
+            else if (!ProfessionValidation())
+                return false;
+            else if (!EducationGradeValidation())
+                return false;
+            else if (!WorkExperienceValidation())
                 return false;
             return true;
         }

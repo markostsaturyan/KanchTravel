@@ -119,7 +119,13 @@
 
                 </StackPanel>
 
-                <Button Name="join" Content="Join" Height="100" Width="100" Command="{Binding JoinToTrip}" CommandParameter="{Binding Id}"></Button>
+                <StackPanel Orientation="Horizontal">
+
+                    <Button Name="join" Content="Join" Height="100" Width="100" Command="{Binding JoinToTrip}" CommandParameter="{Binding Id}" IsEnabled="{Binding CanIJoin}"></Button>
+
+                    <Button Name="dismiss" Content="Join" Height="100" Width="100" Command="{Binding DismissInTrip}" CommandParameter="{Binding Id}" IsEnabled="{Binding IAmJoined}"></Button>
+
+                </StackPanel>
                 
             </StackPanel>   
         

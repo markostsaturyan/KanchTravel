@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Kanch.ProfileComponents.DataModel
 {
@@ -37,12 +38,18 @@ namespace Kanch.ProfileComponents.DataModel
 
         public PhotographerInfo Photographer { get; set; }
 
-        public List<FoodInfo> Food { get; set; }
+        public ObservableCollection<FoodInfo> Food { get; set; }
 
         public double PriceOfTrip { get; set; }
 
         public bool IsRegistrationCompleted { get; set; }
 
-        public List<UserInfo> MembersOfCampingTrip { get; set; }
+        public ObservableCollection<UserInfo> MembersOfCampingTrip { get; set; }
+
+        public bool CanIJoin { get; set; }
+
+        public bool IAmJoined { get; set; }
+
+        public string Status { get; set; }
     }
 }

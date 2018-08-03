@@ -39,7 +39,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="30" Width="70" Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Cursor="Hand" Click="LoginClick">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">LogIn</TextBlock>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Log In</TextBlock>
                         </Button>
                         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="30" Width="70" Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Cursor="Hand" Click="HomeClick">
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Home</TextBlock>
@@ -103,8 +103,8 @@
                     <TextBox     Height = "25" Margin = "0,0,10,0" Name = "textBoxLastName"    Grid.Row = "2"  VerticalAlignment = "Center" HorizontalAlignment = "Left"   Width = "222" Grid.Column = "1" Text = "{Binding Path = LastName,  Mode = TwoWay}" />
                                                                                                                                                                                                                                                      
                     <TextBox     Height = "25" Margin = "0,0,10,0" Name = "textBoxUserName"    Grid.Row = "3"  VerticalAlignment = "Center" HorizontalAlignment = "Left"   Width = "222" Grid.Column = "1" Text = "{Binding Path = UserName,  Mode = TwoWay}" />
-                                                                                                                                                                                                       
-                    <DatePicker  Height = "25" Margin = "0,0,10,0" Name = "textBoxDateOfBirth" Grid.Row = "4"  VerticalAlignment = "Center" HorizontalAlignment = "Left"   Width = "222" Grid.Column = "1" SelectedDate ="{Binding Path = DateOfBirth, Mode = TwoWay}" DisplayDate="1/1/1900" DisplayDateStart="1/1/1900" DisplayDateEnd="3/31/9999"/>
+
+                    <DatePicker  Height = "25" Margin = "0,0,10,0" Name = "textBoxDateOfBirth" Grid.Row = "4"  VerticalAlignment = "Center" HorizontalAlignment = "Left"   Width = "222" Grid.Column = "1" SelectedDate ="{Binding Path = DateOfBirth, Mode = TwoWay}"  SelectedDateFormat="Long" Background="#cce6ff" DisplayDate="1/1/1900" DisplayDateStart="1/1/1900" DisplayDateEnd="3/31/9999"/>
 
                     <StackPanel  Height = "25" Margin = "0,0,10,0"  Grid.Row = "5" Grid.Column = "1"  HorizontalAlignment = "Left" VerticalAlignment = "Center" Width = "222" Background = "White" Orientation = "Horizontal">
                         <RadioButton Width="120" x:Name = "male"    GroupName="Gender"   Content = "Male"   HorizontalAlignment = "Center" VerticalAlignment = "Center" IsChecked = "{Binding Path = Male,   Mode = TwoWay}"/>

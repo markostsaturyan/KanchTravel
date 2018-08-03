@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Kanch.ProfileComponents.Views
 {
     /// <summary>
-    /// Interaction logic for GuideMainInfo.xaml
+    /// Interaction logic for PhotographerMainInfo.xaml
     /// </summary>
-    public partial class GuideMainInfo : UserControl
+    public partial class PhotographerMain : UserControl
     {
-        public GuideMainInfo()
+        public PhotographerMain()
         {
             InitializeComponent();
         }

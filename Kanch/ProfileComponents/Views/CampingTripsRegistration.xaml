@@ -12,105 +12,92 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         
-        <StackPanel Grid.Column="1">
+        <TextBox Text="{Binding TripRegistration.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0"></TextBox>
 
-            <TextBox Text="{Binding TripRegistration.Place}"></TextBox>
-
-            <TextBox Text = "{Binding TripRegistration.Direction}" />
-
-            <DatePicker Text="{Binding TripRegistration.DepartureDate}"/>
-
-            <DatePicker Text="{Binding TripRegistration.ArrivalDate}"/>
-
-            <TextBlock Text="{Binding TripRegistration.MinAge}"/>
-
-            <TextBlock Text="{Binding TripRegistration.MaxAge}"/>
-
-            <TextBlock Text="{Binding MinCountOfMembers}"/>
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock>Maximum Count of Members</TextBlock>
-
-                <TextBlock Text="{Binding MaxCountOfMembers}"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock> Count of Members</TextBlock>
-
-                <TextBlock Text="{Binding CountOfMembers}"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Vertical">
-                <TextBlock>Orgainzer</TextBlock>
-
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+            <TextBox Text = "{Binding RegistrationDirection,Mode=TwoWay}" Width="90" Grid.Column="1" Grid.Row="1"/>
+            <TextBlock Margin="10,0,10,0">
+                <Hyperlink Command="{Binding AddDirection}" FontSize="20" >
+                    +
+                </Hyperlink>
+            </TextBlock>
+            <ListView Name="directionsList" ItemsSource="{Binding TripRegistration.Direction}" Width="341" HorizontalAlignment="Right">
+                
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Organizer.FirstName}"/>
-
-                    <TextBlock Text="{Binding Organizer.LastName}"/>
+                    <TextBlock>
+                        <Hyperlink Command="{Binding DeleteDirection}" CommandParameter="{Binding ElementName=directionsList.SelectedItem}">
+                            -
+                        </Hyperlink>
+                    </TextBlock>
                 </StackPanel>
-            </StackPanel>
+            </ListView>
+        </StackPanel>
+        <DatePicker Text="{Binding TripRegistration.DepartureDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
 
+        <DatePicker Text="{Binding TripRegistration.ArrivalDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
+
+        <TextBox Text="{Binding TripRegistration.MinAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="4"/>
+
+        <TextBox Text="{Binding TripRegistration.MaxAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
+
+        <TextBox Text="{Binding TripRegistration.CountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="7">
+            <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                <TextBlock Text="Name"/>
+                <TextBox Text="{Binding RegistrationFood.Name, Mode=TwoWay}" Width="70" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                <TextBlock Text="Measure"/>
+                <TextBox Text="{Binding RegistrationFood.Measure,Mode=TwoWay}" Width="50"/>
+            </StackPanel>
             <StackPanel Orientation="Vertical">
-                <TextBlock>Driver</TextBlock>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Driver.FirstName}"/>
-
-                    <TextBlock Text="{Binding Driver.LastName}"/>
-                </StackPanel>
+                <TextBlock Text="Measurement Unit"/>
+                <ComboBox SelectedValue="{Binding RegistrationFood.MeasurementUnit, Mode=TwoWay}">
+                    <ComboBoxItem>Kg</ComboBoxItem>
+                    <ComboBoxItem>Piece</ComboBoxItem>
+                </ComboBox>
             </StackPanel>
-
-            <StackPanel Orientation="Vertical">
-                <TextBlock>Guide</TextBlock>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Guide.FirstName}"/>
-
-                    <TextBlock Text="{Binding Guide.LastName}"/>
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Orientation="Vertical">
-                <TextBlock>Photographer</TextBlock>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Photographer.FirstName}"/>
-
-                    <TextBlock Text="{Binding Photographer.LastName}"/>
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Orientation="Vertical">
-
-                <TextBlock>Foods</TextBlock>
-
-                <ListView ItemsSource="{Binding Food}"/>
-
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-
-                <TextBlock Text="Price"/>
-
-                <TextBlock Text="{Binding PriceOfTrip}"/>
-
-            </StackPanel>
-
-            <Button Name="join" Content="Join" Height="100" Width="100" Command="{Binding JoinToTrip}" CommandParameter="{Binding Id}"></Button>
-
+            <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" FontSize="20">
+                <Hyperlink Command="{Binding AddFoodToTripFoods}">+</Hyperlink>
+            </TextBlock>
         </StackPanel>
 
-        <StackPanel>
+        <ListView ItemsSource="{Binding TripRegistration.Food,Mode=TwoWay}" Grid.Column="1" Grid.Row="8">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Name, Mode=TwoWay}"/>
+                <TextBlock Text="{Binding Measure,Mode=TwoWay}"/>
+                <TextBlock Text="{Binding MeasurementUnit, Mode=TwoWay}"/>
+                <TextBlock>
+                    <Hyperlink Command="{Binding EditFood}" CommandParameter="{Binding Name}">Edit</Hyperlink>
+                </TextBlock>           
+            </StackPanel>
+        </ListView>
 
-            <TextBlock Text = "Place:"/>
-            <TextBlock Text="Direction"/>
-            <TextBlock Text="Departure Date:"/>
-            <TextBlock Text="Arrival Date:"/>
-            <TextBlock Text="Minimum Age"/>
-            <TextBlock Text="Maximum Age"/>
-            <TextBlock Text="Minimum Count of Members"/>
+        <Button Name="register" Content="Register" Height="20" Width="100" Command="{Binding RegisterTrip}" CommandParameter="{Binding Id}" Grid.Row="9"></Button>
 
-        </StackPanel>
+        <TextBlock Text = "Place" Grid.Column="0" Grid.Row="0"/>
+        <TextBlock Text="Direction" Grid.Column="0" Grid.Row="1"/>
+        <TextBlock Text="Departure Date" Grid.Column="0" Grid.Row="2"/>
+        <TextBlock Text="Arrival Date" Grid.Column="0" Grid.Row="3"/>
+        <TextBlock Text="Minimum Age" Grid.Column="0" Grid.Row="4"/>
+        <TextBlock Text="Maximum Age" Grid.Column="0" Grid.Row="5"/>
+        <TextBlock Text ="Count of Members" Grid.Column="0" Grid.Row="6"/>
+        <TextBlock Text="Foods" Grid.Column="0" Grid.Row="7"/>
+
     </Grid>
 </UserControl>

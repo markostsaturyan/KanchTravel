@@ -53,6 +53,19 @@ namespace Kanch.Views
             presenter.ContentTemplate = window.FindResource("MainRegistrationPage") as DataTemplate;
         }
 
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            // converting sender to Password box
+            var passwordBox = (PasswordBox)sender;
+            var dataContext = DataContext as GuideViewModel;
+
+
+            // setting to view model fields
+            if (passwordBox == this.password)
+                dataContext.Password = passwordBox.Password;
+            else dataContext.ConfirmPassword = passwordBox.Password;
+        }
+
         /* public void Reset()
          {
              this.checkBoxArmenian.IsChecked = null;

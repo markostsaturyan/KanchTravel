@@ -369,6 +369,7 @@ namespace Kanch.ViewModel
 
             this.AddImage = new BitmapImage(new Uri(String.Format("Images/addPhoto.png"), UriKind.Relative));
             AddImage.Freeze();
+            this.DateOfBirth = DateTime.Now;
 
             this.Languages = new List<ListItem>();
             this.Languages.Add(new ListItem() { Text = "Armenian", IsSelected = false });
@@ -394,6 +395,7 @@ namespace Kanch.ViewModel
             this.AddCarPicture3 = new Command(AddCarPhoto);
             this.AddDrivingLicencePicBack = new Command(AddDrivingLicencePic);
             this.AddDrivingLicencePicFront = new Command(AddDrivingLicencePic);
+
 
             this.SubmitCommand = new Command((o) => Submit());
             this.ResetCommand = new Command((o) => Reset());
@@ -673,15 +675,15 @@ namespace Kanch.ViewModel
             }
 
             if (this.CarPicture1 != this.AddImage)
-                driver.Car.CarPicture1 = BitmapImage2Bitmap(this.CarPicture1);
+                driver.Car.CarPicture1 = ImageSourceToBytes(this.CarPicture1);
             if (this.CarPicture2 != this.AddImage)
-                driver.Car.CarPicture2 = BitmapImage2Bitmap(this.CarPicture2);
+                driver.Car.CarPicture2 = ImageSourceToBytes(this.CarPicture2);
             if (this.CarPicture3 != this.AddImage)
-                driver.Car.CarPicture3 = BitmapImage2Bitmap(this.CarPicture3);
+                driver.Car.CarPicture3 = ImageSourceToBytes(this.CarPicture3);
             if (this.DrivingLicencePicBack != this.AddImage)
-                driver.DrivingLicencePicBack = BitmapImage2Bitmap(this.DrivingLicencePicBack);
+                driver.DrivingLicencePicBack = ImageSourceToBytes(this.DrivingLicencePicBack);
             if (this.DrivingLicencePicFront != this.AddImage)
-                driver.DrivingLicencePicFront = BitmapImage2Bitmap(this.DrivingLicencePicFront);
+                driver.DrivingLicencePicFront = ImageSourceToBytes(this.DrivingLicencePicFront);
             driver.KnowledgeOfLanguages = "";
             foreach(var language in this.Languages)
             {
@@ -689,11 +691,9 @@ namespace Kanch.ViewModel
                     driver.KnowledgeOfLanguages += language.Text + ',';
             }
 
-            var json = JsonConvert.SerializeObject(driver);
 
-            var dri = new StringContent(json);
 
-            var requestResult = await client.PostAsync("api/Driver",dri);
+            var requestResult = await client.PostAsync("api/Driver", new StringContent(JsonConvert.SerializeObject(driver), Encoding.UTF8, "application/json"));
             var content = requestResult.Content;
 
             var jsonContent = content.ReadAsStringAsync().Result;
@@ -713,6 +713,7 @@ namespace Kanch.ViewModel
             this.LastName = null;
             this.UserName = null;
             this.Email = null;
+            this.dateOfBirth = DateTime.Now;
             this.PhoneNumber = null;
             this.Password = null;
             this.ConfirmPassword = null;
@@ -781,26 +782,26 @@ namespace Kanch.ViewModel
             return bi;
         }
 
-        private Bitmap BitmapImage2Bitmap(ImageSource imageSource)
+        public byte[] ImageSourceToBytes(ImageSource imageSource)
         {
-            var i =new ImageSourceValueSerializer();
-
-
-            // BitmapImage bitmapImage = new BitmapImage(new Uri("../Images/test.png", UriKind.Relative));
-
-            using (MemoryStream outStream = new MemoryStream())
+            byte[] bytes = null;
+            var bitmapSource = imageSource as BitmapSource;
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            if (bitmapSource != null)
             {
-                BitmapEncoder enc = new BmpBitmapEncoder();
-                BitmapImage bitmapImage = imageSource as BitmapImage;
-                enc.Frames.Add(BitmapFrame.Create(bitmapImage));
-                enc.Save(outStream);
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
 
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(outStream);
-                BitmapSource bmp = (BitmapSource)bitmapImage;
-                //...
-                return bitmap;
+                using (var stream = new MemoryStream())
+                {
+                    encoder.Save(stream);
+                    bytes = stream.ToArray();
+                }
             }
+
+            return bytes;
         }
+
+
         public class ListItem:INotifyPropertyChanged
         {
             private bool isSelected;

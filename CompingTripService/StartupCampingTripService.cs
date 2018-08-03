@@ -34,7 +34,7 @@ namespace CompingTripService
                     options.Authority = Configuration["Authorization:Authority"];
                     options.RequireHttpsMetadata = false;
 
-                    options.ApiName = "compingTrip";
+                    options.ApiName = "campingTrip";
                 });
             services.AddTransient<ICampingTripRepository,CampingTripRepository>();
             services.AddTransient<ISignUpForTheTrip, SignUpForTheTrip>();
@@ -49,6 +49,8 @@ namespace CompingTripService
             {
                 options.ConnectionString = Configuration.GetSection("SqlConnection:ConnectionString").Value;
             });
+
+
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace CampingTripService.Controllers
         }
 
         // Get: api/Comments/
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public async Task<IEnumerable<CommentFull>> Get(string id)
         {
             var comments = await this.commentsRepository.GetComments(id);

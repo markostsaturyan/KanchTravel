@@ -12,11 +12,11 @@ namespace Kanch.DataModel
 
         public string FuelType { get; set; }
 
-        public Image CarPicture1 { get; set; }
+        public byte[] CarPicture1 { get; set; }
 
-        public Image CarPicture2 { get; set; }
+        public byte[] CarPicture2 { get; set; }
 
-        public Image CarPicture3 { get; set; }
+        public byte[] CarPicture3 { get; set; }
 
         public bool HasWiFi { get; set; }
 

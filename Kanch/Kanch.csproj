@@ -34,9 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IdentityModel, Version=3.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityModel.3.6.1\lib\net461\IdentityModel.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="IdentityModel, Version=3.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityModel.3.8.0\lib\net452\IdentityModel.dll</HintPath>
     </Reference>
     <Reference Include="IdentityServer4, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityServer4.2.2.0\lib\netstandard2.0\IdentityServer4.dll</HintPath>
@@ -107,6 +109,9 @@
     <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
     </Reference>
@@ -122,8 +127,14 @@
     <Reference Include="Microsoft.Extensions.ObjectPool, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.ObjectPool.2.0.0\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Options.ConfigurationExtensions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.WebEncoders, Version=2.0.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.WebEncoders.2.0.1\lib\netstandard2.0\Microsoft.Extensions.WebEncoders.dll</HintPath>
@@ -145,18 +156,6 @@
     </Reference>
     <Reference Include="Microsoft.Win32.Registry, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Registry.4.4.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
-    </Reference>
-    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
-      <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Options.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.7.0\lib\net45\MongoDB.Bson.dll</HintPath>
@@ -183,8 +182,7 @@
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.2.1\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
-      <HintPath>..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -195,11 +193,11 @@
       <HintPath>..\packages\System.Security.AccessControl.4.4.0\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Algorithms">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Security.Cryptography.Cng, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Cng.4.4.0\lib\net461\System.Security.Cryptography.Cng.dll</HintPath>
+    <Reference Include="System.Security.Cryptography.Cng, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Cng.4.5.0\lib\net461\System.Security.Cryptography.Cng.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Encoding">
       <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
@@ -210,7 +208,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.Cryptography.X509Certificates">
-      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Security.Cryptography.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -260,6 +258,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\AdminMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProfileComponents\Views\CampingTrips.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -268,23 +270,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProfileComponents\Views\DriverMainInfo.xaml">
+    <Page Include="ProfileComponents\Views\DriverMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProfileComponents\Views\GuideMainInfo.xaml">
+    <Page Include="ProfileComponents\Views\GuideMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProfileComponents\Views\PhotographerMainInfo.xaml">
+    <Page Include="ProfileComponents\Views\PhotographerMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProfileComponents\Views\UserMainInfo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ProfileComponents\Views\UsersՕpportunities.xaml">
+    <Page Include="ProfileComponents\Views\UserMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -357,7 +355,8 @@
     <Compile Include="Profile.xaml.cs">
       <DependentUpon>Profile.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProfileComponents\AdminViewModel.cs" />
+    <Compile Include="ProfileComponents\Utilities\ImageConverter.cs" />
+    <Compile Include="ProfileComponents\ViewModels\AdminViewModel.cs" />
     <Compile Include="ProfileComponents\DataModel\CameraInfo.cs" />
     <Compile Include="ProfileComponents\DataModel\CampingTripInfo.cs" />
     <Compile Include="ProfileComponents\DataModel\CarInfo.cs" />
@@ -366,36 +365,31 @@
     <Compile Include="ProfileComponents\DataModel\GuideInfo.cs" />
     <Compile Include="ProfileComponents\DataModel\PhotographerInfo.cs" />
     <Compile Include="ProfileComponents\DataModel\UserInfo.cs" />
-    <Compile Include="ProfileComponents\DriverViewModel.cs" />
-    <Compile Include="ProfileComponents\GuideViewModel.cs" />
-    <Compile Include="ProfileComponents\PhotographerViewModel.cs" />
-    <Compile Include="ProfileComponents\ProfileViewModel.cs" />
-    <Compile Include="ProfileComponents\UserViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\DriverViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\GuideViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\PhotographerViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\UserViewModel.cs" />
+    <Compile Include="ProfileComponents\Views\AdminMain.xaml.cs">
+      <DependentUpon>AdminMain.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProfileComponents\Views\CampingTrips.xaml.cs">
       <DependentUpon>CampingTrips.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\Views\CampingTripsRegistration.xaml.cs">
       <DependentUpon>CampingTripsRegistration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProfileComponents\Views\DriverMainInfo.xaml.cs">
-      <DependentUpon>DriverMainInfo.xaml</DependentUpon>
+    <Compile Include="ProfileComponents\Views\DriverMain.xaml.cs">
+      <DependentUpon>DriverMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProfileComponents\Views\GuideMainInfo.xaml.cs">
-      <DependentUpon>GuideMainInfo.xaml</DependentUpon>
+    <Compile Include="ProfileComponents\Views\GuideMain.xaml.cs">
+      <DependentUpon>GuideMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProfileComponents\Views\PhotographerMainInfo.xaml.cs">
-      <DependentUpon>PhotographerMainInfo.xaml</DependentUpon>
+    <Compile Include="ProfileComponents\Views\PhotographerMain.xaml.cs">
+      <DependentUpon>PhotographerMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProfileComponents\Views\UserMainInfo.xaml.cs">
-      <DependentUpon>UserMainInfo.xaml</DependentUpon>
+    <Compile Include="ProfileComponents\Views\UserMain.xaml.cs">
+      <DependentUpon>UserMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProfileComponents\Views\UsersՕpportunities.xaml.cs">
-      <DependentUpon>UsersՕpportunities.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Validation\DriverInfoValidation.cs" />
-    <Compile Include="Validation\GuideInfoValidation.cs" />
-    <Compile Include="Validation\PhotographerInfoValidation.cs" />
-    <Compile Include="Validation\UserInfoValidation.cs" />
     <Compile Include="Verification.xaml.cs">
       <DependentUpon>Verification.xaml</DependentUpon>
     </Compile>
@@ -409,7 +403,6 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PhotographerViewModel.cs" />
-    <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="Views\ChooseRegistrationType.xaml.cs">
       <DependentUpon>ChooseRegistrationType.xaml</DependentUpon>

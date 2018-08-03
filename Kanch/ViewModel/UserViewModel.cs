@@ -227,6 +227,7 @@ namespace Kanch.ViewModel
 
         public UserViewModel()
         {
+            this.DateOfBirth = DateTime.Now;
             this.ResetCommand = new Command((o) => Reset());
             this.SubmitCommand = new Command((o) => Submit());
         }
@@ -244,6 +245,7 @@ namespace Kanch.ViewModel
             this.FirstName = null;
             this.LastName = null;
             this.UserName = null;
+            this.DateOfBirth = DateTime.Now;
             this.Email = null;
             this.PhoneNumber = null;
             this.Password = null;
@@ -258,6 +260,7 @@ namespace Kanch.ViewModel
             {
                 if(await Registration())
                 {
+                    ConfigurationSettings.AppSettings["userName"] = this.userName;
                     var verification = new Verification();
                     var myWindow = Application.Current.MainWindow;
                     verification.Show();
@@ -272,7 +275,7 @@ namespace Kanch.ViewModel
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
-            var user = new User()
+            var user = new Photographer()
             {
                 FirstName    =  this.FirstName,
                 LastName     =  this.LastName,

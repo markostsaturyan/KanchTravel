@@ -1,4 +1,5 @@
 ﻿using Kanch.ProfileComponents;
+using Kanch.ProfileComponents.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,12 +25,9 @@ namespace Kanch
         {
             InitializeComponent();
 
-            var profileViewModel = new ProfileViewModel();
-
-            userMainInfoPresenter.ContentTemplate = this.FindResource("UserMainInfo") as DataTemplate;
-            userOpportunities.ContentTemplate = this.FindResource("UserOpportunities") as DataTemplate;
-            mainPage.ContentTemplate = this.FindResource("CampingTrips") as DataTemplate;
-            
+            userMainInfoPresenter.ContentTemplate = this.FindResource("UserMain") as DataTemplate;
+            mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
+            this.DataContext = new UserViewModel();
         }
     }
 }

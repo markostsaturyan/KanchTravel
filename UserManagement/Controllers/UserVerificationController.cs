@@ -21,7 +21,7 @@ namespace UserManagement.Controllers
         {
             if (this.dataAccesLayer.CodeIsValid(verification))
             {
-                this.dataAccesLayer.UpdateApproveValue(verification.UserName, 1);
+                this.dataAccesLayer.UpdateApproveValue(verification.UserName, true);
 
                 return new Status
                 {

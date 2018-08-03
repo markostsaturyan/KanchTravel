@@ -21,12 +21,15 @@ namespace CampingTripService.Controllers
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody]string campingTripId)
         {
+
+
             await this.signUpForTheTrip.AsMember(id, campingTripId);
         }
-        
+
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id,[FromBody]string campingTripId)
+        [Route("api/MembersOfCampingTrip/{id:int}/{campingTripId}")]
+        [HttpDelete("{id:int},{campingTripId}")]
+        public void Delete(int id,string campingTripId)
         {
             this.signUpForTheTrip.RemoveMemberFromTheTrip(id, campingTripId);
         }

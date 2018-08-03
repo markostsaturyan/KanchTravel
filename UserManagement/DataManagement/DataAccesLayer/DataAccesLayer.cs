@@ -59,7 +59,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 command.Parameters.AddWithValue("@dateOfBirth", user.DateOfBirth);
                 command.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
                 command.Parameters.AddWithValue("@email", user.Email);
-                command.Parameters.AddWithValue("@picture", ImageToByteArray(user.Image));
+                command.Parameters.AddWithValue("@picture", user.Image);
                 command.Parameters.AddWithValue("@username", user.UserName);
                 command.Parameters.AddWithValue("@password", hashedPassword);
                 command.Parameters.AddWithValue("@userGuid", userGuid);
@@ -128,7 +128,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
             var userId = AddUser(userInfo);
 
-            AddGuidePlaces(guide.Id, guide.Places);
+            AddGuidePlaces(userId, guide.Places);
 
             using (var connection = new SqlConnection(sqlConnectionString))
             {
@@ -167,7 +167,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     };
 
                     command.Parameters.AddWithValue("@id", id);
-                    command.Parameters.AddWithValue("@places", places[i]);
+                    command.Parameters.AddWithValue("@place", places[i]);
 
                     connection.Open();
 
@@ -211,10 +211,10 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
                 commandForInsertDriver.Parameters.AddWithValue("@userId", userId);
                 commandForInsertDriver.Parameters.AddWithValue("@carId", carId);
-                commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicFront", ImageToByteArray(driver.DrivingLicencePicFront));
-                commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicBack", ImageToByteArray(driver.DrivingLicencePicBack));
+                commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicFront", driver.DrivingLicencePicFront);
+                commandForInsertDriver.Parameters.AddWithValue("@drivingLicencePicBack", driver.DrivingLicencePicBack);
                 commandForInsertDriver.Parameters.AddWithValue("@knowledgeOfLanguages", driver.KnowledgeOfLanguages);
-
+                connection.Open();
                 commandForInsertDriver.ExecuteNonQuery();
             }
 
@@ -240,9 +240,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 commandForInsertCar.Parameters.AddWithValue("@brand", car.Brand);
                 commandForInsertCar.Parameters.AddWithValue("@numberOfSeats", car.NumberOfSeats);
                 commandForInsertCar.Parameters.AddWithValue("@fuelType", car.FuelType);
-                commandForInsertCar.Parameters.AddWithValue("@carPicture1", ImageToByteArray(car.CarPicture1));
-                commandForInsertCar.Parameters.AddWithValue("@carPicture2", ImageToByteArray(car.CarPicture2));
-                commandForInsertCar.Parameters.AddWithValue("@carPicture3", ImageToByteArray(car.CarPicture3));
+                commandForInsertCar.Parameters.AddWithValue("@carPicture1", car.CarPicture1);
+                commandForInsertCar.Parameters.AddWithValue("@carPicture2", car.CarPicture2);
+                commandForInsertCar.Parameters.AddWithValue("@carPicture3", car.CarPicture3);
                 commandForInsertCar.Parameters.AddWithValue("@licensePlate", car.LicensePlate);
                 commandForInsertCar.Parameters.AddWithValue("@hasWiFi", car.HasWiFi);
                 commandForInsertCar.Parameters.AddWithValue("@hasMicrophone", car.HasMicrophone);
@@ -407,7 +407,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = ByteArrayToImage(dataReader["Image"]),
+                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"]
                     };
@@ -448,7 +448,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = ByteArrayToImage(dataReader["Image"]),
+                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"],
                         EducationGrade = (string)dataReader["EducationGrade"],
@@ -566,7 +566,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = ByteArrayToImage(dataReader["Picture"]),
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Gender = (string)dataReader["Gender"]
                         });
@@ -608,9 +608,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
-                            CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
-                            CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
+                            CarPicture1 = (byte[])dataReader["CarPicture1"],
+                            CarPicture2 = (byte[])dataReader["CarPicture2"],
+                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             LicensePlate = (string)dataReader["LicensePlate"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
@@ -628,11 +628,11 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Email = (string)dataReader["Email"],
                             Gender=(string)dataReader["Gender"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = ByteArrayToImage(dataReader["Picture"]),
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Car = car,
-                            DrivingLicencePicFront = ByteArrayToImage(dataReader["DrivingLicencePicFront"]),
-                            DrivingLicencePicBack = ByteArrayToImage(dataReader["DrivingLicencePicBack"]),
+                            DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"],
+                            DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Rating = (double)dataReader["Rating"],
                             NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
@@ -676,9 +676,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Brand = (string)dataReader["Brand"],
                         NumberOfSeats = (int)dataReader["NumberOfSeats"],
                         FuelType = (string)dataReader["FuelType"],
-                        CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
-                        CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
-                        CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
+                        CarPicture1 = (byte[])dataReader["CarPicture1"],
+                        CarPicture2 = (byte[])dataReader["CarPicture2"],
+                        CarPicture3 = (byte[])dataReader["CarPicture3"],
                         HasWiFi = (bool)dataReader["HasWiFi"],
                         HasMicrophone = (bool)dataReader["HasMicrophone"],
                         HasAirConditioner = (bool)dataReader["HasAirConditioner"],
@@ -694,7 +694,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = ByteArrayToImage(dataReader["Image"]),
+                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Car = car,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -741,7 +741,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = ByteArrayToImage(dataReader["Picture"]),
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -834,7 +834,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = ByteArrayToImage(dataReader["Image"]),
+                            Image = (byte[])dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
@@ -902,7 +902,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["Age"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = ByteArrayToImage(dataReader["Picture"]),
+                        Image = (byte[])dataReader["Picture"],
                         UserName = (string)dataReader["UserName"],
                         Camera = camera,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -947,9 +947,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
-                            CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
-                            CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
+                            CarPicture1 = (byte[])dataReader["CarPicture1"],
+                            CarPicture2 = (byte[])dataReader["CarPicture2"],
+                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             LicensePlate = (string)dataReader["LicensePlate"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
@@ -967,11 +967,11 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Email = (string)dataReader["Email"],
                             Gender = (string)dataReader["Gender"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = ByteArrayToImage(dataReader["Picture"]),
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Car = car,
-                            DrivingLicencePicFront = ByteArrayToImage(dataReader["DrivingLicencePicFront"]),
-                            DrivingLicencePicBack = ByteArrayToImage(dataReader["DrivingLicencePicBack"]),
+                            DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"],
+                            DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                         });
                     }
@@ -1008,9 +1008,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Brand = (string)dataReader["Brand"],
                         NumberOfSeats = (int)dataReader["NumberOfSeats"],
                         FuelType = (string)dataReader["FuelType"],
-                        CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
-                        CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
-                        CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
+                        CarPicture1 = (byte[])dataReader["CarPicture1"],
+                        CarPicture2 = (byte[])dataReader["CarPicture2"],
+                        CarPicture3 = (byte[])dataReader["CarPicture3"],
                         HasWiFi = (bool)dataReader["HasWiFi"],
                         HasMicrophone = (bool)dataReader["HasMicrophone"],
                         HasAirConditioner = (bool)dataReader["HasAirConditioner"],
@@ -1026,7 +1026,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = ByteArrayToImage(dataReader["Image"]),
+                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Car = car,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -1067,7 +1067,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = ByteArrayToImage(dataReader["Picture"]),
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -1118,7 +1118,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = ByteArrayToImage(dataReader["Image"]),
+                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"],
                         EducationGrade = (string)dataReader["EducationGrade"],
@@ -1164,7 +1164,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = ByteArrayToImage(dataReader["Image"]),
+                            Image = (byte[])dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
@@ -1225,7 +1225,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["Age"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = ByteArrayToImage(dataReader["Picture"]),
+                        Image = (byte[])dataReader["Picture"],
                         UserName = (string)dataReader["UserName"],
                         Camera = camera,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -1269,9 +1269,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
-                            CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
-                            CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
+                            CarPicture1 = (byte[])dataReader["CarPicture1"],
+                            CarPicture2 = (byte[])dataReader["CarPicture2"],
+                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
                             HasAirConditioner = (bool)dataReader["HasAirConditioner"],
@@ -1315,9 +1315,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = ByteArrayToImage(dataReader["CarPicture1"]),
-                            CarPicture2 = ByteArrayToImage(dataReader["CarPicture2"]),
-                            CarPicture3 = ByteArrayToImage(dataReader["CarPicture3"]),
+                            CarPicture1 = (byte[])dataReader["CarPicture1"],
+                            CarPicture2 = (byte[])dataReader["CarPicture2"],
+                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
                             HasAirConditioner = (bool)dataReader["HasAirConditioner"],
@@ -1537,7 +1537,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@gender", user.Gender);
                 updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DateOfBirth);
                 updateCommand.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
-                updateCommand.Parameters.AddWithValue("@picture", ImageToByteArray(user.Image));
+                updateCommand.Parameters.AddWithValue("@picture", user.Image);
 
                 connection.Open();
 
@@ -1576,8 +1576,8 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 };
 
                 updateCommand.Parameters.AddWithValue("@userId", driver.Id);
-                updateCommand.Parameters.AddWithValue("@drivingLicencePicFront", ImageToByteArray(driver.DrivingLicencePicFront));
-                updateCommand.Parameters.AddWithValue("@drivingLicencePicBack", ImageToByteArray(driver.DrivingLicencePicBack));
+                updateCommand.Parameters.AddWithValue("@drivingLicencePicFront", driver.DrivingLicencePicFront);
+                updateCommand.Parameters.AddWithValue("@drivingLicencePicBack", driver.DrivingLicencePicBack);
                 updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", driver.KnowledgeOfLanguages);
 
                 connection.Open();
@@ -1602,9 +1602,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@fuelType", car.FuelType);
                 updateCommand.Parameters.AddWithValue("@numberOfSeats", car.NumberOfSeats);
                 updateCommand.Parameters.AddWithValue("@licensePlate", car.LicensePlate);
-                updateCommand.Parameters.AddWithValue("@carPicture1", ImageToByteArray(car.CarPicture1));
-                updateCommand.Parameters.AddWithValue("@carPicture2", ImageToByteArray(car.CarPicture2));
-                updateCommand.Parameters.AddWithValue("@carPicture3", ImageToByteArray(car.CarPicture3));
+                updateCommand.Parameters.AddWithValue("@carPicture1", car.CarPicture1);
+                updateCommand.Parameters.AddWithValue("@carPicture2", car.CarPicture2);
+                updateCommand.Parameters.AddWithValue("@carPicture3", car.CarPicture3);
                 updateCommand.Parameters.AddWithValue("@hasAirConditioner", car.HasAirConditioner);
                 updateCommand.Parameters.AddWithValue("@hasWiFi", car.HasWiFi);
                 updateCommand.Parameters.AddWithValue("@hasToilet", car.HasToilet);
@@ -1617,7 +1617,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
             }
         }
 
-        public void UpdateApproveValue(string userName, int value)
+        public void UpdateApproveValue(string userName, bool value)
         {
             using (var connection = new SqlConnection(this.sqlConnectionString))
             {
@@ -2072,9 +2072,11 @@ namespace UserManagement.DataManagement.DataAccesLayer
         public bool IsOrganaizer(int id)
         {
             var client = new MongoClient(mongoDbConnectionString);
+
             if (client != null)
             {
                 var database = client.GetDatabase(mongoDataBase);
+
                 var campingTrips = database.GetCollection<CampingTrip>("CampingTrips");
 
                 var filter = Builders<CampingTrip>.Filter.Eq(s => s.OrganzierID, id);
@@ -2144,7 +2146,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
         #region Utility
 
-        public Image ByteArrayToImage(object picture)
+       /* public Image ByteArrayToImage(object picture)
         {
             Image img = null;
             if (picture != null)
@@ -2173,7 +2175,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
             }
             else
                 return null;
-        }
+        }*/
 
         #endregion Utility
     }

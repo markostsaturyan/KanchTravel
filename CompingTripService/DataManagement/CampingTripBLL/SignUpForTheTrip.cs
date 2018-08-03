@@ -111,6 +111,15 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                 await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
 
             }
+            else
+            {
+                await new Task<Status>(() => new Status
+                {
+                    IsOk = false,
+                    StatusCode = 5001,
+                    Message = "Your age in not corresponds"
+                });
+            }
         }
 
         public void RemoveMemberFromTheTrip(int id, string campingTripID)

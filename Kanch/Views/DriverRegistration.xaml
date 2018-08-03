@@ -39,7 +39,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"  Height="30" Width="70" Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Cursor="Hand" Click="LoginClick">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">LogIn</TextBlock>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Log In</TextBlock>
                         </Button>
                         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="30" Width="70" Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Cursor="Hand" Click="HomeClick">
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Home</TextBlock>
@@ -83,7 +83,7 @@
                         <ColumnDefinition Width="137"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Height = "25" HorizontalAlignment="Left"  x:Name ="errormessage" VerticalAlignment="Top" OpacityMask="Crimson" Foreground="#FFE5572C" Text="{Binding Path=ErrorMessage, Mode=TwoWay}" />
+                    <TextBlock Height = "25" HorizontalAlignment="Left"  x:Name ="errormessage" VerticalAlignment="Top" OpacityMask="Crimson" Foreground="Red" Text="{Binding Path=ErrorMessage, Mode=TwoWay}" />
 
                     <TextBlock Height = "25" Margin = "10,0" Name = "textBlockFirstname"       Text = "First Name:"       Grid.Row = "1"  VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "14" FontFamily = "Arial" Width = "137"/>
                                                                                                                                                                                                                                                                                       
@@ -127,8 +127,8 @@
                     <TextBox    Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "textBoxLastName"     VerticalAlignment = "Center" Width = "222" Grid.Row = "2"   Grid.Column = "1" Text="{Binding Path = LastName, Mode=TwoWay}"/>
                                                                                                                                                                                                       
                     <TextBox    Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "textBoxUserName"     VerticalAlignment = "Center" Width = "222" Grid.Row = "3"   Grid.Column = "1" Text="{Binding Path = UserName, Mode=TwoWay}"/>
-                                                                                                                                                                                                      
-                    <DatePicker Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "textBoxDateOfBirth"  VerticalAlignment = "Center" Width = "222" Grid.Row = "4"   Grid.Column = "1" SelectedDate ="{Binding Path = DateOfBirth, Mode=TwoWay}" DisplayDateStart="1/1/1900" DisplayDateEnd="3/31/9999"/>
+
+                    <DatePicker Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "textBoxDateOfBirth"  VerticalAlignment = "Center" Width = "222" Grid.Row = "4"   Grid.Column = "1" SelectedDate ="{Binding Path = DateOfBirth, Mode=TwoWay}" SelectedDateFormat="Long" Background="#cce6ff"  DisplayDateStart="1/1/1900" DisplayDateEnd="3/31/9999" DisplayDate="1/1/1900"/>
                                                                                                                                                                                                       
                     <StackPanel Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "stackPanelGender"    VerticalAlignment = "Center" Width = "222" Grid.Row = "5"   Grid.Column = "1" Orientation="Horizontal"  Background="White" >
                         <RadioButton Width="120" x:Name = "male"   GroupName = "Gender" Content = "Male"   HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Path = Male, Mode=TwoWay}"  />
