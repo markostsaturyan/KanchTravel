@@ -323,6 +323,10 @@ namespace Kanch.ViewModel
             {
                 info.IsSelected = false;
             }
+            foreach(var language in this.Languages)
+            {
+                language.IsSelected = false;
+            }
         }
 
         public async void Submit()

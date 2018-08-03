@@ -59,7 +59,7 @@
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontStyle="Italic" FontFamily="Times New Roman" >G u i d e</TextBlock>
                 </Button>
                 <Button Grid.Row="5" Grid.Column="1" Name="photographerRegistration" Width="150" Height="45" Click="PhotographerClick">
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontStyle="Italic" FontFamily="Times New Roman" >P h o t o g r a f e r</TextBlock>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontStyle="Italic" FontFamily="Times New Roman" >P h o t o g r a p h e r</TextBlock>
                 </Button>
             </Grid>
         </ScrollViewer>

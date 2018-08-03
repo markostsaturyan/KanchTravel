@@ -189,11 +189,11 @@
 
                     </ListBox>
                     
-                    <PasswordBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "password"        VerticalAlignment = "Center" Width = "222" Grid.Row = "14" Grid.Column = "1" />
+                    <PasswordBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "password"        VerticalAlignment = "Center" Width = "222" Grid.Row = "14" Grid.Column = "1" PasswordChanged="PasswordBox_PasswordChanged"/>
 
                     <!--For password-->
 
-                    <PasswordBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "passwordConfirm" VerticalAlignment = "Center" Width = "222" Grid.Row = "15" Grid.Column = "1"  />
+                    <PasswordBox Height = "25" Margin = "0,0,10,0" HorizontalAlignment = "Left" Name = "passwordConfirm" VerticalAlignment = "Center" Width = "222" Grid.Row = "15" Grid.Column = "1"  PasswordChanged="PasswordBox_PasswordChanged"/>
 
 
 

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using CampingTripService.DataManagement.Model.UsersDAL;
 using CampingTripService.DataManagement.Model.Users;
+using System.Collections.Generic;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {
@@ -13,10 +14,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         private readonly CampingTripRepository campingTripRepository;
 
+        private readonly UsersDal usersDal;
+
         public SignUpForTheTrip(IOptions<Settings> settings)
         {
-            campingTripContext = new CampingTripContext(settings);
-            campingTripRepository = new CampingTripRepository(settings);
+            this.campingTripContext = new CampingTripContext(settings);
+            this.campingTripRepository = new CampingTripRepository(settings);
+            this.usersDal = new UsersDal();
         }
 
         public async Task<UpdateResult> AsDriver(int id,string campingTripID)
@@ -124,8 +128,23 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public void RemoveMemberFromTheTrip(int id, string campingTripID)
         {
-            var userDal = new UsersDal();
-            userDal.RemoveMemberFromTheTrip(id, campingTripID);
+            this.usersDal.RemoveMemberFromTheTrip(id, campingTripID);
+        }
+
+        public List<User> GetMembersOfCampingTrip(string campingTripId)
+        {
+            return this.usersDal.GetMembersOfTheCampingTrip(campingTripId);
+        }
+
+        public List<CampingTripFull> GetUserRegisteredCampingTrips(int userId)
+        {
+            var campingTripsId = this.usersDal.GetUserRegisteredCampingTripsId(userId);
+            var campingTrips = new List<CampingTripFull>();
+            foreach(var campingTrip in campingTripsId)
+            {
+                campingTrips.Add(this.campingTripRepository.GetCampingTrip(campingTrip).Result);
+            }
+            return campingTrips;
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Kanch.Views
         {
             var login = new Login();
             var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = login;
             login.Show();
             myWindow.Close();
         }
@@ -40,7 +41,8 @@ namespace Kanch.Views
         {
             var home = new Home();
             var myWindow = Window.GetWindow(this);
-            //home.Show();
+            Application.Current.MainWindow = home;
+            home.Show();
             myWindow.Close();
         }
 
@@ -49,12 +51,6 @@ namespace Kanch.Views
             var window = Application.Current.MainWindow;
             var presenter = window.FindName("RegistrationPresent") as ContentPresenter;
             presenter.ContentTemplate = window.FindResource("MainRegistrationPage") as DataTemplate;
-        }
-
-        private void Submitbutto(object sender, RoutedEventArgs e)
-        {
-            var myWindow = Window.GetWindow(this);
-            myWindow.Close();
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

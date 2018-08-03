@@ -35,6 +35,7 @@ namespace Kanch.Views
         {
             var login = new Login();
             var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = login;
             login.Show();
             myWindow.Close();
         }
@@ -43,7 +44,8 @@ namespace Kanch.Views
         {
             var home = new Home();
             var myWindow = Window.GetWindow(this);
-            //home.Show();
+            Application.Current.MainWindow = home;
+            home.Show();
             myWindow.Close();
         }
 
@@ -67,56 +69,6 @@ namespace Kanch.Views
             else dataContext.ConfirmPassword = passwordBox.Password;
         }
 
-
-        /* public Driver GetDriverInfo(User user)
-         {
-             var driver = new Driver()
-             {
-
-                 Car = new Car()
-                 {
-                     Brand = textBoxBrandOfCar.Text,
-                     FuelType = textBoxFuelType.Text,
-                     NumberOfSeats = Convert.ToInt32(textBoxNumberOfSeates.Text),
-                     LicensePlate = textBlockLicensePlate.Text,
-                     HasAirConditioner = checkBoxHasAirConditioner.IsChecked == true ? true : false,
-                     HasKitchen = checkBoxHasAirConditioner.IsChecked == true ? true : false,
-                     HasMicrophone = checkBoxHasMicrophone.IsChecked == true ? true : false,
-                     HasToilet = checkBoxHasToilet.IsChecked == true ? true : false,
-                     HasWiFi = checkBoxHasToilet.IsChecked == true ? true : false
-                 }
-             };
-
-             driver.KnowledgeOfLanguages = "";
-             if(checkBoxArmenian.IsChecked == true)
-             {
-                 driver.KnowledgeOfLanguages += "Armenian,";
-             }
-             if(checkBoxRussian.IsChecked == true)
-             {
-                 driver.KnowledgeOfLanguages += "Russian,";
-             }
-             if(checkBoxEnglish.IsChecked == true)
-             {
-                 driver.KnowledgeOfLanguages += "English,";
-             }
-             if(checkBoxGerman.IsChecked == true)
-             {
-                 driver.KnowledgeOfLanguages += "German,";
-             }
-             if(checkBoxFrench.IsChecked == true)
-             {
-                 driver.KnowledgeOfLanguages += "French,";
-             }
-             if(checkBoxItalian.IsChecked== true)
-             {
-                 driver.KnowledgeOfLanguages += "Italian";
-             }
-
-             return driver;
-         }
-
-     */
 
     }
 }

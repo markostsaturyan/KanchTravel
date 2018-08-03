@@ -34,6 +34,7 @@ namespace Kanch.Views
         {
             var login = new Login();
             var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = login;
             login.Show();
             myWindow.Close();
         }
@@ -42,7 +43,8 @@ namespace Kanch.Views
         {
             var home = new Home();
             var myWindow = Window.GetWindow(this);
-            //home.Show();
+            Application.Current.MainWindow = home;
+            home.Show();
             myWindow.Close();
         }
         
@@ -65,22 +67,6 @@ namespace Kanch.Views
                 dataContext.Password = passwordBox.Password;
             else dataContext.ConfirmPassword = passwordBox.Password;
         }
-
-        /* public void Reset()
-         {
-             this.checkBoxArmenian.IsChecked = null;
-             this.checkBoxEnglish.IsChecked = null;
-             this.checkBoxFrench.IsChecked = null;
-             this.checkBoxGerman.IsChecked = null;
-             this.checkBoxItalian.IsChecked = null;
-             this.checkBoxRussian.IsChecked = null;
-             this.textBoxEducationGrade.Text = "";
-             this.textBoxProfession.Text = "";
-             this.textBoxWorkExperience.Text = "";
-         }*/
-
-
-
 
     }
 }

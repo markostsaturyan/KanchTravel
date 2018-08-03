@@ -397,8 +397,6 @@
     </Compile>
     <Compile Include="ViewModel\DriverViewModel.cs" />
     <Compile Include="ViewModel\GuideViewModel.cs" />
-    <Compile Include="ViewModel\LoginViewModel.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PhotographerViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="Views\ChooseRegistrationType.xaml.cs">
@@ -449,9 +447,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\nature3.jpg" />
     <Resource Include="Images\phoneImage.jpg" />
