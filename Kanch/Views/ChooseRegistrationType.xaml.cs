@@ -69,5 +69,10 @@ namespace Kanch.Views
             //home.Show();
             myWindow.Close();
         }
+
+        private void HomeClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

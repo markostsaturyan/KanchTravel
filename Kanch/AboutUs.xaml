@@ -30,9 +30,8 @@
 
             <ListView>
                 <!--<Label Grid.Column="0" Content="Hiking tours in Armenia." VerticalAlignment="Top" FontSize="14"/>
-            <Label Content="📞 +37493637235 +37494424757" VerticalAlignment="Top" FontSize="14"/>-->
+            <Label Content="" VerticalAlignment="Top" FontSize="14"/>-->
                 <TextBlock Grid.Column="0" FontSize="14" FontWeight="Medium" Foreground="#100468">
-                    <LineBreak/>
                     <Run FontSize="38" FontWeight="Bold">WHO WE ARE?</Run>
                     <LineBreak/>
                     <Run FontSize="18" FontStyle="Italic">Hiking tours in Armenia.</Run>
@@ -63,6 +62,12 @@
                     <LineBreak/>
                     <LineBreak/>
                     'Kanch' provides cars and buses with 4 to 50 seats.
+                    📞 +37493637235 +37494424757
+                    <LineBreak/>
+                    m.me/Kanchtravelclub
+                    <LineBreak/>
+                    kanchtravel@gmail.com
+                    <LineBreak/>
                 </TextBlock>
             </ListView>
             
