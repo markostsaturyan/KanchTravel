@@ -7,6 +7,8 @@ namespace CampingTripService.DataManagement.Model
 {
     public class CampingTripFull
     {
+        public CampingTripFull() { }
+
         public CampingTripFull(CampingTrip campingTrip)
         {
             this.ID = campingTrip.ID;
