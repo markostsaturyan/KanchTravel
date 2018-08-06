@@ -21,6 +21,8 @@
 
         public double Rating { get; set; }
 
+        public int NumberOfAppraisers { get; set; }
+
         public bool HasDron { get; set; }
 
         public bool HasCameraStabilizator { get; set; }

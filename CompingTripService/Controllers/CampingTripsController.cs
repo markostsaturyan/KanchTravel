@@ -8,6 +8,8 @@ using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Primitives;
+using System.Security.Claims;
+using System.Linq;
 
 namespace CampingTripService.Controllers
 {
@@ -26,51 +28,53 @@ namespace CampingTripService.Controllers
         [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()
         {
-            var queryString = this.HttpContext.Request.Query;
-            if(!queryString.TryGetValue("status", out StringValues status))
-            {
-                status = string.Empty;
-            }
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
 
-             if (status == "RegistrationCompleted")
+            var role = claims.Where(claim => claim.Type == "role").First();
+
+            if (role.Value == "Admin")
             {
-                return await campingTripRepository.GetAllRegistartionCompletedCampingTrips();
-            }
-            else if(status == "Completed")
-            {
-                return await campingTripRepository.GetAllCompletedCampingTrips();
-            }
-            else if(status == "InProgress")
-            {
-                return await campingTripRepository.GetAllRegistartionNotCompletedCampingTrips();
+                return await campingTripRepository.GetAllRegistartionNotCompletedCampingTripsAsync();
             }
             else
             {
-                return await campingTripRepository.GetCampingTrips();
+                return await campingTripRepository.GetAllRegistartionNotCompletedCampingTripsForUserAsync();
             }
-            
         }
 
         // GET: api/CampingTrips/5
         [HttpGet("{id}")]
         public async Task<CampingTripFull> Get(string id)
         {
-            return await campingTripRepository.GetCampingTrip(id);
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var role = claims.Where(claim => claim.Type == "role").First();
+
+            if (role.Value == "Admin")
+            {
+                return await campingTripRepository.GetCampingTripAsync(id);
+            }
+            else
+            {
+                return await campingTripRepository.GetCampingTripForUserAsync(id);
+            }
         }
 
         // POST: api/CampingTrips
         [Authorize]
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]CampingTripFull campingTrip)
         {
-            campingTripRepository.AddCampingTrip(ReadToObject(value));
+            campingTripRepository.AddCampingTrip(campingTrip);
         }
         
         // PUT: api/CampingTrips/5
         [HttpPut("{id}")]
-        public void Put(string id, [FromBody]string value)
+        public void Put(string id, [FromBody]CampingTripFull campingTrip)
         {
-            campingTripRepository.UpdateCampingTrip(id, ReadToObject(value));
+            campingTripRepository.UpdateCampingTrip(id, campingTrip);
         }
 
         // DELETE: api/ApiWithActions/5
@@ -78,17 +82,7 @@ namespace CampingTripService.Controllers
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
-            campingTripRepository.RemoveCampingTrip(id);
-        }
-
-        public static CampingTrip ReadToObject(string json)
-        {
-            CampingTrip deserializedUser = new CampingTrip();
-            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(deserializedUser.GetType());
-            deserializedUser = ser.ReadObject(ms) as CampingTrip;
-            ms.Close();
-            return deserializedUser;
+            campingTripRepository.RemoveCampingTripAsync(id);
         }
     }
 }

@@ -2,9 +2,12 @@
 using CampingTripService.DataManagement.Model;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using CampingTripService.DataManagement.Model.UsersDAL;
 using CampingTripService.DataManagement.Model.Users;
 using System.Collections.Generic;
+using System;
+using IdentityModel.Client;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {
@@ -14,13 +17,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         private readonly CampingTripRepository campingTripRepository;
 
-        private readonly UsersDal usersDal;
+        private DiscoveryResponse discovery;
 
         public SignUpForTheTrip(IOptions<Settings> settings)
         {
             this.campingTripContext = new CampingTripContext(settings);
             this.campingTripRepository = new CampingTripRepository(settings);
-            this.usersDal = new UsersDal();
+            this.discovery = settings.Value.DiscoveryResponse;
         }
 
         public async Task<UpdateResult> AsDriver(int id,string campingTripID)
@@ -37,8 +40,14 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var trip = await campingTripContext.CampingTrips
                             .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
                             .FirstOrDefaultAsync();
-            var userDal = new UsersDal();
-            return userDal.GetDriver(trip.DriverID);
+            if (trip != null)
+            {
+                return await GetTripDriverAsync(trip.DriverID);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Guide> GetGuide(string id)
@@ -46,8 +55,14 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var trip = await campingTripContext.CampingTrips
                             .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
                             .FirstOrDefaultAsync();
-            var userDal = new UsersDal();
-            return userDal.GetGuide(trip.GuideID);
+            if (trip != null)
+            {
+                return await GetTripGuideAsync(trip.GuideID);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Photographer> GetPhotographer(string id)
@@ -55,9 +70,17 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var trip = await campingTripContext.CampingTrips
                             .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
                             .FirstOrDefaultAsync();
-            var userDal = new UsersDal();
-            return userDal.GetPhotographer(trip.PhotographerID);
+
+            if (trip != null)
+            {
+                return await GetTripPhotographerAsync(trip.PhotographerID);
+            }
+            else
+            {
+                return null;
+            }
         }
+
         public async Task<UpdateResult> RemoveDriverFromTheTrip(string campingTripID)
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
@@ -97,54 +120,227 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
-        public async Task AsMember(int id, string campingTripID)
+        public async Task<Status> AsMember(int id, string campingTripID)
         {
-            var campingTripFull = await campingTripRepository.GetCampingTrip(campingTripID);
-            var campingTrip = new CampingTrip(campingTripFull);
-            var userContext = new UserContext();
-            var user = userContext.GetUser(id);
-            if(campingTrip.MinAge <= user.Age && campingTrip.MaxAge >= user.Age)
+            var campingTrip = await campingTripRepository.GetTripAsync(campingTripID);
+
+            var user =await GetUserAsync(id);
+
+            if (user == null) return new Status()
             {
-                userContext.SignUpForTheCamping(id, campingTripID);
-                campingTrip.CountOfMembers++;
-                if (campingTrip.CountOfMembers == campingTrip.MaxCountOfMembers)
+                IsOk = false,
+                StatusCode = 4001,
+                Message = "User not found"
+            };
+
+            var zeroTime = new DateTime(1, 1, 1);
+
+            var span = DateTime.Now - user.DateOfBirth;
+
+            var userAge = (zeroTime + span).Year - 1;
+            if (campingTrip != null)
+            {
+                if (campingTrip.MinAge <= userAge && campingTrip.MaxAge >= userAge)
                 {
-                    campingTrip.IsRegistrationCompleted = true;
+                    campingTrip.MembersOfCampingTrip.Add(id);
+                    campingTrip.CountOfMembers++;
+
+                    if (campingTrip.CountOfMembers == campingTrip.MaxCountOfMembers)
+                    {
+                        campingTrip.IsRegistrationCompleted = true;
+                    }
+
+                    await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
+
+                    return new Status
+                    {
+                        IsOk = true,
+                        StatusCode = 1000,
+                        Message = "Member registered for the campaign"
+                    };
                 }
-
-                await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
-
+                else
+                {
+                    return new Status
+                    {
+                        IsOk = false,
+                        StatusCode = 5001,
+                        Message = "Your age in not corresponds"
+                    };
+                }
             }
             else
             {
-                await new Task<Status>(() => new Status
+                return new Status
                 {
                     IsOk = false,
-                    StatusCode = 5001,
-                    Message = "Your age in not corresponds"
-                });
+                    StatusCode = 5003,
+                    Message = "The trip not found"
+                };
             }
         }
 
-        public void RemoveMemberFromTheTrip(int id, string campingTripID)
+        public async Task<Status> RemoveMemberFromTheTrip(int id, string campingTripID)
         {
-            this.usersDal.RemoveMemberFromTheTrip(id, campingTripID);
-        }
+            var campingTrip = await campingTripRepository.GetTripAsync(campingTripID);
 
-        public List<User> GetMembersOfCampingTrip(string campingTripId)
-        {
-            return this.usersDal.GetMembersOfTheCampingTrip(campingTripId);
-        }
-
-        public List<CampingTripFull> GetUserRegisteredCampingTrips(int userId)
-        {
-            var campingTripsId = this.usersDal.GetUserRegisteredCampingTripsId(userId);
-            var campingTrips = new List<CampingTripFull>();
-            foreach(var campingTrip in campingTripsId)
+            if (campingTrip != null)
             {
-                campingTrips.Add(this.campingTripRepository.GetCampingTrip(campingTrip).Result);
+                if (campingTrip.MembersOfCampingTrip.Contains(id))
+                {
+                    campingTrip.MembersOfCampingTrip.Remove(id);
+
+                    if (campingTrip.IsRegistrationCompleted == true)
+                    {
+                        campingTrip.IsRegistrationCompleted = false;
+                        campingTrip.CountOfMembers--;
+                    }
+
+                    await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
+
+                    return new Status
+                    {
+                        IsOk = true,
+                        StatusCode = 1000,
+                        Message = "The member has been removed"
+                    };
+                }
+                else
+                {
+                    return new Status
+                    {
+                        IsOk = false,
+                        StatusCode = 5002,
+                        Message = "The user is not registered for this campaign"
+                    };
+                }
             }
-            return campingTrips;
+            else
+            {
+                return new Status
+                {
+                    IsOk = false,
+                    StatusCode = 5003,
+                    Message = "The trip not found"
+                };
+            }
+        }
+
+        private async Task<User> GetUserAsync(int id)
+        {
+            var tokenClinet = new TokenClient(this.discovery.TokenEndpoint, "campingTrip", "secret");
+
+            var tokenResponse = await tokenClinet.RequestClientCredentialsAsync("userManagement", "secret");
+
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:5000/")
+            };
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var response = await httpClient.GetAsync("api/User/" + id);
+
+            var user = new User();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+
+                var userJson = await content.ReadAsStringAsync();
+
+                user = JsonConvert.DeserializeObject<User>(userJson);
+
+            }
+
+            return user;
+        }
+
+        private async Task<Photographer> GetTripPhotographerAsync(int id)
+        {
+            var tokenClinet = new TokenClient(discovery.TokenEndpoint, "campingTrip", "secret");
+
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:5000/")
+            };
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var photographer = new Photographer();
+
+            var response = await httpClient.GetAsync("api/photographer/" + id);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+
+                var userJson = await content.ReadAsStringAsync();
+
+                photographer = JsonConvert.DeserializeObject<Photographer>(userJson);
+            }
+
+            return photographer;
+        }
+
+        private async Task<Driver> GetTripDriverAsync(int id)
+        {
+            var tokenClinet = new TokenClient(discovery.TokenEndpoint, "campingTrip", "secret");
+
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:5000/")
+            };
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var driver = new Driver();
+
+            var response = await httpClient.GetAsync("api/driver/" + id);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+
+                var userJson = await content.ReadAsStringAsync();
+
+                driver = JsonConvert.DeserializeObject<Driver>(userJson);
+            }
+
+            return driver;
+        }
+
+        private async Task<Guide> GetTripGuideAsync(int id)
+        {
+            var tokenClinet = new TokenClient(discovery.TokenEndpoint, "campingTrip", "secret");
+
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:5000/")
+            };
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var guide = new Guide();
+
+            var response = await httpClient.GetAsync("api/guide/" + id);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+
+                var userJson = await content.ReadAsStringAsync();
+
+                guide = JsonConvert.DeserializeObject<Guide>(userJson);
+            }
+
+            return guide;
         }
     }
 }

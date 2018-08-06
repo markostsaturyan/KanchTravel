@@ -2,16 +2,18 @@
 using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model.Users;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
+    [Authorize(Policy ="OnlyForAdmin")]
     [Produces("application/json")]
-    [Route("api/DriversOfCampingTrips")]
-    public class TripDriverController : Controller
+    [Route("api/TripsDriverManagemant")]
+    public class TripsDriverManagemantController : Controller
     {
         private readonly ISignUpForTheTrip signUpForTheTrip;
 
-        public TripDriverController(ISignUpForTheTrip signUpForTheTrip)
+        public TripsDriverManagemantController(ISignUpForTheTrip signUpForTheTrip)
         {
             this.signUpForTheTrip = signUpForTheTrip;
         }

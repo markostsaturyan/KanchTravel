@@ -7,6 +7,7 @@ using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
@@ -22,7 +23,8 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/RegistrationCompletedTrips
-        /*[HttpGet]
+        [Authorize]
+        [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()
         {
             var identity = (ClaimsIdentity)User.Identity;
@@ -32,38 +34,29 @@ namespace CampingTripService.Controllers
 
             if (role.Value == "Admin")
             {
-                return await campingTripRepository.GetAllRegistartionCompletedCampingTrips();
+                return await campingTripRepository.GetAllRegistartionCompletedCampingTripsAsync();
             }
             else
             {
-
+                return await campingTripRepository.GetAllRegistartionCompletedCampingTripsForUserAsync();
             }
 
-        }*/
+        }
 
-        // GET: api/RegistrationCompletedTrips/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-        
-        // POST: api/RegistrationCompletedTrips
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-        
         // PUT: api/RegistrationCompletedTrips/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [Authorize(Policy ="OnlyForAdmin")]
+        [HttpPut("{tripId}")]
+        public async void Put(string tripId, [FromBody]CampingTripFull campingTrip)
         {
+            await campingTripRepository.UpdateCampingTrip(tripId,campingTrip);
         }
-        
+
         // DELETE: api/ApiWithActions/5
+        [Authorize(Policy = "OnlyForAdmin")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void Delete(string id)
         {
+            await campingTripRepository.RemoveCampingTripAsync(id);
         }
     }
 }

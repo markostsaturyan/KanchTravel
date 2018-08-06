@@ -71,6 +71,19 @@ namespace Kanch
 
             if (tokenResponse.IsError)
             {
+                if (tokenResponse.Error == "invalid_client")
+                {
+                    MessageBox.Show("You are not verified", "Reminder",MessageBoxButton.OK);
+
+                    ConfigurationSettings.AppSettings["userName"] = userName.Text;
+
+                    var verification = new Verification();
+
+                    verification.Show();
+
+                    this.Close();
+                }
+
                 statusMessage.Text = tokenResponse.ErrorDescription??tokenResponse.Error;
                 statusMessage.Visibility = Visibility.Visible;
                 return;

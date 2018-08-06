@@ -13,5 +13,6 @@ namespace Authentication.DataManagement.BusinessLogicLayer.BusiessLayerDataModel
         public string Role { get; set; }
         public bool IsActive { get; set; }
         public string HashGuide { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

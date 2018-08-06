@@ -42,9 +42,37 @@ namespace Authentication
                     },
 
                     AllowedScopes = { "compingTrip", "userManagement", "offline_access"},
-                    AllowOfflineAccess =true,
+                    AllowOfflineAccess = true,
                     RefreshTokenUsage = TokenUsage.ReUse,
                     AbsoluteRefreshTokenLifetime = 15780000
+                },
+
+                new Client
+                {
+                    ClientId="campingTrip",
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
+                    AllowedScopes ={"userManagement"}
+                },
+
+                new Client
+                {
+                    ClientId="userManagement",
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
+                    AllowedScopes ={ "campingTrip" },
                 }
             };
         }

@@ -63,7 +63,6 @@
     <Folder Include="Tables" />
     <Folder Include="StoredProcedures" />
     <Folder Include="StoredProcedures\UserManagement" />
-    <Folder Include="StoredProcedures\CampingTrip" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Queries.sql" />
@@ -76,7 +75,6 @@
     <Build Include="Tables\Roles.sql" />
     <Build Include="Tables\UserRole.sql" />
     <Build Include="Tables\Users.sql" />
-    <Build Include="Tables\CampingTrip%27sMembers.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="StoredProcedures\UsersDB.refactorlog" />
@@ -106,8 +104,6 @@
     <Build Include="StoredProcedures\UserManagement\GetUserPasswordAndGuideById.sql" />
     <Build Include="StoredProcedures\UserManagement\UserNameCount.sql" />
     <Build Include="StoredProcedures\UserManagement\GetUserNameById.sql" />
-    <Build Include="StoredProcedures\CampingTrip\DeleteMemberFromTheTrip.sql" />
-    <Build Include="StoredProcedures\CampingTrip\GetGuideById.sql" />
     <Build Include="StoredProcedures\UserManagement\GetGuideInfoById.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdateGuideInfo.sql" />
     <Build Include="StoredProcedures\UserManagement\UpdateGuidePlaces.sql" />
@@ -146,12 +142,5 @@
     <Build Include="StoredProcedures\UserManagement\GetVerificationCode.sql" />
     <Build Include="StoredProcedures\UserManagement\GetByUserId.sql" />
     <Build Include="StoredProcedures\UserManagement\GetByUserName.sql" />
-    <Build Include="StoredProcedures\CampingTrip\GetUserRegisteredCampingTrips.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="StoredProcedures\CampingTrip\GetMembersOfTheCampingTrip.sql" />
-    <Build Include="StoredProcedures\CampingTrip\GetPhotographerById.sql" />
-    <Build Include="StoredProcedures\CampingTrip\GetUserByID.sql" />
-    <Build Include="StoredProcedures\CampingTrip\SignUpForTheCamping.sql" />
   </ItemGroup>
 </Project>

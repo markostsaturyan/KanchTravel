@@ -40,6 +40,7 @@ namespace Authentication.DataManagement.DataAccesLayer
                         user.Role = (string)dataReader["RoleName"];
                         user.IsActive = (bool)dataReader["IsActive"];
                         user.UserGuid = (string)dataReader["UserGuid"];
+                        user.IsApproved = (bool)dataReader["IsApproved"];
                     }
                 }
             }
@@ -74,6 +75,7 @@ namespace Authentication.DataManagement.DataAccesLayer
                         user.Password = (string)dataReader["Password"];
                         user.Role = (string)dataReader["RoleName"];
                         user.IsActive = (bool)dataReader["IsActive"];
+                        user.IsApproved = (bool)dataReader["IsApproved"];
                     }
                 }
             }

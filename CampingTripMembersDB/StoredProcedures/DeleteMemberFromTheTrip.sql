@@ -2,6 +2,6 @@
 	@id INT,
 	@campingTripId NVARCHAR(MAX)
 AS
-	DELETE FROM [CampingTrip'sMembers]
+	DELETE FROM [CampingTripsMembers]
 	WHERE CampingTripID=@campingTripId AND UserID=@id
 RETURN 0
