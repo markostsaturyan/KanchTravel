@@ -80,6 +80,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                 return null;
             }
         }
+
         public async Task<UpdateResult> RemoveDriverFromTheTrip(string campingTripID)
         {
             var filter = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripID);
@@ -119,77 +120,110 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
-        public async Task AsMember(int id, string campingTripID)
+        public async Task<Status> AsMember(int id, string campingTripID)
         {
             var campingTrip = await campingTripRepository.GetTripAsync(campingTripID);
 
             var user =await GetUserAsync(id);
+
+            if (user == null) return new Status()
+            {
+                IsOk = false,
+                StatusCode = 4001,
+                Message = "User not found"
+            };
 
             var zeroTime = new DateTime(1, 1, 1);
 
             var span = DateTime.Now - user.DateOfBirth;
 
             var userAge = (zeroTime + span).Year - 1;
-
-            if(campingTrip.MinAge <= userAge && campingTrip.MaxAge >= userAge)
+            if (campingTrip != null)
             {
-                campingTrip.MembersOfCampingTrip.Add(id);
-                campingTrip.CountOfMembers++;
-
-                if (campingTrip.CountOfMembers == campingTrip.MaxCountOfMembers)
+                if (campingTrip.MinAge <= userAge && campingTrip.MaxAge >= userAge)
                 {
-                    campingTrip.IsRegistrationCompleted = true;
-                }
+                    campingTrip.MembersOfCampingTrip.Add(id);
+                    campingTrip.CountOfMembers++;
 
-                await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
+                    if (campingTrip.CountOfMembers == campingTrip.MaxCountOfMembers)
+                    {
+                        campingTrip.IsRegistrationCompleted = true;
+                    }
+
+                    await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
+
+                    return new Status
+                    {
+                        IsOk = true,
+                        StatusCode = 1000,
+                        Message = "Member registered for the campaign"
+                    };
+                }
+                else
+                {
+                    return new Status
+                    {
+                        IsOk = false,
+                        StatusCode = 5001,
+                        Message = "Your age in not corresponds"
+                    };
+                }
             }
             else
             {
-                await new Task<Status>(() => new Status
+                return new Status
                 {
                     IsOk = false,
-                    StatusCode = 5001,
-                    Message = "Your age in not corresponds"
-                });
+                    StatusCode = 5003,
+                    Message = "The trip not found"
+                };
             }
         }
 
-        public async Task RemoveMemberFromTheTrip(int id, string campingTripID)
+        public async Task<Status> RemoveMemberFromTheTrip(int id, string campingTripID)
         {
             var campingTrip = await campingTripRepository.GetTripAsync(campingTripID);
 
-            if (campingTrip.MembersOfCampingTrip.Contains(id))
+            if (campingTrip != null)
             {
-                campingTrip.MembersOfCampingTrip.Remove(id);
-
-                if (campingTrip.IsRegistrationCompleted == true)
+                if (campingTrip.MembersOfCampingTrip.Contains(id))
                 {
-                    campingTrip.IsRegistrationCompleted = false;
-                }
+                    campingTrip.MembersOfCampingTrip.Remove(id);
 
-                await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
+                    if (campingTrip.IsRegistrationCompleted == true)
+                    {
+                        campingTrip.IsRegistrationCompleted = false;
+                        campingTrip.CountOfMembers--;
+                    }
+
+                    await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);
+
+                    return new Status
+                    {
+                        IsOk = true,
+                        StatusCode = 1000,
+                        Message = "The member has been removed"
+                    };
+                }
+                else
+                {
+                    return new Status
+                    {
+                        IsOk = false,
+                        StatusCode = 5002,
+                        Message = "The user is not registered for this campaign"
+                    };
+                }
             }
             else
             {
-                await new Task<Status>(() => new Status
+                return new Status
                 {
                     IsOk = false,
-                    StatusCode = 5002,
-                    Message = "The user is not registered for this campaign"
-                });
+                    StatusCode = 5003,
+                    Message = "The trip not found"
+                };
             }
-        }
-
-        public List<User> GetMembersOfCampingTrip(string campingTripId)
-        {
-            throw new System.Exception();
-        }
-
-        public List<CampingTripFull> GetUserRegisteredCampingTrips(int userId)
-        {
-            var campingTrips = new List<CampingTripFull>();
-
-            return campingTrips;
         }
 
         private async Task<User> GetUserAsync(int id)

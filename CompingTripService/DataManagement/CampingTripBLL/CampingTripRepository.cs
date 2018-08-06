@@ -663,5 +663,12 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             
             return fullTrip;
         }
+
+        public async Task<CampingTrip> GetTripAsync(string campingTripId)
+        {
+            return await campingTripContext.CampingTrips
+                            .Find(Builders<CampingTrip>.Filter.Eq("Id", campingTripId))
+                            .FirstOrDefaultAsync();
+        }
     }
 }

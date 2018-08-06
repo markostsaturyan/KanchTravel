@@ -46,13 +46,6 @@ namespace CompingTripService
                 options.DiscoveryResponse = DiscoveryClient.GetAsync(Configuration.GetSection("Authentication:Autenticate").Value).Result;
             });
 
-            services.AddSingleton(new UserContext());
-
-            services.Configure<UserContext>(options =>
-            {
-                options.ConnectionString = Configuration.GetSection("SqlConnection:ConnectionString").Value;
-            });
-
 
         }
 

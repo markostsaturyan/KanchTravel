@@ -30,5 +30,6 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         Task<CampingTripFull> GetUserRegisteredCompletedTripAsync(string campingTripId);
         Task<CampingTripFull> GetUserRegisteredCompletedTripForUserAsync(string campingTripId);
         void RemoveUserRegistredCampingTripAsync(string campingTripId, int userId);
+        Task<CampingTrip> GetTripAsync(string campingTripId);
     }
 }
