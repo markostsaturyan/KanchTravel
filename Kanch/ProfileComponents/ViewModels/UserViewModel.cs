@@ -74,7 +74,7 @@ namespace Kanch.ProfileComponents.ViewModels
             
             ConnectToServerAndGettingRefreshTokenAsync();
             httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
             GetUserInfo();
             this.GetAllTripsCommand = new Command(o => GetAllTrip());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());

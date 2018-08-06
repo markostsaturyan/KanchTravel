@@ -1,4 +1,5 @@
-﻿using Kanch.DataModel;
+﻿using Kanch.Commands;
+using Kanch.DataModel;
 using Kanch.ProfileComponents.DataModel;
 using Kanch.ProfileComponents.Utilities;
 using Newtonsoft.Json;
@@ -10,12 +11,15 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
     public class DriverViewModel : INotifyPropertyChanged
     {
-        public DriverViewModel() { }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -55,6 +59,21 @@ namespace Kanch.ProfileComponents.ViewModels
 
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CampingTrips"));
             }
+        }
+
+        public ICommand Requests { get; set; }
+
+        public DriverViewModel()
+        {
+            this.Requests = new Command(o => SeeRequests());
+        }
+
+        private void SeeRequests()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("CampingTripRequestsForDrive") as DataTemplate;
         }
 
         public async void GetDriverInfoAsync()

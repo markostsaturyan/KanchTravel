@@ -2,6 +2,7 @@
 using Kanch.Commands;
 using Kanch.DataModel;
 using Kanch.ProfileComponents.DataModel;
+using Kanch.ProfileComponents.HelperClasses;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         private string inputDirection;
 
-        private ObservableCollection<Direction> direction;
+        private ObservableCollection<DirectionDetails> direction;
 
         private ObservableCollection<CampingTripInfo> myOrderedCampingTrips;
 
@@ -53,7 +54,7 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
 
-        public ObservableCollection<Direction> Direction
+        public ObservableCollection<DirectionDetails> Direction
         {
             get
             {
@@ -113,8 +114,8 @@ namespace Kanch.ProfileComponents.ViewModels
         private string foodName;
         private double measureOfTheFood;
         private string measurementUnit;
-        private ObservableCollection<Food> foods;
-        private Food registrationFood;
+        private ObservableCollection<UIFoodInfo> foods;
+        private UIFoodInfo registrationFood;
 
         public string FoodName
         {
@@ -153,7 +154,7 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
 
-        public ObservableCollection<Food> Foods
+        public ObservableCollection<UIFoodInfo> Foods
         {
             get { return this.foods; }
             set
@@ -163,7 +164,7 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
 
-        public Food RegistrationFood
+        public UIFoodInfo RegistrationFood
         {
             get
             {
@@ -185,12 +186,15 @@ namespace Kanch.ProfileComponents.ViewModels
             this.AddFoodToTripFoodsCommand = new Command(o => AddFoodToRegistrationTripFoods(), o => CanAddFoodToTripFoods());
             this.RegisterTripCommand = new Command(o => RegistrationTrip());
 
-            this.direction = new ObservableCollection<Direction>();
-            this.foods = new ObservableCollection<Food>();
+
+            this.direction = new ObservableCollection<DirectionDetails>();
+            this.foods = new ObservableCollection<UIFoodInfo>();
             this.tripRegistration = new CampingTripInfo();
             this.tripRegistration.DepartureDate = DateTime.Now;
             this.tripRegistration.ArrivalDate = DateTime.Now;
-
+            this.httpClient = new HttpClient();
+            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            ConnectToServer();
             
         }
 
@@ -199,15 +203,15 @@ namespace Kanch.ProfileComponents.ViewModels
             if (this.Direction == null)
                 return;
             if (selectedItem != null)
-                this.Direction.Remove((Direction)selectedItem);
+                this.Direction.Remove((DirectionDetails)selectedItem);
             
         }
 
         public void AddDirectionToRegistrationTrip()
         {
             if (this.direction == null)
-                this.Direction = new ObservableCollection<Direction>();
-            this.Direction.Add(new ViewModels.Direction()
+                this.Direction = new ObservableCollection<DirectionDetails>();
+            this.Direction.Add(new DirectionDetails()
             {
                 Name = this.inputDirection,
                 DeleteDirectionCommand=new Command(DeleteDirectionFromRegistrationTrip)
@@ -226,7 +230,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void AddFoodToRegistrationTripFoods()
         {
-            this.RegistrationFood = new Food()
+            this.RegistrationFood = new UIFoodInfo()
             {
                 Name = this.FoodName,
                 Measure = this.MeasureOfTheFood,
@@ -244,7 +248,7 @@ namespace Kanch.ProfileComponents.ViewModels
         {
             if (this.Foods == null || food == null)
                 return;
-            this.Foods.Remove((Food)food);
+            this.Foods.Remove((UIFoodInfo)food);
         }
 
         public bool CanAddFoodToTripFoods()
@@ -293,9 +297,13 @@ namespace Kanch.ProfileComponents.ViewModels
         {
             var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
 
-            httpClient.SetBearerToken(tokenResponse.AccessToken);
+            var httpCl = new HttpClient();
 
-            var response = httpClient.GetAsync("api/User/" + ConfigurationSettings.AppSettings["userId"]).Result;
+            httpCl.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
+
+            httpCl.SetBearerToken(tokenResponse.AccessToken);
+
+            var response = httpCl.GetAsync("api/User/" + ConfigurationSettings.AppSettings["userId"]).Result;
 
             var content = response.Content;
 
@@ -351,8 +359,13 @@ namespace Kanch.ProfileComponents.ViewModels
                 });
             }
 
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
 
-            var response = httpClient.PostAsync("api/CampingTrips", new StringContent(JsonConvert.SerializeObject(registrationTrip), Encoding.UTF8, "application/json"));
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var trip = JsonConvert.SerializeObject(registrationTrip);
+
+            var response = httpClient.PostAsync("api/UsersTrips", new StringContent(trip, Encoding.UTF8, "application/json"));
         }
 
         public bool CampingTripRegistrationValidation()
@@ -374,6 +387,22 @@ namespace Kanch.ProfileComponents.ViewModels
             }
             return true;
         }
+        private void ConnectToServer()
+        {
+            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
+
+            if (disco.IsError)
+            {
+                ErrorMessage = disco.Error;
+
+                return;
+            }
+            else
+            {
+                tokenClient = new TokenClient(disco.TokenEndpoint, "kanchDesktopApp", "secret");
+            }
+        }
+
 
         private void NotifyPropertyChanged(string info)
         {
@@ -384,27 +413,4 @@ namespace Kanch.ProfileComponents.ViewModels
         }
     }
 
-    public class Direction
-    {
-        public string Name { get; set; }
-        public ICommand DeleteDirectionCommand { get; set; }
-    }
-
-    
-
-    public class Food
-    {
-        public string Name { get; set; }
-        public string MeasurementUnit { get; set; }
-        public double Measure { get; set; }
-        public ICommand EditFoodCommand { get; set; }
-        public ICommand DeleteFoodFromFoodsCommand { get; set; }
-    }
-
-    public enum TypeOfCampingTrip
-    {
-        Excursion,
-        Campaign,
-        CampingTrip
-    }
 }

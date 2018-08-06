@@ -67,7 +67,7 @@ namespace Kanch
             }
 
             // request token
-            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(userName.Text, password.Password, "compingTrip userManagement offline_access");
+            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(userName.Text, password.Password, "campingTrip userManagement offline_access");
 
             if (tokenResponse.IsError)
             {

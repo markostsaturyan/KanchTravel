@@ -37,11 +37,17 @@
         <DataTemplate x:Key="CampingTripsRegistration" DataType="{x:Type viewModels:CampingTripRegistrationViewModel}">
             <views:CampingTripsRegistration />
         </DataTemplate>
-
+        <DataTemplate x:Key="CampingTripRequestsForDriver" DataType="{x:Type viewModels:CampingTripRequestsForDriver}">
+            <views:CampingTripRequestsForDriver />
+        </DataTemplate>
 
     </Window.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
         <Grid Width="180" HorizontalAlignment="Left">
 
@@ -49,7 +55,7 @@
 
         </Grid>
 
-        <Grid HorizontalAlignment="Right" Width="575">
+        <Grid HorizontalAlignment="Left" Width="575" Grid.Column="1">
 
             <ContentPresenter Name="mainPage" HorizontalAlignment="Right"/>
 

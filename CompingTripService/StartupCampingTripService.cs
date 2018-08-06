@@ -46,6 +46,11 @@ namespace CompingTripService
                 options.DiscoveryResponse = DiscoveryClient.GetAsync(Configuration.GetSection("Authentication:Autenticate").Value).Result;
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("OnlyForAdmin", policy => policy.RequireRole("Admin"));
+            });
+
 
         }
 

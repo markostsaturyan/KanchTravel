@@ -246,6 +246,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Registration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -325,10 +329,17 @@
     <Compile Include="AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProfileComponents\HelperClasses\CampingTripRequests.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\DirectionDetails.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\UIFoodInfo.cs" />
     <Compile Include="ProfileComponents\Utilities\EnumBindingSourceExtension.cs" />
     <Compile Include="ProfileComponents\Utilities\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRequestsForDriver.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
+    <Compile Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml.cs">
+      <DependentUpon>CampingTripRequestsForDriver.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
