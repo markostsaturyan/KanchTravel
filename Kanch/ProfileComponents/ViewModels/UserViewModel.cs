@@ -24,8 +24,10 @@ namespace Kanch.ProfileComponents.ViewModels
         #endregion
 
         #region Commands
+        public ICommand GetAllTripsCommand { get; set; }
+        public ICommand GetMyCurrentTripsCommand { get; set; }
+        public ICommand GetlMyPreviousTripsCommand { get; set; }
 
-       
 
 #endregion
 
@@ -74,6 +76,24 @@ namespace Kanch.ProfileComponents.ViewModels
             httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
             GetUserInfo();
+            this.GetAllTripsCommand = new Command(o => GetAllTrip());
+            this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
+            this.GetlMyPreviousTripsCommand = new Command(o => GetMyPreviousTrips());
+        }
+
+        private void GetMyPreviousTrips()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetMyCurrentTrips()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetAllTrip()
+        {
+            throw new NotImplementedException();
         }
 
         public void GetUserInfo()

@@ -10,31 +10,31 @@
 
     <Window.Resources>
 
-        <DataTemplate x:Key="UserMain">
+        <DataTemplate x:Key="UserMain" DataType="{x:Type viewModels:UserViewModel}">
             <views:UserMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="DriverMain">
+        <DataTemplate x:Key="DriverMain" DataType="{x:Type viewModels:DriverViewModel}">
             <views:DriverMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="PhotographerMain">
+        <DataTemplate x:Key="PhotographerMain" DataType="{x:Type viewModels:PhotographerViewModel}">
             <views:PhotographerMain/>
         </DataTemplate>
 
-        <DataTemplate x:Key="GuideMain">
+        <DataTemplate x:Key="GuideMain" DataType="{x:Type viewModels:GuideViewModel}">
             <views:GuideMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="AdminMain">
+        <DataTemplate x:Key="AdminMain" DataType="{x:Type viewModels:AdminViewModel}">
             <views:AdminMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="CampingTrips">
+        <DataTemplate x:Key="CampingTrips" DataType="{x:Type viewModels:CampingTripViewModel}">
             <views:CampingTrips />
         </DataTemplate>
 
-        <DataTemplate x:Key="CampingTripsRegistration">
+        <DataTemplate x:Key="CampingTripsRegistration" DataType="{x:Type viewModels:CampingTripRegistrationViewModel}">
             <views:CampingTripsRegistration />
         </DataTemplate>
 

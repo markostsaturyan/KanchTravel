@@ -325,6 +325,8 @@
     <Compile Include="AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProfileComponents\Utilities\EnumBindingSourceExtension.cs" />
+    <Compile Include="ProfileComponents\Utilities\EnumDescriptionTypeConverter.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
@@ -451,6 +453,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Images\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\delete1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\female.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
