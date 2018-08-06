@@ -45,19 +45,31 @@ namespace CampingTripService.DataManagement.Model
             this.MaxAge = campingTrip.MaxAge;
             this.MaxCountOfMembers = campingTrip.MaxCountOfMembers;
             this.MinCountOfMembers = campingTrip.MinCountOfMembers;
-            this.DriverID = campingTrip.Driver.Id;
-            this.GuideID = campingTrip.Guide.Id;
-            this.PhotographerID = campingTrip.Photographer.Id;
+            if (campingTrip.Driver != null)
+            {
+                this.DriverID = campingTrip.Driver.Id;
+            }
+            if (campingTrip.Guide != null)
+            {
+                this.GuideID = campingTrip.Guide.Id;
+            }
+            if (campingTrip.Photographer != null)
+            {
+                this.PhotographerID = campingTrip.Photographer.Id;
+            }
             this.CountOfMembers = campingTrip.CountOfMembers;
             this.Food = campingTrip.Food;
             this.IsRegistrationCompleted = campingTrip.IsRegistrationCompleted;
             this.PriceOfTrip = campingTrip.PriceOfTrip;
-            this.OrganzierID = campingTrip.Organzier.Id;
+            this.OrganzierID = campingTrip.Organizer.Id;
             this.HasGuide = campingTrip.HasGuide;
             this.HasPhotographer = campingTrip.HasPhotographer;
-            foreach(var member in campingTrip.MembersOfCampingTrip)
+            if (campingTrip.MembersOfCampingTrip != null)
             {
-                this.MembersOfCampingTrip.Add(member.Id);
+                foreach (var member in campingTrip.MembersOfCampingTrip)
+                {
+                    this.MembersOfCampingTrip.Add(member.Id);
+                }
             }
         }
 

@@ -52,7 +52,7 @@ namespace CampingTripService.DataManagement.Model
         [DataMember]
         public int MaxCountOfMembers { get; set; }
         [DataMember]
-        public User Organzier { get; set; }
+        public User Organizer { get; set; }
         [DataMember]
         public int CountOfMembers { get; set; }
         [DataMember]

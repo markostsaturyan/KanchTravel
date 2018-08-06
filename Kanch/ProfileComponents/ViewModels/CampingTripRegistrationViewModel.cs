@@ -195,6 +195,7 @@ namespace Kanch.ProfileComponents.ViewModels
             this.httpClient = new HttpClient();
             this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
             ConnectToServer();
+            GetUserInfo();
             
         }
 
@@ -365,7 +366,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var trip = JsonConvert.SerializeObject(registrationTrip);
 
-            var response = httpClient.PostAsync("api/UsersTrips", new StringContent(trip, Encoding.UTF8, "application/json"));
+            var response = httpClient.PostAsync("api/UsersTrips", new StringContent(trip, Encoding.UTF8, "application/json")).Result;
         }
 
         public bool CampingTripRegistrationValidation()
