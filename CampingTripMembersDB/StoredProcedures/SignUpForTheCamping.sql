@@ -2,5 +2,5 @@
 	@CampingTripID NVARCHAR(MAX),
 	@UserID int
 AS
-	Insert Into [CampingTrip'sMembers] Values(@CampingTripID,@UserID)
+	Insert Into [CampingTripsMembers] Values(@CampingTripID,@UserID)
 RETURN 0

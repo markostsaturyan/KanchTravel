@@ -18,6 +18,7 @@ namespace CampingTripService.DataManagement.Model
         orderByUser,
         orderByAdmin
     }
+
     public class Food
     {
         public string Name { get; set; }
@@ -30,6 +31,7 @@ namespace CampingTripService.DataManagement.Model
     public class CampingTrip
     {
         public CampingTrip() { }
+
         public CampingTrip(CampingTripFull campingTrip)
         {
             this.ID = campingTrip.ID;
@@ -51,7 +53,14 @@ namespace CampingTripService.DataManagement.Model
             this.IsRegistrationCompleted = campingTrip.IsRegistrationCompleted;
             this.PriceOfTrip = campingTrip.PriceOfTrip;
             this.OrganzierID = campingTrip.Organzier.Id;
+            this.HasGuide = campingTrip.HasGuide;
+            this.HasPhotographer = campingTrip.HasPhotographer;
+            foreach(var member in campingTrip.MembersOfCampingTrip)
+            {
+                this.MembersOfCampingTrip.Add(member.Id);
+            }
         }
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string ID { get; set; }
@@ -80,6 +89,8 @@ namespace CampingTripService.DataManagement.Model
         [DataMember]
         public int CountOfMembers { get; set; }
         [DataMember]
+        public List<int> MembersOfCampingTrip { get; set; }
+        [DataMember]
         public int DriverID { get; set; }
         [DataMember]
         public int GuideID { get; set; }
@@ -91,5 +102,9 @@ namespace CampingTripService.DataManagement.Model
         public double PriceOfTrip { get; set; }
         [DataMember]
         public bool IsRegistrationCompleted { get; set; }
+        [DataMember]
+        public bool HasGuide { get; set; }
+        [DataMember]
+        public bool HasPhotographer { get; set; }
     }
 }

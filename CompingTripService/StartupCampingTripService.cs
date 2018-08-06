@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model;
+using IdentityModel.Client;
 
 namespace CompingTripService
 {
@@ -42,7 +43,9 @@ namespace CompingTripService
             {
                 options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+                options.DiscoveryResponse = DiscoveryClient.GetAsync(Configuration.GetSection("Authentication:Autenticate").Value).Result;
             });
+
             services.AddSingleton(new UserContext());
 
             services.Configure<UserContext>(options =>

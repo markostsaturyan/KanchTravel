@@ -18,7 +18,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         Task<Photographer> GetPhotographer(string id);
         Task<UpdateResult> RemovePhotographerFromTheTrip(string campingTripID);
         Task AsMember(int id,string CampingTripID);
-        void RemoveMemberFromTheTrip(int id, string CampingTripID);
+        Task RemoveMemberFromTheTrip(int id, string CampingTripID);
         List<User> GetMembersOfCampingTrip(string campingTripId);
         List<CampingTripFull> GetUserRegisteredCampingTrips(int userId);
     }

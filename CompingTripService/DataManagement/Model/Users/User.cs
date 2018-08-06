@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace CampingTripService.DataManagement.Model.Users
 {
@@ -12,13 +13,13 @@ namespace CampingTripService.DataManagement.Model.Users
 
         public string Gender { get; set; }
 
-        public int Age { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         public string PhoneNumber { get; set; }
 
         public string Email { get; set; }
 
-        public Image Img { get; set; }
+        public byte[] Img { get; set; }
 
         public string UserName { get; set; }
     }

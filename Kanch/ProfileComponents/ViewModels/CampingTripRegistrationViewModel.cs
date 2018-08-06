@@ -20,7 +20,7 @@ namespace Kanch.ProfileComponents.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-#region Commands
+        #region Commands
         public ICommand AddFoodInTripFoods { get; set; }
 
         public ICommand EditFood { get; set; }
@@ -100,8 +100,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Direction"));
             }
         }
-#endregion
-
+        #endregion
 
         public CampingTripRegistrationViewModel()
         {

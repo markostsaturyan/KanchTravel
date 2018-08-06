@@ -2,9 +2,6 @@
 using CampingTripService.DataManagement.CampingTripBLL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
-using CampingTripService.DataManagement.Model.Users;
-using CampingTripService.DataManagement.Model;
 
 namespace CampingTripService.Controllers
 {
@@ -19,19 +16,6 @@ namespace CampingTripService.Controllers
         {
             this.signUpForTheTrip = signUpForTheTrip;
         }
-
-        [HttpGet("{id}")]
-        public List<User> Get(string id)
-        {
-            return this.signUpForTheTrip.GetMembersOfCampingTrip(id);
-        }
-
-        [HttpGet("{id}")]
-        public List<CampingTripFull> Get(int userId)
-        {
-            return this.signUpForTheTrip.GetUserRegisteredCampingTrips(userId);
-        }
-
         // PUT: api/MembersOfCampingTrip/5
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody]string campingTripId)
@@ -42,9 +26,9 @@ namespace CampingTripService.Controllers
         // DELETE: api/ApiWithActions/5
         [Route("api/MembersOfCampingTrip/{id:int}/{campingTripId}")]
         [HttpDelete("{id:int},{campingTripId}")]
-        public void Delete(int id,string campingTripId)
+        public Task Delete(int id,string campingTripId)
         {
-            this.signUpForTheTrip.RemoveMemberFromTheTrip(id, campingTripId);
+            return this.signUpForTheTrip.RemoveMemberFromTheTrip(id, campingTripId);
         }
     }
 }

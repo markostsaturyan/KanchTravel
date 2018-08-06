@@ -27,6 +27,12 @@ namespace Authentication.Validators
                 //get your user model from db (by username - in my case its email)
                 var user = userRepository.FindUserAsync(context.UserName);
 
+                if (!user.IsApproved)
+                {
+                    context.Result = new GrantValidationResult(TokenRequestErrors.InvalidClient, "Client not verified");
+                    return;
+                }
+
                 var password = (context.Password + user.HashGuide).HashSHA1();
 
                 if (user != null)

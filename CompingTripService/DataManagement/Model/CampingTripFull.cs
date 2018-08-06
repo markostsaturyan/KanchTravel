@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using CampingTripService.DataManagement.Model.Users;
-using CampingTripService.DataManagement.Model.UsersDAL;
 
 namespace CampingTripService.DataManagement.Model
 {
     public class CampingTripFull
     {
-        private readonly UsersDal usersDal;
         public CampingTripFull(CampingTrip campingTrip)
         {
-            this.usersDal = new UsersDal();
             this.ID = campingTrip.ID;
             this.Place = campingTrip.Place;
             this.DepartureDate = campingTrip.DepartureDate;
@@ -23,18 +20,13 @@ namespace CampingTripService.DataManagement.Model
             this.MaxAge = campingTrip.MaxAge;
             this.MaxCountOfMembers = campingTrip.MaxCountOfMembers;
             this.MinCountOfMembers = campingTrip.MinCountOfMembers;
-            this.Driver = usersDal.GetDriver(campingTrip.DriverID);
-            this.Guide = usersDal.GetGuide(campingTrip.GuideID);
-            this.Photographer = usersDal.GetPhotographer(campingTrip.PhotographerID);
             this.CountOfMembers = campingTrip.CountOfMembers;
             this.Food = campingTrip.Food;
             this.IsRegistrationCompleted = campingTrip.IsRegistrationCompleted;
             this.PriceOfTrip = campingTrip.PriceOfTrip;
-            this.Organzier = usersDal.GetUser(campingTrip.OrganzierID);
-            this.MembersOfCampingTrip = usersDal.GetMembersOfTheCampingTrip(campingTrip.ID);
+            this.HasGuide = campingTrip.HasGuide;
+            this.HasPhotographer = campingTrip.HasPhotographer;
         }
-
-
         
         public string ID { get; set; }
         [DataMember]
@@ -75,5 +67,9 @@ namespace CampingTripService.DataManagement.Model
         public bool IsRegistrationCompleted { get; set; }
         [DataMember]
         public List<User> MembersOfCampingTrip { get; set; }
+        [DataMember]
+        public bool HasGuide { get; set; }
+        [DataMember]
+        public bool HasPhotographer { get; set; }
     }
 }

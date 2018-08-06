@@ -2,6 +2,6 @@
 	@userId int
 AS
 	Select CampingTripID
-	From [CampingTrip'sMembers]
+	From [CampingTripsMembers]
 	Where UserID=@userId
 RETURN 0
