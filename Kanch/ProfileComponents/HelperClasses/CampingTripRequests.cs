@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Kanch.ProfileComponents.DataModel;
 
-namespace Kanch.ProfileComponents.DataModel
+namespace Kanch.ProfileComponents.HelperClasses
 {
-    public class CampingTripInfo
+    public class CampingTripRequests
     {
+
         public string ID { get; set; }
 
         public string Place { get; set; }
@@ -18,8 +24,6 @@ namespace Kanch.ProfileComponents.DataModel
 
         public TypeOfCampingTrip TypeOfTrip { get; set; }
 
-        public TypeOfOrganization OrganizationType { get; set; }
-
         public int MinAge { get; set; }
 
         public int MaxAge { get; set; }
@@ -27,8 +31,6 @@ namespace Kanch.ProfileComponents.DataModel
         public int MinCountOfMembers { get; set; }
 
         public int MaxCountOfMembers { get; set; }
-
-        public UserInfo Organizer { get; set; }
 
         public int CountOfMembers { get; set; }
 
@@ -38,22 +40,8 @@ namespace Kanch.ProfileComponents.DataModel
 
         public PhotographerInfo Photographer { get; set; }
 
-        public ObservableCollection<FoodInfo> Food { get; set; }
+        public ICommand Accept { get; set; }
 
-        public double PriceOfTrip { get; set; }
-
-        public bool IsRegistrationCompleted { get; set; }
-
-        public ObservableCollection<UserInfo> MembersOfCampingTrip { get; set; }
-
-        public bool CanIJoin { get; set; }
-
-        public bool IAmJoined { get; set; }
-
-        public string Status { get; set; }
-
-        public bool HasGuide { get; set; }
-
-        public bool HasPhotographer { get; set; }
+        public ICommand Ignore { get; set; }
     }
 }

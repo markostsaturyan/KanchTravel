@@ -12,18 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Kanch.ProfileComponents.ViewModels;
 
 namespace Kanch.ProfileComponents.Views
 {
     /// <summary>
-    /// Interaction logic for DriverMainInfo.xaml
+    /// Interaction logic for CampingTripRequestsForDriver.xaml
     /// </summary>
-    public partial class DriverMain : UserControl
+    public partial class CampingTripRequestsForDriver : UserControl
     {
-        public DriverMain()
+        public CampingTripRequestsForDriver()
         {
-            this.DataContext = new DriverViewModel();
             InitializeComponent();
         }
     }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kanch"
         mc:Ignorable="d"
-        Title="Verification" Height="200" Width="300" ResizeMode="NoResize">
+        Title="Verification" Height="250" Width="300" ResizeMode="NoResize">
     <Grid>
 
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -17,7 +17,9 @@
                 Entre your verification code
             </TextBlock>
             <TextBox Name="verification" Height="20" Width="70" Margin="10"></TextBox>
-            <Button Name="verify" Click="VerifyClick" Height="20" Width="50" Content="Verify"></Button>
+            <Button Name="verify" Click="VerifyClick" Height="25" Width="50" >
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Verify</TextBlock>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>
