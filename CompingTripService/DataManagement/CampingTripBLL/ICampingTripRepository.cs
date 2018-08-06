@@ -15,9 +15,12 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         Task<IEnumerable<CampingTripFull>> GetAllCompletedCampingTripsForUserAsync();
         Task<CampingTripFull> GetCompletedCampingTripAsync(string campingTripId);
         Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredTripsAsync();
+        Task<IEnumerable<CampingTripFull>> GetAllUnconfirmedTrips();
         Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsAsync();
         Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredTripsForUserAsync(int userId);
+        Task<CampingTripFull> GetUnconfirmedTripById(string campingtripId);
         Task<CampingTripFull> GetCompletedCampingTripForUserAsync(string campingTripId);
+        Task<IEnumerable<CampingTripFull>> GetDriverTripsAsync(int userId);
         Task<CampingTripFull> GetCampingTripAsync(string id);
         Task<CampingTripFull> GetCampingTripForUserAsync(string id);
         Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsForUserAsync();

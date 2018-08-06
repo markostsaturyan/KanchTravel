@@ -670,5 +670,65 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                             .Find(Builders<CampingTrip>.Filter.Eq("Id", campingTripId))
                             .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<CampingTripFull>> GetAllUnconfirmedTrips()
+        {
+            var driverIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID == 0, true);
+            var guideIdNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasGuide && trip.GuideID == 0, true);
+            var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer && trip.PhotographerID == 0, true);
+            var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType == TypeOfOrganization.orderByUser,true);
+
+            var trips = await campingTripContext.CampingTrips.Find(driverIsNull | guideIdNull | photographerIsNull & organizedByUser).ToListAsync();
+
+            var campingTrips = new List<CampingTripFull>();
+
+            if (trips != null)
+            {
+                foreach(var trip in trips)
+                {
+                    campingTrips.Add(await GetCampingTripMembersAndDPGForAdmin(trip, false));
+                }
+            }
+
+            return campingTrips;
+        }
+
+        public async Task<CampingTripFull> GetUnconfirmedTripById(string campingTripId)
+        {
+            var driverIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID == 0, true);
+            var guideIdNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasGuide && trip.GuideID == 0, true);
+            var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer && trip.PhotographerID == 0, true);
+            var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var campingTripById = Builders<CampingTrip>.Filter.Eq(trip => trip.ID == campingTripId, true);
+
+            var campingTrip = await campingTripContext.CampingTrips.Find(driverIsNull | guideIdNull | photographerIsNull & organizedByUser).FirstOrDefaultAsync();
+
+            if (campingTrip != null)
+            {
+                return await GetCampingTripMembersAndDPGForAdmin(campingTrip, false);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<CampingTripFull>> GetDriverTripsAsync(int userId)
+        {
+            var tripsByDriverId = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID == userId, true);
+            var inProgres = Builders<CampingTrip>.Filter.Eq(trip => trip.ArrivalDate > DateTime.Now, true);
+
+            var trips = await campingTripContext.CampingTrips.Find(tripsByDriverId & inProgres).ToListAsync();
+
+            var campingTrips = new List<CampingTripFull>();
+
+            if (trips != null)
+            {
+                foreach(var trip in trips)
+                {
+                    campingTrips.Add(await GetCampingTripMembersAndDPGForUser(trip));
+                }
+            }
+
+            return campingTrips;
+        }
     }
 }

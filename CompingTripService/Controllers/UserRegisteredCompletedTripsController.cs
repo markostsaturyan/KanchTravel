@@ -11,12 +11,12 @@ namespace CampingTripService.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/UserRegistredCompletedTrips")]
-    public class UserRegistredCompletedTripsController : Controller
+    [Route("api/UserRegisteredCompletedTrips")]
+    public class UserRegisteredCompletedTripsController : Controller
     {
         private readonly ICampingTripRepository campingTripRepository;
 
-        public UserRegistredCompletedTripsController(ICampingTripRepository campingTripRepository)
+        public UserRegisteredCompletedTripsController(ICampingTripRepository campingTripRepository)
         {
             this.campingTripRepository = campingTripRepository;
         }
