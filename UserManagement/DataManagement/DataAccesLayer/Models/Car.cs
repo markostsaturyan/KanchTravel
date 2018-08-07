@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace UserManagement.DataManagement.DataAccesLayer.Models
+﻿namespace UserManagement.DataManagement.DataAccesLayer.Models
 {
     public class Car
     {

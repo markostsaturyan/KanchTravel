@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CampingTripService.DataManagement.Model;
 using CampingTripService.DataManagement.CampingTripBLL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
+    [Authorize(Policy ="OnlyForAdmin")]
     [Produces("application/json")]
     [Route("api/UserRegisteredTripsManagement")]
     public class UserRegisteredTripsManagementController : Controller
@@ -19,7 +21,6 @@ namespace CampingTripService.Controllers
         {
             this.campingTripRepository = campingTripRepository;
         }
-
 
         // GET: api/UserRegisteredTripsManagement
         [HttpGet]
@@ -33,6 +34,17 @@ namespace CampingTripService.Controllers
         public async Task<CampingTripFull> Get(string campingtripId)
         {
             return await campingTripRepository.GetUnconfirmedTripById(campingtripId);
+        }
+
+        [HttpPut("{campingTripId}")]
+        public async void Put(string campingTripId, [FromBody]CampingTripFull campingTrip)
+        {
+            await campingTripRepository.SendingServiceRequests(campingTrip);
+        }
+
+        public void Delete(string campingTripId)
+        {
+            campingTripRepository.RemoveUserRegistredCampingTripAndSendingEmail(campingTripId);
         }
     }
 }

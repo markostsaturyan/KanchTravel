@@ -342,5 +342,24 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             return guide;
         }
+
+        public async Task<IEnumerable<string>> GetTripsByMemberId(int id)
+        {
+            var filterByMemberId = Builders<CampingTrip>.Filter.Eq(trip=>trip.MembersOfCampingTrip.Contains(id),true);
+
+            var trips = await campingTripContext.CampingTrips.Find(filterByMemberId).ToListAsync();
+
+            var campingTrips = new List<string>();
+
+            if (trips != null)
+            {
+                foreach (var trip in trips)
+                {
+                    campingTrips.Add(trip.ID);
+                }
+            }
+
+            return campingTrips;
+        }
     }
 }

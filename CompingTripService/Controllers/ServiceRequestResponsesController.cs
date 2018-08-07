@@ -23,7 +23,7 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/ServiceRequestResponses
-        [Authorize(Policy ="OnlyForADPG")]
+        [Authorize(Policy ="OnlyForADGP")]
         [HttpGet]
         public async Task<IEnumerable<ServiceRequestResponse>> Get()
         {
@@ -52,7 +52,7 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/ServiceRequestResponses/5
-        [Authorize(Policy = "OnlyForADPG")]
+        [Authorize(Policy = "OnlyForADGP")]
         [HttpGet("{id}")]
         public async Task<ServiceRequestResponse> Get(string id)
         {
@@ -81,7 +81,7 @@ namespace CampingTripService.Controllers
         }
 
         // POST: api/ServiceRequestResponses
-        [Authorize(Policy = "OnlyForDPG")]
+        [Authorize(Policy = "OnlyForDGP")]
         [HttpPost]
         public void Post([FromBody]ServiceRequestResponse response)
         {
@@ -89,7 +89,7 @@ namespace CampingTripService.Controllers
         }
 
         // PUT: api/ServiceRequestResponses/5
-        [Authorize(Policy = "OnlyForDPG")]
+        [Authorize(Policy = "OnlyForDGP")]
         [HttpPut("{id}")]
         public async void Put(string id, [FromBody]ServiceRequestResponse response)
         {
@@ -112,7 +112,7 @@ namespace CampingTripService.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [Authorize(Policy = "OnlyForADPG")]
+        [Authorize(Policy = "OnlyForADGP")]
         [HttpDelete("{id}")]
         public async void Delete(string id)
         {
