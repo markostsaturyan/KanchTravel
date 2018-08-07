@@ -8,23 +8,21 @@ using IdentityModel.Client;
 using CampingTripService.DataManagement.Model.Users;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {
     public class CampingTripRepository : ICampingTripRepository
     {
         private readonly CampingTripContext campingTripContext;
-
-        private IOptions<Settings> settings;
+        private DiscoveryResponse discoveryResponse;
 
         public CampingTripRepository(IOptions<Settings> settings)
         {
             campingTripContext = new CampingTripContext(settings);
-            this.settings = settings;
+            discoveryResponse = settings.Value.DiscoveryResponse;
         }
 
-        public async Task AddCampingTrip(CampingTripFull item)
+        public async Task AddCampingTripAsync(CampingTripFull item)
         {
             await campingTripContext.CampingTrips.InsertOneAsync(new CampingTrip(item));
         }
@@ -191,7 +189,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         private async Task<List<User>> GetCampingTripMembersAsync(List<int> membersId)
         {
-            var tokenClinet = new TokenClient(settings.Value.DiscoveryResponse.TokenEndpoint, "campingTrip", "secret");
+            var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
             var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
 
@@ -225,7 +223,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         private async Task<Photographer> GetTripPhotographerAsync(int id)
         {
-            var tokenClinet = new TokenClient(settings.Value.DiscoveryResponse.TokenEndpoint, "campingTrip", "secret");
+            var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
             var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
 
@@ -254,7 +252,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         private async Task<Driver> GetTripDriverAsync(int id)
         {
-            var tokenClinet = new TokenClient(settings.Value.DiscoveryResponse.TokenEndpoint, "campingTrip", "secret");
+            var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
             var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
 
@@ -283,7 +281,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         private async Task<Guide> GetTripGuideAsync(int id)
         {
-            var tokenClinet = new TokenClient(settings.Value.DiscoveryResponse.TokenEndpoint, "campingTrip", "secret");
+            var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
             var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
 
@@ -457,7 +455,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             }
         }
 
-        public async void UpdateUserRegistredCampingTrip(string campingTripId, int orginizerId, CampingTripFull campingTrip)
+        public async Task UpdateUserRegistredCampingTripAsync(string campingTripId, int orginizerId, CampingTripFull campingTrip)
         {
             var tripNonFull = new CampingTrip(campingTrip);
 
@@ -465,7 +463,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                           .ReplaceOneAsync(n => n.ID.Equals(campingTripId) && n.OrganzierID == orginizerId, tripNonFull, new UpdateOptions { IsUpsert = true });
         }
 
-        public async void RemoveUserRegistredCampingTripAsync(string campingTripId, int userId)
+        public async Task RemoveUserRegistredCampingTripAsync(string campingTripId, int userId)
         {
             await campingTripContext.CampingTrips.DeleteOneAsync(
                                             Builders<CampingTrip>.Filter.Eq("Id", campingTripId) & Builders<CampingTrip>.Filter.Eq(trip=>trip.OrganzierID==userId,true));
@@ -729,6 +727,135 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             }
 
             return campingTrips;
+        }
+
+        public async Task<IEnumerable<ServiceRequest>> GetAllInProgresServiceRequestsAsync()
+        {
+            var requestIsValidFilter= Builders<ServiceRequest>.Filter.Eq(request=>request.RequestValidityPeriod>DateTime.Now, true);
+
+            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ServiceRequest>> GetServiceProvidersAllInProgresServiceRequests(int providerId)
+        {
+            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Eq(request => request.RequestValidityPeriod > DateTime.Now, true);
+
+            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId == providerId, true);
+
+            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByProviderId).ToListAsync();
+        }
+
+        public async Task<ServiceRequest> GetServiceRequestByIdAsync(string id)
+        {
+            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Eq(request => request.RequestValidityPeriod > DateTime.Now, true);
+
+            var filterByRequestId = Builders<ServiceRequest>.Filter.Eq(request => request.Id == id, true);
+
+            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByRequestId).FirstOrDefaultAsync();
+        }
+
+        public async Task<ServiceRequest> GetServiceRequestByIdAndProviderIdAsync(string id,int providerId)
+        {
+            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Eq(request => request.RequestValidityPeriod > DateTime.Now, true);
+
+            var filterByRequestId = Builders<ServiceRequest>.Filter.Eq(request => request.Id == id, true);
+
+            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId == providerId, true);
+
+            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByRequestId & filterByProviderId).FirstOrDefaultAsync();
+        }
+
+        public async Task AddServiceRequestAsync(ServiceRequest request)
+        {
+            await campingTripContext.ServiceRequests.InsertOneAsync(request);
+        }
+
+        public async Task RemoveServiceRequestAsync(string id)
+        {
+            var filterByRequestId = Builders<ServiceRequest>.Filter.Eq("Id", id);
+
+            await campingTripContext.ServiceRequests.DeleteOneAsync(filterByRequestId);
+        }
+
+        public async Task RemoveServiceRequestByIdAndProviderIdAsync(string id, int providerId)
+        {
+            var filterByRequestId = Builders<ServiceRequest>.Filter.Eq("Id", id);
+
+            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId==providerId,true);
+
+            await campingTripContext.ServiceRequests.DeleteOneAsync(filterByRequestId & filterByProviderId);
+        }
+
+        public async Task<IEnumerable<ServiceRequestResponse>> GetAllServiceRequestResponsesAsync()
+        {
+            var isValid= Builders<ServiceRequestResponse>.Filter.Eq(response=>response.ResponseValidityPeriod>DateTime.Now,true);
+
+            return await campingTripContext.ServiceRequestResponses.Find(isValid).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ServiceRequestResponse>> GetAllServiceRequestResponsesByProviderIdAsync(int providerId)
+        {
+            var isValid = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ResponseValidityPeriod > DateTime.Now, true);
+
+            var filterByProviderId= Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId== providerId, true);
+
+            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterByProviderId).ToListAsync();
+        }
+
+        public async Task<ServiceRequestResponse> GetServiceRequestResponseByIdAsync(string id)
+        {
+            var isValid = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ResponseValidityPeriod > DateTime.Now, true);
+
+            var filterById= Builders<ServiceRequestResponse>.Filter.Eq(response => response.Id==id, true);
+
+            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterById).FirstOrDefaultAsync();
+        }
+
+        public async Task<ServiceRequestResponse> GetServiceRequestResponsesByIdAndProviderIdAsync(string id, int providerId)
+        {
+            var isValid = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ResponseValidityPeriod > DateTime.Now, true);
+
+            var filterByProviderId = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId == providerId, true);
+
+            var filterById = Builders<ServiceRequestResponse>.Filter.Eq(response => response.Id == id, true);
+
+            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterById & filterByProviderId).FirstOrDefaultAsync();
+        }
+
+        public async Task AddServiceRequestResponceAsync(ServiceRequestResponse response)
+        {
+            await campingTripContext.ServiceRequestResponses.InsertOneAsync(response);
+        }
+
+        public async Task UpdateServiceRequestResponseAsync(string id, ServiceRequestResponse response)
+        {
+            var filterById = Builders<ServiceRequestResponse>.Filter.Eq("Id",id);
+
+            await campingTripContext.ServiceRequestResponses
+                          .ReplaceOneAsync(filterById, response, new UpdateOptions { IsUpsert = true });
+        }
+
+        public async Task RemoveServiceRequestResponseAsync(string id)
+        {
+            var filterByRequestId = Builders<ServiceRequestResponse>.Filter.Eq("Id", id);
+
+            await campingTripContext.ServiceRequestResponses.DeleteOneAsync(filterByRequestId);
+        }
+
+        public async Task RemoveServiceRequestResponseByIdAndProviderIdAsync(string id, int providerId)
+        {
+            var filterByRequestId = Builders<ServiceRequestResponse>.Filter.Eq("Id", id);
+
+            var filterByProviderId = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId == providerId, true);
+
+            await campingTripContext.ServiceRequestResponses.DeleteOneAsync(filterByRequestId & filterByProviderId);
+        }
+
+        public async Task<bool> IsOrganizerAsync(int id)
+        {
+            return true;
+            //var filterByRequestId = Builders<CampingTrip>.Filter.Eq(trip);
+
         }
     }
 }

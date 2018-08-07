@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CampingTripService.DataManagement.Model;
 using CampingTripService.DataManagement.CampingTripBLL;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
@@ -21,8 +21,8 @@ namespace CampingTripService.Controllers
             this.campingTripRepository = campingTripRepository;
         }
 
-
         // GET: api/DriverTrips
+        [Authorize(Policy ="OnlyForDriver")]
         [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()
         {
@@ -34,7 +34,7 @@ namespace CampingTripService.Controllers
 
             if (userIdClaim == null) throw new Exception("user_id claim not found");
 
-            if (int.TryParse(userIdClaim.Value, out int userId))
+            if (!int.TryParse(userIdClaim.Value, out int userId))
             {
                 throw new Exception("Invalid value for user_id in users claims");
             }
@@ -43,28 +43,40 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/DriverTrips/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IEnumerable<CampingTripFull>> Get(int id)
         {
-            return "value";
-        }
-        
-        // POST: api/DriverTrips
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-        
-        // PUT: api/DriverTrips/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
+            var identity = (ClaimsIdentity)User.Identity;
+
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var userIdClaims = claims.Where(claim => claim.Type == "user_id");
+
+            if (userIdClaims != null)
+            {
+                var userIdClaim = userIdClaims.First();
+
+                if (userIdClaim == null) throw new Exception("user_id claim not found");
+
+                if (!int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    throw new Exception("Invalid value for user_id in users claims");
+                }
+
+                if (userId != id) return null;
+
+                return await campingTripRepository.GetDriverTripsAsync(userId);
+            }
+
+            return await campingTripRepository.GetDriverTripsAsync(id);
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            campingTripRepository.Remo
         }
     }
 }

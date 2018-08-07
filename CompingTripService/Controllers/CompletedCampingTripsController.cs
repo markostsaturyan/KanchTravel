@@ -41,7 +41,7 @@ namespace CampingTripService.Controllers
             {
                 var userIdClaim = claims.Where(cl => cl.Type == "user_id").First();
 
-                if (int.TryParse(userIdClaim.Value, out int userId))
+                if (!int.TryParse(userIdClaim.Value, out int userId))
                 {
                     throw new Exception("Invalid user id");
                 }

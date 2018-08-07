@@ -21,5 +21,21 @@ namespace CampingTripService.DataManagement.Model
                 return database.GetCollection<CampingTrip>("CampingTrips");
             }
         }
+
+        public IMongoCollection<ServiceRequest> ServiceRequests
+        {
+            get
+            {
+                return database.GetCollection<ServiceRequest>("ServiceRequests");
+            }
+        }
+
+        public IMongoCollection<ServiceRequestResponse> ServiceRequestResponses
+        {
+            get
+            {
+                return database.GetCollection<ServiceRequestResponse>("ServiceRequestResponses");
+            }
+        }
     }
 }

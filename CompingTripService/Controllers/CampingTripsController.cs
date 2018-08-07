@@ -67,7 +67,7 @@ namespace CampingTripService.Controllers
         [HttpPost]
         public void Post([FromBody]CampingTripFull campingTrip)
         {
-            campingTripRepository.AddCampingTrip(campingTrip);
+            campingTripRepository.AddCampingTripAsync(campingTrip);
         }
         
         // PUT: api/CampingTrips/5
