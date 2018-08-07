@@ -5,27 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CampingTripService.DataManagement.Model;
-using CampingTripService.DataManagement.CampingTripBLL;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using CampingTripService.DataManagement.CampingTripBLL;
 
 namespace CampingTripService.Controllers
 {
-    [Authorize]
     [Produces("application/json")]
-    [Route("api/UsersTrips")]
-    public class UsersTripsController : Controller
+    [Route("api/ServiceRequestResponses")]
+    public class ServiceRequestResponsesController : Controller
     {
-        private ICampingTripRepository campingTripRepository;
+        private readonly ICampingTripRepository campingTripRepository;
 
-        public UsersTripsController(ICampingTripRepository campingTripRepository)
+        public ServiceRequestResponsesController(ICampingTripRepository campingTripRepository)
         {
             this.campingTripRepository = campingTripRepository;
         }
 
-        // GET: api/UsersTrips
+        // GET: api/ServiceRequestResponses
+        [Authorize(Policy ="OnlyForADPG")]
         [HttpGet]
-        public async Task<IEnumerable<CampingTripFull>> Get()
+        public async Task<IEnumerable<ServiceRequestResponse>> Get()
         {
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
@@ -34,35 +34,7 @@ namespace CampingTripService.Controllers
 
             if (role.Value == "Admin")
             {
-                return await campingTripRepository.GetAllUserRegisteredTripsAsync();
-            }
-            else
-            {
-                var userIdClaim = claims.Where(claim => claim.Type == "user_id").First();
-
-                if (userIdClaim == null) throw new Exception("user_id claim not found");
-
-                if (!int.TryParse(userIdClaim.Value,out int userId))
-                {
-                    throw new Exception("Invalid value for user_id in users claims");
-                }
-
-                return await campingTripRepository.GetAllUserRegisteredTripsForUserAsync(userId);
-            }
-        }
-
-        // GET: api/UsersTrips/5
-        [HttpGet("{id}")]
-        public async Task<CampingTripFull> Get(string campingTripId)
-        {
-            var identity = (ClaimsIdentity)User.Identity;
-            IEnumerable<Claim> claims = identity.Claims;
-
-            var role = claims.Where(claim => claim.Type == "role").First();
-
-            if (role.Value == "Admin")
-            {
-                return await campingTripRepository.GetUserRegisteredTripAsync(campingTripId);
+                return await campingTripRepository.GetAllServiceRequestResponsesAsync();
             }
             else
             {
@@ -75,20 +47,51 @@ namespace CampingTripService.Controllers
                     throw new Exception("Invalid value for user_id in users claims");
                 }
 
-                return await campingTripRepository.GetUserRegisteredTripsForUserAsync(campingTripId, userId);
+                return await campingTripRepository.GetAllServiceRequestResponsesByProviderIdAsync(userId);
             }
         }
-        
-        // POST: api/UsersTrips
+
+        // GET: api/ServiceRequestResponses/5
+        [Authorize(Policy = "OnlyForADPG")]
+        [HttpGet("{id}")]
+        public async Task<ServiceRequestResponse> Get(string id)
+        {
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var role = claims.Where(claim => claim.Type == "role").First();
+
+            if (role.Value == "Admin")
+            {
+                return await campingTripRepository.GetServiceRequestResponseByIdAsync(id);
+            }
+            else
+            {
+                var userIdClaim = claims.Where(claim => claim.Type == "user_id").First();
+
+                if (userIdClaim == null) throw new Exception("user_id claim not found");
+
+                if (!int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    throw new Exception("Invalid value for user_id in users claims");
+                }
+
+                return await campingTripRepository.GetServiceRequestResponsesByIdAndProviderIdAsync(id,userId);
+            }
+        }
+
+        // POST: api/ServiceRequestResponses
+        [Authorize(Policy = "OnlyForDPG")]
         [HttpPost]
-        public void Post([FromBody]CampingTripFull campingTrip)
+        public void Post([FromBody]ServiceRequestResponse response)
         {
-            campingTripRepository.AddCampingTripAsync(campingTrip);
+           campingTripRepository.AddServiceRequestResponceAsync(response);
         }
-        
-        // PUT: api/UsersTrips/5
-        [HttpPut("{campingTripId}")]
-        public void Put(string campingTripId, [FromBody]CampingTripFull campingTrip)
+
+        // PUT: api/ServiceRequestResponses/5
+        [Authorize(Policy = "OnlyForDPG")]
+        [HttpPut("{id}")]
+        public async void Put(string id, [FromBody]ServiceRequestResponse response)
         {
             var identity = (ClaimsIdentity)User.Identity;
 
@@ -103,27 +106,39 @@ namespace CampingTripService.Controllers
                 throw new Exception("Invalid value for user_id in users claims");
             }
 
-            campingTripRepository.UpdateUserRegistredCampingTripAsync(campingTripId, userId, campingTrip);
+            if (userId != response.ProviderId) return;
+
+            await campingTripRepository.UpdateServiceRequestResponseAsync(id, response);
         }
-        
+
         // DELETE: api/ApiWithActions/5
+        [Authorize(Policy = "OnlyForADPG")]
         [HttpDelete("{id}")]
-        public void Delete(string campingTripId)
+        public async void Delete(string id)
         {
             var identity = (ClaimsIdentity)User.Identity;
-
             IEnumerable<Claim> claims = identity.Claims;
 
-            var userIdClaim = claims.Where(claim => claim.Type == "user_id").First();
+            var role = claims.Where(claim => claim.Type == "role").First();
 
-            if (userIdClaim == null) throw new Exception("user_id claim not found");
-
-            if (!int.TryParse(userIdClaim.Value, out int userId))
+            if (role.Value == "Admin")
             {
-                throw new Exception("Invalid value for user_id in users claims");
+                await campingTripRepository.RemoveServiceRequestResponseAsync(id);
+            }
+            else
+            {
+                var userIdClaim = claims.Where(claim => claim.Type == "user_id").First();
+
+                if (userIdClaim == null) throw new Exception("user_id claim not found");
+
+                if (!int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    throw new Exception("Invalid value for user_id in users claims");
+                }
+
+                await campingTripRepository.RemoveServiceRequestResponseByIdAndProviderIdAsync(id, userId);
             }
 
-            campingTripRepository.RemoveUserRegistredCampingTripAsync(campingTripId, userId);
         }
     }
 }
