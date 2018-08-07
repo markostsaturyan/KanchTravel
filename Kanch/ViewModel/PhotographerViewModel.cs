@@ -348,7 +348,7 @@ namespace Kanch.ViewModel
         public async Task<bool> Registration()
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
             var photographer = new Photographer()
             {
                 FirstName = this.FirstName,

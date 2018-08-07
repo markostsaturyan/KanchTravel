@@ -38,7 +38,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
         /// </summary>
         /// <param name="user"> The user full info </param>
         /// <returns> User's id after inserting </returns>
-        public int AddUser(UserInfo user)
+        public int AddUser(UserInfo user,string userRole="User")
         {
             var userGuid = Guid.NewGuid().ToString();
 
@@ -63,6 +63,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 command.Parameters.AddWithValue("@username", user.UserName);
                 command.Parameters.AddWithValue("@password", hashedPassword);
                 command.Parameters.AddWithValue("@userGuid", userGuid);
+                command.Parameters.AddWithValue("@userRole", userRole);
 
                 connection.Open();
 
@@ -126,7 +127,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 Password = guide.Password
             };
 
-            var userId = AddUser(userInfo);
+            var userId = AddUser(userInfo,"Guide");
 
             AddGuidePlaces(userId, guide.Places);
 
@@ -197,7 +198,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 Password = driver.Password,
             };
 
-            var userId = AddUser(userFullInfo);
+            var userId = AddUser(userFullInfo,"Driver");
             var carId = AddCar(driver.Car);
 
             using (var connection = new SqlConnection(sqlConnectionString))
@@ -275,7 +276,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 Password = photographer.Password
             };
 
-            var userId = AddUser(userFullInfo);
+            var userId = AddUser(userFullInfo,"Photographer");
             var cameraId = AddCamera(photographer.Camera);
 
             using (var connection = new SqlConnection(sqlConnectionString))
@@ -957,9 +958,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = (byte[])dataReader["CarPicture1"],
-                            CarPicture2 = (byte[])dataReader["CarPicture2"],
-                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             LicensePlate = (string)dataReader["LicensePlate"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
@@ -968,22 +966,41 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             HasToilet = (bool)dataReader["HasToilet"],
                         };
 
-                        drivers.Add(new DriverInfo
+                        if (dataReader["CarPicture1"] != DBNull.Value)
+                        {
+                            car.CarPicture1 = (byte[])dataReader["CarPicture1"];
+                        }
+                        if (dataReader["CarPicture2"] != DBNull.Value)
+                        {
+                            car.CarPicture2 = (byte[])dataReader["CarPicture2"];
+                        }
+                        if (dataReader["CarPicture3"] != DBNull.Value)
+                        {
+                            car.CarPicture3 = (byte[])dataReader["CarPicture3"];
+                        }
+
+
+                        var driver = new DriverInfo
                         {
                             Id = (int)dataReader["UserId"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                             Email = (string)dataReader["Email"],
                             Gender = (string)dataReader["Gender"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Car = car,
                             DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"],
                             DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        });
+                        };
+
+                        if(dataReader["Picture"] != System.DBNull.Value)
+                        {
+                            driver.Image = (byte[])dataReader["Picture"];
+                        }
+                        drivers.Add(driver);
                     }
                 }
             }

@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="Kanch.ProfileComponents.Views.DriverRequestsForAdmin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ListView ItemsSource="{Binding DriverRequests}">
+            <ListView.View>
+                <GridView>
+                    <!--<GridViewColumn Header="First name" Width="60" DisplayMemberBinding="{Binding Driver.FirstName}"/>
+                    <GridViewColumn Header="Last name" Width="60" DisplayMemberBinding="{Binding Driver.LastName}" />
+                    <GridViewColumn Header="User name" Width="60" DisplayMemberBinding="{Binding Driver.UserName}" />
+                    <GridViewColumn Header="Date of birth" Width="72" DisplayMemberBinding="{Binding Driver.DateOfBirth}" />
+                    <GridViewColumn Header="Phone number" Width="90" DisplayMemberBinding="{Binding Driver.PhoneNumber}" />
+                    <GridViewColumn Header="Email" Width="100" DisplayMemberBinding="{Binding Driver.Email}" />-->
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" /> <!--9-->
+                                        
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" /><!--19-->
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="450"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockFirstname"              Text = "First Name:"        Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockLastName"               Text = "Last Name:"         Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockUserName"               Text = "User Name:"         Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockDateOfBirth"            Text = "Date Of Birth:"     Grid.Row = "4"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0" x:Name = "Gender"                        Text = "Gender:"            Grid.Row = "5"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockEmail"                  Text = "Email:"             Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockPhoneNumber"            Text = "Phone Number"       Grid.Row = "7"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137" />
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockBrandOfCar"             Text = "Brand of the car:"  Grid.Row = "1"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137" />
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockNumberOfSeats"          Text = "Number of seats:"   Grid.Row = "2"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137" />
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockFuelType"               Text = "Fuel Type:"         Grid.Row = "3"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0" Name = "textBlockLicensePlate"           Text = "License plate:"     Grid.Row = "4"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "80" Margin = "10,0" Name = "textBlockMoreInformation"        Text = "Car has"            Grid.Row = "5"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137" Visibility="{Binding MoreInformationVisibility,Mode=TwoWay}"/>
+                                    <TextBlock Height = "50" Margin = "10,0" Name = "textBlockCarPictures"            Text="Car photos:"          Grid.Row = "6"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"></TextBlock>
+                                    <TextBlock Height = "90" Margin = "10,0" Name = "textBlockKnowledgeOfLanguages"   Text="Languages:"           Grid.Row = "7"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"></TextBlock>
+                                    <TextBlock Height = "50" Margin = "10,0" Name = "textBlockDrivingLicencePics"     Text="Driving license pics" Grid.Row = "8"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137" ></TextBlock>
+
+                                    
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.FirstName,Mode=TwoWay}"           Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.LastName, Mode=TwoWay}"           Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.UserName,Mode=TwoWay}"            Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.DateOfBirth,Mode=TwoWay}"         Grid.Row = "4"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.Gender,Mode=TwoWay}"              Grid.Row = "5"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.Email,Mode=TwoWay}"               Grid.Row = "6"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.PhoneNumber,Mode=TwoWay}"         Grid.Row = "7"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137" />
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.Car.Brand, Mode=TwoWay}"          Grid.Row = "1"  Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137" />
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.Car.NumberOfSeates,Mode=TwoWay}"  Grid.Row = "2"  Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137" />
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.Car.FuelType,Mode=TwoWay}"        Grid.Row = "3" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Driver.Car.LicensePlate,Mode=TwoWay}"    Grid.Row = "4" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <ListView                Margin = "10,0"  ItemsSource="{Binding Driver.MoreInformation}"            Grid.Row = "5" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <StackPanel 
+                                        Orientation="Horizontal" 
+                                        Margin = "10,0" 
+                                        Grid.Row = "6" 
+                                        Grid.Column = "3" 
+                                        VerticalAlignment = "Center" 
+                                        HorizontalAlignment = "Left" 
+                                        Background = "White" 
+                                        Width = "137">
+                                        <Image Source="{Binding Driver.Car.CarPicture1}" Height="50" />
+                                        <Image Source="{Binding Driver.Car.CarPicture2}" Height="50" />
+                                        <Image Source="{Binding Driver.Car.CarPicture3}" Height="50" />
+                                    </StackPanel>
+                                    <TextBlock Height = "90" Margin = "10,0"  Text="{Binding Driver.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "7" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137">Languages <LineBreak/> you know</TextBlock>
+                                    <StackPanel 
+                                        Orientation="Horizontal" 
+                                        Margin = "10,0"  
+                                        Grid.Row = "8" 
+                                        Grid.Column = "3" 
+                                        VerticalAlignment = "Center" 
+                                        HorizontalAlignment = "Left" 
+                                        Background = "White" >
+                                        <Image Source="{Binding Driver.DrivingLicencePicFront}" Height="60" />
+                                        <Image Source="{Binding Driver.DrivingLicencePicBack}" Height="60" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="9">
+                                        <Button Command="{Binding Accept}" CommandParameter="{Binding}" Width="60" Content="Accept"/>
+                                        <Button Command="{Binding Ignore}" CommandParameter="{Binding}" Width="60" Content="Ignore"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+            
+        </ListView>
+    </Grid>
+</UserControl>
