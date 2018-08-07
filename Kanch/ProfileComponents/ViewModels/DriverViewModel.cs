@@ -73,7 +73,7 @@ namespace Kanch.ProfileComponents.ViewModels
             var window = Application.Current.MainWindow;
 
             var presenter = window.FindName("mainPage") as ContentPresenter;
-            presenter.ContentTemplate = window.FindResource("CampingTripRequestsForDrive") as DataTemplate;
+            presenter.ContentTemplate = window.FindResource("CampingTripRequestsForDriver") as DataTemplate;
         }
 
         public async void GetDriverInfoAsync()
@@ -96,14 +96,14 @@ namespace Kanch.ProfileComponents.ViewModels
                 Email = driver.Email,
                 PhoneNumber = driver.PhoneNumber,
                 UserName = driver.UserName,
-               // Image = ImageConverter.ConvertImageToImageSource(driver.Image),
+                Image = ImageConverter.ConvertImageToImageSource(driver.Image),
                 Car = new CarInfo
                 {
                     Id = driver.Car.Id,
                     Brand = driver.Car.Brand,
-                   // CarPicture1 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture1),
-                   // CarPicture2 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture2),
-                   // CarPicture3 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture3),
+                    CarPicture1 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture1),
+                    CarPicture2 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture2),
+                    CarPicture3 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture3),
                     FuelType = driver.Car.FuelType,
                     HasAirConditioner = driver.Car.HasAirConditioner,
                     HasKitchen = driver.Car.HasKitchen,
@@ -113,8 +113,8 @@ namespace Kanch.ProfileComponents.ViewModels
                     LicensePlate = driver.Car.LicensePlate,
                     NumberOfSeats = driver.Car.NumberOfSeats
                 },
-                //DrivingLicencePicFront = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicFront),
-                //DrivingLicencePicBack = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicBack),
+                DrivingLicencePicFront = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicFront),
+                DrivingLicencePicBack = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicBack),
                 KnowledgeOfLanguages = driver.KnowledgeOfLanguages,
                 NumberOfAppraisers = driver.NumberOfAppraisers,
                 Rating = driver.Rating

@@ -11,9 +11,11 @@
 
             <Image Source="{Binding Path = Driver.Image}" Height="50" Width="50" ></Image>
 
-            <TextBlock Text="{Binding Path = Driver.FirstName}" Margin="0,10,0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path = User.FirstName}" />
 
-            <TextBlock Text="{Binding Path = Driver.LastName}"/>
+                <TextBlock Text="{Binding Path = User.LastName}"/>
+            </StackPanel>
 
             <TextBlock HorizontalAlignment="Center">
             <Hyperlink Command="{Binding Path = GetAllTrips}">See all the trips</Hyperlink>
@@ -23,12 +25,12 @@
             <Hyperlink Command="{Binding Path = GetMyCurrentTrips}" >See my current campaigns</Hyperlink>
             </TextBlock>
 
-            <TextBlock HorizontalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" >
             <Hyperlink Command="{Binding Path = GetlMyPreviousTrips}" >See my previous trips</Hyperlink>
             </TextBlock>
 
-            <TextBlock HorizontalAlignment="Center">
-            <Hyperlink Command="{Binding Path = Requests}" >Requests</Hyperlink>
+            <TextBlock HorizontalAlignment="Center" Margin="10">
+            <Hyperlink Command="{Binding Path = Requests}" >Camping trip requests</Hyperlink>
             </TextBlock>
 
         </StackPanel>

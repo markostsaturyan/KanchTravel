@@ -330,6 +330,10 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void RegistrationTrip()
         {
+            if (!CampingTripRegistrationValidation())
+            {
+                return;
+            }
             var registrationTrip = new CampingTripInfo()
             {
                 Place = this.tripRegistration.Place,
