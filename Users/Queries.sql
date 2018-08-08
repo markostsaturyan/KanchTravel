@@ -1,6 +1,6 @@
 ﻿Select * from UsersDB.dbo.Roles;
 
-Insert into UsersDB.dbo.Roles(RolesName)
+Insert into UsersDB.dbo.Roles(RoleName)
 Values('Admin'),
 ('User'),
 ('Driver'),

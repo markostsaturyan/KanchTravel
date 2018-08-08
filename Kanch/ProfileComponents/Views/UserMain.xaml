@@ -13,20 +13,21 @@
 
             <Image Source="{Binding Path = User.Image}" Height="50" Width="50" ></Image>
 
-            <TextBlock Text="{Binding Path = User.FirstName}" Margin="0,10,0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path = User.FirstName}" />
 
-            <TextBlock Text="{Binding Path = User.LastName}"/>
-
+                <TextBlock Text="{Binding Path = User.LastName}"/>
+            </StackPanel>
             <TextBlock HorizontalAlignment="Center">
-            <Hyperlink Command="{Binding Path = GetAllTrips}">See all the trips</Hyperlink>
+            <Hyperlink Command="{Binding Path = GetAllTripsCommand}">See all the trips</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Center" Margin="10">
-            <Hyperlink Command="{Binding Path = GetMyCurrentTrips}" >See my current campaigns</Hyperlink>
+            <Hyperlink Command="{Binding Path = GetMyCurrentTripsCommand}" >See my current campaigns</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Center">
-            <Hyperlink Command="{Binding Path = GetlMyPreviousTrips}" >See my previous trips</Hyperlink>
+            <Hyperlink Command="{Binding Path = GetlMyPreviousTripsCommand}" >See my previous trips</Hyperlink>
             </TextBlock>
 
         </StackPanel>

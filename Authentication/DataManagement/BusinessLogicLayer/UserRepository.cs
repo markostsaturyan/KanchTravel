@@ -24,8 +24,8 @@ namespace Authentication.DataManagement.BusinessLogicLayer
                 Password = user.Password,
                 Role = user.Role,
                 IsActive = user.IsActive,
-                HashGuide=user.UserGuid
-                
+                HashGuide=user.UserGuid,
+                IsApproved=user.IsApproved
             };
         }
 
@@ -39,7 +39,9 @@ namespace Authentication.DataManagement.BusinessLogicLayer
                 UserName = user.UserName,
                 Password = user.Password,
                 Role = user.Role,
-                IsActive = user.IsActive
+                IsActive = user.IsActive,
+                IsApproved=user.IsApproved
+                
             };
         }
     }

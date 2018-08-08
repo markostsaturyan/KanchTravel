@@ -1,4 +1,7 @@
-﻿namespace Kanch.ProfileComponents.DataModel
+﻿using System.ComponentModel;
+using Kanch.ProfileComponents.Utilities;
+
+namespace Kanch.ProfileComponents.DataModel
 {
     public class FoodInfo
     {
@@ -8,10 +11,14 @@
         public double Price { get; set; }
     }
 
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum TypeOfCampingTrip
     {
+        [Description("Excursion")]
         Excursion,
+        [Description("Campaign")]
         Campaign,
+        [Description("Camping trip")]
         CampingTrip
     }
 

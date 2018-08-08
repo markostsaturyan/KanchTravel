@@ -1,4 +1,5 @@
-﻿using Kanch.DataModel;
+﻿using Kanch.Commands;
+using Kanch.DataModel;
 using Kanch.ProfileComponents.DataModel;
 using Kanch.ProfileComponents.Utilities;
 using Newtonsoft.Json;
@@ -10,12 +11,15 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
     public class DriverViewModel : INotifyPropertyChanged
     {
-        public DriverViewModel() { }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -57,6 +61,21 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
 
+        public ICommand Requests { get; set; }
+
+        public DriverViewModel()
+        {
+            this.Requests = new Command(o => SeeRequests());
+        }
+
+        private void SeeRequests()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("CampingTripRequestsForDriver") as DataTemplate;
+        }
+
         public async void GetDriverInfoAsync()
         {
             var response = await httpClient.GetAsync("api/Driver/" + ConfigurationSettings.AppSettings["userId"]);
@@ -77,14 +96,14 @@ namespace Kanch.ProfileComponents.ViewModels
                 Email = driver.Email,
                 PhoneNumber = driver.PhoneNumber,
                 UserName = driver.UserName,
-               // Image = ImageConverter.ConvertImageToImageSource(driver.Image),
+                Image = ImageConverter.ConvertImageToImageSource(driver.Image),
                 Car = new CarInfo
                 {
                     Id = driver.Car.Id,
                     Brand = driver.Car.Brand,
-                   // CarPicture1 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture1),
-                   // CarPicture2 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture2),
-                   // CarPicture3 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture3),
+                    CarPicture1 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture1),
+                    CarPicture2 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture2),
+                    CarPicture3 = ImageConverter.ConvertImageToImageSource(driver.Car.CarPicture3),
                     FuelType = driver.Car.FuelType,
                     HasAirConditioner = driver.Car.HasAirConditioner,
                     HasKitchen = driver.Car.HasKitchen,
@@ -94,8 +113,8 @@ namespace Kanch.ProfileComponents.ViewModels
                     LicensePlate = driver.Car.LicensePlate,
                     NumberOfSeats = driver.Car.NumberOfSeats
                 },
-                //DrivingLicencePicFront = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicFront),
-                //DrivingLicencePicBack = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicBack),
+                DrivingLicencePicFront = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicFront),
+                DrivingLicencePicBack = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicBack),
                 KnowledgeOfLanguages = driver.KnowledgeOfLanguages,
                 NumberOfAppraisers = driver.NumberOfAppraisers,
                 Rating = driver.Rating

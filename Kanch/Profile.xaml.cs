@@ -2,6 +2,7 @@
 using Kanch.ProfileComponents.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,37 @@ namespace Kanch
         {
             InitializeComponent();
 
-            userMainInfoPresenter.ContentTemplate = this.FindResource("UserMain") as DataTemplate;
+            switch (ConfigurationSettings.AppSettings["role"])
+            {
+                case "Admin":
+                    {
+                        userMainInfoPresenter.ContentTemplate = this.FindResource("AdminMain") as DataTemplate;
+                        break;
+                    }
+                case "Driver":
+                    {
+                        userMainInfoPresenter.ContentTemplate = this.FindResource("DriverMain") as DataTemplate;
+                        break;
+                    }
+                case "Guide":
+                    {
+                        userMainInfoPresenter.ContentTemplate = this.FindResource("GuideMain") as DataTemplate;
+                        break;
+                    }
+                case "Photographer":
+                    {
+                        userMainInfoPresenter.ContentTemplate = this.FindResource("PhotographerMain") as DataTemplate;
+                        break;
+                    }
+                default:
+                    {
+                        userMainInfoPresenter.ContentTemplate = this.FindResource("UserMain") as DataTemplate;
+                        break;
+                    }
+            }
+
             mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
-            this.DataContext = new UserViewModel();
+
         }
     }
 }

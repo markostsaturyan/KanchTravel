@@ -21,5 +21,7 @@ namespace Kanch.ProfileComponents.DataModel
 
         public int NumberOfAppraisers { get; set; }
 
+        
+
     }
 }

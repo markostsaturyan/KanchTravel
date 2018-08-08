@@ -8,5 +8,6 @@
         public string Role { get; set; }
         public bool IsActive { get; set; }
         public string UserGuid { get; set; }
+        public bool IsApproved { get; set; }
     }
 }

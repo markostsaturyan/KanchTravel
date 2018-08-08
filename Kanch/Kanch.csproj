@@ -250,6 +250,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProfileComponents\Views\ConfirmationOfTrips.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProfileComponents\Views\DriverRequestsForAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Registration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -324,6 +340,31 @@
     </Page>
     <Compile Include="AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\HelperClasses\CampingTripRequests.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\DirectionDetails.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\DriverRequests.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\UIFoodInfo.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\UnconfirmedTrips.cs" />
+    <Compile Include="ProfileComponents\Utilities\EnumBindingSourceExtension.cs" />
+    <Compile Include="ProfileComponents\Utilities\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationForAdmin.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRequestsForDriver.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\ConfirmationOfTripsViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\DriverRequestsForAdminViewModel.cs" />
+    <Compile Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml.cs">
+      <DependentUpon>CampingTripRegistrationForAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml.cs">
+      <DependentUpon>CampingTripRequestsForDriver.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\ConfirmationOfTrips.xaml.cs">
+      <DependentUpon>ConfirmationOfTrips.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\DriverRequestsForAdmin.xaml.cs">
+      <DependentUpon>DriverRequestsForAdmin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
@@ -400,8 +441,6 @@
     </Compile>
     <Compile Include="ViewModel\DriverViewModel.cs" />
     <Compile Include="ViewModel\GuideViewModel.cs" />
-    <Compile Include="ViewModel\LoginViewModel.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PhotographerViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="Views\ChooseRegistrationType.xaml.cs">
@@ -449,10 +488,23 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Images\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\delete1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\female.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\male.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Images\nature3.jpg" />
     <Resource Include="Images\phoneImage.jpg" />
     <Resource Include="Images\nature.jpg" />

@@ -43,6 +43,8 @@ namespace Kanch
 
             registration.Show();
 
+            Application.Current.MainWindow = registration;
+
             this.Close();
         }
 
@@ -65,10 +67,23 @@ namespace Kanch
             }
 
             // request token
-            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(userName.Text, password.Password, "compingTrip userManagement offline_access");
+            var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync(userName.Text, password.Password, "campingTrip userManagement offline_access");
 
             if (tokenResponse.IsError)
             {
+                if (tokenResponse.Error == "invalid_client")
+                {
+                    MessageBox.Show("You are not verified", "Reminder",MessageBoxButton.OK);
+
+                    ConfigurationSettings.AppSettings["userName"] = userName.Text;
+
+                    var verification = new Verification();
+
+                    verification.Show();
+
+                    this.Close();
+                }
+
                 statusMessage.Text = tokenResponse.ErrorDescription??tokenResponse.Error;
                 statusMessage.Visibility = Visibility.Visible;
                 return;
@@ -86,11 +101,13 @@ namespace Kanch
 
             ConfigurationSettings.AppSettings.Set("userId", userId.Value);
 
-            this.Close();
-
             var profile = new Profile();
 
             profile.Show();
+
+            Application.Current.MainWindow = profile;
+
+            this.Close();
         }
 
         private void RetryConnectClick(object sender, RoutedEventArgs e)

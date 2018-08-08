@@ -15,5 +15,7 @@ namespace CampingTripService.DataManagement.Model.Users
         public List<string> Places { get; set; }
 
         public double Rating { get; set; }
+
+        public int NumberOfAppraisers { get; set; }
     }
 }

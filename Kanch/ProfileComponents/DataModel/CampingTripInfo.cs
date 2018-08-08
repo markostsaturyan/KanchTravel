@@ -51,5 +51,9 @@ namespace Kanch.ProfileComponents.DataModel
         public bool IAmJoined { get; set; }
 
         public string Status { get; set; }
+
+        public bool HasGuide { get; set; }
+
+        public bool HasPhotographer { get; set; }
     }
 }

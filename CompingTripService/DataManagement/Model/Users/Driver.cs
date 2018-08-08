@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace CampingTripService.DataManagement.Model.Users
+﻿namespace CampingTripService.DataManagement.Model.Users
 {
     public class Car
     {
@@ -12,11 +10,11 @@ namespace CampingTripService.DataManagement.Model.Users
 
         public string FuelType { get; set; }
 
-        public Image CarPicture1 { get; set; }
+        public byte[] CarPicture1 { get; set; }
 
-        public Image CarPicture2 { get; set; }
+        public byte[] CarPicture2 { get; set; }
 
-        public Image CarPicture3 { get; set; }
+        public byte[] CarPicture3 { get; set; }
 
         public string LicensePlate { get; set; }
 
@@ -35,12 +33,14 @@ namespace CampingTripService.DataManagement.Model.Users
     {
         public Car Car { get; set; }
 
-        public Image DrivingLicencePicFront { get; set; }
+        public byte[] DrivingLicencePicFront { get; set; }
 
-        public Image DrivingLicencePicBack { get; set; }
+        public byte[] DrivingLicencePicBack { get; set; }
 
         public string KnowledgeOfLanguages { get; set; }
 
         public double Rating { get; set; }
+
+        public int NumberOfAppraisers { get; set; }
     }
 }

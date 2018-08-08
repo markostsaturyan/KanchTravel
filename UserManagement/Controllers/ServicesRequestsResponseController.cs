@@ -17,9 +17,9 @@ namespace UserManagement.Controllers
     {
         private readonly DataAccesLayer dataAccessLayer;
 
-        public ServicesRequestsResponseController(DataAccesLayer dataAccesLayer)
+        public ServicesRequestsResponseController(DataAccesLayer dataAccesLayerParam)
         {
-            this.dataAccessLayer = dataAccessLayer;
+            this.dataAccessLayer = dataAccesLayerParam;
         }
 
         // GET: api/ServicesRequestsResponse

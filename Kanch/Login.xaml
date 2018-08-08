@@ -38,7 +38,7 @@
                 </Button>
 
                 <TextBlock Background="White" Opacity="0.7">
-                    <Hyperlink Name="registration" Click="RegistrationClick" FontSize="14" FontStyle="Normal" >You are not yet registered</Hyperlink>
+                    <Hyperlink Name="registration" Click="RegistrationClick" FontSize="14" FontStyle="Normal" >Are you not registered yet?</Hyperlink>
                 </TextBlock>
 
             </StackPanel>

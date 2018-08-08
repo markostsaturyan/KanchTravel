@@ -81,9 +81,9 @@ namespace UserManagement.Controllers
         // DELETE: api/ApiWithActions/5
         [Authorize(Policy = "OnlyForPhotographer")]
         [HttpDelete("{id}")]
-        public Status Delete(int id)
+        public async Task<Status> Delete(int id)
         {
-            if (this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
+            if (await this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
             {   
                 // 2100 - deleting is feiled because user is organizer
                 StatusCode = 2100,

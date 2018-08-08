@@ -33,6 +33,7 @@ namespace Kanch.Views
         {
             var login = new Login();
             var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = login;
             login.Show();
             myWindow.Close();
         }
@@ -41,7 +42,8 @@ namespace Kanch.Views
         {
             var home = new Home();
             var myWindow = Window.GetWindow(this);
-            //home.Show();
+            Application.Current.MainWindow = home;
+            home.Show();
             myWindow.Close();
         }
 
@@ -52,13 +54,19 @@ namespace Kanch.Views
             presenter.ContentTemplate = window.FindResource("MainRegistrationPage") as DataTemplate;
         }
 
-        /* public void Reset()
-         {
-             this.textBoxCameraModel.Text = "";
-             this.textBoxProfession.Text = "";
-             this.textBoxWorkExperience.Text = "";
-             this.checkBoxIsProfessional.IsChecked = false;
-         }*/
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            // converting sender to Password box
+            var passwordBox = (PasswordBox)sender;
+            var dataContext = DataContext as PhotographerViewModel;
+
+
+            // setting to view model fields
+            if (passwordBox == this.password)
+                dataContext.Password = passwordBox.Password;
+            else dataContext.ConfirmPassword = passwordBox.Password;
+        }
+
 
 
 

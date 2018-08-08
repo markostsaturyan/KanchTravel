@@ -323,6 +323,10 @@ namespace Kanch.ViewModel
             {
                 info.IsSelected = false;
             }
+            foreach(var language in this.Languages)
+            {
+                language.IsSelected = false;
+            }
         }
 
         public async void Submit()
@@ -344,7 +348,7 @@ namespace Kanch.ViewModel
         public async Task<bool> Registration()
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
             var photographer = new Photographer()
             {
                 FirstName = this.FirstName,

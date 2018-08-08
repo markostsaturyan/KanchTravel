@@ -1,7 +1,0 @@
-﻿CREATE TABLE [dbo].[RequestsForServices]
-(
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
-	[UserId] INT NOT NULL, 
-    [CamipingTripId] NVARCHAR(MAX) NOT NULL
-	FOREIGN KEY (UserId) REFERENCES Users(Id)
-)

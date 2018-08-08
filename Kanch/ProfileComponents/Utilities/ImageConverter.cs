@@ -8,6 +8,8 @@ namespace Kanch.ProfileComponents.Utilities
     {
         public static ImageSource ConvertImageToImageSource(byte[] image)
         {
+            if (image == null) return null;
+
             ImageSource result;
             using (var stream = new MemoryStream(image))
             {

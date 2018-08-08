@@ -29,6 +29,7 @@ namespace Kanch.Views
         public void UserClick(object sender,EventArgs e)
         {
             var window = Application.Current.MainWindow;
+
             var presenter = window.FindName("RegistrationPresent") as ContentPresenter;
             presenter.ContentTemplate = window.FindResource("UserRegistration") as DataTemplate;
         }
@@ -58,6 +59,7 @@ namespace Kanch.Views
         {
             var login = new Login();
             var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = login;
             login.Show();
             myWindow.Close();
         }
@@ -66,7 +68,8 @@ namespace Kanch.Views
         {
             var home = new Home();
             var myWindow = Window.GetWindow(this);
-            //home.Show();
+            Application.Current.MainWindow = home;
+            home.Show();
             myWindow.Close();
         }
 

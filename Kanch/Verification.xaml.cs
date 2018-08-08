@@ -43,7 +43,7 @@ namespace Kanch
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+                client.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
 
                 var verific = new VerificationInfo
                 {
