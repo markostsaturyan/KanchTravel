@@ -350,7 +350,7 @@
     <Compile Include="ProfileComponents\HelperClasses\UnconfirmedTrips.cs" />
     <Compile Include="ProfileComponents\Utilities\EnumBindingSourceExtension.cs" />
     <Compile Include="ProfileComponents\Utilities\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationForAdmin.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationForAdminViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripRequestsForDriverViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />

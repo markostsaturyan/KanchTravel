@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
-    class CampingTripRegistrationForAdmin:INotifyPropertyChanged
+    class CampingTripRegistrationForAdminViewModel:INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -101,6 +101,7 @@ namespace Kanch.ProfileComponents.ViewModels
         private string measurementUnit;
         private ObservableCollection<UIFoodInfo> foods;
         private UIFoodInfo registrationFood;
+        private double price;
 
         public string FoodName
         {
@@ -119,6 +120,19 @@ namespace Kanch.ProfileComponents.ViewModels
             {
                 this.measureOfTheFood = value;
                 NotifyPropertyChanged("MeasureOfTheFood");
+            }
+        }
+
+        public  double Price
+        {
+            get { return this.price; }
+            set
+            {
+                if (this.price != value)
+                {
+                    this.price = value;
+                    NotifyPropertyChanged("Price");
+                }
             }
         }
 
@@ -165,7 +179,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
 
 
-        public CampingTripRegistrationForAdmin()
+        public CampingTripRegistrationForAdminViewModel()
         {
             this.AddDirectionCommand = new Command(o => AddDirectionToRegistrationTrip());
             this.AddFoodToTripFoodsCommand = new Command(o => AddFoodToRegistrationTripFoods(), o => CanAddFoodToTripFoods());

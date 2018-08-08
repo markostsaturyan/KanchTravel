@@ -405,7 +405,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetGuideInfoById"
                 };
-
+                command.Parameters.AddWithValue("@id", id);
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -638,6 +638,8 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
                 connection.Open();
 
+                command.Parameters.AddWithValue("@driverId", id);
+
                 var dataReader = command.ExecuteReader();
 
                 if (dataReader.HasRows)
@@ -650,15 +652,26 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Brand = (string)dataReader["Brand"],
                         NumberOfSeats = (int)dataReader["NumberOfSeats"],
                         FuelType = (string)dataReader["FuelType"],
-                        CarPicture1 = (byte[])dataReader["CarPicture1"],
-                        CarPicture2 = (byte[])dataReader["CarPicture2"],
-                        CarPicture3 = (byte[])dataReader["CarPicture3"],
                         HasWiFi = (bool)dataReader["HasWiFi"],
                         HasMicrophone = (bool)dataReader["HasMicrophone"],
                         HasAirConditioner = (bool)dataReader["HasAirConditioner"],
                         HasKitchen = (bool)dataReader["HasKitchen"],
                         HasToilet = (bool)dataReader["HasToilet"]
                     };
+                    if (dataReader["CarPicture1"] != DBNull.Value)
+                    {
+                        car.CarPicture1 = (byte[])dataReader["CarPicture1"];
+                    }
+
+                    if (dataReader["CarPicture2"] != DBNull.Value)
+                    {
+                        car.CarPicture2 = (byte[])dataReader["CarPicture2"];
+                    }
+
+                    if (dataReader["CarPicture3"] != DBNull.Value)
+                    {
+                        car.CarPicture3 = (byte[])dataReader["CarPicture3"];
+                    }
 
                     driver = new DriverInfo
                     {
@@ -668,7 +681,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Car = car,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],

@@ -7,111 +7,74 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.Resources>
-            <VisualBrush x:Key="LoginHint" Stretch="None" AlignmentX="Left" AlignmentY="Top" >
-                <VisualBrush.Transform>
-                    <TranslateTransform X="5" Y="7" />
-                </VisualBrush.Transform>
-                <VisualBrush.Visual>
-                    <Grid HorizontalAlignment="Left">
-                        <TextBlock FontFamily="SEGOEWP"  FontSize="10"   FontWeight="Normal"
-                           HorizontalAlignment="Left" VerticalAlignment="Center"  Foreground="Gray" FontStyle="Italic" Opacity="1" Text="Input price"/>
-                    </Grid>
-                </VisualBrush.Visual>
-            </VisualBrush>
-        </Grid.Resources>
-        <ListView Name="requestsList" ItemsSource="{Binding CampingTripRequests}" ScrollViewer.CanContentScroll="True">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="50" Header="Place" DisplayMemberBinding="{Binding Place}"/>
-                    <GridViewColumn Width="90" Header="Departure date" DisplayMemberBinding="{Binding DepartureDate}"/>
-                    <GridViewColumn Width="70" Header="Arrival date" DisplayMemberBinding="{Binding ArrivalDate}"/>
-                    <GridViewColumn Width="50" Header="Min age" DisplayMemberBinding="{Binding MinAge}" />
-                    <GridViewColumn Width="50" Header="Max age" DisplayMemberBinding="{Binding MaxAge}" />
-                    <GridViewColumn Width="128" Header="Max count of members" DisplayMemberBinding="{Binding MaxCountOfMembers}" />
-                    <GridViewColumn Width="128" Header="Min count of members" DisplayMemberBinding="{Binding MinCountOfMembers}" />
-                    <GridViewColumn Width="80" Header="Direction" DisplayMemberBinding="{Binding Direction}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <ListView ItemsSource="{Binding Direction}" ScrollViewer.CanContentScroll="True">
-                                </ListView>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="70" Header="Type of trip" DisplayMemberBinding="{Binding TypeOfTrip}">
-                    </GridViewColumn>
-                    <GridViewColumn />
-                    <GridViewColumn Width="50" Header="Price" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Price,Mode=TwoWay}">
-                                    <TextBox.Style>
-                                    <Style TargetType="{x:Type TextBox}">
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=waterMarkTextBox,Path=Text}"                     Value="" >
-                                                <Setter Property="Background" Value="{StaticResource LoginHint}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBox.Style>
-                                </TextBox>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="50"  DisplayMemberBinding="{Binding Accept}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Hyperlink Command="{Binding Accept}" CommandParameter="{Binding}" >Accept</Hyperlink>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="50" DisplayMemberBinding="{Binding Ignore}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Hyperlink Command="{Binding Ignore}" CommandParameter="{Binding}">
-                                    Ignore
-                                </Hyperlink>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
+        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding CampingTripRequests}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="200"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-            </ListView.View>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="100"/>
+                                            <RowDefinition Height="25" />
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                        </Grid.RowDefinitions>
 
-            <!--<ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel HorizontalAlignment ="Stretch">
-                        <Grid HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="25" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Place}" Margin="7,0,0,0"/>
-                            <DatePicker SelectedDate="{Binding DepartureDate}" IsEnabled="False" Margin="10,0,0,0" Grid.Column="1"/>
-                            <TextBlock Text="{Binding MeasurementUnit}" Margin="10,0,0,0" Grid.Column="2"/>
+                                        <TextBlock Text = "Place"             Grid.Column="0" Grid.Row="0"/>
+                                        <TextBlock Text="Direction"           Grid.Column="0" Grid.Row="1" />
+                                        <TextBlock Text="Departure Date"      Grid.Column="0" Grid.Row="2" />
+                                        <TextBlock Text="Arrival Date"        Grid.Column="0" Grid.Row="3" />
+                                        <TextBlock Text="Minimum Age"         Grid.Column="0" Grid.Row="4" />
+                                        <TextBlock Text="Maximum Age"         Grid.Column="0" Grid.Row="5" />
+                                        <TextBlock Text ="Count of Members"   Grid.Column="0" Grid.Row="6" />
+                                        <TextBlock Text="Camping trip's type" Grid.Column="0" Grid.Row="7"  />
+                                        <TextBlock Text="Input Price"         Grid.Column="0" Grid.Row="8" />
+
+                                    <TextBlock Text="{Binding Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" ></TextBlock>
 
 
-                            <Button Width="20"  Grid.Column="4" HorizontalAlignment="Right" ToolTip="Edit Food Details" Command="{Binding EditFoodCommand}" CommandParameter="{Binding}" >
-                                <StackPanel>
-                                    <Image Height="15" Width="20" Source="/Images/edit.png"/>
-                                </StackPanel>
-                            </Button>
+                                        <ListView  Name="directionsList" Width="250" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding Direction}"
+                                                ScrollViewer.CanContentScroll="True">
 
-                            <Button  Width="20"  Grid.Column="5" HorizontalAlignment="Right" ToolTip="Remove Food From Node" Command="{Binding DeleteFoodFromFoodsCommand}" CommandParameter="{Binding}">
-                                <StackPanel>
-                                    <Image Height="15" Width="20"  Source="/Images/delete.png"/>
-                                </StackPanel>
-                            </Button>
-                        </Grid>
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>-->
-        </ListView>
+                                        </ListView>
+
+                                        <TextBlock Text="{Binding DepartureDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"   Background="#cce6ff"   />
+
+                                        <TextBlock Text="{Binding ArrivalDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"   Background="#cce6ff" />
+
+                                        <TextBlock Text="{Binding MinAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="4" />
+
+                                        <TextBlock Text="{Binding MaxAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
+
+                                        <TextBlock Text="{Binding CountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" />
+
+                                        <TextBlock Text="{Binding TypeOfTrip,Mode=TwoWay}" Grid.Column="1" Grid.Row="7" />
+
+                                    <TextBox Text="{Binding Price,Mode=TwoWay}" Grid.Column="1" Grid.Row="8" />
+
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="9">
+                                        <Button Command="{Binding Accept}" CommandParameter="{Binding}" Height="25" Width="60">Confirm</Button>
+                                            <Button Command="{Binding Ignore}" CommandParameter="{Binding}" Height="25" Width="60">Ignore</Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
     </Grid>
 </UserControl>

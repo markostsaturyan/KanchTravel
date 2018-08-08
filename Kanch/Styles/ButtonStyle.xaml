@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Kanch.Styles">
 
-    <Color x:Key="BackgroundColor1" A="200" R="0" G="115" B="179"/>
-    <Color x:Key="BackgroundColor2" A="200" R="0" G="61" B="94"/>
+    <Color x:Key="BackgroundColor1" A="200" R="230" G="230" B="230"/>
+    <Color x:Key="BackgroundColor2" A="200" R="204" G="204" B="204"/>
 
-    <Color x:Key="MouseOverBackgroundColor1" A="200" R="0" G="156" B="231"/>
-    <Color x:Key="MouseOverBackgroundColor2" A="200" R="0" G="90" B="155"/>
+    <Color x:Key="MouseOverBackgroundColor1" A="200" R="242" G="242" B="242"/>
+    <Color x:Key="MouseOverBackgroundColor2" A="200" R="230" G="230" B="230"/>
 
     <SolidColorBrush x:Key="BorderBrush" Color="#ECECEC"/>
 

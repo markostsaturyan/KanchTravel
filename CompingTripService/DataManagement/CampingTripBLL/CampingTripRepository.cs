@@ -583,7 +583,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var fullTrip = new CampingTripFull(trip);
 
-            if (getMembers)
+            if (getMembers && trip.OrganizationType == TypeOfOrganization.orderByAdmin)
             {
                 foreach (var member in await GetCampingTripMembersAsync(trip.MembersOfCampingTrip))
                 {

@@ -54,13 +54,13 @@ namespace Kanch.ProfileComponents.ViewModels
             {
                 foreach (var request in serviceRequests)
                 {
-                    var campingTripResponse = httpClient.GetAsync("api/CampingTrip/" + request.CampingTripId).Result;
+                    var campingTripResponse = httpClient.GetAsync("api/campingtrips/" + request.CampingTripId).Result;
 
-                    var campingTripContent = response.Content;
+                    var campingTripContent = campingTripResponse.Content;
 
-                    var campingTripJsonContent = content.ReadAsStringAsync().Result;
+                    var campingTripJsonContent = campingTripContent.ReadAsStringAsync().Result;
 
-                    var trip = JsonConvert.DeserializeObject<List<CampingTrip>>(campingTripJsonContent).First();
+                    var trip = JsonConvert.DeserializeObject<CampingTrip>(campingTripJsonContent);
                     var campingtrip = new CampingTripRequests()
                     {
                         Place = trip.Place,
