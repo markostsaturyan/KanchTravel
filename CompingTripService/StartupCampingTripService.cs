@@ -62,6 +62,7 @@ namespace CompingTripService
                     policy.RequireRole("Phothographer");
                 });
                 options.AddPolicy("OnlyForDriverOrUserManagement", policy => policy.RequireClaim("client_id", "userManagement"));
+                options.AddPolicy("OnlyForAdminOrUserManagement", policy => { policy.RequireRole("Admin"); policy.RequireClaim("client_id", "userManagement")});
             });
 
 

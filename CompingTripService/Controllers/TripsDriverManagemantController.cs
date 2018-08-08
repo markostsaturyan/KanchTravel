@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
-    [Authorize(Policy ="OnlyForAdmin")]
+    [Authorize(Policy = "OnlyForAdminOrUserManagement")]
     [Produces("application/json")]
     [Route("api/TripsDriverManagemant")]
     public class TripsDriverManagemantController : Controller
