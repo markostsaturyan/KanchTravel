@@ -91,7 +91,7 @@ namespace UserManagement.Controllers
 
             this.usersDataAccessLayer.DeleteDriverFromCampingTrips(id);
 
-            this.usersDataAccessLayer.DeleteUserFromCampingTrips(id);
+            this.usersDataAccessLayer.DeleteUserFromCampingTripsMember(id);
 
             return new Status
             {

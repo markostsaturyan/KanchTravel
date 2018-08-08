@@ -89,13 +89,12 @@ namespace UserManagement.Controllers
         {
             if (await this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
             {
-                // 2100 - deleting is feiled because user is organizer
                 StatusCode = 2100,
                 IsOk = false,
                 Message = "You can not delete your account because you are organizer."
             };
 
-            this.usersDataAccessLayer.DeleteUserFromCampingTrips(id);
+            this.usersDataAccessLayer.DeleteUserFromCampingTripsMember(id);
 
             this.usersDataAccessLayer.DeleteUser(id);
 

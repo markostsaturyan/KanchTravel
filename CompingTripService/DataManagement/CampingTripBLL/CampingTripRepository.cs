@@ -686,7 +686,18 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             {
                 foreach(var trip in trips)
                 {
-                    campingTrips.Add(await GetCampingTripMembersAndDPGForAdmin(trip, false));
+                    var filter = Builders<ServiceRequest>.Filter.Eq(request => request.CampingTripId == trip.ID, true);
+
+                    var filterResponse = Builders<ServiceRequestResponse>.Filter.Eq(response => response.CampingTripId == trip.ID, true);
+
+                    var requests = await campingTripContext.ServiceRequests.Find(filter).ToListAsync();
+
+                    var responses = await campingTripContext.ServiceRequestResponses.Find(filterResponse).ToListAsync();
+
+                    if (requests.Count == 0 && responses.Count == 0)
+                    {
+                        campingTrips.Add(await GetCampingTripMembersAndDPGForAdmin(trip, false));
+                    }
                 }
             }
 

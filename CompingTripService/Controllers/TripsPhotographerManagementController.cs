@@ -2,9 +2,11 @@
 using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model.Users;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
+    [Authorize(Policy = "OnlyForAdminOrUserManagement")]
     [Produces("application/json")]
     [Route("api/TripsPhotographerManagement")]
     public class TripsPhotographerManagementController : Controller
