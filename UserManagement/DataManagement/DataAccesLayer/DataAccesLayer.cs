@@ -1,10 +1,13 @@
-﻿using MongoDB.Driver;
+﻿using IdentityModel.Client;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 using UserManagement.DataManagement.DataAccesLayer.Models;
 using UserManagement.DataManagement.Exceptions;
 using UserManagement.DataManagement.Security;
@@ -20,14 +23,21 @@ namespace UserManagement.DataManagement.DataAccesLayer
         /// </summary>
         private readonly string sqlConnectionString;
 
-        private readonly string mongoDbConnectionString;
-        private readonly string mongoDataBase;
+        private TokenClient tokenClient;
 
-        public DataAccesLayer(string sqlConnectionString,string mongoDbConnectionString,string mondoDataBase)
+        private HttpClient httpClient;
+
+        public DataAccesLayer(string sqlConnectionString,string authenticationService,string campingTripBaseAddress)
         {
             this.sqlConnectionString = sqlConnectionString;
-            this.mongoDbConnectionString = mongoDbConnectionString;
-            this.mongoDataBase = mondoDataBase;
+
+            var discoveryResponse = DiscoveryClient.GetAsync(authenticationService).Result;
+
+            tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "userManagement", "secret");
+
+            httpClient = new HttpClient();
+
+            httpClient.BaseAddress = new Uri(campingTripBaseAddress);
         }
         
         #endregion Constructors and fields
@@ -2010,7 +2020,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
         public void DeleteDriverFromCampingTrips(int id)
         {
-            var client = new MongoClient(mongoDbConnectionString);
+            /*var client = new MongoClient(mongoDbConnectionString);
             if (client != null)
             {
                 var database = client.GetDatabase(mongoDataBase);
@@ -2024,12 +2034,12 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 {
                     trip.DriverID = 0;
                 }
-            }
+            }*/
         }
 
         public void DeletePhotographerFromCampingTrips(int id)
         {
-            var client = new MongoClient(mongoDbConnectionString);
+           /* var client = new MongoClient(mongoDbConnectionString);
             if (client != null)
             {
                 var database = client.GetDatabase(mongoDataBase);
@@ -2043,12 +2053,12 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 {
                     trip.PhotographerID = 0;
                 }
-            }
+            }*/
         }
 
         public void DeleteGuideFromCampingTrips(int id)
         {
-            var client = new MongoClient(mongoDbConnectionString);
+            /*var client = new MongoClient(mongoDbConnectionString);
             if (client != null)
             {
                 var database = client.GetDatabase(mongoDataBase);
@@ -2062,7 +2072,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 {
                     trip.GuideID = 0;
                 }
-            }
+            }*/
         }
 
         public void DeleteUserVerification(string userName)
@@ -2183,19 +2193,20 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
         #region Validating
 
-        public bool IsOrganaizer(int id)
+        public async Task<bool> IsOrganaizer(int id)
         {
-            var client = new MongoClient(mongoDbConnectionString);
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("campingTrip", "secret");
 
-            if (client != null)
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var response = await httpClient.GetAsync($"IsOrganizer/{id}");
+
+            if (response.IsSuccessStatusCode)
             {
-                var database = client.GetDatabase(mongoDataBase);
 
-                var campingTrips = database.GetCollection<CampingTrip>("CampingTrips");
+                //var content
 
-                var filter = Builders<CampingTrip>.Filter.Eq(s => s.OrganzierID, id);
 
-                if (campingTrips.Find(filter).ToList().Count != 0) return false;
             }
 
             return true;
@@ -2231,7 +2242,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 return false;
             }
         }
-
 
         public bool IsValidUserName(string userName)
         {

@@ -20,8 +20,8 @@ namespace UserManagement
         {
             services.AddMvc();
             services.AddSingleton(new DataAccesLayer(Configuration["SqlConnection:ConnectionString"],
-                                                     Configuration["MongoConnection:ConnectionString"],
-                                                     Configuration["MongoConnection:Database"]));
+                Configuration["Authorization:Authority"],
+                Configuration["CampingTripApi:BaseAddress"]));
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>

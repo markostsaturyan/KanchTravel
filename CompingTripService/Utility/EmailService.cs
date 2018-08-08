@@ -1,9 +1,9 @@
 ﻿using System.Net;
 using System.Net.Mail;
 
-namespace UserManagement.Verification
+namespace CampingTripService.Utility
 {
-    public class SendVerificationCodeEmail
+    public class EmailService
     {
         private NetworkCredential _networkCredential;
 
@@ -16,7 +16,7 @@ namespace UserManagement.Verification
         /// Creates new instance of MailService
         /// </summary>
         /// <param name="networkCredential">Network credentials</param>
-        public SendVerificationCodeEmail(NetworkCredential networkCredential)
+        public EmailService(NetworkCredential networkCredential)
         {
             // constructing 
             this._networkCredential = networkCredential;
@@ -35,15 +35,15 @@ namespace UserManagement.Verification
         /// Sends verification key to the given mail address,
         /// </summary>
         /// <param name="to">Mail address</param>
-        /// <param name="verifyKey">Verifiaction key</param>
-        public void Send(string to, string verifyKey)
+        /// <param name="tripPlace">Verifiaction key</param>
+        public void Send(string to, string trip)
         {
             // constructing message
             var mail = new MailMessage
             {
                 From = new MailAddress("no-reply.recipeverify@gmail.com"),
-                Subject = "Recipe User Verify Service",
-                Body = verifyKey
+                Subject = "Kanc",
+                Body = $"Your campaign data is incorrect. \n {trip}"
             };
 
             mail.To.Add(to);

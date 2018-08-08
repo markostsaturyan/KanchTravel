@@ -22,7 +22,7 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/DriverTrips
-        [Authorize(Policy ="OnlyForDriver")]
+        [Authorize(Policy = "OnlyForDriver")]
         [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()
         {
@@ -43,7 +43,7 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/DriverTrips/5
-        [Authorize]
+        [Authorize(Policy ="OnlyForDriverOrUserManagement")]
         [HttpGet("{id}")]
         public async Task<IEnumerable<CampingTripFull>> Get(int id)
         {
@@ -69,14 +69,20 @@ namespace CampingTripService.Controllers
                 return await campingTripRepository.GetDriverTripsAsync(userId);
             }
 
-            return await campingTripRepository.GetDriverTripsAsync(id);
+            var clientIdClaims = claims.Where(claim => claim.Type == "client_id");
+
+            if (clientIdClaims != null)
+            {
+                var clientIdClaim = clientIdClaims.First();
+
+                if (clientIdClaim.Value == "userManagement")
+                {
+                    return await campingTripRepository.GetDriverTripsAsync(id);
+                }
+            }
+
+            return null;
         }
         
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            //campingTripRepository.Remo
-        }
     }
 }

@@ -2,6 +2,7 @@
 using CampingTripService.DataManagement.CampingTripBLL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace CampingTripService.Controllers
 {
@@ -16,6 +17,13 @@ namespace CampingTripService.Controllers
         {
             this.signUpForTheTrip = signUpForTheTrip;
         }
+
+        [HttpGet("{id}")]
+        public async Task<IEnumerable<string>> GetAsync(int id)
+        {
+            return await signUpForTheTrip.GetTripsByMemberId(id);
+        }
+
         // PUT: api/MembersOfCampingTrip/5
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody]string campingTripId)

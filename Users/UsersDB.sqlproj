@@ -127,10 +127,8 @@
     <Build Include="StoredProcedures\UserManagement\DeletePhotographerVerification.sql" />
     <Build Include="StoredProcedures\UserManagement\GetAllCars.sql" />
     <Build Include="StoredProcedures\UserManagement\GetCarsByNumberOfSeats.sql" />
-    <Build Include="Tables\RequestsForServices.sql" />
     <Build Include="StoredProcedures\UserManagement\GetAllServicesRequests.sql" />
     <Build Include="StoredProcedures\UserManagement\GetServiceRequestsByUserId.sql" />
-    <Build Include="Tables\ServicesRequestsResponse.sql" />
     <Build Include="StoredProcedures\UserManagement\InsertServiceRequest.sql" />
     <Build Include="StoredProcedures\UserManagement\DeleteServicesRequests.sql" />
     <Build Include="StoredProcedures\UserManagement\GetAllServicesRequestResponses.sql" />

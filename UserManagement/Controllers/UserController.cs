@@ -7,6 +7,7 @@ using UserManagement.Validation;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace UserManagement.Controllers
 {
@@ -84,9 +85,9 @@ namespace UserManagement.Controllers
         // DELETE: api/ApiWithActions/5
         [Authorize(Policy = "OnlyForUser")]
         [HttpDelete("{id}")]
-        public Status Delete(int id)
+        public async Task<Status> Delete(int id)
         {
-            if (this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
+            if (await this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
             {
                 // 2100 - deleting is feiled because user is organizer
                 StatusCode = 2100,

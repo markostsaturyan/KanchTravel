@@ -8,12 +8,14 @@ using IdentityModel.Client;
 using CampingTripService.DataManagement.Model.Users;
 using System.Net.Http;
 using Newtonsoft.Json;
+using CampingTripService.Utility;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {
     public class CampingTripRepository : ICampingTripRepository
     {
         private readonly CampingTripContext campingTripContext;
+
         private DiscoveryResponse discoveryResponse;
 
         public CampingTripRepository(IOptions<Settings> settings)
@@ -853,9 +855,160 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<bool> IsOrganizerAsync(int id)
         {
-            return true;
-            //var filterByRequestId = Builders<CampingTrip>.Filter.Eq(trip);
+            var filterByRequestId = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganzierID == id, true);
 
+            var trips = await campingTripContext.CampingTrips.Find(filterByRequestId).ToListAsync();
+
+            if (trips.Count > 0) return true;
+
+            return false;
+        }
+
+        public async Task SendingServiceRequests(CampingTripFull campingTrip)
+        {
+            var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
+
+            var tokenResponce = await tokenClient.RequestClientCredentialsAsync("userManagement", "secret");
+
+            var httpClient = new HttpClient();
+
+            httpClient.BaseAddress = new Uri("http://localhost:5000/");
+
+            httpClient.SetBearerToken(tokenResponce.AccessToken);
+
+            var membersCount = campingTrip.MembersOfCampingTrip.Count;
+
+
+            if (campingTrip.HasGuide)
+            {
+                var responseGuide = await httpClient.GetAsync("api/Guide");
+
+                if (responseGuide.IsSuccessStatusCode)
+                {
+                    var content = responseGuide.Content;
+
+                    var guidesJson = await content.ReadAsStringAsync();
+
+                    var guides = JsonConvert.DeserializeObject<List<Guide>>(guidesJson);
+
+                    if (guides != null)
+                    {
+                        foreach (var guide in guides)
+                        {
+                            await AddServiceRequestAsync(new ServiceRequest
+                            {
+                                CampingTripId = campingTrip.ID,
+                                ProviderId = guide.Id,
+                                RequestValidityPeriod = campingTrip.DepartureDate
+                            });
+                        }
+                    }
+                }
+
+                membersCount++;
+            }
+
+            if (campingTrip.HasPhotographer)
+            {
+                var responsePhotographer= await httpClient.GetAsync("api/Photographer");
+
+                if (responsePhotographer.IsSuccessStatusCode)
+                {
+                    var content = responsePhotographer.Content;
+
+                    var photographersJson = await content.ReadAsStringAsync();
+
+                    var photographers = JsonConvert.DeserializeObject<List<Photographer>>(photographersJson);
+
+                    if (photographers != null)
+                    {
+                        foreach(var photographer in photographers)
+                        {
+                            await AddServiceRequestAsync(new ServiceRequest
+                            {
+                                CampingTripId = campingTrip.ID,
+                                ProviderId = photographer.Id,
+                                RequestValidityPeriod = campingTrip.DepartureDate
+                            });
+                        }
+                    }
+                }
+
+                membersCount++;
+            }
+
+            var response = await httpClient.GetAsync($"api/Car/{membersCount}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+
+                var carsJson = await content.ReadAsStringAsync();
+
+                var cars = JsonConvert.DeserializeObject<List<CarWithDriverId>>(carsJson);
+
+                if (cars != null)
+                {
+                    foreach (var car in cars)
+                    {
+                        await AddServiceRequestAsync(new ServiceRequest
+                        {
+                            CampingTripId = campingTrip.ID,
+                            ProviderId = car.DriverId,
+                            RequestValidityPeriod = campingTrip.DepartureDate
+                        });
+                    }
+                }
+            }
+        }
+
+        public async Task RemoveUserRegistredCampingTripAndSendingEmail(string campingTripId)
+        {
+            var filterById = Builders<CampingTrip>.Filter.Eq("Id", campingTripId);
+
+            var trip = await campingTripContext.CampingTrips.Find(filterById).FirstAsync();
+
+            var user = await GetUserAsync(trip.OrganzierID);
+
+            if (user != null)
+            {
+                var emailService = new EmailService(new System.Net.NetworkCredential("kanchhiking", "kanchhiking2018"));
+
+                emailService.Send("Kanch", trip.ToString());
+
+            }
+
+            await RemoveCampingTripAsync(campingTripId);
+        }
+
+        private async Task<User> GetUserAsync(int id)
+        {
+            var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
+
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:5000/")
+            };
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            User user = null;
+
+            var response = await httpClient.GetAsync($"api/User/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+
+                var userJson = await content.ReadAsStringAsync();
+
+                user = JsonConvert.DeserializeObject<User>(userJson);
+
+            }
+
+            return user;
         }
     }
 }
