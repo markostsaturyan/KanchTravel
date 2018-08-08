@@ -46,6 +46,10 @@
             <views:DriverRequestsForAdmin />
         </DataTemplate>
 
+        <DataTemplate x:Key="ConfirmationOfTrips" DataType="{x:Type viewModels:ConfirmationOfTripsViewModel}" >
+            <views:ConfirmationOfTrips />
+        </DataTemplate>
+
     </Window.Resources>
 
     <Grid>

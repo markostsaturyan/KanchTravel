@@ -76,7 +76,7 @@ namespace CampingTripService.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            campingTripRepository.Remo
+            //campingTripRepository.Remo
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Kanch.ProfileComponents.ViewModels
         public ICommand GetAllTripsCommand { get; set; }
         public ICommand GetMyCurrentTripsCommand { get; set; }
         public ICommand GetMyPreviousTripsCommand { get; set; }
-        
+        public ICommand GetUnconfirmedCampingTripsCommand { get; set; }
 
         private HttpClient httpClient;
         private TokenClient tokenClient;
@@ -47,6 +47,7 @@ namespace Kanch.ProfileComponents.ViewModels
             this.GetAllTripsCommand = new Command(o => GetAllTrips());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
             this.GetMyPreviousTripsCommand = new Command(o => GetMyPreviousTris());
+            this.GetUnconfirmedCampingTripsCommand = new Command(o => GetUnconfirmedCampingTrips());
             ConnectToServer();
             this.httpClient = new HttpClient();
             this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
@@ -74,6 +75,14 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var presenter = window.FindName("mainPage") as ContentPresenter;
             presenter.ContentTemplate = window.FindResource("DriverRequestsForAdmin") as DataTemplate;
+        }
+
+        public void GetUnconfirmedCampingTrips()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("ConfirmationOfTrips") as DataTemplate;
         }
          public void GetUserInfo()
         {
