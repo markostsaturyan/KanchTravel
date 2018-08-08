@@ -665,17 +665,32 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["UserId"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Car = car,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        Rating = (double)dataReader["Rating"],
-                        Gender=(string)dataReader["Gender"],
-                        NumberOfAppraisers=(int)dataReader["NumberOfAppraisers"]
+                        Gender=(string)dataReader["Gender"]
                     };
+
+                    if(dataReader["Rating"] != DBNull.Value)
+                    {
+                        driver.Rating = (double)dataReader["Rating"];
+                    }
+
+                    if (dataReader["NumberOfAppraisers"] != DBNull.Value)
+                    {
+                        driver.NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"];
+                    }
+
+                    if (dataReader["Picture"] != DBNull.Value)
+                    {
+                        driver.Image = (byte[])dataReader["Picture"];
+                    }
+
+
                 }
             }
 
@@ -1301,7 +1316,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     {
                         var car = new CarInfo
                         {
-                            Id = (int)dataReader["CarId"],
+                            Id = (int)dataReader["Id"],
                             DriverId = (int)dataReader["UserId"],
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],

@@ -40,6 +40,8 @@ namespace Kanch.ProfileComponents.HelperClasses
 
         public PhotographerInfo Photographer { get; set; }
 
+        public double Price { get; set; }
+
         public ICommand Accept { get; set; }
 
         public ICommand Ignore { get; set; }

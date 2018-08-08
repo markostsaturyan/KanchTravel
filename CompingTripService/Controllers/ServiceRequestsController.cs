@@ -93,7 +93,7 @@ namespace CampingTripService.Controllers
         }
         
         // DELETE: api/ApiWithActions/5
-        [Authorize(Policy ="OnlyForADGP")]
+        [Authorize(Policy ="OnlyForDGP")]
         [HttpDelete("{id}")]
         public void Delete(string id)
         {

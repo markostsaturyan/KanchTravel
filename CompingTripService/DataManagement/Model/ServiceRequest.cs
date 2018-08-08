@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Runtime.Serialization;
 
@@ -8,7 +9,7 @@ namespace CampingTripService.DataManagement.Model
     public class ServiceRequest
     {
         [BsonId]
-        [DataMember]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         [DataMember]

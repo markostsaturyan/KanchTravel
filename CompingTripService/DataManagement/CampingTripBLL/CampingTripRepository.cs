@@ -884,7 +884,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             httpClient.SetBearerToken(tokenResponce.AccessToken);
 
-            var membersCount = campingTrip.MembersOfCampingTrip.Count;
+            var membersCount = campingTrip.CountOfMembers;
 
 
             if (campingTrip.HasGuide)
