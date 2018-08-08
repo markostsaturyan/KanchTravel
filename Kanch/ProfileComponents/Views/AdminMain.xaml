@@ -32,6 +32,10 @@
             <TextBlock HorizontalAlignment="Center" Margin="10">
                 <Hyperlink Command="{Binding GetDriverRequestsCommand}">See all driver requests</Hyperlink>
             </TextBlock>
+
+            <TextBlock HorizontalAlignment="Center"  >
+                <Hyperlink Command="{Binding GetUnconfirmedCampingTripsCommand}" >Unconfirmed camping trips.</Hyperlink>
+            </TextBlock>
         </StackPanel>
     </Grid>
 </UserControl>

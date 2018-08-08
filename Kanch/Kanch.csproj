@@ -246,7 +246,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProfileComponents\Views\ConfirmationOfTrips.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -337,14 +345,23 @@
     <Compile Include="ProfileComponents\HelperClasses\DirectionDetails.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DriverRequests.cs" />
     <Compile Include="ProfileComponents\HelperClasses\UIFoodInfo.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\UnconfirmedTrips.cs" />
     <Compile Include="ProfileComponents\Utilities\EnumBindingSourceExtension.cs" />
     <Compile Include="ProfileComponents\Utilities\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationForAdmin.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripRequestsForDriver.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\ConfirmationOfTripsViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\DriverRequestsForAdminViewModel.cs" />
+    <Compile Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml.cs">
+      <DependentUpon>CampingTripRegistrationForAdmin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml.cs">
       <DependentUpon>CampingTripRequestsForDriver.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\ConfirmationOfTrips.xaml.cs">
+      <DependentUpon>ConfirmationOfTrips.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\Views\DriverRequestsForAdmin.xaml.cs">
       <DependentUpon>DriverRequestsForAdmin.xaml</DependentUpon>
