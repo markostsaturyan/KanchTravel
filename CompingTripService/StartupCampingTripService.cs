@@ -55,7 +55,6 @@ namespace CompingTripService
                 options.AddPolicy("OnlyForPhotographer", policy => policy.RequireRole("Phothographer"));
                 options.AddPolicy("OnlyForADGP", policy => {
                     policy.RequireRole("Admin");
-                    policy.RequireRole("User");
                     policy.RequireRole("Driver");
                     policy.RequireRole("Guide");
                     policy.RequireRole("Phothographer");
@@ -65,8 +64,16 @@ namespace CompingTripService
                     policy.RequireRole("Guide");
                     policy.RequireRole("Phothographer");
                 });
-                options.AddPolicy("OnlyForDriverOrUserManagement", policy => policy.RequireClaim("client_id", "userManagement"));
-                options.AddPolicy("OnlyForAdminOrUserManagement", policy => { policy.RequireRole("Admin"); policy.RequireClaim("client_id", "userManagement")});
+                options.AddPolicy("OnlyForDriverOrUserManagement", policy => { policy.RequireClaim("client_id", "userManagement"); policy.RequireRole("Driver"); });
+                options.AddPolicy("OnlyForAdminOrUserManagement", policy => { policy.RequireRole("Admin"); policy.RequireClaim("client_id", "userManagement"); });
+                options.AddPolicy("OnlyForUserManagement", policy => policy.RequireClaim("client_id", "userManagement"));
+                options.AddPolicy("OnlyForAUDGP", policy => {
+                    policy.RequireRole("Admin");
+                    policy.RequireRole("User");
+                    policy.RequireRole("Driver");
+                    policy.RequireRole("Guide");
+                    policy.RequireRole("Phothographer");
+                });
             });
 
 

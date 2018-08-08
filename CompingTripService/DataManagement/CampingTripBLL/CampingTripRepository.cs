@@ -32,13 +32,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTripsAsync()
         {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, true);
+            var filter = Builders<CampingTrip>.Filter.Where(s => s.IsRegistrationCompleted);
 
-            var filter1 = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var filter1 = Builders<CampingTrip>.Filter.Where(trip => trip.DepartureDate < DateTime.Now);
 
-            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByAdmin, true);
+            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType,TypeOfOrganization.orderByAdmin);
 
-            var trips= await campingTripContext.CampingTrips.Find(filter & filter1 & orgineizerIsAdmin).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(filter & filter1 & orgineizerIsAdmin).ToListAsync();
 
             var campingTripsFull = new List<CampingTripFull>();
 
@@ -55,11 +55,11 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionNotCompletedCampingTripsAsync()
         {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, false);
+            var filter = Builders<CampingTrip>.Filter.Where(s => !s.IsRegistrationCompleted);
 
-            var filter1 = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var filter1 = Builders<CampingTrip>.Filter.Where(s => s.DepartureDate > DateTime.Now);
 
-            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByAdmin, true);
+            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType,TypeOfOrganization.orderByAdmin);
 
             var trips = await campingTripContext.CampingTrips.Find(filter & filter1 & orgineizerIsAdmin).ToListAsync();
 
@@ -78,9 +78,9 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllCompletedCampingTripsAsync()
         {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var filter = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
-            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByAdmin, true);
+            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType,TypeOfOrganization.orderByAdmin);
 
             var trips = await campingTripContext.CampingTrips.Find(filter & orgineizerIsAdmin).ToListAsync();
 
@@ -99,9 +99,9 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllCompletedCampingTripsForUserAsync()
         {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var filter = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
-            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByAdmin, true);
+            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType,TypeOfOrganization.orderByAdmin);
 
             var trips = await campingTripContext.CampingTrips.Find(filter & orgineizerIsAdmin).ToListAsync();
 
@@ -121,8 +121,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task<CampingTripFull> GetCampingTripAsync(string id)
         {
             var trip = await campingTripContext.CampingTrips
-                            .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
-                            .FirstOrDefaultAsync();
+                            .Find(Builders<CampingTrip>.Filter.Eq("ID", id))?.FirstOrDefaultAsync();
             if (trip != null)
             {
                 return await GetCampingTripMembersAndDPGForAdmin(trip);
@@ -135,9 +134,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<CampingTripFull> GetCampingTripForUserAsync(string id)
         {
-            var trip = await campingTripContext.CampingTrips
-                            .Find(Builders<CampingTrip>.Filter.Eq("Id", id))
-                            .FirstOrDefaultAsync();
+            var trip = await campingTripContext.CampingTrips.Find(Builders<CampingTrip>.Filter.Eq("ID", id))?.FirstOrDefaultAsync();
+
             if (trip != null)
             {
                 return await GetCampingTripMembersAndDPGForUser(trip);
@@ -151,7 +149,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task<DeleteResult> RemoveCampingTripAsync(string id)
         {
             return await campingTripContext.CampingTrips.DeleteOneAsync(
-                                            Builders<CampingTrip>.Filter.Eq("Id", id));
+                                            Builders<CampingTrip>.Filter.Eq("ID", id));
         }
 
         public async Task<ReplaceOneResult> UpdateCampingTrip(string id, CampingTripFull trip)
@@ -170,11 +168,11 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTripsForUserAsync()
         {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, true);
+            var filter = Builders<CampingTrip>.Filter.Where(s => s.IsRegistrationCompleted);
 
-            var filter1 = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var filter1 = Builders<CampingTrip>.Filter.Where(s => s.DepartureDate < DateTime.Now);
 
-            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByAdmin, true);
+            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByAdmin);
 
             var trips = await campingTripContext.CampingTrips.Find(filter & filter1 & orgineizerIsAdmin).ToListAsync();
 
@@ -194,7 +192,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+            var tokenResponse =await tokenClinet.RequestClientCredentialsAsync("userManagement");
 
             var httpClient = new HttpClient
             {
@@ -228,7 +226,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
+            var tokenResponse = await tokenClinet.RequestClientCredentialsAsync("userManagement");
 
             var httpClient = new HttpClient
             {
@@ -239,7 +237,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             var photographer = new Photographer();
 
-            var response = await httpClient.GetAsync("api/photographer/" + id);
+            var response = await httpClient.GetAsync($"api/photographer{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -257,7 +255,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
+            var tokenResponse =await tokenClinet.RequestClientCredentialsAsync("userManagement");
 
             var httpClient = new HttpClient
             {
@@ -268,7 +266,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             var driver = new Driver();
 
-            var response = await httpClient.GetAsync("api/driver/" + id);
+            var response = await httpClient.GetAsync($"api/driver/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -286,7 +284,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
+            var tokenResponse =await tokenClinet.RequestClientCredentialsAsync("userManagement");
 
             var httpClient = new HttpClient
             {
@@ -297,7 +295,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             var guide = new Guide();
 
-            var response = await httpClient.GetAsync("api/guide/" + id);
+            var response = await httpClient.GetAsync($"api/guide/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -313,13 +311,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<CampingTripFull> GetCompletedCampingTripAsync(string campinTripId)
         {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var filter = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
-            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByAdmin, true);
+            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByAdmin);
 
-            var filterById = Builders<CampingTrip>.Filter.Eq(tr => tr.ID == campinTripId, true);
+            var filterById = Builders<CampingTrip>.Filter.Eq(tr => tr.ID,campinTripId);
 
-            var trip = await campingTripContext.CampingTrips.Find(filter & orgineizerIsAdmin & filterById).FirstOrDefaultAsync();
+            var trip = await campingTripContext.CampingTrips.Find(filter & orgineizerIsAdmin & filterById)?.FirstOrDefaultAsync();
 
             if (trip != null)
             {
@@ -333,13 +331,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<CampingTripFull> GetCompletedCampingTripForUserAsync(string campinTripId)
         {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var filter = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
-            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByAdmin, true);
+            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByAdmin);
 
-            var filterById = Builders<CampingTrip>.Filter.Eq(tr => tr.ID == campinTripId, true);
+            var filterById = Builders<CampingTrip>.Filter.Eq(tr => tr.ID, campinTripId);
 
-            var trip = await campingTripContext.CampingTrips.Find(filter & orgineizerIsAdmin & filterById).FirstOrDefaultAsync();
+            var trip = await campingTripContext.CampingTrips.Find(filter & orgineizerIsAdmin & filterById)?.FirstOrDefaultAsync();
 
             if (trip != null)
             {
@@ -353,13 +351,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionNotCompletedCampingTripsForUserAsync()
         {
-            var filter = Builders<CampingTrip>.Filter.Eq(s => s.IsRegistrationCompleted, false);
+            var filter = Builders<CampingTrip>.Filter.Where(s => !s.IsRegistrationCompleted);
 
-            var filter1 = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var filter1 = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate > DateTime.Now);
 
-            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByAdmin, true);
+            var orgineizerIsAdmin = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByAdmin);
 
-            var trips = await campingTripContext.CampingTrips.Find(filter & filter1 & orgineizerIsAdmin).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(filter & filter1 & orgineizerIsAdmin)?.ToListAsync();
 
             var campingTripsFull = new List<CampingTripFull>();
 
@@ -375,11 +373,11 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredTripsAsync()
         {
-            var tripNotCopmleted = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var tripNotCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate > DateTime.Now);
 
-            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var trips = await campingTripContext.CampingTrips.Find(tripNotCopmleted & orgineizerIsUser).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(tripNotCopmleted & orgineizerIsUser)?.ToListAsync();
 
             var campingTripsFull = new List<CampingTripFull>();
 
@@ -396,13 +394,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredTripsForUserAsync(int userId)
         {
-            var tripNotCopmleted = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var tripNotCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate > DateTime.Now);
 
-            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var iAmOrganizer= Builders<CampingTrip>.Filter.Eq(tr => tr.OrganzierID==userId, true);
+            var iAmOrganizer= Builders<CampingTrip>.Filter.Eq(tr => tr.OrganzierID,userId);
 
-            var trips = await campingTripContext.CampingTrips.Find(tripNotCopmleted & orgineizerIsUser & iAmOrganizer).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(tripNotCopmleted & orgineizerIsUser & iAmOrganizer)?.ToListAsync();
 
             var campingTripsFull = new List<CampingTripFull>();
 
@@ -418,13 +416,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<CampingTripFull> GetUserRegisteredTripAsync(string campingTripId)
         {
-            var tripNotCopmleted = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var tripNotCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate > DateTime.Now);
 
-            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var campingTripWithId = Builders<CampingTrip>.Filter.Eq(tr => tr.ID == campingTripId, true);
+            var campingTripWithId = Builders<CampingTrip>.Filter.Eq(tr => tr.ID, campingTripId);
 
-            var trip = await campingTripContext.CampingTrips.Find(tripNotCopmleted & orgineizerIsUser & campingTripWithId).FirstOrDefaultAsync();
+            var trip = await campingTripContext.CampingTrips.Find(tripNotCopmleted & orgineizerIsUser & campingTripWithId)?.FirstOrDefaultAsync();
 
             if(trip != null)
             {
@@ -438,15 +436,15 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<CampingTripFull> GetUserRegisteredTripsForUserAsync(string campingTripId, int userId)
         {
-            var tripNotCopmleted = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, true);
+            var tripNotCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate > DateTime.Now);
 
-            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var isOrganizer = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganzierID == userId, true);
+            var isOrganizer = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganzierID, userId);
 
-            var campingTripWithId = Builders<CampingTrip>.Filter.Eq(tr => tr.ID == campingTripId, true);
+            var campingTripWithId = Builders<CampingTrip>.Filter.Eq(tr => tr.ID, campingTripId);
 
-            var trip = await campingTripContext.CampingTrips.Find(tripNotCopmleted & orgineizerIsUser & isOrganizer & campingTripWithId).FirstOrDefaultAsync();
+            var trip = await campingTripContext.CampingTrips.Find(tripNotCopmleted & orgineizerIsUser & isOrganizer & campingTripWithId)?.FirstOrDefaultAsync();
 
             if (trip != null)
             {
@@ -469,16 +467,16 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task RemoveUserRegistredCampingTripAsync(string campingTripId, int userId)
         {
             await campingTripContext.CampingTrips.DeleteOneAsync(
-                                            Builders<CampingTrip>.Filter.Eq("Id", campingTripId) & Builders<CampingTrip>.Filter.Eq(trip=>trip.OrganzierID==userId,true));
+                                            Builders<CampingTrip>.Filter.Eq("ID", campingTripId) & Builders<CampingTrip>.Filter.Eq(trip=>trip.OrganzierID,userId));
         }
 
         public async Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsAsync()
         {
-            var tripCopmleted = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var tripCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
-            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var trips = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser)?.ToListAsync();
 
             var campingTripsFull = new List<CampingTripFull>();
 
@@ -495,11 +493,11 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsForUserAsync()
         {
-            var tripCopmleted = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var tripCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
-            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var trips = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser)?.ToListAsync();
 
             var campingTripsFull = new List<CampingTripFull>();
 
@@ -516,13 +514,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<CampingTripFull> GetUserRegisteredCompletedTripAsync(string campingTripId)
         {
-            var tripCopmleted = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var tripCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
-            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var filterCampingTripById= Builders<CampingTrip>.Filter.Eq(s => s.ID==campingTripId, false);
+            var filterCampingTripById= Builders<CampingTrip>.Filter.Eq(s => s.ID,campingTripId);
 
-            var trip = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser & filterCampingTripById).FirstOrDefaultAsync();
+            var trip = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser & filterCampingTripById)?.FirstOrDefaultAsync();
 
             if (trip != null)
             {
@@ -536,13 +534,13 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<CampingTripFull> GetUserRegisteredCompletedTripForUserAsync(string campingTripId)
         {
-            var tripCopmleted = Builders<CampingTrip>.Filter.Eq(s => s.ArrivalDate > DateTime.Now, false);
+            var tripCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
-            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType == TypeOfOrganization.orderByUser, true);
+            var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var filterCampingTripById = Builders<CampingTrip>.Filter.Eq(s => s.ID == campingTripId, false);
+            var filterCampingTripById = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripId);
 
-            var trip = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser & filterCampingTripById).FirstOrDefaultAsync();
+            var trip = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser & filterCampingTripById)?.FirstOrDefaultAsync();
 
             if (trip != null)
             {
@@ -600,7 +598,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                 }
             }
 
-            if (trip.HasPhotographer)
+            if (trip.HasPhotographer && trip.PhotographerID!=0)
             {
                 var potographer = await GetTripPhotographerAsync(trip.PhotographerID);
 
@@ -641,7 +639,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                 };
             }
 
-            if (trip.HasGuide)
+            if (trip.HasGuide&&trip.GuideID!=0)
             {
                 var guide = await GetTripGuideAsync(trip.GuideID);
 
@@ -668,7 +666,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task<CampingTrip> GetTripAsync(string campingTripId)
         {
             return await campingTripContext.CampingTrips
-                            .Find(Builders<CampingTrip>.Filter.Eq("Id", campingTripId))
+                            .Find(Builders<CampingTrip>.Filter.Eq("ID", campingTripId))?
                             .FirstOrDefaultAsync();
         }
 
@@ -677,55 +675,41 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var driverIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID, 0);
             var hasGuide = Builders<CampingTrip>.Filter.Eq(trip => trip.HasGuide, true);
             var guideIdNull = Builders<CampingTrip>.Filter.Eq(trip => trip.GuideID, 0);
-            var hasPhotographer= Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer, true);
-            var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip =>trip.PhotographerID, 0);
-            var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType,TypeOfOrganization.orderByUser);
-            var campingTrip = campingTripContext.CampingTrips;
+            var hasPhotographer = Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer, true);
+            var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.PhotographerID, 0);
+            var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType, TypeOfOrganization.orderByUser);
 
-            try
+            var trips = await campingTripContext.CampingTrips.Find(driverIsNull | (hasGuide & guideIdNull) | (hasPhotographer & photographerIsNull) & organizedByUser)?.ToListAsync();
+
+            var campingTrips = new List<CampingTripFull>();
+
+            if (trips != null)
             {
-                var tripsIEnum = campingTrip.Find(driverIsNull |(hasGuide & guideIdNull )|(hasPhotographer & photographerIsNull) & organizedByUser);
-
-                var trips = new List<CampingTrip>();
-
-                if (tripsIEnum != null)
+                foreach (var trip in trips)
                 {
-                    trips = await tripsIEnum.ToListAsync<CampingTrip>();
+                    var tripFull = new CampingTripFull(trip);
+
+                    tripFull.Organizer = await GetUserAsync(trip.OrganzierID);
+
+                    campingTrips.Add(tripFull);
                 }
-
-
-                var campingTrips = new List<CampingTripFull>();
-
-                if (trips != null)
-                {
-                    foreach (var trip in trips)
-                    {
-                        var tripFull = new CampingTripFull(trip);
-
-                        tripFull.Organizer = await GetUserAsync(trip.OrganzierID);
-
-                        campingTrips.Add(tripFull);
-                    }
-                }
-
-
-                return campingTrips;
             }
-            catch(Exception ex)
-            {
-                throw new Exception("");
-            }
+
+            return campingTrips;
         }
 
         public async Task<CampingTripFull> GetUnconfirmedTripById(string campingTripId)
         {
             var driverIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID, 0);
-            var guideIdNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasGuide && trip.GuideID == 0, true);
-            var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer && trip.PhotographerID == 0, true);
-            var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType == TypeOfOrganization.orderByUser, true);
-            var campingTripById = Builders<CampingTrip>.Filter.Eq(trip => trip.ID == campingTripId, true);
+            var hasGuide = Builders<CampingTrip>.Filter.Eq(trip => trip.HasGuide, true);
+            var guideIdNull = Builders<CampingTrip>.Filter.Eq(trip => trip.GuideID, 0);
+            var hasPhotographer = Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer, true);
+            var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.PhotographerID, 0);
+            var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType, TypeOfOrganization.orderByUser);
+            var campingTripById = Builders<CampingTrip>.Filter.Eq(trip => trip.ID , campingTripId);
 
-            var campingTrip = await campingTripContext.CampingTrips.Find(driverIsNull | guideIdNull | photographerIsNull & organizedByUser).FirstOrDefaultAsync();
+            var campingTrip = await campingTripContext.CampingTrips.
+                Find(driverIsNull | (hasGuide & guideIdNull) | (hasPhotographer & photographerIsNull) & organizedByUser& campingTripById)?.FirstOrDefaultAsync();
 
             if (campingTrip != null)
             {
@@ -737,10 +721,10 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetDriverTripsAsync(int userId)
         {
-            var tripsByDriverId = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID == userId, true);
-            var inProgres = Builders<CampingTrip>.Filter.Eq(trip => trip.ArrivalDate > DateTime.Now, true);
+            var tripsByDriverId = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID, userId);
+            var inProgres = Builders<CampingTrip>.Filter.Where(trip => trip.ArrivalDate > DateTime.Now);
 
-            var trips = await campingTripContext.CampingTrips.Find(tripsByDriverId & inProgres).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(tripsByDriverId & inProgres)?.ToListAsync();
 
             var campingTrips = new List<CampingTripFull>();
 
@@ -757,38 +741,38 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<ServiceRequest>> GetAllInProgresServiceRequestsAsync()
         {
-            var requestIsValidFilter= Builders<ServiceRequest>.Filter.Eq(request=>request.RequestValidityPeriod>DateTime.Now, true);
+            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Where(request => request.RequestValidityPeriod > DateTime.Now);
 
-            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter).ToListAsync();
+            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter)?.ToListAsync();
         }
 
         public async Task<IEnumerable<ServiceRequest>> GetServiceProvidersAllInProgresServiceRequests(int providerId)
         {
-            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Eq(request => request.RequestValidityPeriod > DateTime.Now, true);
+            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Where(request => request.RequestValidityPeriod > DateTime.Now);
 
-            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId == providerId, true);
+            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId,providerId);
 
-            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByProviderId).ToListAsync();
+            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByProviderId)?.ToListAsync();
         }
 
         public async Task<ServiceRequest> GetServiceRequestByIdAsync(string id)
         {
-            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Eq(request => request.RequestValidityPeriod > DateTime.Now, true);
+            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Where(request => request.RequestValidityPeriod > DateTime.Now);
 
-            var filterByRequestId = Builders<ServiceRequest>.Filter.Eq(request => request.Id == id, true);
+            var filterByRequestId = Builders<ServiceRequest>.Filter.Eq(request => request.Id,id);
 
-            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByRequestId).FirstOrDefaultAsync();
+            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByRequestId)?.FirstOrDefaultAsync();
         }
 
         public async Task<ServiceRequest> GetServiceRequestByIdAndProviderIdAsync(string id,int providerId)
         {
-            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Eq(request => request.RequestValidityPeriod > DateTime.Now, true);
+            var requestIsValidFilter = Builders<ServiceRequest>.Filter.Where(request => request.RequestValidityPeriod > DateTime.Now);
 
-            var filterByRequestId = Builders<ServiceRequest>.Filter.Eq(request => request.Id == id, true);
+            var filterByRequestId = Builders<ServiceRequest>.Filter.Eq(request => request.Id,id);
 
-            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId == providerId, true);
+            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId,providerId);
 
-            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByRequestId & filterByProviderId).FirstOrDefaultAsync();
+            return await campingTripContext.ServiceRequests.Find(requestIsValidFilter & filterByRequestId & filterByProviderId)?.FirstOrDefaultAsync();
         }
 
         public async Task AddServiceRequestAsync(ServiceRequest request)
@@ -807,45 +791,45 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var filterByRequestId = Builders<ServiceRequest>.Filter.Eq("Id", id);
 
-            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId==providerId,true);
+            var filterByProviderId = Builders<ServiceRequest>.Filter.Eq(request => request.ProviderId,providerId);
 
             await campingTripContext.ServiceRequests.DeleteOneAsync(filterByRequestId & filterByProviderId);
         }
 
         public async Task<IEnumerable<ServiceRequestResponse>> GetAllServiceRequestResponsesAsync()
         {
-            var isValid= Builders<ServiceRequestResponse>.Filter.Eq(response=>response.ResponseValidityPeriod>DateTime.Now,true);
+            var isValid= Builders<ServiceRequestResponse>.Filter.Where(response=>response.ResponseValidityPeriod>DateTime.Now);
 
-            return await campingTripContext.ServiceRequestResponses.Find(isValid).ToListAsync();
+            return await campingTripContext.ServiceRequestResponses.Find(isValid)?.ToListAsync();
         }
 
         public async Task<IEnumerable<ServiceRequestResponse>> GetAllServiceRequestResponsesByProviderIdAsync(int providerId)
         {
-            var isValid = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ResponseValidityPeriod > DateTime.Now, true);
+            var isValid = Builders<ServiceRequestResponse>.Filter.Where(response => response.ResponseValidityPeriod > DateTime.Now);
 
-            var filterByProviderId= Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId== providerId, true);
+            var filterByProviderId= Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId,providerId);
 
-            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterByProviderId).ToListAsync();
+            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterByProviderId)?.ToListAsync();
         }
 
         public async Task<ServiceRequestResponse> GetServiceRequestResponseByIdAsync(string id)
         {
-            var isValid = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ResponseValidityPeriod > DateTime.Now, true);
+            var isValid = Builders<ServiceRequestResponse>.Filter.Where(response => response.ResponseValidityPeriod > DateTime.Now);
 
-            var filterById= Builders<ServiceRequestResponse>.Filter.Eq(response => response.Id==id, true);
+            var filterById= Builders<ServiceRequestResponse>.Filter.Eq(response => response.Id,id);
 
-            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterById).FirstOrDefaultAsync();
+            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterById)?.FirstOrDefaultAsync();
         }
 
         public async Task<ServiceRequestResponse> GetServiceRequestResponsesByIdAndProviderIdAsync(string id, int providerId)
         {
-            var isValid = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ResponseValidityPeriod > DateTime.Now, true);
+            var isValid = Builders<ServiceRequestResponse>.Filter.Where(response => response.ResponseValidityPeriod > DateTime.Now);
 
-            var filterByProviderId = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId == providerId, true);
+            var filterByProviderId = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId,providerId);
 
-            var filterById = Builders<ServiceRequestResponse>.Filter.Eq(response => response.Id == id, true);
+            var filterById = Builders<ServiceRequestResponse>.Filter.Eq(response => response.Id,id);
 
-            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterById & filterByProviderId).FirstOrDefaultAsync();
+            return await campingTripContext.ServiceRequestResponses.Find(isValid & filterById & filterByProviderId)?.FirstOrDefaultAsync();
         }
 
         public async Task AddServiceRequestResponceAsync(ServiceRequestResponse response)
@@ -872,16 +856,16 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var filterByRequestId = Builders<ServiceRequestResponse>.Filter.Eq("Id", id);
 
-            var filterByProviderId = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId == providerId, true);
+            var filterByProviderId = Builders<ServiceRequestResponse>.Filter.Eq(response => response.ProviderId, providerId);
 
             await campingTripContext.ServiceRequestResponses.DeleteOneAsync(filterByRequestId & filterByProviderId);
         }
 
         public async Task<bool> IsOrganizerAsync(int id)
         {
-            var filterByRequestId = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganzierID == id, true);
+            var filterByRequestId = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganzierID,id);
 
-            var trips = await campingTripContext.CampingTrips.Find(filterByRequestId).ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find(filterByRequestId)?.ToListAsync();
 
             if (trips.Count > 0) return true;
 
@@ -988,9 +972,9 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task RemoveUserRegistredCampingTripAndSendingEmail(string campingTripId)
         {
-            var filterById = Builders<CampingTrip>.Filter.Eq("Id", campingTripId);
+            var filterById = Builders<CampingTrip>.Filter.Eq("ID", campingTripId);
 
-            var trip = await campingTripContext.CampingTrips.Find(filterById).FirstAsync();
+            var trip = await campingTripContext.CampingTrips.Find(filterById)?.FirstAsync();
 
             var user = await GetUserAsync(trip.OrganzierID);
 
@@ -1009,7 +993,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
+            var tokenResponse = await tokenClinet.RequestClientCredentialsAsync("userManagement");
 
             var httpClient = new HttpClient
             {

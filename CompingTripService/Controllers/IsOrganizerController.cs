@@ -16,7 +16,7 @@ namespace CampingTripService.Controllers
             this.campingTripRepository = campingTripRepository;
         }
         // GET: api/IsOrganizer/5
-        [Authorize]
+        [Authorize(Policy ="OnlyForUserManagement")]
         [HttpGet("{id}")]
         public async Task<bool> Get(int id)
         {

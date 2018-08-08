@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Comments")]
     public class CommentsController : Controller

@@ -1,16 +1,11 @@
 ﻿using IdentityModel.Client;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.IO;
 using System.Net.Http;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using UserManagement.DataManagement.DataAccesLayer.Models;
-using UserManagement.DataManagement.Exceptions;
 using UserManagement.DataManagement.Security;
 
 namespace UserManagement.DataManagement.DataAccesLayer
@@ -85,8 +80,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 return (int)reader["Id"];
             }
         }
-
-        
 
         /// <summary>
         /// Add userId and registration code in UserVerification table
@@ -337,47 +330,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
                 connection.Open();
                 return (int)commandForInsertCamera.ExecuteScalar();
-            }
-        }
-
-        public void AddServiceRequest(ServiceRequest serviceRequest)
-        {
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var commandForInsertServiceRequest = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "InsertServiceRequest"
-                };
-
-                commandForInsertServiceRequest.Parameters.AddWithValue("@userId", serviceRequest.UserId);
-                commandForInsertServiceRequest.Parameters.AddWithValue("@campingTripId", serviceRequest.CampingTripId);
-
-                connection.Open();
-
-                commandForInsertServiceRequest.ExecuteNonQuery();
-            }
-        }
-
-        public void AddServiceRequestResponse(ServiceRequestResponse response)
-        {
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var commandForInsert = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "InsertServiceRequestResponse"
-                };
-
-                commandForInsert.Parameters.AddWithValue("@userId", response.UserId);
-                commandForInsert.Parameters.AddWithValue("@campingTripId", response.CampingTripId);
-                commandForInsert.Parameters.AddWithValue("@price", response.Price);
-
-                connection.Open();
-
-                commandForInsert.ExecuteNonQuery();
             }
         }
 
@@ -1373,185 +1325,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
             return cars;
         }
 
-        public IEnumerable<ServiceRequest> GetAllServicesRequests()
-        {
-            var serviceRequests = new List<ServiceRequest>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllServicesRequests"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequests.Add(new ServiceRequest
-                        {
-                            Id = (int)dataReader["Id"],
-                            UserId = (int)dataReader["UserId"],
-                            CampingTripId = (string)dataReader["CampingTripId"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequests;
-        }
-
-        public IEnumerable<ServiceRequest> GetServiceRequestsByUserId(int userid)
-        {
-            var serviceRequests = new List<ServiceRequest>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetServiceRequestsByUserId"
-                };
-
-                connection.Open();
-
-                command.Parameters.AddWithValue("@userId", userid);
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequests.Add(new ServiceRequest
-                        {
-                            Id=(int)dataReader["Id"],
-                            UserId = userid,
-                            CampingTripId = (string)dataReader["CampingTripId"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequests;
-        }
-
-        public IEnumerable<ServiceRequestResponse> GetAllServicesRequestResponses()
-        {
-            var serviceRequestResponses = new List<ServiceRequestResponse>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllServicesRequestResponses"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequestResponses.Add(new ServiceRequestResponse
-                        {
-                            Id = (int)dataReader["Id"],
-                            UserId = (int)dataReader["UserId"],
-                            CampingTripId = (string)dataReader["CampingTripId"],
-                            Price = (double)dataReader["Price"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequestResponses;
-        }
-
-        public IEnumerable<ServiceRequestResponse> GetServicesRequestResponsesByCampingTripId(string campingTripId)
-        {
-            var serviceRequestResponses = new List<ServiceRequestResponse>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetServicesRequestResponsesByCampingTripId"
-                };
-
-                connection.Open();
-
-                command.Parameters.AddWithValue("@campingTripId", campingTripId);
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequestResponses.Add(new ServiceRequestResponse
-                        {
-                            Id = (int)dataReader["Id"],
-                            UserId = (int)dataReader["UserId"],
-                            CampingTripId = campingTripId,
-                            Price = (double)dataReader["Price"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequestResponses;
-        }
-
-        public IEnumerable<ServiceRequestResponse> GetServicesRequestResponsesByUserId(int userId)
-        {
-            var serviceRequestResponses = new List<ServiceRequestResponse>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetServicesRequestResponsesByUserId"
-                };
-
-                connection.Open();
-
-                command.Parameters.AddWithValue("@userId", userId);
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequestResponses.Add(new ServiceRequestResponse
-                        {
-                            Id = (int)dataReader["Id"],
-                            UserId = userId,
-                            CampingTripId = (string)dataReader["CampingTripId"],
-                            Price = (double)dataReader["Price"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequestResponses;
-        }
-        
         #endregion Getting
 
         #region Updating
@@ -1795,26 +1568,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@id", camera.Id);
                 updateCommand.Parameters.AddWithValue("@isProfessional", camera.IsProfessional);
                 updateCommand.Parameters.AddWithValue("@model", camera.Model);
-
-                connection.Open();
-
-                updateCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void UpdateServiceRequestResponse(int id, ServiceRequestResponse response)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var updateCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateServiceRequestResponse"
-                };
-
-                updateCommand.Parameters.AddWithValue("@id", response.Id);
-                updateCommand.Parameters.AddWithValue("@price", response.Price);
 
                 connection.Open();
 
