@@ -140,9 +140,8 @@ namespace Kanch.ProfileComponents.ViewModels
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
             var driver = (driverRequest as DriverRequests).Driver;
-            var uri = new Uri("api/driververification/" + driver.UserName);
 
-            var response = httpClient.DeleteAsync(uri).Result;
+            var response = httpClient.DeleteAsync("api/driververification/" + driver.UserName).Result;
 
             this.DriverRequests.Remove(driverRequest as DriverRequests);
         }

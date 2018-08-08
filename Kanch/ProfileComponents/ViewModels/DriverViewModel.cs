@@ -1,4 +1,5 @@
-﻿using Kanch.Commands;
+﻿using IdentityModel.Client;
+using Kanch.Commands;
 using Kanch.DataModel;
 using Kanch.ProfileComponents.DataModel;
 using Kanch.ProfileComponents.Utilities;
@@ -14,6 +15,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
@@ -25,6 +28,11 @@ namespace Kanch.ProfileComponents.ViewModels
 
         private HttpClient httpClient;
 
+        private TokenClient tokenClient;
+
+        private ImageSource male;
+
+        private ImageSource female;
 
         public DriverInfo driver;
 
@@ -63,9 +71,41 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public ICommand Requests { get; set; }
 
+        public ICommand GetAllTripsCommand { get; set; }
+        public ICommand GetMyCurrentTripsCommand { get; set; }
+        public ICommand GetlMyPreviousTripsCommand { get; set; }
+
         public DriverViewModel()
         {
+            this.male = new BitmapImage(new Uri(String.Format("Images/male.jpg"), UriKind.Relative));
+            this.male.Freeze();
+            this.female = new BitmapImage(new Uri(String.Format("Images/female.jpg"), UriKind.Relative));
+            this.female.Freeze();
+
             this.Requests = new Command(o => SeeRequests());
+            ConnectToServerAndGettingRefreshTokenAsync();
+            httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
+            GetDriverInfo();
+            this.GetAllTripsCommand = new Command(o => GetAllTrip());
+            this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
+            this.GetlMyPreviousTripsCommand = new Command(o => GetMyPreviousTrips());
+        }
+
+
+        private void GetMyPreviousTrips()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetMyCurrentTrips()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetAllTrip()
+        {
+            throw new NotImplementedException();
         }
 
         private void SeeRequests()
@@ -76,13 +116,17 @@ namespace Kanch.ProfileComponents.ViewModels
             presenter.ContentTemplate = window.FindResource("CampingTripRequestsForDriver") as DataTemplate;
         }
 
-        public async void GetDriverInfoAsync()
+        public void GetDriverInfo()
         {
-            var response = await httpClient.GetAsync("api/Driver/" + ConfigurationSettings.AppSettings["userId"]);
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+
+            this.httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var response = httpClient.GetAsync("api/Driver/" + ConfigurationSettings.AppSettings["userId"]).Result;
 
             var content = response.Content;
 
-            var jsonContent = await content.ReadAsStringAsync();
+            var jsonContent = content.ReadAsStringAsync().Result;
 
             var driver = JsonConvert.DeserializeObject<Driver>(jsonContent);
 
@@ -96,7 +140,6 @@ namespace Kanch.ProfileComponents.ViewModels
                 Email = driver.Email,
                 PhoneNumber = driver.PhoneNumber,
                 UserName = driver.UserName,
-                Image = ImageConverter.ConvertImageToImageSource(driver.Image),
                 Car = new CarInfo
                 {
                     Id = driver.Car.Id,
@@ -119,6 +162,21 @@ namespace Kanch.ProfileComponents.ViewModels
                 NumberOfAppraisers = driver.NumberOfAppraisers,
                 Rating = driver.Rating
             };
+            if (driver.Image != null)
+            {
+                driverInfo.Image = ImageConverter.ConvertImageToImageSource(driver.Image);
+            }
+            else
+            {
+                if (driverInfo.Gender == "Female")
+                {
+                    driverInfo.Image = this.female;
+                }
+                else
+                {
+                    driverInfo.Image = this.male;
+                }
+            }
 
             Driver = driverInfo;
         }
@@ -130,6 +188,20 @@ namespace Kanch.ProfileComponents.ViewModels
             if (tripId == null) return;
 
             await httpClient.PutAsync("api/MembersOfCampingTrip/" + Driver.Id, new StringContent(tripId));
+        }
+
+        private async void ConnectToServerAndGettingRefreshTokenAsync()
+        {
+            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
+
+            if (disco.IsError)
+            {
+                return;
+            }
+            else
+            {
+                tokenClient = new TokenClient(disco.TokenEndpoint, "kanchDesktopApp", "secret");
+            }
         }
     }
 }

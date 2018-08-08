@@ -38,7 +38,7 @@
             <views:CampingTripsRegistration />
         </DataTemplate>
         
-        <DataTemplate x:Key="CampingTripRequestsForDriver" DataType="{x:Type viewModels:CampingTripRequestsForDriver}">
+        <DataTemplate x:Key="CampingTripRequestsForDriver" DataType="{x:Type viewModels:CampingTripRequestsForDriverViewModel}">
             <views:CampingTripRequestsForDriver />
         </DataTemplate>
         

@@ -28,10 +28,6 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public ObservableCollection<UnconfirmedTrips> UnconfirmedTrips { get; set; }
 
-        public ICommand SendRequestsToDriverCommand { get; set; }
-        public ICommand SendRequestsToGuideCommand { get; set; }
-        public ICommand SendRequestsToPhotographerCommand { get; set; }
-
         public ConfirmationOfTripsViewModel()
         {
             this.httpClient = new HttpClient();
@@ -148,7 +144,7 @@ namespace Kanch.ProfileComponents.ViewModels
             var tripInfo = JsonConvert.SerializeObject(campingTrip);
             
 
-            var response = httpClient.PutAsync("api/UsersTrips/" + campingTrip.ID, new StringContent(tripInfo, Encoding.UTF8, "application/json")).Result;
+            var response = httpClient.PutAsync("api/UserRegisteredTripsManagement/" + campingTrip.ID, new StringContent(tripInfo, Encoding.UTF8, "application/json")).Result;
             this.UnconfirmedTrips.Remove(trip as UnconfirmedTrips);
         }
         public void Ignore(object trip)
@@ -157,8 +153,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var campingTrip = (trip as UnconfirmedTrips).Trip;
-            var uri = new Uri("api/UsersTrips/" + campingTrip.ID);
-            var response = httpClient.DeleteAsync(uri).Result;
+            var response = httpClient.DeleteAsync("api/UserRegisteredTripsManagement/" + campingTrip.ID).Result;
 
             this.UnconfirmedTrips.Remove(trip as UnconfirmedTrips);
         }

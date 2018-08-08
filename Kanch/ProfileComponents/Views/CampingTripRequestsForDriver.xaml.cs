@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Kanch.ProfileComponents.ViewModels;
 
 namespace Kanch.ProfileComponents.Views
 {
@@ -22,6 +23,7 @@ namespace Kanch.ProfileComponents.Views
     {
         public CampingTripRequestsForDriver()
         {
+            this.DataContext = new CampingTripRequestsForDriverViewModel();
             InitializeComponent();
         }
     }
