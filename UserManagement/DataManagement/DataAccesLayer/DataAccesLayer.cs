@@ -1,5 +1,6 @@
 ﻿using IdentityModel.Client;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -2116,13 +2117,18 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
             if (response.IsSuccessStatusCode)
             {
+                var content = response.Content;
 
-                //var content
+                var isOrganizerJson = await content.ReadAsStringAsync();
 
+                var isOrganizer = JsonConvert.DeserializeObject<bool>(isOrganizerJson);
 
+                return isOrganizer;
             }
-
-            return true;
+            else
+            {
+                throw new Exception("Camping Trip Api not responded");
+            }
         }
 
         public bool CodeIsValid(VerificationInfo verification)
@@ -2142,11 +2148,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
                 var reader = command.ExecuteReader();
 
-                if (!reader.HasRows) return false;/* throw new UserManagementException
-                {
-                    ExceptionCode=5000,
-                    Source = "CodeIsValid",
-                };*/
+                if (!reader.HasRows) return false;
 
                 reader.Read();
 
@@ -2180,40 +2182,5 @@ namespace UserManagement.DataManagement.DataAccesLayer
         }
 
         #endregion Validating
-
-        #region Utility
-
-       /* public Image ByteArrayToImage(object picture)
-        {
-            Image img = null;
-            if (picture != null)
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                using (var ms = new MemoryStream())
-                {
-                    bf.Serialize(ms, picture);
-                    var bytesArr = ms.ToArray();
-                    var memstr = new MemoryStream(bytesArr);
-                    img = Image.FromStream(memstr);
-                }
-            }
-            return img;
-        }
-
-        public byte[] ImageToByteArray(Image img)
-        {
-            if (img != null)
-            {
-                using (MemoryStream mStream = new MemoryStream())
-                {
-                    img.Save(mStream, img.RawFormat);
-                    return mStream.ToArray();
-                }
-            }
-            else
-                return null;
-        }*/
-
-        #endregion Utility
     }
 }
