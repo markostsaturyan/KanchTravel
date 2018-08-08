@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UserManagement.DataManagement.DataAccesLayer;
 using UserManagement.DataManagement.DataAccesLayer.Models;
 using UserManagement.DataManagement.Security;
@@ -76,9 +77,9 @@ namespace UserManagement.Controllers
         // DELETE: api/ApiWithActions/5
         [Authorize(Policy ="OnlyForGuide")]
         [HttpDelete("{id}")]
-        public Status Delete(int id)
+        public async Task<Status> Delete(int id)
         {
-            if (this.dataAccessLayer.IsOrganaizer(id)) return new Status
+            if (await this.dataAccessLayer.IsOrganaizer(id)) return new Status
             {   
                 // 2100 - deleting is feiled because user is organizer
                 StatusCode = 2100,

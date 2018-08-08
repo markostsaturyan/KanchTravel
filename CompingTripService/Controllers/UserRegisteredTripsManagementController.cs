@@ -42,6 +42,7 @@ namespace CampingTripService.Controllers
             await campingTripRepository.SendingServiceRequests(campingTrip);
         }
 
+        [HttpDelete("{campingTripId}")]
         public void Delete(string campingTripId)
         {
             campingTripRepository.RemoveUserRegistredCampingTripAndSendingEmail(campingTripId);
