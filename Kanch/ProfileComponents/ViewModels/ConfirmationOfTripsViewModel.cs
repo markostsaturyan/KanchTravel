@@ -26,7 +26,7 @@ namespace Kanch.ProfileComponents.ViewModels
         private HttpClient httpClient;
         private TokenClient tokenClient;
 
-        public ObservableCollection<CampingTripInfo> UnconfirmedTrips { get; set; }
+        public ObservableCollection<UnconfirmedTrips> UnconfirmedTrips { get; set; }
 
         public ICommand SendRequestsToDriverCommand { get; set; }
         public ICommand SendRequestsToGuideCommand { get; set; }
@@ -35,13 +35,17 @@ namespace Kanch.ProfileComponents.ViewModels
         public ConfirmationOfTripsViewModel()
         {
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
+            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
             ConnectToServer();
-            this.UnconfirmedTrips = new ObservableCollection<CampingTripInfo>();
+            this.UnconfirmedTrips = new ObservableCollection<UnconfirmedTrips>();
+            GetAllUnconfirmedTrips();
         }
 
         public void GetAllUnconfirmedTrips()
         {
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
             var response = httpClient.GetAsync("api/UserRegisteredTripsManagement").Result;
 
             var content = response.Content;
@@ -52,93 +56,111 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var campingTrips = new ObservableCollection<UnconfirmedTrips>();
 
-            foreach(var trip in trips)
+            if (trips != null)
             {
-                var campingtrip = new CampingTripInfo()
+                foreach (var trip in trips)
                 {
-                    Place = trip.Place,
-                    DepartureDate = trip.DepartureDate,
-                    ArrivalDate = trip.ArrivalDate,
-                    CountOfMembers = trip.CountOfMembers,
-                    MinAge = trip.MinAge,
-                    MaxAge = trip.MaxAge,
-                    Direction = trip.Direction
-                };
-                if(trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
-                {
-                    campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Campaign;
-                }
-                else if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.CampingTrip)
-                {
-                    campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.CampingTrip;
-                }
-                else
-                {
-                    campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
-                }
-                if (trip.Food != null)
-                {
-                    foreach (var food in trip.Food)
+                    var campingtrip = new CampingTripInfo()
                     {
-                        campingtrip.Food.Add(new FoodInfo()
-                        {
-                            Name = food.Name,
-                            Measure = food.Measure,
-                            MeasurementUnit = food.MeasurementUnit
-                        });
+                        Place = trip.Place,
+                        DepartureDate = trip.DepartureDate,
+                        ArrivalDate = trip.ArrivalDate,
+                        CountOfMembers = trip.CountOfMembers,
+                        MinAge = trip.MinAge,
+                        MaxAge = trip.MaxAge,
+                        Direction = trip.Direction,
+                        HasGuide=trip.HasGuide,
+                        HasPhotographer=trip.HasPhotographer
+                    };
+                    if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
+                    {
+                        campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Campaign;
                     }
-                }
-                campingtrip.Organizer = new UserInfo()
-                {
-                    FirstName = trip.Organzier.FirstName,
-                    LastName = trip.Organzier.LastName,
-                    UserName = trip.Organzier.UserName,
-                    Email = trip.Organzier.Email,
-                    PhoneNumber = trip.Organzier.PhoneNumber,
-                    DateOfBirth = trip.Organzier.DateOfBirth,
-                    Gender = trip.Organzier.Gender
-                };
-                if (trip.Organzier.Image != null)
-                {
-                    campingtrip.Organizer.Image = ImageConverter.ConvertImageToImageSource(trip.Organzier.Image);
-                }
-                else
-                {
-                    BitmapImage img = new BitmapImage();
-                    img.BeginInit();
-                    if (campingtrip.Organizer.Gender == "Female")
+                    else if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.CampingTrip)
                     {
-                        img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
+                        campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.CampingTrip;
                     }
                     else
                     {
-                        img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
+                        campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
                     }
-                    img.EndInit();
-                    campingtrip.Organizer.Image = img;
+                    if (trip.Food != null)
+                    {
+                        campingtrip.Food = new ObservableCollection<FoodInfo>();
+                        foreach (var food in trip.Food)
+                        {
+                            campingtrip.Food.Add(new FoodInfo()
+                            {
+                                Name = food.Name,
+                                Measure = food.Measure,
+                                MeasurementUnit = food.MeasurementUnit
+                            });
+                        }
+                    }
+                    campingtrip.Organizer = new UserInfo()
+                    {
+                        FirstName = trip.Organizer.FirstName,
+                        LastName = trip.Organizer.LastName,
+                        UserName = trip.Organizer.UserName,
+                        Email = trip.Organizer.Email,
+                        PhoneNumber = trip.Organizer.PhoneNumber,
+                        DateOfBirth = trip.Organizer.DateOfBirth,
+                        Gender = trip.Organizer.Gender
+                    };
+                    if (trip.Organizer.Image != null)
+                    {
+                        campingtrip.Organizer.Image = ImageConverter.ConvertImageToImageSource(trip.Organizer.Image);
+                    }
+                    else
+                    {
+                        BitmapImage img = new BitmapImage();
+                        img.BeginInit();
+                        if (campingtrip.Organizer.Gender == "Female")
+                        {
+                            img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
+                        }
+                        else
+                        {
+                            img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
+                        }
+                        img.EndInit();
+                        campingtrip.Organizer.Image = img;
+                    }
+
+                    var unconfirmTrip = new HelperClasses.UnconfirmedTrips();
+
+                    unconfirmTrip.CampingTrip = campingtrip;
+                    unconfirmTrip.Trip = trip;
+                    unconfirmTrip.ConfirmCommand = new Command(Confirm);
+                    unconfirmTrip.IgnoreCommand = new Command(Ignore);
+
+                    this.UnconfirmedTrips.Add(unconfirmTrip);
                 }
-                campingTrips.Add(new HelperClasses.UnconfirmedTrips()
-                {
-                    CampingTrip = campingtrip,
-                    ConfirmCommand = new Command(Confirm),
-                    IgnoreCommand = new Command(Ignore)
-                });
-            };
+            }
         }
 
         public void Confirm(object trip)
         {
-            var response = httpClient.GetAsync("api/UserRegisteredTripsManagement").Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
 
-            var content = response.Content;
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+            var campingTrip = (trip as UnconfirmedTrips).Trip;
+            var tripInfo = JsonConvert.SerializeObject(campingTrip);
+            
 
-            var jsonContent = content.ReadAsStringAsync().Result;
-
-            var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(jsonContent);
+            var response = httpClient.PutAsync("api/UsersTrips/" + campingTrip.ID, new StringContent(tripInfo, Encoding.UTF8, "application/json")).Result;
+            this.UnconfirmedTrips.Remove(trip as UnconfirmedTrips);
         }
         public void Ignore(object trip)
         {
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
 
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+            var campingTrip = (trip as UnconfirmedTrips).Trip;
+            var uri = new Uri("api/UsersTrips/" + campingTrip.ID);
+            var response = httpClient.DeleteAsync(uri).Result;
+
+            this.UnconfirmedTrips.Remove(trip as UnconfirmedTrips);
         }
         private void ConnectToServer()
         {

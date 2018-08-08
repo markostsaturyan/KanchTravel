@@ -9,6 +9,7 @@ using CampingTripService.DataManagement.Model.Users;
 using System.Net.Http;
 using Newtonsoft.Json;
 using CampingTripService.Utility;
+using MongoDB.Bson.Serialization;
 
 namespace CampingTripService.DataManagement.CampingTripBLL
 {
@@ -227,7 +228,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
 
             var httpClient = new HttpClient
             {
@@ -256,7 +257,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
 
             var httpClient = new HttpClient
             {
@@ -285,7 +286,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
 
             var httpClient = new HttpClient
             {
@@ -562,7 +563,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                 fullTrip.MembersOfCampingTrip = await GetCampingTripMembersAsync(trip.MembersOfCampingTrip);
             }
 
-            if (trip.HasPhotographer)
+            if (trip.HasPhotographer && trip.PhotographerID!=0)
             {
                 fullTrip.Photographer = await GetTripPhotographerAsync(trip.PhotographerID);
             }
@@ -572,7 +573,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                 fullTrip.Driver = await GetTripDriverAsync(trip.DriverID);
             }
 
-            if (trip.HasGuide)
+            if (trip.HasGuide && trip.GuideID!=0)
             {
                 fullTrip.Guide = await GetTripGuideAsync(trip.GuideID);
             }
@@ -673,40 +674,52 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<CampingTripFull>> GetAllUnconfirmedTrips()
         {
-            var driverIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID == 0, true);
-            var guideIdNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasGuide && trip.GuideID == 0, true);
-            var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer && trip.PhotographerID == 0, true);
-            var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType == TypeOfOrganization.orderByUser,true);
+            var driverIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID, 0);
+            var hasGuide = Builders<CampingTrip>.Filter.Eq(trip => trip.HasGuide, true);
+            var guideIdNull = Builders<CampingTrip>.Filter.Eq(trip => trip.GuideID, 0);
+            var hasPhotographer= Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer, true);
+            var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip =>trip.PhotographerID, 0);
+            var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType,TypeOfOrganization.orderByUser);
+            var campingTrip = campingTripContext.CampingTrips;
 
-            var trips = await campingTripContext.CampingTrips.Find(driverIsNull | guideIdNull | photographerIsNull & organizedByUser).ToListAsync();
-
-            var campingTrips = new List<CampingTripFull>();
-
-            if (trips != null)
+            try
             {
-                foreach(var trip in trips)
+                var tripsIEnum = campingTrip.Find(driverIsNull |(hasGuide & guideIdNull )|(hasPhotographer & photographerIsNull) & organizedByUser);
+
+                var trips = new List<CampingTrip>();
+
+                if (tripsIEnum != null)
                 {
-                    var filter = Builders<ServiceRequest>.Filter.Eq(request => request.CampingTripId == trip.ID, true);
+                    trips = await tripsIEnum.ToListAsync<CampingTrip>();
+                }
 
-                    var filterResponse = Builders<ServiceRequestResponse>.Filter.Eq(response => response.CampingTripId == trip.ID, true);
 
-                    var requests = await campingTripContext.ServiceRequests.Find(filter).ToListAsync();
+                var campingTrips = new List<CampingTripFull>();
 
-                    var responses = await campingTripContext.ServiceRequestResponses.Find(filterResponse).ToListAsync();
-
-                    if (requests.Count == 0 && responses.Count == 0)
+                if (trips != null)
+                {
+                    foreach (var trip in trips)
                     {
-                        campingTrips.Add(await GetCampingTripMembersAndDPGForAdmin(trip, false));
+                        var tripFull = new CampingTripFull(trip);
+
+                        tripFull.Organizer = await GetUserAsync(trip.OrganzierID);
+
+                        campingTrips.Add(tripFull);
                     }
                 }
-            }
 
-            return campingTrips;
+
+                return campingTrips;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("");
+            }
         }
 
         public async Task<CampingTripFull> GetUnconfirmedTripById(string campingTripId)
         {
-            var driverIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID == 0, true);
+            var driverIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.DriverID, 0);
             var guideIdNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasGuide && trip.GuideID == 0, true);
             var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.HasPhotographer && trip.PhotographerID == 0, true);
             var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType == TypeOfOrganization.orderByUser, true);
@@ -879,7 +892,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponce = await tokenClient.RequestClientCredentialsAsync("userManagement", "secret");
+            var tokenResponce = await tokenClient.RequestClientCredentialsAsync("userManagement");
 
             var httpClient = new HttpClient();
 
@@ -996,7 +1009,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
 
             var httpClient = new HttpClient
             {

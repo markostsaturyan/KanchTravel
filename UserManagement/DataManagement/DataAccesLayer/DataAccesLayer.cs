@@ -1337,6 +1337,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetAllCars"
                 };
+                command.Parameters.AddWithValue("@numberOfSeats", numberOfSeats);
 
                 connection.Open();
 

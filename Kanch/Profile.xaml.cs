@@ -24,9 +24,10 @@ namespace Kanch
     {
         public Profile()
         {
-            InitializeComponent();
 
-            switch (ConfigurationSettings.AppSettings["role"])
+            InitializeComponent();
+            var role = ConfigurationSettings.AppSettings["role"];
+            switch (role)
             {
                 case "Admin":
                     {
@@ -56,7 +57,6 @@ namespace Kanch
             }
 
             mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
-
         }
     }
 }
