@@ -3,10 +3,12 @@ using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CampingTripService.Controllers
 {
-    [Authorize(Policy = "OnlyForAdminOrUserManagement")]
     [Produces("application/json")]
     [Route("api/TripsDriverManagemant")]
     public class TripsDriverManagemantController : Controller
@@ -18,6 +20,7 @@ namespace CampingTripService.Controllers
             this.signUpForTheTrip = signUpForTheTrip;
         }
 
+        [Authorize(Policy = "OnlyForAdmin")]
         [HttpGet("{id}")]
         public async Task<Driver> Get(string id)
         {
@@ -25,6 +28,7 @@ namespace CampingTripService.Controllers
         }
 
         // PUT: api/DriversOfCampingTrips/5
+        [Authorize(Policy = "OnlyForAdmin")]
         [HttpPut("{id}")]
         public async void Put(int id, [FromBody]string campingTripID)
         {
@@ -32,10 +36,28 @@ namespace CampingTripService.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        [Authorize]
         [HttpDelete("{id}")]
-        public async Task Delete(string campingTripID)
+        public async Task Delete(string campingTripId)
         {
-            await this.signUpForTheTrip.RemoveDriverFromTheTrip(campingTripID);
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var role = claims.Where(claim => claim.Type == "role")?.FirstOrDefault();
+
+            if (role?.Value == "Admin")
+            {
+                await this.signUpForTheTrip.RemoveDriverFromTheTrip(campingTripId);
+            }
+            else
+            {
+                var clientIdClaim = claims.Where(claim => claim.Type == "role")?.FirstOrDefault();
+
+                if (clientIdClaim.Value == "userManagemant")
+                {
+                    await this.signUpForTheTrip.RemoveDriverFromTheTrip(campingTripId);
+                }
+            }
         }
     }
 }

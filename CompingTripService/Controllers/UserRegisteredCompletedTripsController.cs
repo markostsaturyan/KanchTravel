@@ -36,7 +36,14 @@ namespace CampingTripService.Controllers
             }
             else
             {
-                return await campingTripRepository.GetAllUserRegisteredCompletedTripsForUserAsync();
+                var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
+
+                if(!int.TryParse(userIdClaim.Value,out int userId))
+                {
+                    throw new System.Exception("Invalid value for claim user_id");
+                }
+
+                return await campingTripRepository.GetAllUserRegisteredCompletedTripsForUserAsync(userId);
             }
         }
 
@@ -55,7 +62,14 @@ namespace CampingTripService.Controllers
             }
             else
             {
-                return await campingTripRepository.GetUserRegisteredCompletedTripForUserAsync(campingTripId);
+                var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
+
+                if (!int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    throw new System.Exception("Invalid value for claim user_id");
+                }
+
+                return await campingTripRepository.GetUserRegisteredCompletedTripForUserAsync(campingTripId,userId);
             }
         }
     }

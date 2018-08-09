@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.DataManagement.DataAccesLayer.Models;
 using UserManagement.DataManagement.DataAccesLayer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace UserManagement.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/car")]
     public class CarController : Controller

@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Net;
 using System.Threading.Tasks;
+using System.Linq;
+using System;
 
 namespace UserManagement.Controllers
 {
@@ -79,6 +81,21 @@ namespace UserManagement.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]UserInfo user)
         {
+            var identity = (ClaimsIdentity)User.Identity;
+
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
+
+            if (userIdClaim == null) throw new Exception("user_id claim not found");
+
+            if (!int.TryParse(userIdClaim?.Value, out int userId))
+            {
+                throw new Exception("Invalid value for user_id in users claims");
+            }
+
+            if (id != userId || userId != user?.Id) return;
+
             this.usersDataAccessLayer.UpdateUserInfo(user);
         }
 
@@ -87,6 +104,26 @@ namespace UserManagement.Controllers
         [HttpDelete("{id}")]
         public async Task<Status> Delete(int id)
         {
+            var identity = (ClaimsIdentity)User.Identity;
+
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
+
+            if (userIdClaim == null) throw new Exception("user_id claim not found");
+
+            if (!int.TryParse(userIdClaim?.Value, out int userId))
+            {
+                throw new Exception("Invalid value for user_id in users claims");
+            }
+
+            if (id != userId) return new Status
+            {
+                IsOk = false,
+                StatusCode = 5003,
+                Message = "Invalid id"
+            };
+
             if (await this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
             {
                 StatusCode = 2100,
