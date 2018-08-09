@@ -31,10 +31,25 @@ namespace Kanch
 
         public Login()
         {
+            if (ConfigurationSettings.AppSettings["refresToken"] != "" &&
+                ConfigurationSettings.AppSettings["userId"] != "" &&
+                ConfigurationSettings.AppSettings["role"] != "" &&
+                ConfigurationSettings.AppSettings["userName"] != "")
+            {
+                var profile = new Profile();
+
+                Application.Current.MainWindow = profile;
+
+                profile.Show();
+
+                this.Close();
+
+                return;
+            }
+
             InitializeComponent();
 
             ConnectToServerAsync();
-
         }
 
         private void RegistrationClick(object sender, RoutedEventArgs e)
