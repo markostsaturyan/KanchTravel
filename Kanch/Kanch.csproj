@@ -310,6 +310,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserProfileEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Verification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -368,6 +372,9 @@
     </Compile>
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfileEdit.xaml.cs">
+      <DependentUpon>UserProfileEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="App.xaml.cs">
