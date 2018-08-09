@@ -98,7 +98,7 @@ namespace Kanch.ProfileComponents.ViewModels
         }
         public void AcceptRequest(object request)
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+                var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
@@ -113,6 +113,8 @@ namespace Kanch.ProfileComponents.ViewModels
                 ProviderId = int.Parse(ConfigurationSettings.AppSettings["userId"]),
                 ResponseValidityPeriod = tripRequest.ArrivalDate
             };
+
+
 
             var response = httpClient.PostAsync("api/ServiceRequestResponses", new StringContent(JsonConvert.SerializeObject(serviceRequestResponse), Encoding.UTF8, "application/json")).Result;
 

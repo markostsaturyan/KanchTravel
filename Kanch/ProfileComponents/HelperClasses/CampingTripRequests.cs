@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,9 @@ using Kanch.ProfileComponents.DataModel;
 
 namespace Kanch.ProfileComponents.HelperClasses
 {
-    public class CampingTripRequests
+    public class CampingTripRequests:INotifyPropertyChanged
     {
+        private double price;
 
         public string ID { get; set; }
 
@@ -40,10 +42,30 @@ namespace Kanch.ProfileComponents.HelperClasses
 
         public PhotographerInfo Photographer { get; set; }
 
-        public double Price { get; set; }
+        public double Price
+        {
+
+            get { return this.price; }
+            set
+            {
+                if (price != value)
+                {
+                    price = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("InputDirection"));
+                }
+                if (price != 0)
+                {
+                    this.IsActive = true;
+                }
+            }
+        }
+
+        public bool IsActive { get; set; }
 
         public ICommand Accept { get; set; }
 
         public ICommand Ignore { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

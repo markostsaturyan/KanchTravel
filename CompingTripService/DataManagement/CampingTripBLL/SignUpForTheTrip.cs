@@ -138,6 +138,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var span = DateTime.Now - user.DateOfBirth;
 
             var userAge = (zeroTime + span).Year - 1;
+
             if (campingTrip != null)
             {
                 if (campingTrip.MinAge <= userAge && campingTrip.MaxAge >= userAge)

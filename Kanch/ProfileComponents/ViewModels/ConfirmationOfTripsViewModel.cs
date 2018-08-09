@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
-    class ConfirmationOfTripsViewModel:INotifyPropertyChanged
+    public class ConfirmationOfTripsViewModel:INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -31,10 +31,24 @@ namespace Kanch
 
         public Login()
         {
+            if (ConfigurationManager.AppSettings["refresToken"] != "" &&
+                ConfigurationManager.AppSettings["userId"] != "" &&
+                ConfigurationManager.AppSettings["role"] != "")
+            {
+                var profile = new Profile();
+
+                Application.Current.MainWindow = profile;
+
+                profile.Show();
+
+                this.Close();
+
+                return;
+            }
+
             InitializeComponent();
 
             ConnectToServerAsync();
-
         }
 
         private void RegistrationClick(object sender, RoutedEventArgs e)
@@ -95,11 +109,17 @@ namespace Kanch
 
             var role = handler.Claims.First(claim => claim.Type == JwtClaimTypes.Role);
 
-            ConfigurationSettings.AppSettings.Set("refreshToken", tokenResponse.RefreshToken);
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            ConfigurationSettings.AppSettings.Set("role", role.Value);
+            config.AppSettings.Settings["refreshToken"].Value = tokenResponse.RefreshToken;
 
-            ConfigurationSettings.AppSettings.Set("userId", userId.Value);
+            config.AppSettings.Settings["role"].Value = role.Value;
+
+            config.AppSettings.Settings["userId"].Value = userId.Value;
+
+            config.Save(ConfigurationSaveMode.Modified);
+
+            ConfigurationManager.RefreshSection("appSettings");
 
             var profile = new Profile();
 

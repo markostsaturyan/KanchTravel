@@ -27,7 +27,7 @@ namespace CampingTripService.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
 
-            var role = claims.Where(claim => claim.Type == "role")?.First();
+            var role = claims.Where(claim => claim.Type == "role")?.FirstOrDefault();
 
             if (role?.Value == "Admin")
             {
@@ -47,7 +47,7 @@ namespace CampingTripService.Controllers
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
 
-            var role = claims.Where(claim => claim.Type == "role")?.First();
+            var role = claims.Where(claim => claim.Type == "role")?.FirstOrDefault();
 
             if (role?.Value == "Admin")
             {
