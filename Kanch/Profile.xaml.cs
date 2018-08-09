@@ -24,39 +24,44 @@ namespace Kanch
     {
         public Profile()
         {
-            InitializeComponent();
 
-            switch (ConfigurationSettings.AppSettings["role"])
+            InitializeComponent();
+            var role = ConfigurationSettings.AppSettings["role"];
+            switch (role)
             {
                 case "Admin":
                     {
                         userMainInfoPresenter.ContentTemplate = this.FindResource("AdminMain") as DataTemplate;
+                        mainPage.ContentTemplate = this.FindResource("CampingTripRegistrationForAdmin") as DataTemplate;
                         break;
                     }
                 case "Driver":
                     {
                         userMainInfoPresenter.ContentTemplate = this.FindResource("DriverMain") as DataTemplate;
+                        mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
                         break;
                     }
                 case "Guide":
                     {
                         userMainInfoPresenter.ContentTemplate = this.FindResource("GuideMain") as DataTemplate;
+                        mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
                         break;
                     }
                 case "Photographer":
                     {
                         userMainInfoPresenter.ContentTemplate = this.FindResource("PhotographerMain") as DataTemplate;
+                        mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
                         break;
                     }
                 default:
                     {
                         userMainInfoPresenter.ContentTemplate = this.FindResource("UserMain") as DataTemplate;
+                        mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
                         break;
                     }
             }
 
-            mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
-
+            
         }
     }
 }

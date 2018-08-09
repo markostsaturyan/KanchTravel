@@ -76,47 +76,68 @@ namespace CampingTripService.DataManagement.Model
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string ID { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public string Place { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public DateTime DepartureDate { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public DateTime ArrivalDate { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public List<string> Direction { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public TypeOfCampingTrip TypeOfTrip { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public TypeOfOrganization OrganizationType { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int MinAge { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int MaxAge { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int MinCountOfMembers { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int MaxCountOfMembers { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int OrganzierID { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int CountOfMembers { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public List<int> MembersOfCampingTrip { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int DriverID { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int GuideID { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public int PhotographerID { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public List<Food> Food { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public double PriceOfTrip { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public bool IsRegistrationCompleted { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public bool HasGuide { get; set; }
-        [DataMember]
+
+        [BsonElement]
         public bool HasPhotographer { get; set; }
     }
 }

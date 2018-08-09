@@ -50,16 +50,16 @@
                 </Grid>
                 <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" Opacity="0.6" FontSize="18" FontFamily="Arial" >Сhoose how you want to register.</TextBlock>
                 <Button Grid.Row="2" Grid.Column="1" Name="userRegistration" Width="150" Height="45" Click="UserClick"  >
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontStyle="Italic" FontFamily="Times New Roman" >U s e r</TextBlock>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontFamily="Times New Roman" >U s e r</TextBlock>
                 </Button>
                 <Button Grid.Row="3" Grid.Column="1" Name="driverRegistration" Width="150" Height="45" Click="DriverClick">
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontStyle="Italic" FontFamily="Times New Roman" >D r i v e r</TextBlock>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"  FontFamily="Times New Roman" >D r i v e r</TextBlock>
                 </Button>
                 <Button Grid.Row="4" Grid.Column="1" Name="guideRegistration" Width="150" Height="45" Click="GuideClick">
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontStyle="Italic" FontFamily="Times New Roman" >G u i d e</TextBlock>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"  FontFamily="Times New Roman" >G u i d e</TextBlock>
                 </Button>
                 <Button Grid.Row="5" Grid.Column="1" Name="photographerRegistration" Width="150" Height="45" Click="PhotographerClick">
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontStyle="Italic" FontFamily="Times New Roman" >P h o t o g r a p h e r</TextBlock>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"  FontFamily="Times New Roman" >P h o t o g r a p h e r</TextBlock>
                 </Button>
             </Grid>
         </ScrollViewer>

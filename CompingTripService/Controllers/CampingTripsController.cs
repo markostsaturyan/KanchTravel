@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using System.Text;
-using System.Runtime.Serialization.Json;
 using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Primitives;
 using System.Security.Claims;
 using System.Linq;
 
@@ -24,16 +20,16 @@ namespace CampingTripService.Controllers
             this.campingTripRepository = campingTripRepository;
         }
 
-        //[Authorize(Policy ="For Admin")]
+        [Authorize]
         [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()
         {
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
 
-            var role = claims.Where(claim => claim.Type == "role").First();
+            var role = claims.Where(claim => claim.Type == "role")?.First();
 
-            if (role.Value == "Admin")
+            if (role?.Value == "Admin")
             {
                 return await campingTripRepository.GetAllRegistartionNotCompletedCampingTripsAsync();
             }
@@ -44,15 +40,16 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/CampingTrips/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<CampingTripFull> Get(string id)
         {
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
 
-            var role = claims.Where(claim => claim.Type == "role").First();
+            var role = claims.Where(claim => claim.Type == "role")?.First();
 
-            if (role.Value == "Admin")
+            if (role?.Value == "Admin")
             {
                 return await campingTripRepository.GetCampingTripAsync(id);
             }
@@ -63,14 +60,15 @@ namespace CampingTripService.Controllers
         }
 
         // POST: api/CampingTrips
-        [Authorize]
+        [Authorize(Policy ="OnlyForAdmin")]
         [HttpPost]
         public void Post([FromBody]CampingTripFull campingTrip)
         {
             campingTripRepository.AddCampingTripAsync(campingTrip);
         }
-        
+
         // PUT: api/CampingTrips/5
+        [Authorize(Policy = "OnlyForAdmin")]
         [HttpPut("{id}")]
         public void Put(string id, [FromBody]CampingTripFull campingTrip)
         {
@@ -79,6 +77,7 @@ namespace CampingTripService.Controllers
 
         // DELETE: api/ApiWithActions/5
         //[Authorize(Policy = "Organizer Or Admin")]
+        [Authorize(Policy = "OnlyForAdmin")]
         [HttpDelete("{id}")]
         public void Delete(string id)
         {

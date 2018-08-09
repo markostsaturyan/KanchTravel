@@ -6,7 +6,7 @@
         xmlns:viewModels="clr-namespace:Kanch.ProfileComponents.ViewModels"
         xmlns:views="clr-namespace:Kanch.ProfileComponents.Views"
         mc:Ignorable="d"
-        Title="Profile" Height="Auto" Width="Auto">
+        Title="Profile" Height="Auto" Width="700">
 
     <Window.Resources>
 
@@ -38,7 +38,7 @@
             <views:CampingTripsRegistration />
         </DataTemplate>
         
-        <DataTemplate x:Key="CampingTripRequestsForDriver" DataType="{x:Type viewModels:CampingTripRequestsForDriver}">
+        <DataTemplate x:Key="CampingTripRequestsForDriver" DataType="{x:Type viewModels:CampingTripRequestsForDriverViewModel}">
             <views:CampingTripRequestsForDriver />
         </DataTemplate>
         
@@ -48,6 +48,10 @@
 
         <DataTemplate x:Key="ConfirmationOfTrips" DataType="{x:Type viewModels:ConfirmationOfTripsViewModel}" >
             <views:ConfirmationOfTrips />
+        </DataTemplate>
+
+        <DataTemplate x:Key="CampingTripRegistrationForAdmin" DataType="{x:Type viewModels:CampingTripRegistrationForAdminViewModel}">
+            <views:CampingTripRegistrationForAdmin />
         </DataTemplate>
 
     </Window.Resources>
@@ -62,7 +66,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Width="Auto" HorizontalAlignment="Left" Background="White">
+            <Grid Width="Auto" HorizontalAlignment="Left" Background="#cce6ff">
 
                 <ContentPresenter Name="userMainInfoPresenter" Width="180"/>
 

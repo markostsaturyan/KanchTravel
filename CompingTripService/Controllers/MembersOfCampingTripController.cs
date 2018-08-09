@@ -3,6 +3,9 @@ using CampingTripService.DataManagement.CampingTripBLL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using System.Security.Claims;
+using System;
+using System.Linq;
 
 namespace CampingTripService.Controllers
 {
@@ -25,9 +28,23 @@ namespace CampingTripService.Controllers
         }
 
         // PUT: api/MembersOfCampingTrip/5
+        [Authorize(Policy ="OnlyForAUDGP")]
         [HttpPut("{id}")]
         public async Task Put(int id, [FromBody]string campingTripId)
         {
+            var identity = (ClaimsIdentity)User.Identity;
+
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.First();
+
+            if (userIdClaim == null) throw new Exception("user_id claim not found");
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                throw new Exception("Invalid value for user_id in users claims");
+            }
+
             await this.signUpForTheTrip.AsMember(id, campingTripId);
         }
 
@@ -36,6 +53,8 @@ namespace CampingTripService.Controllers
         [HttpDelete("{id:int},{campingTripId}")]
         public Task Delete(int id,string campingTripId)
         {
+
+
             return this.signUpForTheTrip.RemoveMemberFromTheTrip(id, campingTripId);
         }
     }

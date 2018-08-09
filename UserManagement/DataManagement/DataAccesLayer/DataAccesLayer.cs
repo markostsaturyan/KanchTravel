@@ -1,15 +1,11 @@
 ﻿using IdentityModel.Client;
-using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.IO;
 using System.Net.Http;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using UserManagement.DataManagement.DataAccesLayer.Models;
-using UserManagement.DataManagement.Exceptions;
 using UserManagement.DataManagement.Security;
 
 namespace UserManagement.DataManagement.DataAccesLayer
@@ -84,8 +80,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 return (int)reader["Id"];
             }
         }
-
-        
 
         /// <summary>
         /// Add userId and registration code in UserVerification table
@@ -339,47 +333,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
             }
         }
 
-        public void AddServiceRequest(ServiceRequest serviceRequest)
-        {
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var commandForInsertServiceRequest = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "InsertServiceRequest"
-                };
-
-                commandForInsertServiceRequest.Parameters.AddWithValue("@userId", serviceRequest.UserId);
-                commandForInsertServiceRequest.Parameters.AddWithValue("@campingTripId", serviceRequest.CampingTripId);
-
-                connection.Open();
-
-                commandForInsertServiceRequest.ExecuteNonQuery();
-            }
-        }
-
-        public void AddServiceRequestResponse(ServiceRequestResponse response)
-        {
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var commandForInsert = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "InsertServiceRequestResponse"
-                };
-
-                commandForInsert.Parameters.AddWithValue("@userId", response.UserId);
-                commandForInsert.Parameters.AddWithValue("@campingTripId", response.CampingTripId);
-                commandForInsert.Parameters.AddWithValue("@price", response.Price);
-
-                connection.Open();
-
-                commandForInsert.ExecuteNonQuery();
-            }
-        }
-
         #endregion Adding
 
         #region Getting
@@ -469,6 +422,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"],
                         EducationGrade = (string)dataReader["EducationGrade"],
@@ -478,10 +432,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         WorkExperience = (string)dataReader["WorkExperience"],
                         NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"],
                     };
-                    if(dataReader["Image"] != DBNull.Value)
-                    {
-                        guide.Image = (byte[])dataReader["Image"];
-                    }
+
                     guide.Places = GetGuidePalces(id);
 
                 }
@@ -500,7 +451,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetUserEmailById"
                 };
-                command.Parameters.AddWithValue("@id", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -521,7 +472,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetUserPasswordAndGuideById"
                 };
-                command.Parameters.AddWithValue("@id", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -581,8 +532,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 {
                     while (dataReader.Read())
                     {
-                        
-                        var user = new UserInfo
+                        users.Add(new UserInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
@@ -590,14 +540,10 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Gender = (string)dataReader["Gender"]
-                        };
-                        if (dataReader["Picture"] != DBNull.Value)
-                        {
-                            user.Image = (byte[])dataReader["Picture"];
-                        }
-                        users.Add(user);
+                        });
                     }
                 }
             }
@@ -636,6 +582,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
+                            CarPicture1 = (byte[])dataReader["CarPicture1"],
+                            CarPicture2 = (byte[])dataReader["CarPicture2"],
+                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             LicensePlate = (string)dataReader["LicensePlate"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
@@ -643,28 +592,17 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             HasKitchen = (bool)dataReader["HasKitchen"],
                             HasToilet = (bool)dataReader["HasToilet"],
                         };
-                        if (dataReader["CarPicture1"] != DBNull.Value)
-                        {
-                            car.CarPicture1 = (byte[])dataReader["CarPicture1"];
-                        }
-                        if (dataReader["CarPicture2"] != DBNull.Value)
-                        {
-                            car.CarPicture2 = (byte[])dataReader["CarPicture2"];
-                        }
-                        if (dataReader["CarPicture3"] != DBNull.Value)
-                        {
-                            car.CarPicture3 = (byte[])dataReader["CarPicture3"];
-                        }
 
-                        var driver = new DriverInfo
+                        drivers.Add(new DriverInfo
                         {
                             Id = (int)dataReader["UserId"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
-                            Gender = (string)dataReader["Gender"],
+                            Gender=(string)dataReader["Gender"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Car = car,
                             DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"],
@@ -672,15 +610,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Rating = (double)dataReader["Rating"],
                             NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
-                        };
-
-                        if (dataReader["Picture"] != DBNull.Value)
-                        {
-                            driver.Image = (byte[])dataReader["Picture"];
-                        }
-                        drivers.Add(driver);
-
-                        
+                        });
                     }
                 }
             }
@@ -705,9 +635,10 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetDriverById"
                 };
-                command.Parameters.AddWithValue("@driverId", id);
 
                 connection.Open();
+
+                command.Parameters.AddWithValue("@driverId", id);
 
                 var dataReader = command.ExecuteReader();
 
@@ -727,16 +658,16 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         HasKitchen = (bool)dataReader["HasKitchen"],
                         HasToilet = (bool)dataReader["HasToilet"]
                     };
-
-
                     if (dataReader["CarPicture1"] != DBNull.Value)
                     {
                         car.CarPicture1 = (byte[])dataReader["CarPicture1"];
                     }
+
                     if (dataReader["CarPicture2"] != DBNull.Value)
                     {
                         car.CarPicture2 = (byte[])dataReader["CarPicture2"];
                     }
+
                     if (dataReader["CarPicture3"] != DBNull.Value)
                     {
                         car.CarPicture3 = (byte[])dataReader["CarPicture3"];
@@ -747,16 +678,24 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["UserId"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         UserName = (string)dataReader["UserName"],
                         Car = car,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        Rating = (double)dataReader["Rating"],
-                        Gender=(string)dataReader["Gender"],
-                        NumberOfAppraisers=(int)dataReader["NumberOfAppraisers"]
+                        Gender=(string)dataReader["Gender"]
                     };
+
+                    if(dataReader["Rating"] != DBNull.Value)
+                    {
+                        driver.Rating = (double)dataReader["Rating"];
+                    }
+
+                    if (dataReader["NumberOfAppraisers"] != DBNull.Value)
+                    {
+                        driver.NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"];
+                    }
 
                     if (dataReader["Picture"] != DBNull.Value)
                     {
@@ -803,6 +742,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -813,10 +753,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Rating=(double)dataReader["Rating"],
                             NumberOfAppraisers=(int)dataReader["NumberOfAppraisers"]
                         };
-                        if (dataReader["Picture"] != DBNull.Value)
-                        {
-                            guide.Image = (byte[])dataReader["Picture"];
-                        }
+
                         guide.Places = GetGuidePalces(guide.Id);
 
                         guides.Add(guide);
@@ -898,6 +835,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Image = (byte[])dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
@@ -914,10 +852,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             WorkExperience = (string)dataReader["WorkExperiance"],
                             NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                         };
-                        if (dataReader["Picture"] != DBNull.Value)
-                        {
-                            photographer.Image = (byte[])dataReader["Picture"];
-                        }
+
                         photographers.Add(photographer);
                     }
                 }
@@ -943,7 +878,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetPhotographerById"
                 };
-                command.Parameters.AddWithValue("@id", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -968,6 +903,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["Age"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (byte[])dataReader["Picture"],
                         UserName = (string)dataReader["UserName"],
                         Camera = camera,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -979,10 +915,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         WorkExperience = (string)dataReader["WorkExperience"],
                         NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                     };
-                    if (dataReader["Picture"] != DBNull.Value)
-                    {
-                        photographer.Image = (byte[])dataReader["Picture"];
-                    }
                 }
             }
 
@@ -1078,7 +1010,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetNonApprovedDriverById"
                 };
-                command.Parameters.AddWithValue("@id", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -1093,24 +1025,15 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Brand = (string)dataReader["Brand"],
                         NumberOfSeats = (int)dataReader["NumberOfSeats"],
                         FuelType = (string)dataReader["FuelType"],
+                        CarPicture1 = (byte[])dataReader["CarPicture1"],
+                        CarPicture2 = (byte[])dataReader["CarPicture2"],
+                        CarPicture3 = (byte[])dataReader["CarPicture3"],
                         HasWiFi = (bool)dataReader["HasWiFi"],
                         HasMicrophone = (bool)dataReader["HasMicrophone"],
                         HasAirConditioner = (bool)dataReader["HasAirConditioner"],
                         HasKitchen = (bool)dataReader["HasKitchen"],
                         HasToilet = (bool)dataReader["HasToilet"]
                     };
-                    if (dataReader["CarPicture1"] != DBNull.Value)
-                    {
-                        car.CarPicture1 = (byte[])dataReader["CarPicture1"];
-                    }
-                    if (dataReader["CarPicture2"] != DBNull.Value)
-                    {
-                        car.CarPicture2 = (byte[])dataReader["CarPicture2"];
-                    }
-                    if (dataReader["CarPicture3"] != DBNull.Value)
-                    {
-                        car.CarPicture3 = (byte[])dataReader["CarPicture3"];
-                    }
 
                     driver = new DriverInfo
                     {
@@ -1120,15 +1043,12 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Car = car,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                         Gender = (string)dataReader["Gender"],
                     };
-                    if (dataReader["Picture"] != System.DBNull.Value)
-                    {
-                        driver.Image = (byte[])dataReader["Picture"];
-                    }
                 }
             }
 
@@ -1164,6 +1084,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Password = (string)dataReader["Password"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -1172,10 +1093,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Profession = (string)dataReader["Profession"],
                             WorkExperience = (string)dataReader["WorkExperience"],
                         };
-                        if (dataReader["Picture"] != System.DBNull.Value)
-                        {
-                            guide.Image = (byte[])dataReader["Picture"];
-                        }
+
                         guide.Places = GetGuidePalces(guide.Id);
 
                         guides.Add(guide);
@@ -1200,7 +1118,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetNonApprovedGuideById"
                 };
-                command.Parameters.AddWithValue("@id", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -1217,6 +1135,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"],
                         EducationGrade = (string)dataReader["EducationGrade"],
@@ -1224,10 +1143,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Profession = (string)dataReader["Profession"],
                         WorkExperience = (string)dataReader["WorkExperience"],
                     };
-                    if (dataReader["Picture"] != System.DBNull.Value)
-                    {
-                        guide.Image = (byte[])dataReader["Picture"];
-                    }
+
                     guide.Places = GetGuidePalces(id);
                 }
             }
@@ -1265,6 +1181,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Image = (byte[])dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
@@ -1279,10 +1196,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Profession = (string)dataReader["Profession"],
                             WorkExperience = (string)dataReader["WorkExperiance"],
                         };
-                        if (dataReader["Picture"] != System.DBNull.Value)
-                        {
-                            photographer.Image = (byte[])dataReader["Picture"];
-                        }
+
                         photographers.Add(photographer);
                     }
                 }
@@ -1303,7 +1217,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetNonApprovedPhotographerById"
                 };
-                command.Parameters.AddWithValue("@id", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -1328,6 +1242,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["Age"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
+                        Image = (byte[])dataReader["Picture"],
                         UserName = (string)dataReader["UserName"],
                         Camera = camera,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -1337,11 +1252,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Profession = (string)dataReader["Profession"],
                         WorkExperience = (string)dataReader["WorkExperience"],
                     };
-
-                    if (dataReader["Picture"] != System.DBNull.Value)
-                    {
-                        photographer.Image = (byte[])dataReader["Picture"];
-                    }
                 }
             }
 
@@ -1376,24 +1286,16 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
+                            CarPicture1 = (byte[])dataReader["CarPicture1"],
+                            CarPicture2 = (byte[])dataReader["CarPicture2"],
+                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
                             HasAirConditioner = (bool)dataReader["HasAirConditioner"],
                             HasKitchen = (bool)dataReader["HasKitchen"],
                             HasToilet = (bool)dataReader["HasToilet"],
                         };
-                        if (dataReader["CarPicture1"] != DBNull.Value)
-                        {
-                            car.CarPicture1 = (byte[])dataReader["CarPicture1"];
-                        }
-                        if (dataReader["CarPicture2"] != DBNull.Value)
-                        {
-                            car.CarPicture2 = (byte[])dataReader["CarPicture2"];
-                        }
-                        if (dataReader["CarPicture3"] != DBNull.Value)
-                        {
-                            car.CarPicture3 = (byte[])dataReader["CarPicture3"];
-                        }
+
                         cars.Add(car);
                     }
                 }
@@ -1412,9 +1314,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetCarsByNumberOfSeats",
+                    CommandText = "GetAllCars"
                 };
-                command.Parameters.AddWithValue("@NumberOfSeats", numberOfSeats);
+                command.Parameters.AddWithValue("@numberOfSeats", numberOfSeats);
 
                 connection.Open();
 
@@ -1426,11 +1328,14 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     {
                         var car = new CarInfo
                         {
-                            Id = (int)dataReader["CarId"],
+                            Id = (int)dataReader["Id"],
                             DriverId = (int)dataReader["UserId"],
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
+                            CarPicture1 = (byte[])dataReader["CarPicture1"],
+                            CarPicture2 = (byte[])dataReader["CarPicture2"],
+                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
                             HasAirConditioner = (bool)dataReader["HasAirConditioner"],
@@ -1438,18 +1343,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             HasToilet = (bool)dataReader["HasToilet"],
                             LicensePlate=(string)dataReader["LicensePlate"]
                         };
-                        if (dataReader["CarPicture1"] != DBNull.Value)
-                        {
-                            car.CarPicture1 = (byte[])dataReader["CarPicture1"];
-                        }
-                        if (dataReader["CarPicture2"] != DBNull.Value)
-                        {
-                            car.CarPicture2 = (byte[])dataReader["CarPicture2"];
-                        }
-                        if (dataReader["CarPicture3"] != DBNull.Value)
-                        {
-                            car.CarPicture3 = (byte[])dataReader["CarPicture3"];
-                        }
+
                         cars.Add(car);
                     }
                 }
@@ -1458,185 +1352,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
             return cars;
         }
 
-        public IEnumerable<ServiceRequest> GetAllServicesRequests()
-        {
-            var serviceRequests = new List<ServiceRequest>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllServicesRequests"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequests.Add(new ServiceRequest
-                        {
-                            Id = (int)dataReader["Id"],
-                            UserId = (int)dataReader["UserId"],
-                            CampingTripId = (string)dataReader["CampingTripId"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequests;
-        }
-
-        public IEnumerable<ServiceRequest> GetServiceRequestsByUserId(int userid)
-        {
-            var serviceRequests = new List<ServiceRequest>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetServiceRequestsByUserId"
-                };
-                command.Parameters.AddWithValue("@userId", userid);
-                connection.Open();
-
-                
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequests.Add(new ServiceRequest
-                        {
-                            Id=(int)dataReader["Id"],
-                            UserId = userid,
-                            CampingTripId = (string)dataReader["CampingTripId"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequests;
-        }
-
-        public IEnumerable<ServiceRequestResponse> GetAllServicesRequestResponses()
-        {
-            var serviceRequestResponses = new List<ServiceRequestResponse>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllServicesRequestResponses"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequestResponses.Add(new ServiceRequestResponse
-                        {
-                            Id = (int)dataReader["Id"],
-                            UserId = (int)dataReader["UserId"],
-                            CampingTripId = (string)dataReader["CampingTripId"],
-                            Price = (double)dataReader["Price"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequestResponses;
-        }
-
-        public IEnumerable<ServiceRequestResponse> GetServicesRequestResponsesByCampingTripId(string campingTripId)
-        {
-            var serviceRequestResponses = new List<ServiceRequestResponse>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetServicesRequestResponsesByCampingTripId"
-                };
-                command.Parameters.AddWithValue("@campingTripId", campingTripId);
-                connection.Open();
-
-                
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequestResponses.Add(new ServiceRequestResponse
-                        {
-                            Id = (int)dataReader["Id"],
-                            UserId = (int)dataReader["UserId"],
-                            CampingTripId = campingTripId,
-                            Price = (double)dataReader["Price"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequestResponses;
-        }
-
-        public IEnumerable<ServiceRequestResponse> GetServicesRequestResponsesByUserId(int userId)
-        {
-            var serviceRequestResponses = new List<ServiceRequestResponse>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetServicesRequestResponsesByUserId"
-                };
-
-                connection.Open();
-
-                command.Parameters.AddWithValue("@userId", userId);
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        serviceRequestResponses.Add(new ServiceRequestResponse
-                        {
-                            Id = (int)dataReader["Id"],
-                            UserId = userId,
-                            CampingTripId = (string)dataReader["CampingTripId"],
-                            Price = (double)dataReader["Price"]
-                        });
-                    }
-                }
-            }
-
-            return serviceRequestResponses;
-        }
-        
         #endregion Getting
 
         #region Updating
@@ -1887,26 +1602,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
             }
         }
 
-        public void UpdateServiceRequestResponse(int id, ServiceRequestResponse response)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var updateCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateServiceRequestResponse"
-                };
-
-                updateCommand.Parameters.AddWithValue("@id", response.Id);
-                updateCommand.Parameters.AddWithValue("@price", response.Price);
-
-                connection.Open();
-
-                updateCommand.ExecuteNonQuery();
-            }
-        }
-
         #endregion Updating
 
         #region Deleting
@@ -1999,80 +1694,141 @@ namespace UserManagement.DataManagement.DataAccesLayer
             }
         }
 
-        public void DeleteUserFromCampingTrips(int id)
+        public async void DeleteUserFromCampingTripsMember(int id)
         {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("campingTrip");
+
+            if (!tokenResponse.IsError)
             {
-                var deleteCommand = new SqlCommand
+                httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+                var response = await httpClient.GetAsync($"api/MembersOfCampingTrip/{id}");
+
+                if (response.IsSuccessStatusCode)
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteUserFromCampingTrips"
-                };
+                    var content = response.Content;
 
-                deleteCommand.Parameters.AddWithValue("@id", id);
+                    var tripsIdJson = await content.ReadAsStringAsync();
 
-                connection.Open();
+                    var tripsId = JsonConvert.DeserializeObject<List<string>>(tripsIdJson);
 
-                deleteCommand.ExecuteNonQuery();
+                    if (tripsId != null)
+                    {
+                        foreach (var tripId in tripsId)
+                        {
+                            await httpClient.DeleteAsync($"api/MembersOfCampingTrip/{id}/{tripsId}");
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception($"{response.ToString()}");
+                }
+            }
+            else
+            {
+                throw new Exception($"{tokenResponse.ErrorDescription}");
+            }
+
+        }
+
+        public async void DeleteDriverFromCampingTrips(int id)
+        {
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
+
+            if (!tokenResponse.IsError)
+            {
+                httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+                var response = await httpClient.GetAsync($"api/DriverTrips/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = response.Content;
+
+                    var tripsJson = await content.ReadAsStringAsync();
+
+                    var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
+
+                    foreach(var trip in trips)
+                    {
+                        await httpClient.DeleteAsync($"api/TripsDriverManagemant/{trip.ID}");
+                    }
+                }
+                {
+                    throw new Exception($"{response.StatusCode}");
+                }
+            }
+            else
+            {
+                throw new Exception($"{tokenResponse.ErrorDescription}");
             }
         }
 
-        public void DeleteDriverFromCampingTrips(int id)
+        public async void DeletePhotographerFromCampingTrips(int id)
         {
-            /*var client = new MongoClient(mongoDbConnectionString);
-            if (client != null)
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
+
+            if (!tokenResponse.IsError)
             {
-                var database = client.GetDatabase(mongoDataBase);
-                var campingTrips = database.GetCollection<CampingTrip>("CampingTrips");
+                httpClient.SetBearerToken(tokenResponse.AccessToken);
 
-                var filter = Builders<CampingTrip>.Filter.Eq(s => s.DriverID, id);
+                var response = await httpClient.GetAsync($"api/PhotographerTrips/{id}");
 
-                var trips = campingTrips.Find(filter).ToListAsync();
-
-                foreach(var trip in trips.Result)
+                if (response.IsSuccessStatusCode)
                 {
-                    trip.DriverID = 0;
+                    var content = response.Content;
+
+                    var tripsJson = await content.ReadAsStringAsync();
+
+                    var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
+
+                    foreach (var trip in trips)
+                    {
+                        await httpClient.DeleteAsync($"api/TripsPhotographerManagemant/{trip.ID}");
+                    }
                 }
-            }*/
+                {
+                    throw new Exception($"{response.StatusCode}");
+                }
+            }
+            else
+            {
+                throw new Exception($"{tokenResponse.ErrorDescription}");
+            }
         }
 
-        public void DeletePhotographerFromCampingTrips(int id)
+        public  async void DeleteGuideFromCampingTrips(int id)
         {
-           /* var client = new MongoClient(mongoDbConnectionString);
-            if (client != null)
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
+
+            if (!tokenResponse.IsError)
             {
-                var database = client.GetDatabase(mongoDataBase);
-                var campingTrips = database.GetCollection<CampingTrip>("CampingTrips");
+                httpClient.SetBearerToken(tokenResponse.AccessToken);
 
-                var filter = Builders<CampingTrip>.Filter.Eq(s => s.PhotographerID, id);
+                var response = await httpClient.GetAsync($"api/GuideTrips/{id}");
 
-                var trips = campingTrips.Find(filter).ToListAsync();
-
-                foreach (var trip in trips.Result)
+                if (response.IsSuccessStatusCode)
                 {
-                    trip.PhotographerID = 0;
-                }
-            }*/
-        }
+                    var content = response.Content;
 
-        public void DeleteGuideFromCampingTrips(int id)
-        {
-            /*var client = new MongoClient(mongoDbConnectionString);
-            if (client != null)
+                    var tripsJson = await content.ReadAsStringAsync();
+
+                    var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
+
+                    foreach (var trip in trips)
+                    {
+                        await httpClient.DeleteAsync($"api/TripsGuideManagemant/{trip.ID}");
+                    }
+                }
+                {
+                    throw new Exception($"{response.StatusCode}");
+                }
+            }
+            else
             {
-                var database = client.GetDatabase(mongoDataBase);
-                var campingTrips = database.GetCollection<CampingTrip>("CampingTrips");
-
-                var filter = Builders<CampingTrip>.Filter.Eq(s => s.GuideID, id);
-
-                var trips = campingTrips.Find(filter).ToListAsync();
-
-                foreach (var trip in trips.Result)
-                {
-                    trip.GuideID = 0;
-                }
-            }*/
+                throw new Exception($"{tokenResponse.ErrorDescription}");
+            }
         }
 
         public void DeleteUserVerification(string userName)
@@ -2151,51 +1907,13 @@ namespace UserManagement.DataManagement.DataAccesLayer
             }
         }
 
-        public void DeleteServicesRequests(int id)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteServiceRequest"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@id", id);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void DeleteServiceRequestResponse(int id)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteServiceRequestResponse"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@id", id);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
         #endregion Deleting
 
         #region Validating
 
         public async Task<bool> IsOrganaizer(int id)
         {
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("campingTrip", "secret");
+            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("campingTrip");
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
@@ -2203,13 +1921,18 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
             if (response.IsSuccessStatusCode)
             {
+                var content = response.Content;
 
-                //var content
+                var isOrganizerJson = await content.ReadAsStringAsync();
 
+                var isOrganizer = JsonConvert.DeserializeObject<bool>(isOrganizerJson);
 
+                return isOrganizer;
             }
-
-            return true;
+            else
+            {
+                throw new Exception("Camping Trip Api not responded");
+            }
         }
 
         public bool CodeIsValid(VerificationInfo verification)
@@ -2229,11 +1952,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
                 var reader = command.ExecuteReader();
 
-                if (!reader.HasRows) return false;/* throw new UserManagementException
-                {
-                    ExceptionCode=5000,
-                    Source = "CodeIsValid",
-                };*/
+                if (!reader.HasRows) return false;
 
                 reader.Read();
 
@@ -2267,40 +1986,5 @@ namespace UserManagement.DataManagement.DataAccesLayer
         }
 
         #endregion Validating
-
-        #region Utility
-
-       /* public Image ByteArrayToImage(object picture)
-        {
-            Image img = null;
-            if (picture != null)
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                using (var ms = new MemoryStream())
-                {
-                    bf.Serialize(ms, picture);
-                    var bytesArr = ms.ToArray();
-                    var memstr = new MemoryStream(bytesArr);
-                    img = Image.FromStream(memstr);
-                }
-            }
-            return img;
-        }
-
-        public byte[] ImageToByteArray(Image img)
-        {
-            if (img != null)
-            {
-                using (MemoryStream mStream = new MemoryStream())
-                {
-                    img.Save(mStream, img.RawFormat);
-                    return mStream.ToArray();
-                }
-            }
-            else
-                return null;
-        }*/
-
-        #endregion Utility
     }
 }

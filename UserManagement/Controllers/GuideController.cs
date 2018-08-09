@@ -91,7 +91,7 @@ namespace UserManagement.Controllers
 
             this.dataAccessLayer.DeleteGuideFromCampingTrips(id);
 
-            this.dataAccessLayer.DeleteUserFromCampingTrips(id);
+            this.dataAccessLayer.DeleteUserFromCampingTripsMember(id);
 
             return new Status
             {

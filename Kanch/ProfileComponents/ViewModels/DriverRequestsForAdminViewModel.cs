@@ -141,7 +141,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var driver = (driverRequest as DriverRequests).Driver;
 
-            var response = httpClient.DeleteAsync(driver.UserName).Result;
+            var response = httpClient.DeleteAsync("api/driververification/" + driver.UserName).Result;
 
             this.DriverRequests.Remove(driverRequest as DriverRequests);
         }

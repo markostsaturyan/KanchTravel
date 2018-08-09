@@ -11,10 +11,10 @@
 
             <Image Source="{Binding Path = Photographer.Image}" Height="50" Width="50" ></Image>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding Path = User.FirstName}" />
 
-                <TextBlock Text="{Binding Path = User.LastName}"/>
+                <TextBlock Text="{Binding Path = User.LastName}" Margin="10,0,10,10"/>
             </StackPanel>
 
             <TextBlock HorizontalAlignment="Center">

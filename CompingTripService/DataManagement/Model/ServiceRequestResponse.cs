@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Runtime.Serialization;
 
@@ -8,7 +9,7 @@ namespace CampingTripService.DataManagement.Model
     public class ServiceRequestResponse
     {
         [BsonId]
-        [DataMember]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         [DataMember]
@@ -17,6 +18,7 @@ namespace CampingTripService.DataManagement.Model
         [DataMember]
         public string CampingTripId { get; set; }
 
+        [DataMember]
         public DateTime ResponseValidityPeriod { get; set; }
 
         [DataMember]

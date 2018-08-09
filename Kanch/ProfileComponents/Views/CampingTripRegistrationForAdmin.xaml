@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -25,7 +25,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -33,7 +35,7 @@
         <TextBox Text="{Binding TripRegistration.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Margin="0,5,0,5" ></TextBox>
 
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,0,0,5" >
-            <TextBox Text = "{Binding InputDirection,Mode=TwoWay}" Width="90" Height="23" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1"/>
+            <TextBox Text = "{Binding InputDirection,Mode=TwoWay}" Width="90" Height="23" VerticalAlignment="Top"  />
             <TextBlock Margin="10,0,10,0">
                 <Hyperlink  Command="{Binding AddDirectionCommand}" FontSize="17" >
                     +
@@ -81,7 +83,8 @@
 
         <TextBox Text="{Binding TripRegistration.MaxAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="5" Margin="0,0,0,5"/>
 
-        <TextBox Text="{Binding TripRegistration.CountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" Margin="0,0,0,5"/>
+        <TextBox Text="{Binding TripRegistration.MinCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" Margin="0,0,0,5" />
+        <TextBox Text="{Binding TripRegistration.MaxCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="7" Margin="0,0,0,5" />
 
         <ComboBox 
             ItemsSource = "{Binding Source={utilities:EnumBindingSource {x:Type dataModels:TypeOfCampingTrip} } }"
@@ -89,17 +92,17 @@
             Width="135"
             HorizontalAlignment="Left"
             Grid.Column="1" 
-            Grid.Row="7" 
+            Grid.Row="8" 
             Margin="0,0,0,5">
 
         </ComboBox>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="8" Margin="0,0,0,5">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="9" Margin="0,0,0,5">
             <CheckBox IsChecked="{Binding TripRegistration.HasPhotographer}">Order photographer</CheckBox>
             <CheckBox IsChecked="{Binding TripRegistration.HasGuide}">Order guide</CheckBox>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="9" Margin="0,0,0,5">
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="10" Margin="0,0,0,5">
             <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                 <TextBlock Text="Name"/>
                 <TextBox Text="{Binding FoodName, Mode=TwoWay}" Width="70" />
@@ -120,7 +123,7 @@
             </TextBlock>
         </StackPanel>
 
-        <ListView Width="500" BorderBrush="LightGray"  ItemsSource="{Binding Foods,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="10" HorizontalAlignment="Left" Margin="0,0,0,5">
+        <ListView Width="500" BorderBrush="LightGray"  ItemsSource="{Binding Foods,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="11" HorizontalAlignment="Left" Margin="0,0,0,5">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel HorizontalAlignment ="Stretch">
@@ -156,7 +159,8 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button Name="register" Height="38" Width="100" Command="{Binding RegisterTripCommand}" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,10,0">
+        <TextBox Text="{Binding Price,Mode=TwoWay}" Grid.Column="1" Grid.Row="12" Margin="0,0,0,5"></TextBox>
+        <Button Name="register" Height="38" Width="100" Command="{Binding RegisterTripCommand}" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,10,0">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Register</TextBlock>
         </Button>
 
@@ -166,10 +170,11 @@
         <TextBlock Text="Arrival Date" Grid.Column="0" Grid.Row="3" Margin="7,0,0,0"/>
         <TextBlock Text="Minimum Age" Grid.Column="0" Grid.Row="4" Margin="7,0,0,0"/>
         <TextBlock Text="Maximum Age" Grid.Column="0" Grid.Row="5" Margin="7,0,0,0"/>
-        <TextBlock Text ="Count of Members" Grid.Column="0" Grid.Row="6" Margin="7,0,0,0"/>
-        <TextBlock Text="Camping trip's type" Grid.Column="0" Grid.Row="7" Margin="7,0,0,0" />
-        <TextBlock Text="Foods" Grid.Column="0" Grid.Row="9" Margin="7,0,0,0"/>
-
+        <TextBlock Text="Maximum count of members" Grid.Column="0" Grid.Row="6" Margin="7,0,0,0"/>
+        <TextBlock Text ="Minimum count of members" Grid.Column="0" Grid.Row="7" Margin="7,0,0,0"/>
+        <TextBlock Text="Camping trip's type" Grid.Column="0" Grid.Row="8" Margin="7,0,0,0" />
+        <TextBlock Text="Foods" Grid.Column="0" Grid.Row="10" Margin="7,0,0,0"/>
+        <TextBlock Text="Price for per person" Grid.Column="0" Grid.Row="12" Margin="7,0,0,0" />
         <TextBlock Name="errorMessage" Text="{Binding ErrorMessage,Mode=TwoWay}" HorizontalAlignment="Left" Foreground="Red"></TextBlock>
     </Grid>
 </UserControl>

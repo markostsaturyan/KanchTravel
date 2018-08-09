@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CampingTripService.DataManagement.Model;
 using CampingTripService.DataManagement.CampingTripBLL;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CampingTripService.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/CompletedCampingTrips")]
     public class CompletedCampingTripsController : Controller
@@ -24,16 +24,15 @@ namespace CampingTripService.Controllers
 
 
         // GET: api/CompletedCampingTrips
-        [Authorize]
         [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()
         {
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
 
-            var role = claims.Where(claim => claim.Type == "role").First();
+            var role = claims.Where(claim => claim.Type == "role")?.First();
 
-            if (role.Value == "Admin")
+            if (role?.Value == "Admin")
             {
                 return await campingTripRepository.GetAllCompletedCampingTripsAsync();
             }
@@ -51,16 +50,15 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/CompletedCampingTrips/5
-        [Authorize]
         [HttpGet("{campingTripId}")]
         public async Task<CampingTripFull> Get(string campingTripId)
         {
             var identity = (ClaimsIdentity)User.Identity;
             IEnumerable<Claim> claims = identity.Claims;
 
-            var role = claims.Where(claim => claim.Type == "role").First();
+            var role = claims.Where(claim => claim.Type == "role")?.First();
 
-            if (role.Value == "Admin")
+            if (role?.Value == "Admin")
             {
                 return await campingTripRepository.GetCompletedCampingTripAsync(campingTripId);
             }
