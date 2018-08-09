@@ -28,6 +28,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task AddCampingTripAsync(CampingTripFull item)
         {
             await campingTripContext.CampingTrips.InsertOneAsync(new CampingTrip(item));
+
+            await SendingServiceRequests(item);
         }
 
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTripsAsync()
