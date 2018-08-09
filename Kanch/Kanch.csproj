@@ -242,6 +242,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -310,6 +314,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserProfileEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Verification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -327,10 +335,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GuideRegistration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -372,6 +376,12 @@
     </Compile>
     <Compile Include="ProfileComponents\Views\DriverRequestsForAdmin.xaml.cs">
       <DependentUpon>DriverRequestsForAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfileEdit.xaml.cs">
+      <DependentUpon>UserProfileEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\Views\InProgressCampingTrips.xaml.cs">
       <DependentUpon>InProgressCampingTrips.xaml</DependentUpon>
@@ -455,9 +465,6 @@
     </Compile>
     <Compile Include="Views\UserRegistration.xaml.cs">
       <DependentUpon>UserRegistration.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Home.xaml.cs">
-      <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="OrderCampingTrip.xaml.cs">

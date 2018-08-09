@@ -28,7 +28,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         Task<IEnumerable<CampingTripFull>> GetDriverTripsAsync(int userId);
         Task<CampingTripFull> GetCampingTripAsync(string id);
         Task<CampingTripFull> GetCampingTripForUserAsync(string id);
-        Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsForUserAsync();
+        Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsForUserAsync(int userId);
         Task<IEnumerable<ServiceRequestResponse>> GetAllServiceRequestResponsesByProviderIdAsync(int userId);
         Task<IEnumerable<ServiceRequest>> GetServiceProvidersAllInProgresServiceRequests(int userId);
         Task AddCampingTripAsync(CampingTripFull item);
@@ -40,7 +40,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         Task UpdateUserRegistredCampingTripAsync(string campingTripId, int organizerId, CampingTripFull campingTrip);
         Task<ServiceRequest> GetServiceRequestByIdAsync(string id);
         Task<CampingTripFull> GetUserRegisteredCompletedTripAsync(string campingTripId);
-        Task<CampingTripFull> GetUserRegisteredCompletedTripForUserAsync(string campingTripId);
+        Task<CampingTripFull> GetUserRegisteredCompletedTripForUserAsync(string campingTripId,int userId);
         Task<ServiceRequestResponse> GetServiceRequestResponsesByIdAndProviderIdAsync(string id, int userId);
         Task RemoveUserRegistredCampingTripAsync(string campingTripId, int userId);
         Task<CampingTrip> GetTripAsync(string campingTripId);

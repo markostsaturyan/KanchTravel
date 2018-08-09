@@ -5,34 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Kanch
 {
     /// <summary>
-    /// Interaction logic for AboutUs.xaml
+    /// Interaction logic for UserProfileEdit.xaml
     /// </summary>
-    public partial class AboutUs : Window
+    public partial class UserProfileEdit : Window
     {
-        public AboutUs()
+        public UserProfileEdit()
         {
             InitializeComponent();
-        }
-
-        public void HomeClick(object sender, EventArgs e)
-        {
-            var home = new Home();
-            var myWindow = Window.GetWindow(this);
-            Application.Current.MainWindow = home;
-            home.Show();
-            myWindow.Close();
         }
     }
 }

@@ -23,5 +23,32 @@ namespace Kanch
         {
             InitializeComponent();
         }
+
+        public void AboutUsClick(object sender, EventArgs e)
+        {
+            var aboutUs = new AboutUs();
+            var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = aboutUs;
+            aboutUs.Show();
+            myWindow.Close();
+        }
+
+        public void LoginClick(object sender, EventArgs e)
+        {
+            var login = new Login();
+            var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = login;
+            login.Show();
+            myWindow.Close();
+        }
+
+        public void RegisterClick(object sender, EventArgs e)
+        {
+            var register = new MainWindow();
+            var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = register;
+            register.Show();
+            myWindow.Close();
+        }
     }
 }
