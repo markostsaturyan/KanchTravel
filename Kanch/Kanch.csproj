@@ -358,6 +358,7 @@
     <Compile Include="ProfileComponents\HelperClasses\CampingTripRequests.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DirectionDetails.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DriverRequests.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\TripsInProgress.cs" />
     <Compile Include="ProfileComponents\HelperClasses\UIFoodInfo.cs" />
     <Compile Include="ProfileComponents\HelperClasses\UnconfirmedTrips.cs" />
     <Compile Include="ProfileComponents\Utilities\EnumBindingSourceExtension.cs" />

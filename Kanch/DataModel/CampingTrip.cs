@@ -43,7 +43,7 @@ namespace Kanch.DataModel
 
         public bool IsRegistrationCompleted { get; set; }
 
-        public List<Photographer> MembersOfCampingTrip { get; set; }
+        public List<User> MembersOfCampingTrip { get; set; }
 
         public bool HasGuide { get; set; }
 

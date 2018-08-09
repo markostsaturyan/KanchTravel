@@ -59,7 +59,11 @@ namespace Kanch
                         mainPage.ContentTemplate = this.FindResource("CampingTripsRegistration") as DataTemplate;
                         break;
                     }
+
             }
+
+            logout.ContentTemplate = this.FindResource("LogOut") as DataTemplate;
+
 
             
         }
