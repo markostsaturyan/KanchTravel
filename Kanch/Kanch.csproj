@@ -270,6 +270,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\InProgressCampingTrips.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Registration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -364,6 +368,7 @@
     <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\ConfirmationOfTripsViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\DriverRequestsForAdminViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\InProgressCampingTripViewModel.cs" />
     <Compile Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml.cs">
       <DependentUpon>CampingTripRegistrationForAdmin.xaml</DependentUpon>
     </Compile>
@@ -384,6 +389,9 @@
     </Compile>
     <Compile Include="UserProfileEdit.xaml.cs">
       <DependentUpon>UserProfileEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\InProgressCampingTrips.xaml.cs">
+      <DependentUpon>InProgressCampingTrips.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AboutUsViewModel.cs" />
     <Compile Include="App.xaml.cs">

@@ -301,29 +301,59 @@ namespace Kanch.ProfileComponents.ViewModels
             {
                 return;
             }
-            var registrationTrip = new CampingTripInfo()
+
+            var registrationTrip = new CampingTrip()
             {
                 Place = this.tripRegistration.Place,
                 DepartureDate = this.tripRegistration.DepartureDate,
                 ArrivalDate = this.tripRegistration.ArrivalDate,
                 MinAge = this.tripRegistration.MinAge,
                 MaxAge = this.tripRegistration.MaxAge,
-                CountOfMembers = this.tripRegistration.CountOfMembers,
+                MaxCountOfMembers = this.tripRegistration.MaxCountOfMembers,
+                MinCountOfMembers = this.tripRegistration.MinCountOfMembers,
                 HasGuide = this.tripRegistration.HasGuide,
                 HasPhotographer = this.tripRegistration.HasPhotographer,
-                TypeOfTrip = this.tripRegistration.TypeOfTrip,
-                OrganizationType = DataModel.TypeOfOrganization.OrderByAdmin,
-                Organizer = this.user
+                OrganizationType = Kanch.DataModel.TypeOfOrganization.OrderByAdmin,
+                Organizer = new User()
+                {
+                    FirstName = this.tripRegistration.Organizer.FirstName,
+                    LastName = this.tripRegistration.Organizer.LastName,
+                    DateOfBirth = this.tripRegistration.Organizer.DateOfBirth,
+                    Email = this.tripRegistration.Organizer.Email,
+                    Gender = this.tripRegistration.Organizer.Gender,
+                    Image = Utilities.ImageConverter.ImageSourceToBytes(this.tripRegistration.Organizer.Image),
+                    Id= this.tripRegistration.Organizer.Id,
+                    PhoneNumber=this.tripRegistration.Organizer.PhoneNumber,
+                    UserName=this.tripRegistration.Organizer.UserName
+                },
+                PriceOfTrip=this.price,
+               
             };
+
+            if (this.tripRegistration.TypeOfTrip == ProfileComponents.DataModel.TypeOfCampingTrip.Campaign)
+            {
+                registrationTrip.TypeOfTrip = Kanch.DataModel.TypeOfCampingTrip.Campaign;
+            }
+            else if (this.tripRegistration.TypeOfTrip == ProfileComponents.DataModel.TypeOfCampingTrip.CampingTrip)
+            {
+                registrationTrip.TypeOfTrip = Kanch.DataModel.TypeOfCampingTrip.CampingTrip;
+            }
+            else
+            {
+                registrationTrip.TypeOfTrip = Kanch.DataModel.TypeOfCampingTrip.Excursion;
+            }
+
+            
+
             registrationTrip.Direction = new List<string>();
             foreach (var elem in this.direction)
             {
                 registrationTrip.Direction.Add(elem.Name);
             }
-            registrationTrip.Food = new ObservableCollection<FoodInfo>();
+            registrationTrip.Food = new List<Food>();
             foreach (var food in foods)
             {
-                registrationTrip.Food.Add(new FoodInfo()
+                registrationTrip.Food.Add(new Food()
                 {
                     Name = food.Name,
                     Measure = food.Measure,
@@ -337,7 +367,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var trip = JsonConvert.SerializeObject(registrationTrip);
 
-            var response = httpClient.PostAsync("api/UsersTrips", new StringContent(trip, Encoding.UTF8, "application/json")).Result;
+            var response = httpClient.PostAsync("api/CampingTrips", new StringContent(trip, Encoding.UTF8, "application/json")).Result;
         }
 
         public bool CampingTripRegistrationValidation()
@@ -355,6 +385,11 @@ namespace Kanch.ProfileComponents.ViewModels
             if (this.tripRegistration.ArrivalDate < this.tripRegistration.ArrivalDate)
             {
                 this.ErrorMessage = "Choose a correct arrival date.";
+                return false;
+            }
+            if (this.price == 0)
+            {
+                this.ErrorMessage = "Input a price.";
                 return false;
             }
             return true;
