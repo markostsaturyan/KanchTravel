@@ -54,6 +54,10 @@
             <views:CampingTripRegistrationForAdmin />
         </DataTemplate>
 
+        <DataTemplate x:Key="LogOut">
+            <views:LogOutView/>
+        </DataTemplate>
+
     </Window.Resources>
 
     <Grid>
@@ -66,16 +70,25 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Width="Auto" HorizontalAlignment="Left" Background="#cce6ff">
+            <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+                
+                <Grid Width="Auto" HorizontalAlignment="Left" Background="#cce6ff">
 
-                <ContentPresenter Name="userMainInfoPresenter" Width="180"/>
+                    <ContentPresenter Name="userMainInfoPresenter" Width="180"/>
 
-            </Grid>
+                </Grid>
+
+                <Grid Width="Auto" HorizontalAlignment="Left">
+                
+                    <ContentPresenter Name="logout"/>
+                
+                </Grid>
+                
+            </StackPanel>
 
             <Grid HorizontalAlignment="Left" Width="Auto" Grid.Column="1">
 
                 <ContentPresenter Name="mainPage" HorizontalAlignment="Right"/>
-
             </Grid>
         </Grid>
     </Grid>

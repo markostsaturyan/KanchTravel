@@ -266,6 +266,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\LogOutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Registration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -374,6 +378,9 @@
     </Compile>
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\LogOutView.xaml.cs">
+      <DependentUpon>LogOutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserProfileEdit.xaml.cs">
       <DependentUpon>UserProfileEdit.xaml</DependentUpon>
