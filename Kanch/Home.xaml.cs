@@ -44,9 +44,11 @@ namespace Kanch
 
         public void RegisterClick(object sender, EventArgs e)
         {
-            var window = Application.Current.MainWindow;
-            var presenter = window.FindName("RegistrationPresent") as ContentPresenter;
-            presenter.ContentTemplate = window.FindResource("MainRegistrationPage") as DataTemplate;
+            var register = new MainWindow();
+            var myWindow = Window.GetWindow(this);
+            Application.Current.MainWindow = register;
+            register.Show();
+            myWindow.Close();
         }
     }
 }

@@ -46,7 +46,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="1" FontSize="14" FontWeight="Medium" Foreground="Black">
+                    <TextBlock Grid.Column="1" FontSize="14" FontWeight="Medium" Foreground="Black" Background="White" Opacity="0.7">
                         <Run FontSize="38" FontWeight="Bold">WHO WE ARE?</Run>
                         <LineBreak/>
                         <Run FontSize="22" FontStyle="Italic">Hiking tours in Armenia.</Run>
@@ -82,7 +82,7 @@
                         <Run FontSize="22" FontStyle="Italic">Contacts</Run>
                         <LineBreak/>
                         <LineBreak/>
-                        📞 +37493637235 +37494424757
+                        <Run Foreground="Red">📞</Run> +37493637235 +37494424757
                         <LineBreak/>
                         m.me/Kanchtravelclub
                         <LineBreak/>
