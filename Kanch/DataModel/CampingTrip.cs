@@ -27,7 +27,7 @@ namespace Kanch.DataModel
 
         public int MaxCountOfMembers { get; set; }
 
-        public Photographer Organizer { get; set; }
+        public User Organizer { get; set; }
 
         public int CountOfMembers { get; set; }
 

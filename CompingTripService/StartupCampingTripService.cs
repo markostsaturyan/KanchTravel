@@ -57,9 +57,7 @@ namespace CompingTripService
                     policy.RequireRole("Admin", "User", "Driver", "Guide", "Phothographer");
                 });
                 options.AddPolicy("OnlyForDGP", policy => {
-                    policy.RequireRole("Driver");
-                    policy.RequireRole("Guide");
-                    policy.RequireRole("Phothographer");
+                    policy.RequireRole("Driver","Guide","Phothographer");
                 });
                 options.AddPolicy("OnlyForDriverOrUserManagement", policy => { policy.RequireClaim("client_id", "userManagement"); policy.RequireRole("Driver"); });
                 options.AddPolicy("OnlyForAdminOrUserManagement", policy => { policy.RequireRole("Admin"); policy.RequireClaim("client_id", "userManagement"); });
