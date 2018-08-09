@@ -52,41 +52,41 @@
                         <Run FontSize="22" FontStyle="Italic">Hiking tours in Armenia.</Run>
                         <LineBreak/>
                         <LineBreak/>
-                        <Run FontSize="18">'Kanch' team organizes weekly hiking and climbing.</Run> 
+                        <Run FontSize="18">    'Kanch' team organizes weekly hiking and climbing.</Run> 
                         <LineBreak/>
-                        <Run FontSize="18">We also organize tours for schoolchildren.</Run>
+                        <Run FontSize="18">    We also organize tours for schoolchildren.</Run>
                         <LineBreak/>
                         <LineBreak/>
                         <Run FontSize="22" FontStyle="Italic">For Tourists</Run>
                         <LineBreak/>
                         <LineBreak/>
-                        <Run FontSize="18">There are around 40 hiking and excursion destinations</Run>
+                        <Run FontSize="18">    There are around 40 hiking and excursion destinations</Run>
                         <LineBreak/>
-                        <Run FontSize="18">for different groups. If necessary, we also care about food.</Run>
+                        <Run FontSize="18">    for different groups. If necessary, we also care about food.</Run>
                         <LineBreak/>
                         <LineBreak/>
                         <Run FontSize="22" FontStyle="Italic">Tented Camps</Run>
                         <LineBreak/>
                         <LineBreak/>
-                        <Run FontSize="18">Two-day and three-day tented camps, as well as summer camps</Run> 
+                        <Run FontSize="18">    Two-day and three-day tented camps, as well as summer camps</Run> 
                         <LineBreak/>
-                        <Run FontSize="18">for children and students of different ages.</Run>
+                        <Run FontSize="18">    for children and students of different ages.</Run>
                         <LineBreak/>
                         <LineBreak/>
                         <Run FontSize="22" FontStyle="Italic">Cars and Buses</Run>
                         <LineBreak/>
                         <LineBreak/>
-                        <Run FontSize="18">'Kanch' provides cars and buses with 4 to 50 seats.</Run>
+                        <Run FontSize="18">    'Kanch' provides cars and buses with 4 to 50 seats.</Run>
                         <LineBreak/>
                         <LineBreak/>
                         <Run FontSize="22" FontStyle="Italic">Contacts</Run>
                         <LineBreak/>
                         <LineBreak/>
-                        <Run Foreground="Red">📞</Run> +37493637235 +37494424757
+                        <Run Foreground="Red">    📞</Run> +37493637235 +37494424757
                         <LineBreak/>
-                        m.me/Kanchtravelclub
+                        <Run Foreground="Red">    📌</Run>m.me/Kanchtravelclub
                         <LineBreak/>
-                        kanchtravel@gmail.com
+                        <Run Foreground="Red">    📧</Run>kanchtravel@gmail.com
                         <LineBreak/>
                     </TextBlock>
                 </Grid>
