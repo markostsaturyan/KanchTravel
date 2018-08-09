@@ -9,6 +9,7 @@ using UserManagement.DataManagement.DataAccesLayer.Models;
 using UserManagement.Verification;
 using UserManagement.Validation;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace UserManagement.Controllers
 {
@@ -75,6 +76,21 @@ namespace UserManagement.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]PhotographerInfo photographer)
         {
+            var identity = (ClaimsIdentity)User.Identity;
+
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
+
+            if (userIdClaim == null) throw new Exception("user_id claim not found");
+
+            if (!int.TryParse(userIdClaim?.Value, out int userId))
+            {
+                throw new Exception("Invalid value for user_id in users claims");
+            }
+
+            if (id != userId || userId != photographer?.Id) return;
+
             this.usersDataAccessLayer.UpdatePhotographerInfo(photographer);
         }
 
@@ -83,6 +99,26 @@ namespace UserManagement.Controllers
         [HttpDelete("{id}")]
         public async Task<Status> Delete(int id)
         {
+            var identity = (ClaimsIdentity)User.Identity;
+
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
+
+            if (userIdClaim == null) throw new Exception("user_id claim not found");
+
+            if (!int.TryParse(userIdClaim?.Value, out int userId))
+            {
+                throw new Exception("Invalid value for user_id in users claims");
+            }
+
+            if (id != userId) return new Status
+            {
+                IsOk = false,
+                StatusCode = 5003,
+                Message = "Invalid id"
+            };
+
             if (await this.usersDataAccessLayer.IsOrganaizer(id)) return new Status
             {   
                 // 2100 - deleting is feiled because user is organizer

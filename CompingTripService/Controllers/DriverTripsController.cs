@@ -43,7 +43,7 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/DriverTrips/5
-        [Authorize(Policy ="OnlyForDriverOrUserManagement")]
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IEnumerable<CampingTripFull>> Get(int id)
         {
@@ -64,7 +64,9 @@ namespace CampingTripService.Controllers
                     throw new Exception("Invalid value for user_id in users claims");
                 }
 
-                if (userId != id) return null;
+                var roleClaim = claims.Where(claim => claim.Type == "role")?.FirstOrDefault();
+
+                if (userId != id && roleClaim?.Value!="Driver") return null;
 
                 return await campingTripRepository.GetDriverTripsAsync(userId);
             }

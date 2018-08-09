@@ -120,7 +120,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return await campingTripContext.CampingTrips.UpdateOneAsync(filter, update);
         }
 
-        public async Task<Status> AsMember(int id, string campingTripID)
+        public async Task<Status> AsMemberAsync(int id, string campingTripID)
         {
             var campingTrip = await campingTripRepository.GetTripAsync(campingTripID);
 
@@ -180,7 +180,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             }
         }
 
-        public async Task<Status> RemoveMemberFromTheTrip(int id, string campingTripID)
+        public async Task<Status> RemoveMemberFromTheTripAsync(int id, string campingTripID)
         {
             var campingTrip = await campingTripRepository.GetTripAsync(campingTripID);
 

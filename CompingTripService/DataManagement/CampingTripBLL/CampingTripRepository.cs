@@ -491,13 +491,15 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return campingTripsFull;
         }
 
-        public async Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsForUserAsync()
+        public async Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsForUserAsync(int userId)
         {
             var tripCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
             var orgineizerIsUser = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var trips = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser)?.ToListAsync();
+            var orgineizerId = Builders<CampingTrip>.Filter.Eq(tr => tr.OrganzierID, userId);
+
+            var trips = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser & orgineizerId)?.ToListAsync();
 
             var campingTripsFull = new List<CampingTripFull>();
 
@@ -532,7 +534,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             }
         }
 
-        public async Task<CampingTripFull> GetUserRegisteredCompletedTripForUserAsync(string campingTripId)
+        public async Task<CampingTripFull> GetUserRegisteredCompletedTripForUserAsync(string campingTripId,int userId)
         {
             var tripCopmleted = Builders<CampingTrip>.Filter.Where(s => s.ArrivalDate < DateTime.Now);
 
@@ -540,7 +542,9 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             var filterCampingTripById = Builders<CampingTrip>.Filter.Eq(s => s.ID, campingTripId);
 
-            var trip = await campingTripContext.CampingTrips.Find(tripCopmleted & orgineizerIsUser & filterCampingTripById)?.FirstOrDefaultAsync();
+            var filterByOrganizerId = Builders<CampingTrip>.Filter.Eq(s => s.OrganzierID, userId);
+
+            var trip = await campingTripContext.CampingTrips.Find(filterByOrganizerId & tripCopmleted & orgineizerIsUser & filterCampingTripById)?.FirstOrDefaultAsync();
 
             if (trip != null)
             {

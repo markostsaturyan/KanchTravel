@@ -3,10 +3,14 @@ using CampingTripService.DataManagement.CampingTripBLL;
 using CampingTripService.DataManagement.Model.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Security.Claims;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CampingTripService.Controllers
 {
-    [Authorize(Policy = "OnlyForAdminOrUserManagement")]
+    
     [Produces("application/json")]
     [Route("api/TripGuideManagement")]
     public class TripGuideManagementController : Controller
@@ -19,6 +23,7 @@ namespace CampingTripService.Controllers
             this.signUpForTheTrip = signUpForTheTrip;
         }
 
+        [Authorize(Policy ="OnlyForAdmin")]
         [HttpGet("{id}")]
         public async Task<Guide> Get(string id)
         {
@@ -26,6 +31,7 @@ namespace CampingTripService.Controllers
         }
 
         // PUT: api/TripGuide/5
+        [Authorize(Policy ="OnlyForAdmin")]
         [HttpPut("{id}")]
         public async void Put(int id, [FromBody]string campingTripID)
         {
@@ -33,10 +39,28 @@ namespace CampingTripService.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async void Delete(string campingTripId)
         {
-            await this.signUpForTheTrip.RemoveGuideFromTheTrip(campingTripId);
+            var identity = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identity.Claims;
+
+            var role = claims.Where(claim => claim.Type == "role")?.FirstOrDefault();
+
+            if (role?.Value == "Admin")
+            {
+                await this.signUpForTheTrip.RemoveGuideFromTheTrip(campingTripId);
+            }
+            else
+            {
+                var clientIdClaim=claims.Where(claim => claim.Type == "role")?.FirstOrDefault();
+
+                if (clientIdClaim.Value == "userManagemant")
+                {
+                    await this.signUpForTheTrip.RemoveGuideFromTheTrip(campingTripId);
+                }
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System;
 using System.Linq;
+using CampingTripService.DataManagement.Model;
 
 namespace CampingTripService.Controllers
 {
@@ -28,9 +29,9 @@ namespace CampingTripService.Controllers
         }
 
         // PUT: api/MembersOfCampingTrip/5
-        [Authorize(Policy ="OnlyForAUDGP")]
+        [Authorize(Policy = "OnlyForAUDGP")]
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody]string campingTripId)
+        public async Task<Status> Put(int id, [FromBody]string campingTripId)
         {
             var identity = (ClaimsIdentity)User.Identity;
 
@@ -45,17 +46,59 @@ namespace CampingTripService.Controllers
                 throw new Exception("Invalid value for user_id in users claims");
             }
 
-            await this.signUpForTheTrip.AsMember(id, campingTripId);
+            if (id != userId) return new Status
+            {
+                IsOk = false,
+                StatusCode = 5003,
+                Message = "Invalid id"
+            };
+
+            return await this.signUpForTheTrip.AsMemberAsync(id, campingTripId);
         }
 
         // DELETE: api/ApiWithActions/5
+        [Authorize]
         [Route("api/MembersOfCampingTrip/{id:int}/{campingTripId}")]
         [HttpDelete("{id:int},{campingTripId}")]
-        public Task Delete(int id,string campingTripId)
+        public async Task<Status> Delete(int id, string campingTripId)
         {
+            var identity = (ClaimsIdentity)User.Identity;
 
+            IEnumerable<Claim> claims = identity.Claims;
 
-            return this.signUpForTheTrip.RemoveMemberFromTheTrip(id, campingTripId);
+            var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
+
+            if (userIdClaim == null)
+            {
+
+                var clientIdClaim = claims.Where(claim => claim.Type == "client_id")?.FirstOrDefault();
+
+                if (clientIdClaim?.Value == "userMangemant")
+                {
+                    return await this.signUpForTheTrip.RemoveMemberFromTheTripAsync(id, campingTripId);
+                }
+                else
+                {
+                    throw new Exception("Invalid request");
+                }
+
+            }
+            else
+            {
+                if (!int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    throw new Exception("Invalid value for user_id in users claims");
+                }
+
+                if (id != userId) return new Status
+                {
+                    IsOk = false,
+                    StatusCode = 5003,
+                    Message = "Invalid id"
+                };
+
+                return await this.signUpForTheTrip.RemoveMemberFromTheTripAsync(id, campingTripId);
+            }
         }
     }
 }
