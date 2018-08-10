@@ -74,6 +74,7 @@ namespace Kanch.ProfileComponents.ViewModels
         public ICommand GetAllTripsCommand { get; set; }
         public ICommand GetMyCurrentTripsCommand { get; set; }
         public ICommand GetlMyPreviousTripsCommand { get; set; }
+        public ICommand RegistrationOfTheTripCommand { get; set; }
 
         public DriverViewModel()
         {
@@ -90,8 +91,16 @@ namespace Kanch.ProfileComponents.ViewModels
             this.GetAllTripsCommand = new Command(o => GetAllTrip());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
             this.GetlMyPreviousTripsCommand = new Command(o => GetMyPreviousTrips());
+            this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
         }
 
+        private void RegistrationOfTheTrip()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("CampingTripsRegistration") as DataTemplate;
+        }
 
         private void GetMyPreviousTrips()
         {
@@ -105,7 +114,10 @@ namespace Kanch.ProfileComponents.ViewModels
 
         private void GetAllTrip()
         {
-            throw new NotImplementedException();
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("InProgressCampingTrips") as DataTemplate;
         }
 
         private void SeeRequests()

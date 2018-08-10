@@ -335,15 +335,15 @@ namespace Kanch.ProfileComponents.ViewModels
                 OrganizationType = Kanch.DataModel.TypeOfOrganization.OrderByUser,
                 Organizer = new User()
                 {
-                    FirstName = this.tripRegistration.Organizer.FirstName,
-                    LastName = this.tripRegistration.Organizer.LastName,
-                    DateOfBirth = this.tripRegistration.Organizer.DateOfBirth,
-                    Email = this.tripRegistration.Organizer.Email,
-                    Gender = this.tripRegistration.Organizer.Gender,
-                    Image = Utilities.ImageConverter.ImageSourceToBytes(this.tripRegistration.Organizer.Image),
-                    Id = this.tripRegistration.Organizer.Id,
-                    PhoneNumber = this.tripRegistration.Organizer.PhoneNumber,
-                    UserName = this.tripRegistration.Organizer.UserName
+                    FirstName = this.user.FirstName,
+                    LastName = this.user.LastName,
+                    DateOfBirth = this.user.DateOfBirth,
+                    Email = this.user.Email,
+                    Gender = this.user.Gender,
+                    Image = Utilities.ImageConverter.ImageSourceToBytes(this.user.Image),
+                    Id = this.user.Id,
+                    PhoneNumber = this.user.PhoneNumber,
+                    UserName = this.user.UserName,
                 },
 
             };
@@ -386,6 +386,15 @@ namespace Kanch.ProfileComponents.ViewModels
             var trip = JsonConvert.SerializeObject(registrationTrip);
 
             var response = httpClient.PostAsync("api/UsersTrips", new StringContent(trip, Encoding.UTF8, "application/json")).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                this.ErrorMessage = "Please, try again";
+            }
+            else
+            {
+                Reset();
+            }
         }
 
         public bool CampingTripRegistrationValidation()
@@ -407,6 +416,22 @@ namespace Kanch.ProfileComponents.ViewModels
             }
             return true;
         }
+
+        public void Reset()
+        {
+            this.tripRegistration.ArrivalDate = DateTime.Now;
+            this.tripRegistration.DepartureDate = DateTime.Now;
+            this.tripRegistration.Place = "";
+            this.tripRegistration.Direction = null;
+            this.tripRegistration.Food = null;
+            this.tripRegistration.HasGuide = false;
+            this.tripRegistration.HasPhotographer = false;
+            this.tripRegistration.MaxAge = 0;
+            this.tripRegistration.MinAge = 0;
+            this.tripRegistration.CountOfMembers = 0;
+            this.tripRegistration.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
+        }
+
         private void ConnectToServer()
         {
             var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;

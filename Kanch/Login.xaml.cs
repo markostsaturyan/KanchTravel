@@ -28,13 +28,20 @@ namespace Kanch
     {
         private DiscoveryResponse disco;
         private TokenClient tokenClient;
+        private Configuration config;
 
         public Login()
         {
+           config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            config.Save(ConfigurationSaveMode.Modified);
+
+
+
+
             if (ConfigurationSettings.AppSettings["refresToken"] != "" &&
                 ConfigurationSettings.AppSettings["userId"] != "" &&
-                ConfigurationSettings.AppSettings["role"] != "" &&
-                ConfigurationSettings.AppSettings["userName"] != "")
+                ConfigurationSettings.AppSettings["role"] != "")
             {
                 var profile = new Profile();
 
@@ -54,6 +61,8 @@ namespace Kanch
 
         private void RegistrationClick(object sender, RoutedEventArgs e)
         {
+
+
             var registration = new MainWindow();
 
             registration.Show();
@@ -115,6 +124,8 @@ namespace Kanch
             ConfigurationSettings.AppSettings.Set("role", role.Value);
 
             ConfigurationSettings.AppSettings.Set("userId", userId.Value);
+
+
 
             var profile = new Profile();
 

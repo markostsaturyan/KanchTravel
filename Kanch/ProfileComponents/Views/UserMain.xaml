@@ -30,6 +30,12 @@
             <Hyperlink Command="{Binding Path = GetlMyPreviousTripsCommand}" >See my previous trips</Hyperlink>
             </TextBlock>
 
+            <TextBlock HorizontalAlignment="Center" Margin="10">
+            <Hyperlink Command="{Binding Path = RegistrationOfTheTripCommand}" >Register a trip</Hyperlink>
+            </TextBlock>
+
+
+
         </StackPanel>
 
     </Grid>

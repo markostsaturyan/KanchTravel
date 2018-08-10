@@ -87,27 +87,7 @@ namespace Kanch.ProfileComponents.ViewModels
                     Accept = new Command(Accept),
                     Ignore = new Command(Ignore)
                 };
-                driverRequest.MoreInformation = new List<string>();
-                if (driver.Car.HasAirConditioner)
-                {
-                    driverRequest.MoreInformation.Add("Air conditioner");
-                }
-                if (driver.Car.HasKitchen)
-                {
-                    driverRequest.MoreInformation.Add("Kitchen");
-                }
-                if (driver.Car.HasMicrophone)
-                {
-                    driverRequest.MoreInformation.Add("Microphone");
-                }
-                if (driver.Car.HasToilet)
-                {
-                    driverRequest.MoreInformation.Add("Toilet");
-                }
-                if (driver.Car.HasWiFi)
-                {
-                    driverRequest.MoreInformation.Add("WiFi");
-                }
+                
                 this.DriverRequests.Add(driverRequest);
                 
             }

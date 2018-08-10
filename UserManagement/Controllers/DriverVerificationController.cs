@@ -44,9 +44,10 @@ namespace UserManagement.Controllers
         {
             var code = this.dataAccesLayer.AddUserVerification(driver.UserName);
 
-            var emailSender = new SendVerificationCodeEmail(new NetworkCredential("noreply.recipeverify@gmail.com", "159recipe@&)"));
+            var emailSender = new SendVerificationCodeEmail(new NetworkCredential("kanchhiking@gmail.com", "kanchhiking2018"));
 
             emailSender.Send(driver.Email, code.ToString());
+            
         }
         
         // PUT: api/DriverVerification/5

@@ -18,19 +18,15 @@
             </StackPanel>
 
             <TextBlock HorizontalAlignment="Center">
-            <Hyperlink Command="{Binding Path = GetAllTrips}">See all the trips</Hyperlink>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Center" Margin="10">
-            <Hyperlink Command="{Binding Path = GetMyCurrentTrips}" >See my current campaigns</Hyperlink>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Center" >
-            <Hyperlink Command="{Binding Path = GetlMyPreviousTrips}" >See my previous trips</Hyperlink>
+            <Hyperlink Command="{Binding Path = GetAllTripsCommand}">See all the trips</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Center" Margin="10">
             <Hyperlink Command="{Binding Path = Requests}" >Camping trip requests</Hyperlink>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Center" >
+            <Hyperlink Command="{Binding Path = RegistrationOfTheTripCommand}" >Register a trip</Hyperlink>
             </TextBlock>
 
         </StackPanel>

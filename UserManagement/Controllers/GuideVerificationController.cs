@@ -44,7 +44,7 @@ namespace UserManagement.Controllers
         {
             var code = this.dataAccesLayer.AddUserVerification(guide.UserName);
 
-            var emailSender = new SendVerificationCodeEmail(new NetworkCredential("noreply.recipeverify@gmail.com", "159recipe@&)"));
+            var emailSender = new SendVerificationCodeEmail(new NetworkCredential("kanchhiking@gmail.com", "kanchhiking2018"));
 
             emailSender.Send(guide.Email, code.ToString());
 

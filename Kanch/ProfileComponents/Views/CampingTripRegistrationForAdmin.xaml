@@ -7,7 +7,7 @@
              xmlns:dataModels="clr-namespace:Kanch.ProfileComponents.DataModel"
              xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="575">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -52,8 +52,8 @@
                         <DockPanel HorizontalAlignment ="Stretch">
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50" />
-                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="25" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Name}" Grid.Column="0" />
@@ -123,7 +123,7 @@
             </TextBlock>
         </StackPanel>
 
-        <ListView Width="500" BorderBrush="LightGray"  ItemsSource="{Binding Foods,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="11" HorizontalAlignment="Left" Margin="0,0,0,5">
+        <ListView Width="350" BorderBrush="LightGray"  ItemsSource="{Binding Foods,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="11" HorizontalAlignment="Left" Margin="0,0,0,5">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel HorizontalAlignment ="Stretch">
@@ -158,9 +158,9 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <TextBox Text="{Binding TripRegistration.PriceOfTrip,Mode=TwoWay}" Grid.Row='12' Grid.Column="1"/>
 
-        <TextBox Text="{Binding Price,Mode=TwoWay}" Grid.Column="1" Grid.Row="12" Margin="0,0,0,5"></TextBox>
-        <Button Name="register" Height="38" Width="100" Command="{Binding RegisterTripCommand}" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,10,0">
+        <Button Name="register" Height="38" Width="100" Command="{Binding RegisterTripCommand}" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,10,0" IsEnabled="{Binding TripRegistration.IsActive,Mode=TwoWay}">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Register</TextBlock>
         </Button>
 
@@ -174,7 +174,7 @@
         <TextBlock Text ="Minimum count of members" Grid.Column="0" Grid.Row="7" Margin="7,0,0,0"/>
         <TextBlock Text="Camping trip's type" Grid.Column="0" Grid.Row="8" Margin="7,0,0,0" />
         <TextBlock Text="Foods" Grid.Column="0" Grid.Row="10" Margin="7,0,0,0"/>
-        <TextBlock Text="Price for per person" Grid.Column="0" Grid.Row="12" Margin="7,0,0,0" />
+        <TextBlock Text="Price for per person" Grid.Column="0" Grid.Row="12" Margin="7,0,0,0"/>
         <TextBlock Name="errorMessage" Text="{Binding ErrorMessage,Mode=TwoWay}" HorizontalAlignment="Left" Foreground="Red"></TextBlock>
     </Grid>
 </UserControl>

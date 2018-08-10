@@ -12,7 +12,6 @@ namespace Kanch.ProfileComponents.HelperClasses
     public class TripsInProgress
     {
         public CampingTripInfo CampingTrip { get; set; }
-        public CampingTrip Trip { get; set; }
         public ICommand JoinCommand { get; set; }
         public ICommand RefuseCommand { get; set; }
     }

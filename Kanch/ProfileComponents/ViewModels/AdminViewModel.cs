@@ -28,6 +28,7 @@ namespace Kanch.ProfileComponents.ViewModels
         public ICommand GetMyCurrentTripsCommand { get; set; }
         public ICommand GetMyPreviousTripsCommand { get; set; }
         public ICommand GetUnconfirmedCampingTripsCommand { get; set; }
+        public ICommand RegistrationOfTheTripCommand { get; set; }
 
         private HttpClient httpClient;
         private TokenClient tokenClient;
@@ -48,12 +49,20 @@ namespace Kanch.ProfileComponents.ViewModels
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
             this.GetMyPreviousTripsCommand = new Command(o => GetMyPreviousTris());
             this.GetUnconfirmedCampingTripsCommand = new Command(o => GetUnconfirmedCampingTrips());
+            this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
             ConnectToServer();
             this.httpClient = new HttpClient();
             this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
             GetUserInfo();
         }
 
+        private void RegistrationOfTheTrip()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("CampingTripRegistrationForAdmin") as DataTemplate;
+        }
         private void GetMyPreviousTris()
         {
             throw new NotImplementedException();
@@ -66,7 +75,10 @@ namespace Kanch.ProfileComponents.ViewModels
 
         private void GetAllTrips()
         {
-            throw new NotImplementedException();
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("InProgressCampingTrips") as DataTemplate;
         }
 
         public void GetDriverRequests()
