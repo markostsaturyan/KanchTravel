@@ -9,7 +9,7 @@ using Kanch.ProfileComponents.DataModel;
 
 namespace Kanch.ProfileComponents.HelperClasses
 {
-    class UnconfirmedTrips
+    public class UnconfirmedTrips
     {
         public CampingTripInfo CampingTrip { get; set; }
         public CampingTrip Trip { get; set; }
