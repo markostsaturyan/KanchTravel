@@ -11,7 +11,6 @@ namespace Kanch.ProfileComponents.HelperClasses
     public class DriverRequests
     {
         public DriverInfo Driver { get; set; }
-        public List<string> MoreInformation { get; set; }
         public ICommand Accept { get; set; }
         public ICommand Ignore { get; set; }
     }

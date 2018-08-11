@@ -25,8 +25,16 @@ namespace Kanch.ProfileComponents.ViewModels
         private HttpClient httpClient;
         private TokenClient tokenClient;
         private User user;
-
-        public ObservableCollection<TripsInProgress> TripsInProgress { get; set; }
+        private ObservableCollection<TripsInProgress> tripsInProgresses;
+        public ObservableCollection<TripsInProgress> TripsInProgress
+        {
+            get { return this.tripsInProgresses; }
+            set
+            {
+                this.tripsInProgresses = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TripsInProgress"));
+            }
+        }
 
         public InProgressCampingTripViewModel()
         {
@@ -34,7 +42,9 @@ namespace Kanch.ProfileComponents.ViewModels
             this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
             ConnectToServer();
             this.TripsInProgress = new ObservableCollection<TripsInProgress>();
+            GetUserInfo();
             GetAllInProgressTrips();
+            
         }
 
         public void GetAllInProgressTrips()
@@ -59,7 +69,7 @@ namespace Kanch.ProfileComponents.ViewModels
                     
                     var zeroTime = new DateTime(1, 1, 1);
 
-                    var span = DateTime.Now - user.DateOfBirth;
+                    var span = DateTime.Now - this.user.DateOfBirth;
 
                     var userAge = (zeroTime + span).Year - 1;
 
@@ -79,7 +89,7 @@ namespace Kanch.ProfileComponents.ViewModels
                             Direction = trip.Direction,
                             HasGuide = trip.HasGuide,
                             HasPhotographer = trip.HasPhotographer,
-                            
+                            ID = trip.ID
                         };
                         if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
                         {
@@ -106,7 +116,7 @@ namespace Kanch.ProfileComponents.ViewModels
                                 });
                             }
                         }
-                        if (trip.MembersOfCampingTrip.Contains(this.user))
+                        if (trip.MembersOfCampingTrip != null && trip.MembersOfCampingTrip.Contains(this.user))
                         {
                             campingtrip.IAmJoined = true;
                         }
@@ -120,7 +130,6 @@ namespace Kanch.ProfileComponents.ViewModels
                         var tripInProgress = new HelperClasses.TripsInProgress();
 
                         tripInProgress.CampingTrip = campingtrip;
-                        tripInProgress.Trip = trip;
                         tripInProgress.JoinCommand = new Command(Join);
                         tripInProgress.RefuseCommand = new Command(Refuse);
 
@@ -137,12 +146,29 @@ namespace Kanch.ProfileComponents.ViewModels
             var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
-            var campingTrip = (trip as TripsInProgress).Trip;
+            var campingTrip = (trip as TripsInProgress).CampingTrip;
             var tripInfo = JsonConvert.SerializeObject(campingTrip);
 
+            var campingTripId = campingTrip.ID;
 
-            var response = httpClient.PutAsync($"api/UserRegisteredTripsManagement/{ConfigurationSettings.AppSettings["userId"]}", new StringContent(campingTrip.ID, Encoding.UTF8, "application/json")).Result;
-            this.TripsInProgress.Remove(trip as TripsInProgress);
+            var response = httpClient.PutAsync($"api/MembersOfCampingTrip/{user.Id}", new StringContent(campingTripId, Encoding.Unicode, "application/json")).Result;
+
+
+            if (response.IsSuccessStatusCode)
+            {
+                campingTrip.IAmJoined = true;
+                campingTrip.CanIJoin = false;
+                if (campingTrip.MembersOfCampingTrip == null)
+                {
+                    campingTrip.MembersOfCampingTrip = new ObservableCollection<UserInfo>();
+                }
+                campingTrip.MembersOfCampingTrip.Add(new UserInfo()
+                {
+                    Id=this.user.Id
+
+                });
+
+            }
         }
         public async void Refuse(object trip)
         {
@@ -177,6 +203,7 @@ namespace Kanch.ProfileComponents.ViewModels
             var jsonContent = content.ReadAsStringAsync().Result;
 
             this.user = JsonConvert.DeserializeObject<User>(jsonContent);
+
             
         }
 

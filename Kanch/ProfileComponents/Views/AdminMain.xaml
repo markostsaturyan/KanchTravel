@@ -22,19 +22,15 @@
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Center" Margin="10">
-            <Hyperlink Command="{Binding Path = GetMyCurrentTripsCommand}" >See my current campaigns</Hyperlink>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Center">
-            <Hyperlink Command="{Binding Path = GetMyPreviousTripsCommand}" >See my previous trips</Hyperlink>
-            </TextBlock>
-
-            <TextBlock HorizontalAlignment="Center" Margin="10">
                 <Hyperlink Command="{Binding GetDriverRequestsCommand}">See all driver requests</Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Center"  >
-                <Hyperlink Command="{Binding GetUnconfirmedCampingTripsCommand}" >Unconfirmed camping trips.</Hyperlink>
+                <Hyperlink Command="{Binding GetUnconfirmedCampingTripsCommand}" >Unconfirmed camping trips</Hyperlink>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Center" Margin="10">
+            <Hyperlink Command="{Binding Path = RegistrationOfTheTripCommand}" >Register a trip</Hyperlink>
             </TextBlock>
         </StackPanel>
     </Grid>

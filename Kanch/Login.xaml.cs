@@ -28,6 +28,7 @@ namespace Kanch
     {
         private DiscoveryResponse disco;
         private TokenClient tokenClient;
+        private Configuration config;
 
         public Login()
         {
@@ -53,6 +54,8 @@ namespace Kanch
 
         private void RegistrationClick(object sender, RoutedEventArgs e)
         {
+
+
             var registration = new MainWindow();
 
             registration.Show();
@@ -120,6 +123,8 @@ namespace Kanch
             config.Save(ConfigurationSaveMode.Modified);
 
             ConfigurationManager.RefreshSection("appSettings");
+
+
 
             var profile = new Profile();
 

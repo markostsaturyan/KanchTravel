@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding CampingTripRequests}">
+        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TripsInProgress}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="Auto">
@@ -48,31 +48,31 @@
                                     <TextBlock Text="Food"                      Grid.Column="0" Grid.Row="10"  />
                                     <TextBlock Text="Price"                     Grid.Column="0" Grid.Row="11" />
 
-                                    <TextBlock Text="{Binding Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" ></TextBlock>
+                                    <TextBlock Text="{Binding CampingTrip.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" ></TextBlock>
 
 
-                                    <ListView  Name="directionsList" Width="250" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding Direction}"
+                                    <ListView  Name="directionsList" Width="250" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding CampingTrip.Direction}"
                                                 ScrollViewer.CanContentScroll="True">
 
                                     </ListView>
 
-                                    <TextBlock Text="{Binding DepartureDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"   Background="#cce6ff"   />
+                                    <TextBlock Text="{Binding CampingTrip.DepartureDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"   Background="#cce6ff"   />
 
-                                    <TextBlock Text="{Binding ArrivalDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"   Background="#cce6ff" />
+                                    <TextBlock Text="{Binding CampingTrip.ArrivalDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"   Background="#cce6ff" />
 
-                                    <TextBlock Text="{Binding MinAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="4" />
+                                    <TextBlock Text="{Binding CampingTrip.MinAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="4" />
 
-                                    <TextBlock Text="{Binding MaxAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
+                                    <TextBlock Text="{Binding CampingTrip.MaxAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
 
-                                    <TextBlock Text="{Binding MinCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" />
+                                    <TextBlock Text="{Binding CampingTrip.MinCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" />
 
-                                    <TextBlock Text="{Binding MaxCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="7" />
+                                    <TextBlock Text="{Binding CampingTrip.MaxCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="7" />
 
-                                    <TextBlock Text="{Binding CountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="8" />
+                                    <TextBlock Text="{Binding CampingTrip.CountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="8" />
 
-                                    <TextBlock Text="{Binding TypeOfTrip,Mode=TwoWay}" Grid.Column="1" Grid.Row="9" />
+                                    <TextBlock Text="{Binding CampingTrip.TypeOfTrip,Mode=TwoWay}" Grid.Column="1" Grid.Row="9" />
 
-                                    <ListView Width="500" BorderBrush="LightGray"  ItemsSource="{Binding Food,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="10" HorizontalAlignment="Left">
+                                    <ListView Width="500" BorderBrush="LightGray"  ItemsSource="{Binding CampingTrip.Food,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="10" HorizontalAlignment="Left">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
@@ -82,11 +82,11 @@
                                         </ListView.View>
                                     </ListView>
 
-                                    <TextBlock Text="{Binding Price,Mode=TwoWay}" Grid.Column="1" Grid.Row="11" />
+                                    <TextBlock Text="{Binding CampingTrip.PriceOfTrip,Mode=TwoWay}" Grid.Column="1" Grid.Row="11" />
 
                                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="12">
-                                        <Button Command="{Binding Join}" CommandParameter="{Binding}" Height="25" Width="60">Join</Button>
-                                        <Button Command="{Binding Refuse}" CommandParameter="{Binding}" Height="25" Width="60">Refuse</Button>
+                                        <Button Command="{Binding JoinCommand}" CommandParameter="{Binding}" Height="25" Width="60" IsEnabled="{Binding CampingTrip.CanIJoin,Mode=TwoWay}">Join</Button>
+                                        <Button Command="{Binding RefuseCommand}" CommandParameter="{Binding}" Height="25" Width="60" IsEnabled="{Binding CampingTrip.IAmJoined,Mode=TwoWay}">Refuse</Button>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>

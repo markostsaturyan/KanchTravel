@@ -23,7 +23,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
         private HttpClient httpClient;
 
-        public DataAccesLayer(string sqlConnectionString,string authenticationService,string campingTripBaseAddress)
+        public DataAccesLayer(string sqlConnectionString, string authenticationService, string campingTripBaseAddress)
         {
             this.sqlConnectionString = sqlConnectionString;
 
@@ -35,7 +35,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
             httpClient.BaseAddress = new Uri(campingTripBaseAddress);
         }
-        
+
         #endregion Constructors and fields
 
         #region Adding
@@ -44,7 +44,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
         /// </summary>
         /// <param name="user"> The user full info </param>
         /// <returns> User's id after inserting </returns>
-        public int AddUser(UserInfo user,string userRole="User")
+        public int AddUser(UserInfo user, string userRole = "User")
         {
             var userGuid = Guid.NewGuid().ToString();
 
@@ -131,7 +131,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 Password = guide.Password
             };
 
-            var userId = AddUser(userInfo,"Guide");
+            var userId = AddUser(userInfo, "Guide");
 
             AddGuidePlaces(userId, guide.Places);
 
@@ -202,7 +202,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 Password = driver.Password,
             };
 
-            var userId = AddUser(userFullInfo,"Driver");
+            var userId = AddUser(userFullInfo, "Driver");
             var carId = AddCar(driver.Car);
 
             using (var connection = new SqlConnection(sqlConnectionString))
@@ -210,7 +210,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 var commandForInsertDriver = new SqlCommand
                 {
                     Connection = connection,
-                    CommandType=System.Data.CommandType.StoredProcedure,
+                    CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "InsertDriverInfo"
                 };
 
@@ -280,7 +280,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 Password = photographer.Password
             };
 
-            var userId = AddUser(userFullInfo,"Photographer");
+            var userId = AddUser(userFullInfo, "Photographer");
             var cameraId = AddCamera(photographer.Camera);
 
             using (var connection = new SqlConnection(sqlConnectionString))
@@ -532,7 +532,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 {
                     while (dataReader.Read())
                     {
-                        users.Add(new UserInfo
+                        var user = new UserInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
@@ -540,10 +540,14 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Gender = (string)dataReader["Gender"]
-                        });
+                        };
+                        if (dataReader["Picture"] != DBNull.Value)
+                        {
+                            user.Image = (byte[])dataReader["Picture"];
+                        }
+                        users.Add(user);
                     }
                 }
             }
@@ -582,9 +586,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = (byte[])dataReader["CarPicture1"],
-                            CarPicture2 = (byte[])dataReader["CarPicture2"],
-                            CarPicture3 = (byte[])dataReader["CarPicture3"],
                             LicensePlate = (string)dataReader["LicensePlate"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
@@ -592,25 +593,49 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             HasKitchen = (bool)dataReader["HasKitchen"],
                             HasToilet = (bool)dataReader["HasToilet"],
                         };
+                        if (dataReader["CarPicture1"] != DBNull.Value)
+                        {
+                            car.CarPicture1 = (byte[])dataReader["CarPicture1"];
+                        }
 
-                        drivers.Add(new DriverInfo
+                        if (dataReader["CarPicture2"] != DBNull.Value)
+                        {
+                            car.CarPicture2 = (byte[])dataReader["CarPicture2"];
+                        }
+
+                        if (dataReader["CarPicture3"] != DBNull.Value)
+                        {
+                            car.CarPicture3 = (byte[])dataReader["CarPicture3"];
+                        }
+                        var driver = new DriverInfo
                         {
                             Id = (int)dataReader["UserId"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
-                            Gender=(string)dataReader["Gender"],
+                            Gender = (string)dataReader["Gender"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
                             Car = car,
-                            DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"],
-                            DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Rating = (double)dataReader["Rating"],
                             NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
-                        });
+                        };
+                        if (dataReader["Picture"] != DBNull.Value)
+                        {
+                            driver.Image = (byte[])dataReader["Picture"];
+                        }
+                        if (dataReader["DrivingLicencePicBack"] != DBNull.Value)
+                        {
+                            driver.DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"];
+                        }
+                        if (dataReader["DrivingLicencePicFront"] != DBNull.Value)
+                        {
+                            driver.DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"];
+                        }
+
+                        drivers.Add(driver);
                     }
                 }
             }
@@ -684,10 +709,10 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         UserName = (string)dataReader["UserName"],
                         Car = car,
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        Gender=(string)dataReader["Gender"]
+                        Gender = (string)dataReader["Gender"]
                     };
 
-                    if(dataReader["Rating"] != DBNull.Value)
+                    if (dataReader["Rating"] != DBNull.Value)
                     {
                         driver.Rating = (double)dataReader["Rating"];
                     }
@@ -701,261 +726,348 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     {
                         driver.Image = (byte[])dataReader["Picture"];
                     }
-
-
+                    if (dataReader["DrivingLicencePicBack"] != DBNull.Value)
+                    {
+                        driver.DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"];
+                    }
+                    if (dataReader["DrivingLicencePicFront"] != DBNull.Value)
+                    {
+                        driver.DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"];
+                    }
                 }
-            }
 
-            return driver;
+                return driver;
+            }
         }
 
-        /// <summary>
-        /// Gets all guides
-        /// </summary>
-        /// <returns> List of guides </returns>
-        public List<GuideInfo> GetAllGuides()
-        {
-            var guides = new List<GuideInfo>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
+            /// <summary>
+            /// Gets all guides
+            /// </summary>
+            /// <returns> List of guides </returns>
+            public List<GuideInfo> GetAllGuides()
             {
-                var command = new SqlCommand
+                var guides = new List<GuideInfo>();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllGuides"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
+                    var command = new SqlCommand
                     {
-                        var guide = new GuideInfo
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetAllGuides"
+                    };
+
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        while (dataReader.Read())
+                        {
+                            var guide = new GuideInfo
+                            {
+                                Id = (int)dataReader["Id"],
+                                FirstName = (string)dataReader["FirstName"],
+                                LastName = (string)dataReader["LastName"],
+                                DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                                Email = (string)dataReader["Email"],
+                                PhoneNumber = (string)dataReader["PhoneNumber"],
+                                Image = (byte[])dataReader["Picture"],
+                                UserName = (string)dataReader["UserName"],
+                                Password = (string)dataReader["Password"],
+                                KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                                Gender = (string)dataReader["Gender"],
+                                EducationGrade = (string)dataReader["EducationGrade"],
+                                Profession = (string)dataReader["Profession"],
+                                WorkExperience = (string)dataReader["WorkExperience"],
+                                Rating = (double)dataReader["Rating"],
+                                NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
+                            };
+
+                            guide.Places = GetGuidePalces(guide.Id);
+
+                            guides.Add(guide);
+                        }
+                    }
+                }
+
+                return guides;
+            }
+
+            /// <summary>
+            /// Gets all places where guide's been 
+            /// </summary>
+            /// <param name="id"> id of guide</param>
+            /// <returns> List of places </returns>
+            public List<string> GetGuidePalces(int id)
+            {
+                var places = new List<string>();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
+                {
+
+                    var command = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetGuidePlaces"
+                    };
+
+                    command.Parameters.AddWithValue("@id", id);
+
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        while (dataReader.Read())
+                        {
+                            places.Add((string)dataReader["Places"]);
+                        }
+                    }
+                }
+
+                return places;
+            }
+
+            /// <summary>
+            /// Gets all photographers
+            /// </summary>
+            /// <returns> List of photographers </returns>
+            public List<PhotographerInfo> GetAllPhotographers()
+            {
+                var photographers = new List<PhotographerInfo>();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
+                {
+                    var command = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetAllPhotographers"
+                    };
+
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        while (dataReader.Read())
+                        {
+                            var photographer = new PhotographerInfo
+                            {
+                                Id = (int)dataReader["Id"],
+                                FirstName = (string)dataReader["FirstName"],
+                                LastName = (string)dataReader["LastName"],
+                                Gender = (string)dataReader["Gender"],
+                                DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                                Email = (string)dataReader["Email"],
+                                PhoneNumber = (string)dataReader["PhoneNumber"],
+                                Image = (byte[])dataReader["Image"],
+                                UserName = (string)dataReader["UserName"],
+                                KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                                Raiting = (double)dataReader["Raiting"],
+                                HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
+                                HasDron = (bool)dataReader["HasDron"],
+                                HasGopro = (bool)dataReader["HasGopro"],
+                                Camera = new Camera
+                                {
+                                    Id = (int)dataReader["CameraId"],
+                                    Model = (string)dataReader["Model"],
+                                    IsProfessional = (bool)dataReader["IsProfessional"]
+                                },
+                                Profession = (string)dataReader["Profession"],
+                                WorkExperience = (string)dataReader["WorkExperiance"],
+                                NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
+                            };
+
+                            photographers.Add(photographer);
+                        }
+                    }
+                }
+
+                return photographers;
+            }
+
+            /// <summary>
+            /// Gets Photographer by id from database
+            /// </summary>
+            /// <param name="id"> Photographer id </param>
+            /// <returns> Photographer full info </returns>
+            public PhotographerInfo GetPhotographerById(int id)
+            {
+                var photographer = new PhotographerInfo();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
+                {
+                    var command = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetPhotographerById"
+                    };
+
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        dataReader.Read();
+
+                        var camera = new Camera
+                        {
+                            Id = (int)dataReader["CameraId"],
+                            IsProfessional = (bool)dataReader["IsProfessional"],
+                            Model = (string)dataReader["Model"]
+                        };
+
+                        photographer = new PhotographerInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            Gender = (string)dataReader["Gender"],
+                            DateOfBirth = (DateTime)dataReader["Age"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
-                            Password = (string)dataReader["Password"],
-                            KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                            Gender = (string)dataReader["Gender"],
-                            EducationGrade = (string)dataReader["EducationGrade"],
-                            Profession = (string)dataReader["Profession"],
-                            WorkExperience=(string)dataReader["WorkExperience"],
-                            Rating=(double)dataReader["Rating"],
-                            NumberOfAppraisers=(int)dataReader["NumberOfAppraisers"]
-                        };
-
-                        guide.Places = GetGuidePalces(guide.Id);
-
-                        guides.Add(guide);
-                    }
-                }
-            }
-
-            return guides;
-        }
-
-        /// <summary>
-        /// Gets all places where guide's been 
-        /// </summary>
-        /// <param name="id"> id of guide</param>
-        /// <returns> List of places </returns>
-        public List<string> GetGuidePalces(int id)
-        {
-            var places = new List<string>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetGuidePlaces"
-                };
-
-                command.Parameters.AddWithValue("@id", id);
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        places.Add((string)dataReader["Places"]);
-                    }
-                }
-            }
-
-            return places;
-        }
-
-        /// <summary>
-        /// Gets all photographers
-        /// </summary>
-        /// <returns> List of photographers </returns>
-        public List<PhotographerInfo> GetAllPhotographers()
-        {
-            var photographers = new List<PhotographerInfo>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllPhotographers"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        var photographer = new PhotographerInfo
-                        {
-                            Id = (int)dataReader["Id"],
-                            FirstName = (string)dataReader["FirstName"],
-                            LastName = (string)dataReader["LastName"],
-                            Gender = (string)dataReader["Gender"],
-                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
-                            Email = (string)dataReader["Email"],
-                            PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (byte[])dataReader["Image"],
-                            UserName = (string)dataReader["UserName"],
+                            Camera = camera,
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
                             HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
                             HasDron = (bool)dataReader["HasDron"],
                             HasGopro = (bool)dataReader["HasGopro"],
-                            Camera = new Camera
-                            {
-                                Id = (int)dataReader["CameraId"],
-                                Model = (string)dataReader["Model"],
-                                IsProfessional = (bool)dataReader["IsProfessional"]
-                            },
                             Profession = (string)dataReader["Profession"],
-                            WorkExperience = (string)dataReader["WorkExperiance"],
+                            WorkExperience = (string)dataReader["WorkExperience"],
                             NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                         };
-
-                        photographers.Add(photographer);
                     }
                 }
+
+                return photographer;
             }
 
-            return photographers;
-        }
-
-        /// <summary>
-        /// Gets Photographer by id from database
-        /// </summary>
-        /// <param name="id"> Photographer id </param>
-        /// <returns> Photographer full info </returns>
-        public PhotographerInfo GetPhotographerById(int id)
-        {
-            var photographer = new PhotographerInfo();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
+            public IEnumerable<DriverInfo> GetAllNonApprovedDrivers()
             {
-                var command = new SqlCommand
+                var drivers = new List<DriverInfo>();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetPhotographerById"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    dataReader.Read();
-
-                    var camera = new Camera
+                    var command = new SqlCommand
                     {
-                        Id = (int)dataReader["CameraId"],
-                        IsProfessional = (bool)dataReader["IsProfessional"],
-                        Model = (string)dataReader["Model"]
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetAllNonApprovedDrivers"
                     };
 
-                    photographer = new PhotographerInfo
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
                     {
-                        Id = (int)dataReader["Id"],
-                        FirstName = (string)dataReader["FirstName"],
-                        LastName = (string)dataReader["LastName"],
-                        Gender = (string)dataReader["Gender"],
-                        DateOfBirth = (DateTime)dataReader["Age"],
-                        Email = (string)dataReader["Email"],
-                        PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (byte[])dataReader["Picture"],
-                        UserName = (string)dataReader["UserName"],
-                        Camera = camera,
-                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        Raiting = (double)dataReader["Raiting"],
-                        HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
-                        HasDron = (bool)dataReader["HasDron"],
-                        HasGopro = (bool)dataReader["HasGopro"],
-                        Profession = (string)dataReader["Profession"],
-                        WorkExperience = (string)dataReader["WorkExperience"],
-                        NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
-                    };
+                        while (dataReader.Read())
+                        {
+                            Car car = new Car
+                            {
+                                Id = (int)dataReader["CarId"],
+                                Brand = (string)dataReader["Brand"],
+                                NumberOfSeats = (int)dataReader["NumberOfSeats"],
+                                FuelType = (string)dataReader["FuelType"],
+                                LicensePlate = (string)dataReader["LicensePlate"],
+                                HasWiFi = (bool)dataReader["HasWiFi"],
+                                HasMicrophone = (bool)dataReader["HasMicrophone"],
+                                HasAirConditioner = (bool)dataReader["HasAirConditioner"],
+                                HasKitchen = (bool)dataReader["HasKitchen"],
+                                HasToilet = (bool)dataReader["HasToilet"],
+                            };
+
+                            if (dataReader["CarPicture1"] != DBNull.Value)
+                            {
+                                car.CarPicture1 = (byte[])dataReader["CarPicture1"];
+                            }
+                            if (dataReader["CarPicture2"] != DBNull.Value)
+                            {
+                                car.CarPicture2 = (byte[])dataReader["CarPicture2"];
+                            }
+                            if (dataReader["CarPicture3"] != DBNull.Value)
+                            {
+                                car.CarPicture3 = (byte[])dataReader["CarPicture3"];
+                            }
+
+
+                            var driver = new DriverInfo
+                            {
+                                Id = (int)dataReader["UserId"],
+                                FirstName = (string)dataReader["FirstName"],
+                                LastName = (string)dataReader["LastName"],
+                                DateOfBirth = (DateTime)dataReader["DateOfBirth"],
+                                Email = (string)dataReader["Email"],
+                                Gender = (string)dataReader["Gender"],
+                                PhoneNumber = (string)dataReader["PhoneNumber"],
+                                UserName = (string)dataReader["UserName"],
+                                Car = car,
+                                KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                            };
+
+                            if (dataReader["Picture"] != System.DBNull.Value)
+                            {
+                                driver.Image = (byte[])dataReader["Picture"];
+                            }
+                            if (dataReader["DrivingLicencePicBack"] != DBNull.Value)
+                            {
+                                driver.DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"];
+                            }
+                            if (dataReader["DrivingLicencePicFront"] != DBNull.Value)
+                            {
+                                driver.DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"];
+                            }
+                            drivers.Add(driver);
+                        }
+                    }
                 }
+
+                return drivers;
             }
 
-            return photographer;
-        }
-
-        public IEnumerable<DriverInfo> GetAllNonApprovedDrivers()
-        {
-            var drivers = new List<DriverInfo>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
+            public DriverInfo GetNonApprovedDriverById(int id)
             {
-                var command = new SqlCommand
+                var driver = new DriverInfo();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllNonApprovedDrivers"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
+                    var command = new SqlCommand
                     {
-                        Car car = new Car
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetNonApprovedDriverById"
+                    };
+                    command.Parameters.AddWithValue("@Id", id);
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        dataReader.Read();
+
+                        var car = new Car
                         {
                             Id = (int)dataReader["CarId"],
                             Brand = (string)dataReader["Brand"],
                             NumberOfSeats = (int)dataReader["NumberOfSeats"],
                             FuelType = (string)dataReader["FuelType"],
-                            LicensePlate = (string)dataReader["LicensePlate"],
                             HasWiFi = (bool)dataReader["HasWiFi"],
                             HasMicrophone = (bool)dataReader["HasMicrophone"],
                             HasAirConditioner = (bool)dataReader["HasAirConditioner"],
                             HasKitchen = (bool)dataReader["HasKitchen"],
-                            HasToilet = (bool)dataReader["HasToilet"],
+                            HasToilet = (bool)dataReader["HasToilet"]
                         };
-
                         if (dataReader["CarPicture1"] != DBNull.Value)
                         {
                             car.CarPicture1 = (byte[])dataReader["CarPicture1"];
@@ -969,1022 +1081,986 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             car.CarPicture3 = (byte[])dataReader["CarPicture3"];
                         }
 
-
-                        var driver = new DriverInfo
+                        driver = new DriverInfo
                         {
                             Id = (int)dataReader["UserId"],
-                            FirstName = (string)dataReader["FirstName"],
-                            LastName = (string)dataReader["LastName"],
-                            DateOfBirth = (DateTime)dataReader["DateOfBirth"],
-                            Email = (string)dataReader["Email"],
-                            Gender = (string)dataReader["Gender"],
-                            PhoneNumber = (string)dataReader["PhoneNumber"],
-                            UserName = (string)dataReader["UserName"],
-                            Car = car,
-                            DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"],
-                            DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"],
-                            KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        };
-
-                        if(dataReader["Picture"] != System.DBNull.Value)
-                        {
-                            driver.Image = (byte[])dataReader["Picture"];
-                        }
-                        drivers.Add(driver);
-                    }
-                }
-            }
-
-            return drivers;
-        }
-
-        public DriverInfo GetNonApprovedDriverById(int id)
-        {
-            var driver = new DriverInfo();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetNonApprovedDriverById"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    dataReader.Read();
-
-                    var car = new Car
-                    {
-                        Id = (int)dataReader["CarId"],
-                        Brand = (string)dataReader["Brand"],
-                        NumberOfSeats = (int)dataReader["NumberOfSeats"],
-                        FuelType = (string)dataReader["FuelType"],
-                        CarPicture1 = (byte[])dataReader["CarPicture1"],
-                        CarPicture2 = (byte[])dataReader["CarPicture2"],
-                        CarPicture3 = (byte[])dataReader["CarPicture3"],
-                        HasWiFi = (bool)dataReader["HasWiFi"],
-                        HasMicrophone = (bool)dataReader["HasMicrophone"],
-                        HasAirConditioner = (bool)dataReader["HasAirConditioner"],
-                        HasKitchen = (bool)dataReader["HasKitchen"],
-                        HasToilet = (bool)dataReader["HasToilet"]
-                    };
-
-                    driver = new DriverInfo
-                    {
-                        Id = (int)dataReader["UserId"],
-                        FirstName = (string)dataReader["FirstName"],
-                        LastName = (string)dataReader["LastName"],
-                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
-                        Email = (string)dataReader["Email"],
-                        PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (byte[])dataReader["Image"],
-                        UserName = (string)dataReader["UserName"],
-                        Car = car,
-                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        Gender = (string)dataReader["Gender"],
-                    };
-                }
-            }
-
-            return driver;
-        }
-
-        public IEnumerable<GuideInfo> GetAllNonApprovedGuides()
-        {
-            var guides = new List<GuideInfo>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllNonApprovedGuides"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        var guide = new GuideInfo
-                        {
-                            Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
-                            Password = (string)dataReader["Password"],
+                            Car = car,
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Gender = (string)dataReader["Gender"],
-                            EducationGrade = (string)dataReader["EducationGrade"],
-                            Profession = (string)dataReader["Profession"],
-                            WorkExperience = (string)dataReader["WorkExperience"],
+
                         };
-
-                        guide.Places = GetGuidePalces(guide.Id);
-
-                        guides.Add(guide);
+                        if (dataReader["Picture"] != System.DBNull.Value)
+                        {
+                            driver.Image = (byte[])dataReader["Picture"];
+                        }
+                        if (dataReader["DrivingLicencePicBack"] != DBNull.Value)
+                        {
+                            driver.DrivingLicencePicBack = (byte[])dataReader["DrivingLicencePicBack"];
+                        }
+                        if (dataReader["DrivingLicencePicFront"] != DBNull.Value)
+                        {
+                            driver.DrivingLicencePicFront = (byte[])dataReader["DrivingLicencePicFront"];
+                        }
                     }
                 }
+
+                return driver;
             }
 
-            return guides;
-
-        }
-
-        public GuideInfo GetNonApprovedGuideById(int id)
-        {
-            var guide = new GuideInfo();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
+            public IEnumerable<GuideInfo> GetAllNonApprovedGuides()
             {
+                var guides = new List<GuideInfo>();
 
-                var command = new SqlCommand
+                using (var connection = new SqlConnection(sqlConnectionString))
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetNonApprovedGuideById"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    dataReader.Read();
-
-                    guide = new GuideInfo
+                    var command = new SqlCommand
                     {
-                        Id = (int)dataReader["Id"],
-                        FirstName = (string)dataReader["FirstName"],
-                        LastName = (string)dataReader["LastName"],
-                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
-                        Email = (string)dataReader["Email"],
-                        PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (byte[])dataReader["Image"],
-                        UserName = (string)dataReader["UserName"],
-                        Gender = (string)dataReader["Gender"],
-                        EducationGrade = (string)dataReader["EducationGrade"],
-                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        Profession = (string)dataReader["Profession"],
-                        WorkExperience = (string)dataReader["WorkExperience"],
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetAllNonApprovedGuides"
                     };
 
-                    guide.Places = GetGuidePalces(id);
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        while (dataReader.Read())
+                        {
+                            var guide = new GuideInfo
+                            {
+                                Id = (int)dataReader["Id"],
+                                FirstName = (string)dataReader["FirstName"],
+                                LastName = (string)dataReader["LastName"],
+                                DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                                Email = (string)dataReader["Email"],
+                                PhoneNumber = (string)dataReader["PhoneNumber"],
+                                Image = (byte[])dataReader["Picture"],
+                                UserName = (string)dataReader["UserName"],
+                                Password = (string)dataReader["Password"],
+                                KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                                Gender = (string)dataReader["Gender"],
+                                EducationGrade = (string)dataReader["EducationGrade"],
+                                Profession = (string)dataReader["Profession"],
+                                WorkExperience = (string)dataReader["WorkExperience"],
+                            };
+
+                            guide.Places = GetGuidePalces(guide.Id);
+
+                            guides.Add(guide);
+                        }
+                    }
                 }
+
+                return guides;
+
             }
 
-            return guide;
-        }
-
-        public IEnumerable<PhotographerInfo> GetAllNonApprovedPhotographers()
-        {
-            var photographers = new List<PhotographerInfo>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
+            public GuideInfo GetNonApprovedGuideById(int id)
             {
-                var command = new SqlCommand
+                var guide = new GuideInfo();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllNonApprovedPhotographers"
-                };
 
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
+                    var command = new SqlCommand
                     {
-                        var photographer = new PhotographerInfo
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetNonApprovedGuideById"
+                    };
+
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        dataReader.Read();
+
+                        guide = new GuideInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            Gender = (string)dataReader["Gender"],
                             DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             Image = (byte[])dataReader["Image"],
                             UserName = (string)dataReader["UserName"],
+                            Gender = (string)dataReader["Gender"],
+                            EducationGrade = (string)dataReader["EducationGrade"],
+                            KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                            Profession = (string)dataReader["Profession"],
+                            WorkExperience = (string)dataReader["WorkExperience"],
+                        };
+
+                        guide.Places = GetGuidePalces(id);
+                    }
+                }
+
+                return guide;
+            }
+
+            public IEnumerable<PhotographerInfo> GetAllNonApprovedPhotographers()
+            {
+                var photographers = new List<PhotographerInfo>();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
+                {
+                    var command = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetAllNonApprovedPhotographers"
+                    };
+
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        while (dataReader.Read())
+                        {
+                            var photographer = new PhotographerInfo
+                            {
+                                Id = (int)dataReader["Id"],
+                                FirstName = (string)dataReader["FirstName"],
+                                LastName = (string)dataReader["LastName"],
+                                Gender = (string)dataReader["Gender"],
+                                DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                                Email = (string)dataReader["Email"],
+                                PhoneNumber = (string)dataReader["PhoneNumber"],
+                                Image = (byte[])dataReader["Image"],
+                                UserName = (string)dataReader["UserName"],
+                                KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                                HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
+                                HasDron = (bool)dataReader["HasDron"],
+                                HasGopro = (bool)dataReader["HasGopro"],
+                                Camera = new Camera
+                                {
+                                    Id = (int)dataReader["CameraId"],
+                                    Model = (string)dataReader["Model"],
+                                    IsProfessional = (bool)dataReader["IsProfessional"]
+                                },
+                                Profession = (string)dataReader["Profession"],
+                                WorkExperience = (string)dataReader["WorkExperiance"],
+                            };
+
+                            photographers.Add(photographer);
+                        }
+                    }
+                }
+
+                return photographers;
+            }
+
+            public PhotographerInfo GetNonApprovedPhotographerById(int id)
+            {
+                var photographer = new PhotographerInfo();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
+                {
+                    var command = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetNonApprovedPhotographerById"
+                    };
+
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        dataReader.Read();
+
+                        var camera = new Camera
+                        {
+                            Id = (int)dataReader["CameraId"],
+                            IsProfessional = (bool)dataReader["IsProfessional"],
+                            Model = (string)dataReader["Model"]
+                        };
+
+                        photographer = new PhotographerInfo
+                        {
+                            Id = (int)dataReader["Id"],
+                            FirstName = (string)dataReader["FirstName"],
+                            LastName = (string)dataReader["LastName"],
+                            Gender = (string)dataReader["Gender"],
+                            DateOfBirth = (DateTime)dataReader["Age"],
+                            Email = (string)dataReader["Email"],
+                            PhoneNumber = (string)dataReader["PhoneNumber"],
+                            Image = (byte[])dataReader["Picture"],
+                            UserName = (string)dataReader["UserName"],
+                            Camera = camera,
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
                             HasDron = (bool)dataReader["HasDron"],
                             HasGopro = (bool)dataReader["HasGopro"],
-                            Camera = new Camera
-                            {
-                                Id = (int)dataReader["CameraId"],
-                                Model = (string)dataReader["Model"],
-                                IsProfessional = (bool)dataReader["IsProfessional"]
-                            },
                             Profession = (string)dataReader["Profession"],
-                            WorkExperience = (string)dataReader["WorkExperiance"],
+                            WorkExperience = (string)dataReader["WorkExperience"],
                         };
-
-                        photographers.Add(photographer);
                     }
                 }
+
+                return photographer;
             }
 
-            return photographers;
-        }
-
-        public PhotographerInfo GetNonApprovedPhotographerById(int id)
-        {
-            var photographer = new PhotographerInfo();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
+            public IEnumerable<CarInfo> GetAllCars()
             {
-                var command = new SqlCommand
+                var cars = new List<CarInfo>();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetNonApprovedPhotographerById"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    dataReader.Read();
-
-                    var camera = new Camera
-                    {
-                        Id = (int)dataReader["CameraId"],
-                        IsProfessional = (bool)dataReader["IsProfessional"],
-                        Model = (string)dataReader["Model"]
-                    };
-
-                    photographer = new PhotographerInfo
-                    {
-                        Id = (int)dataReader["Id"],
-                        FirstName = (string)dataReader["FirstName"],
-                        LastName = (string)dataReader["LastName"],
-                        Gender = (string)dataReader["Gender"],
-                        DateOfBirth = (DateTime)dataReader["Age"],
-                        Email = (string)dataReader["Email"],
-                        PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (byte[])dataReader["Picture"],
-                        UserName = (string)dataReader["UserName"],
-                        Camera = camera,
-                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                        HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
-                        HasDron = (bool)dataReader["HasDron"],
-                        HasGopro = (bool)dataReader["HasGopro"],
-                        Profession = (string)dataReader["Profession"],
-                        WorkExperience = (string)dataReader["WorkExperience"],
-                    };
-                }
-            }
-
-            return photographer;
-        }
-
-        public IEnumerable<CarInfo> GetAllCars()
-        {
-            var cars = new List<CarInfo>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllCars"
-                };
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        var car = new CarInfo
-                        {
-                            Id = (int)dataReader["CarId"],
-                            DriverId = (int)dataReader["UserId"],
-                            Brand = (string)dataReader["Brand"],
-                            NumberOfSeats = (int)dataReader["NumberOfSeats"],
-                            FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = (byte[])dataReader["CarPicture1"],
-                            CarPicture2 = (byte[])dataReader["CarPicture2"],
-                            CarPicture3 = (byte[])dataReader["CarPicture3"],
-                            HasWiFi = (bool)dataReader["HasWiFi"],
-                            HasMicrophone = (bool)dataReader["HasMicrophone"],
-                            HasAirConditioner = (bool)dataReader["HasAirConditioner"],
-                            HasKitchen = (bool)dataReader["HasKitchen"],
-                            HasToilet = (bool)dataReader["HasToilet"],
-                        };
-
-                        cars.Add(car);
-                    }
-                }
-            }
-
-            return cars;
-        }
-
-        public IEnumerable<CarInfo> GetCarByNumberOfSeats(int numberOfSeats)
-        {
-            var cars = new List<CarInfo>();
-
-            using (var connection = new SqlConnection(sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetAllCars"
-                };
-                command.Parameters.AddWithValue("@numberOfSeats", numberOfSeats);
-
-                connection.Open();
-
-                var dataReader = command.ExecuteReader();
-
-                if (dataReader.HasRows)
-                {
-                    while (dataReader.Read())
-                    {
-                        var car = new CarInfo
-                        {
-                            Id = (int)dataReader["Id"],
-                            DriverId = (int)dataReader["UserId"],
-                            Brand = (string)dataReader["Brand"],
-                            NumberOfSeats = (int)dataReader["NumberOfSeats"],
-                            FuelType = (string)dataReader["FuelType"],
-                            CarPicture1 = (byte[])dataReader["CarPicture1"],
-                            CarPicture2 = (byte[])dataReader["CarPicture2"],
-                            CarPicture3 = (byte[])dataReader["CarPicture3"],
-                            HasWiFi = (bool)dataReader["HasWiFi"],
-                            HasMicrophone = (bool)dataReader["HasMicrophone"],
-                            HasAirConditioner = (bool)dataReader["HasAirConditioner"],
-                            HasKitchen = (bool)dataReader["HasKitchen"],
-                            HasToilet = (bool)dataReader["HasToilet"],
-                            LicensePlate=(string)dataReader["LicensePlate"]
-                        };
-
-                        cars.Add(car);
-                    }
-                }
-            }
-
-            return cars;
-        }
-
-        #endregion Getting
-
-        #region Updating
-        /// <summary>
-        /// Updates User info
-        /// </summary>
-        /// <param name="user"> User new info </param>
-        public void UpdateUserInfo(UserInfo user)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var updateCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateUserInfo"
-                };
-
-                updateCommand.Parameters.AddWithValue("@id", user.Id);
-                updateCommand.Parameters.AddWithValue("@firstName", user.FirstName);
-                updateCommand.Parameters.AddWithValue("@lastName", user.LastName);
-                updateCommand.Parameters.AddWithValue("@gender", user.Gender);
-                updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DateOfBirth);
-                updateCommand.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
-                updateCommand.Parameters.AddWithValue("@picture", user.Image);
-
-                connection.Open();
-
-                updateCommand.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
-        /// Updates Driver info
-        /// </summary>
-        /// <param name="driver"> new Driver </param>
-        public void UpdateDriverInfo(DriverInfo driver)
-        {
-            var user = new UserInfo
-            {
-                Id = driver.Id,
-                FirstName = driver.FirstName,
-                LastName = driver.LastName,
-                Gender = driver.Gender,
-                DateOfBirth = driver.DateOfBirth,
-                PhoneNumber = driver.PhoneNumber,
-                Image = driver.Image
-            };
-
-            UpdateUserInfo(user);
-
-            UpdateCarInfo(driver.Car);
-
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var updateCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateDriverInfo"
-                };
-
-                updateCommand.Parameters.AddWithValue("@userId", driver.Id);
-                updateCommand.Parameters.AddWithValue("@drivingLicencePicFront", driver.DrivingLicencePicFront);
-                updateCommand.Parameters.AddWithValue("@drivingLicencePicBack", driver.DrivingLicencePicBack);
-                updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", driver.KnowledgeOfLanguages);
-
-                connection.Open();
-
-                updateCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void UpdateCarInfo(Car car)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var updateCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateCarInfo"
-                };
-
-                updateCommand.Parameters.AddWithValue("@carId", car.Id);
-                updateCommand.Parameters.AddWithValue("@barnd", car.Brand);
-                updateCommand.Parameters.AddWithValue("@fuelType", car.FuelType);
-                updateCommand.Parameters.AddWithValue("@numberOfSeats", car.NumberOfSeats);
-                updateCommand.Parameters.AddWithValue("@licensePlate", car.LicensePlate);
-                updateCommand.Parameters.AddWithValue("@carPicture1", car.CarPicture1);
-                updateCommand.Parameters.AddWithValue("@carPicture2", car.CarPicture2);
-                updateCommand.Parameters.AddWithValue("@carPicture3", car.CarPicture3);
-                updateCommand.Parameters.AddWithValue("@hasAirConditioner", car.HasAirConditioner);
-                updateCommand.Parameters.AddWithValue("@hasWiFi", car.HasWiFi);
-                updateCommand.Parameters.AddWithValue("@hasToilet", car.HasToilet);
-                updateCommand.Parameters.AddWithValue("@hasMicrophone", car.HasMicrophone);
-                updateCommand.Parameters.AddWithValue("@hasKitchen", car.HasKitchen);
-
-                connection.Open();
-
-                updateCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void UpdateApproveValue(string userName, bool value)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var approveUpdateCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateApproveValue"
-                };
-
-                approveUpdateCommand.Parameters.AddWithValue("@userName", userName);
-                approveUpdateCommand.Parameters.AddWithValue("@approveNewValue", value);
-
-                connection.Open();
-
-                approveUpdateCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void UpdateGuideInfo(GuideInfo guide)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var updateCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateGuideInfo"
-                };
-
-                updateCommand.Parameters.AddWithValue("@id", guide.Id);
-                updateCommand.Parameters.AddWithValue("@firstName", guide.FirstName);
-                updateCommand.Parameters.AddWithValue("@lastName", guide.LastName);
-                updateCommand.Parameters.AddWithValue("@gender", guide.Gender);
-                updateCommand.Parameters.AddWithValue("@dateOfBirth", guide.DateOfBirth);
-                updateCommand.Parameters.AddWithValue("@phoneNumber", guide.PhoneNumber);
-                updateCommand.Parameters.AddWithValue("@picture", guide.Image);
-                updateCommand.Parameters.AddWithValue("@workExperience", guide.WorkExperience);
-                updateCommand.Parameters.AddWithValue("@profession", guide.Profession);
-                updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", guide.KnowledgeOfLanguages);
-                updateCommand.Parameters.AddWithValue("@educationGrade", guide.EducationGrade);
-                
-                connection.Open();
-
-                updateCommand.ExecuteNonQuery();
-            }
-
-            UpadateGuidePlaces(guide.Id, guide.Places);
-        }
-
-        public void UpadateGuidePlaces(int id, List<string> places)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                for(int i = 0; i < places.Count; i++)
-                {
-                    var command = new SqlCommand()
+                    var command = new SqlCommand
                     {
                         Connection = connection,
                         CommandType = System.Data.CommandType.StoredProcedure,
-                        CommandText = "UpdateGuidePlaces"
+                        CommandText = "GetAllCars"
                     };
-
-                    command.Parameters.AddWithValue("@id", id);
-                    command.Parameters.AddWithValue("@places", places[i]);
 
                     connection.Open();
 
-                    command.ExecuteNonQuery();
+                    var dataReader = command.ExecuteReader();
 
-                    connection.Close();
+                    if (dataReader.HasRows)
+                    {
+                        while (dataReader.Read())
+                        {
+                            var car = new CarInfo
+                            {
+                                Id = (int)dataReader["Id"],
+                                DriverId = (int)dataReader["UserId"],
+                                Brand = (string)dataReader["Brand"],
+                                NumberOfSeats = (int)dataReader["NumberOfSeats"],
+                                FuelType = (string)dataReader["FuelType"],
+                                HasWiFi = (bool)dataReader["HasWiFi"],
+                                HasMicrophone = (bool)dataReader["HasMicrophone"],
+                                HasAirConditioner = (bool)dataReader["HasAirConditioner"],
+                                HasKitchen = (bool)dataReader["HasKitchen"],
+                                HasToilet = (bool)dataReader["HasToilet"],
+                            };
+                            if (dataReader["CarPicture1"] != DBNull.Value)
+                            {
+                                car.CarPicture1 = (byte[])dataReader["CarPicture1"];
+                            }
+                            if (dataReader["CarPicture2"] != DBNull.Value)
+                            {
+                                car.CarPicture2 = (byte[])dataReader["CarPicture2"];
+                            }
+                            if (dataReader["CarPicture3"] != DBNull.Value)
+                            {
+                                car.CarPicture3 = (byte[])dataReader["CarPicture3"];
+                            }
+                            cars.Add(car);
+                        }
+                    }
+                }
+
+                return cars;
+            }
+
+            public IEnumerable<CarInfo> GetCarByNumberOfSeats(int numberOfSeats)
+            {
+                var cars = new List<CarInfo>();
+
+                using (var connection = new SqlConnection(sqlConnectionString))
+                {
+                    var command = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetCarsByNumberOfSeats"
+                    };
+                    command.Parameters.AddWithValue("@numberOfSeats", numberOfSeats);
+
+                    connection.Open();
+
+                    var dataReader = command.ExecuteReader();
+
+                    if (dataReader.HasRows)
+                    {
+                        while (dataReader.Read())
+                        {
+                            var car = new CarInfo
+                            {
+                                Id = (int)dataReader["Id"],
+                                DriverId = (int)dataReader["UserId"],
+                                Brand = (string)dataReader["Brand"],
+                                NumberOfSeats = (int)dataReader["NumberOfSeats"],
+                                FuelType = (string)dataReader["FuelType"],
+                                HasWiFi = (bool)dataReader["HasWiFi"],
+                                HasMicrophone = (bool)dataReader["HasMicrophone"],
+                                HasAirConditioner = (bool)dataReader["HasAirConditioner"],
+                                HasKitchen = (bool)dataReader["HasKitchen"],
+                                HasToilet = (bool)dataReader["HasToilet"],
+                                LicensePlate = (string)dataReader["LicensePlate"]
+                            };
+
+                            if (dataReader["CarPicture1"] != DBNull.Value)
+                            {
+                                car.CarPicture1 = (byte[])dataReader["CarPicture1"];
+                            }
+                            if (dataReader["CarPicture2"] != DBNull.Value)
+                            {
+                                car.CarPicture2 = (byte[])dataReader["CarPicture2"];
+                            }
+                            if (dataReader["CarPicture3"] != DBNull.Value)
+                            {
+                                car.CarPicture3 = (byte[])dataReader["CarPicture3"];
+                            }
+
+                            cars.Add(car);
+                        }
+                    }
+                }
+
+                return cars;
+            }
+
+            #endregion Getting
+
+            #region Updating
+            /// <summary>
+            /// Updates User info
+            /// </summary>
+            /// <param name="user"> User new info </param>
+            public void UpdateUserInfo(UserInfo user)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var updateCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UpdateUserInfo"
+                    };
+
+                    updateCommand.Parameters.AddWithValue("@id", user.Id);
+                    updateCommand.Parameters.AddWithValue("@firstName", user.FirstName);
+                    updateCommand.Parameters.AddWithValue("@lastName", user.LastName);
+                    updateCommand.Parameters.AddWithValue("@gender", user.Gender);
+                    updateCommand.Parameters.AddWithValue("@dateOfBirth", user.DateOfBirth);
+                    updateCommand.Parameters.AddWithValue("@phoneNumber", user.PhoneNumber);
+                    updateCommand.Parameters.AddWithValue("@picture", user.Image);
+
+                    connection.Open();
+
+                    updateCommand.ExecuteNonQuery();
                 }
             }
-        }
 
-        /// <summary>
-        /// Updates Photographer info
-        /// </summary>
-        /// <param name="photographer"> New Photographer </param>
-        public void UpdatePhotographerInfo(PhotographerInfo photographer)
-        {
-            var user = new UserInfo
+            /// <summary>
+            /// Updates Driver info
+            /// </summary>
+            /// <param name="driver"> new Driver </param>
+            public void UpdateDriverInfo(DriverInfo driver)
             {
-                Id = photographer.Id,
-                FirstName = photographer.FirstName,
-                LastName = photographer.LastName,
-                Gender = photographer.Gender,
-                DateOfBirth = photographer.DateOfBirth,
-                PhoneNumber = photographer.PhoneNumber,
-                Image = photographer.Image
-            };
-
-            UpdateUserInfo(user);
-
-            UpdateCamera(photographer.Camera);
-
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var updateCommand = new SqlCommand
+                var user = new UserInfo
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdatePhotographerInfo"
+                    Id = driver.Id,
+                    FirstName = driver.FirstName,
+                    LastName = driver.LastName,
+                    Gender = driver.Gender,
+                    DateOfBirth = driver.DateOfBirth,
+                    PhoneNumber = driver.PhoneNumber,
+                    Image = driver.Image
                 };
 
-                updateCommand.Parameters.AddWithValue("@userId", photographer.Id);
-                updateCommand.Parameters.AddWithValue("@profession", photographer.FirstName);
-                updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", photographer.LastName);
-                updateCommand.Parameters.AddWithValue("@workExperience", photographer.Gender);
-                updateCommand.Parameters.AddWithValue("@hasDron", photographer.DateOfBirth);
-                updateCommand.Parameters.AddWithValue("@hasCameraStabilizator", photographer.PhoneNumber);
-                updateCommand.Parameters.AddWithValue("@hasGopro", photographer.Email);
-                updateCommand.Parameters.AddWithValue("@rating", photographer.Raiting);
+                UpdateUserInfo(user);
 
-                connection.Open();
+                UpdateCarInfo(driver.Car);
 
-                updateCommand.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
-        /// Updates camera info
-        /// </summary>
-        /// <param name="camera"> New Camera </param>
-        public void UpdateCamera(Camera camera)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var updateCommand = new SqlCommand
+                using (var connection = new SqlConnection(this.sqlConnectionString))
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UpdateCameraInfo"
-                };
-
-                updateCommand.Parameters.AddWithValue("@id", camera.Id);
-                updateCommand.Parameters.AddWithValue("@isProfessional", camera.IsProfessional);
-                updateCommand.Parameters.AddWithValue("@model", camera.Model);
-
-                connection.Open();
-
-                updateCommand.ExecuteNonQuery();
-            }
-        }
-
-        #endregion Updating
-
-        #region Deleting
-
-        /// <summary>
-        /// Deletes user from database
-        /// </summary>
-        /// <param name="id"> User id </param>
-        public void DeleteUser(int id)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteUser"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@id", id);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void DeleteGuide(int id)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteGuide"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@id", id);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
-        /// Deletes Driver and  his car from database
-        /// </summary>
-        /// <param name="id"> Driver id </param>
-        public void DeleteDriver(int id)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteDriver"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@id", id);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        /// <summary>
-        /// Deletes Photographer and  his camera from database
-        /// </summary>
-        /// <param name="id"> Photographer id </param>
-        public void DeletePhotographer(int id)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeletePhotographer"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@id", id);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        public async void DeleteUserFromCampingTripsMember(int id)
-        {
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("campingTrip");
-
-            if (!tokenResponse.IsError)
-            {
-                httpClient.SetBearerToken(tokenResponse.AccessToken);
-
-                var response = await httpClient.GetAsync($"api/MembersOfCampingTrip/{id}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = response.Content;
-
-                    var tripsIdJson = await content.ReadAsStringAsync();
-
-                    var tripsId = JsonConvert.DeserializeObject<List<string>>(tripsIdJson);
-
-                    if (tripsId != null)
+                    var updateCommand = new SqlCommand
                     {
-                        foreach (var tripId in tripsId)
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UpdateDriverInfo"
+                    };
+
+                    updateCommand.Parameters.AddWithValue("@userId", driver.Id);
+                    updateCommand.Parameters.AddWithValue("@drivingLicencePicFront", driver.DrivingLicencePicFront);
+                    updateCommand.Parameters.AddWithValue("@drivingLicencePicBack", driver.DrivingLicencePicBack);
+                    updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", driver.KnowledgeOfLanguages);
+
+                    connection.Open();
+
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+
+            public void UpdateCarInfo(Car car)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var updateCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UpdateCarInfo"
+                    };
+
+                    updateCommand.Parameters.AddWithValue("@carId", car.Id);
+                    updateCommand.Parameters.AddWithValue("@barnd", car.Brand);
+                    updateCommand.Parameters.AddWithValue("@fuelType", car.FuelType);
+                    updateCommand.Parameters.AddWithValue("@numberOfSeats", car.NumberOfSeats);
+                    updateCommand.Parameters.AddWithValue("@licensePlate", car.LicensePlate);
+                    updateCommand.Parameters.AddWithValue("@carPicture1", car.CarPicture1);
+                    updateCommand.Parameters.AddWithValue("@carPicture2", car.CarPicture2);
+                    updateCommand.Parameters.AddWithValue("@carPicture3", car.CarPicture3);
+                    updateCommand.Parameters.AddWithValue("@hasAirConditioner", car.HasAirConditioner);
+                    updateCommand.Parameters.AddWithValue("@hasWiFi", car.HasWiFi);
+                    updateCommand.Parameters.AddWithValue("@hasToilet", car.HasToilet);
+                    updateCommand.Parameters.AddWithValue("@hasMicrophone", car.HasMicrophone);
+                    updateCommand.Parameters.AddWithValue("@hasKitchen", car.HasKitchen);
+
+                    connection.Open();
+
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+
+            public void UpdateApproveValue(string userName, bool value)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var approveUpdateCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UpdateApproveValue"
+                    };
+
+                    approveUpdateCommand.Parameters.AddWithValue("@userName", userName);
+                    approveUpdateCommand.Parameters.AddWithValue("@approveNewValue", value);
+
+                    connection.Open();
+
+                    approveUpdateCommand.ExecuteNonQuery();
+                }
+            }
+
+            public void UpdateGuideInfo(GuideInfo guide)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var updateCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UpdateGuideInfo"
+                    };
+
+                    updateCommand.Parameters.AddWithValue("@id", guide.Id);
+                    updateCommand.Parameters.AddWithValue("@firstName", guide.FirstName);
+                    updateCommand.Parameters.AddWithValue("@lastName", guide.LastName);
+                    updateCommand.Parameters.AddWithValue("@gender", guide.Gender);
+                    updateCommand.Parameters.AddWithValue("@dateOfBirth", guide.DateOfBirth);
+                    updateCommand.Parameters.AddWithValue("@phoneNumber", guide.PhoneNumber);
+                    updateCommand.Parameters.AddWithValue("@picture", guide.Image);
+                    updateCommand.Parameters.AddWithValue("@workExperience", guide.WorkExperience);
+                    updateCommand.Parameters.AddWithValue("@profession", guide.Profession);
+                    updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", guide.KnowledgeOfLanguages);
+                    updateCommand.Parameters.AddWithValue("@educationGrade", guide.EducationGrade);
+
+                    connection.Open();
+
+                    updateCommand.ExecuteNonQuery();
+                }
+
+                UpadateGuidePlaces(guide.Id, guide.Places);
+            }
+
+            public void UpadateGuidePlaces(int id, List<string> places)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    for (int i = 0; i < places.Count; i++)
+                    {
+                        var command = new SqlCommand()
                         {
-                            await httpClient.DeleteAsync($"api/MembersOfCampingTrip/{id}/{tripsId}");
+                            Connection = connection,
+                            CommandType = System.Data.CommandType.StoredProcedure,
+                            CommandText = "UpdateGuidePlaces"
+                        };
+
+                        command.Parameters.AddWithValue("@id", id);
+                        command.Parameters.AddWithValue("@places", places[i]);
+
+                        connection.Open();
+
+                        command.ExecuteNonQuery();
+
+                        connection.Close();
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Updates Photographer info
+            /// </summary>
+            /// <param name="photographer"> New Photographer </param>
+            public void UpdatePhotographerInfo(PhotographerInfo photographer)
+            {
+                var user = new UserInfo
+                {
+                    Id = photographer.Id,
+                    FirstName = photographer.FirstName,
+                    LastName = photographer.LastName,
+                    Gender = photographer.Gender,
+                    DateOfBirth = photographer.DateOfBirth,
+                    PhoneNumber = photographer.PhoneNumber,
+                    Image = photographer.Image
+                };
+
+                UpdateUserInfo(user);
+
+                UpdateCamera(photographer.Camera);
+
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var updateCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UpdatePhotographerInfo"
+                    };
+
+                    updateCommand.Parameters.AddWithValue("@userId", photographer.Id);
+                    updateCommand.Parameters.AddWithValue("@profession", photographer.FirstName);
+                    updateCommand.Parameters.AddWithValue("@knowledgeOfLanguages", photographer.LastName);
+                    updateCommand.Parameters.AddWithValue("@workExperience", photographer.Gender);
+                    updateCommand.Parameters.AddWithValue("@hasDron", photographer.DateOfBirth);
+                    updateCommand.Parameters.AddWithValue("@hasCameraStabilizator", photographer.PhoneNumber);
+                    updateCommand.Parameters.AddWithValue("@hasGopro", photographer.Email);
+                    updateCommand.Parameters.AddWithValue("@rating", photographer.Raiting);
+
+                    connection.Open();
+
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+
+            /// <summary>
+            /// Updates camera info
+            /// </summary>
+            /// <param name="camera"> New Camera </param>
+            public void UpdateCamera(Camera camera)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var updateCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UpdateCameraInfo"
+                    };
+
+                    updateCommand.Parameters.AddWithValue("@id", camera.Id);
+                    updateCommand.Parameters.AddWithValue("@isProfessional", camera.IsProfessional);
+                    updateCommand.Parameters.AddWithValue("@model", camera.Model);
+
+                    connection.Open();
+
+                    updateCommand.ExecuteNonQuery();
+                }
+            }
+
+            #endregion Updating
+
+            #region Deleting
+
+            /// <summary>
+            /// Deletes user from database
+            /// </summary>
+            /// <param name="id"> User id </param>
+            public void DeleteUser(int id)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var deleteCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DeleteUser"
+                    };
+
+                    deleteCommand.Parameters.AddWithValue("@id", id);
+
+                    connection.Open();
+
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+
+            public void DeleteGuide(int id)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var deleteCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DeleteGuide"
+                    };
+
+                    deleteCommand.Parameters.AddWithValue("@id", id);
+
+                    connection.Open();
+
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+
+            /// <summary>
+            /// Deletes Driver and  his car from database
+            /// </summary>
+            /// <param name="id"> Driver id </param>
+            public void DeleteDriver(int id)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var deleteCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DeleteDriver"
+                    };
+
+                    deleteCommand.Parameters.AddWithValue("@id", id);
+
+                    connection.Open();
+
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+
+            /// <summary>
+            /// Deletes Photographer and  his camera from database
+            /// </summary>
+            /// <param name="id"> Photographer id </param>
+            public void DeletePhotographer(int id)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var deleteCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DeletePhotographer"
+                    };
+
+                    deleteCommand.Parameters.AddWithValue("@id", id);
+
+                    connection.Open();
+
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+
+            public async void DeleteUserFromCampingTripsMember(int id)
+            {
+                var tokenResponse = await tokenClient.RequestClientCredentialsAsync("campingTrip");
+
+                if (!tokenResponse.IsError)
+                {
+                    httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+                    var response = await httpClient.GetAsync($"api/MembersOfCampingTrip/{id}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = response.Content;
+
+                        var tripsIdJson = await content.ReadAsStringAsync();
+
+                        var tripsId = JsonConvert.DeserializeObject<List<string>>(tripsIdJson);
+
+                        if (tripsId != null)
+                        {
+                            foreach (var tripId in tripsId)
+                            {
+                                await httpClient.DeleteAsync($"api/MembersOfCampingTrip/{id}/{tripsId}");
+                            }
                         }
+                    }
+                    else
+                    {
+                        throw new Exception($"{response.ToString()}");
                     }
                 }
                 else
                 {
-                    throw new Exception($"{response.ToString()}");
+                    throw new Exception($"{tokenResponse.ErrorDescription}");
+                }
+
+            }
+
+            public async void DeleteDriverFromCampingTrips(int id)
+            {
+                var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
+
+                if (!tokenResponse.IsError)
+                {
+                    httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+                    var response = await httpClient.GetAsync($"api/DriverTrips/{id}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = response.Content;
+
+                        var tripsJson = await content.ReadAsStringAsync();
+
+                        var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
+
+                        foreach (var trip in trips)
+                        {
+                            await httpClient.DeleteAsync($"api/TripsDriverManagemant/{trip.ID}");
+                        }
+                    }
+                    {
+                        throw new Exception($"{response.StatusCode}");
+                    }
+                }
+                else
+                {
+                    throw new Exception($"{tokenResponse.ErrorDescription}");
                 }
             }
-            else
+
+            public async void DeletePhotographerFromCampingTrips(int id)
             {
-                throw new Exception($"{tokenResponse.ErrorDescription}");
+                var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
+
+                if (!tokenResponse.IsError)
+                {
+                    httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+                    var response = await httpClient.GetAsync($"api/PhotographerTrips/{id}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = response.Content;
+
+                        var tripsJson = await content.ReadAsStringAsync();
+
+                        var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
+
+                        foreach (var trip in trips)
+                        {
+                            await httpClient.DeleteAsync($"api/TripsPhotographerManagemant/{trip.ID}");
+                        }
+                    }
+                    {
+                        throw new Exception($"{response.StatusCode}");
+                    }
+                }
+                else
+                {
+                    throw new Exception($"{tokenResponse.ErrorDescription}");
+                }
             }
 
-        }
-
-        public async void DeleteDriverFromCampingTrips(int id)
-        {
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
-
-            if (!tokenResponse.IsError)
+            public async void DeleteGuideFromCampingTrips(int id)
             {
+                var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
+
+                if (!tokenResponse.IsError)
+                {
+                    httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+                    var response = await httpClient.GetAsync($"api/GuideTrips/{id}");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = response.Content;
+
+                        var tripsJson = await content.ReadAsStringAsync();
+
+                        var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
+
+                        foreach (var trip in trips)
+                        {
+                            await httpClient.DeleteAsync($"api/TripsGuideManagemant/{trip.ID}");
+                        }
+                    }
+                    {
+                        throw new Exception($"{response.StatusCode}");
+                    }
+                }
+                else
+                {
+                    throw new Exception($"{tokenResponse.ErrorDescription}");
+                }
+            }
+
+            public void DeleteUserVerification(string userName)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var deleteCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DeleteUserVerification"
+                    };
+
+                    deleteCommand.Parameters.AddWithValue("@userName", userName);
+
+                    connection.Open();
+
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+
+            public void DeleteDriverVerification(string userName)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var deleteCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DeleteDriverVerification"
+                    };
+
+                    deleteCommand.Parameters.AddWithValue("@userName", userName);
+
+                    connection.Open();
+
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+
+            public void DeleteGuideVerification(string userName)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var deleteCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DeleteGuideVerification"
+                    };
+
+                    deleteCommand.Parameters.AddWithValue("@userName", userName);
+
+                    connection.Open();
+
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+
+            public void DeletePhotographerVerification(string userName)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var deleteCommand = new SqlCommand
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "DeletePhotographerVerification"
+                    };
+
+                    deleteCommand.Parameters.AddWithValue("@userName", userName);
+
+                    connection.Open();
+
+                    deleteCommand.ExecuteNonQuery();
+                }
+            }
+
+            #endregion Deleting
+
+            #region Validating
+
+            public async Task<bool> IsOrganaizer(int id)
+            {
+                var tokenResponse = await tokenClient.RequestClientCredentialsAsync("campingTrip");
+
                 httpClient.SetBearerToken(tokenResponse.AccessToken);
 
-                var response = await httpClient.GetAsync($"api/DriverTrips/{id}");
+                var response = await httpClient.GetAsync($"IsOrganizer/{id}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var content = response.Content;
 
-                    var tripsJson = await content.ReadAsStringAsync();
+                    var isOrganizerJson = await content.ReadAsStringAsync();
 
-                    var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
+                    var isOrganizer = JsonConvert.DeserializeObject<bool>(isOrganizerJson);
 
-                    foreach(var trip in trips)
+                    return isOrganizer;
+                }
+                else
+                {
+                    throw new Exception("Camping Trip Api not responded");
+                }
+            }
+
+            public bool CodeIsValid(VerificationInfo verification)
+            {
+                using (var connection = new SqlConnection(this.sqlConnectionString))
+                {
+                    var command = new SqlCommand
                     {
-                        await httpClient.DeleteAsync($"api/TripsDriverManagemant/{trip.ID}");
-                    }
-                }
-                {
-                    throw new Exception($"{response.StatusCode}");
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "GetVerificationCode"
+                    };
+
+                    command.Parameters.AddWithValue("@userName", verification.UserName);
+
+                    connection.Open();
+
+                    var reader = command.ExecuteReader();
+
+                    if (!reader.HasRows) return false;
+
+                    reader.Read();
+
+                    if ((int)reader["Code"] == verification.Code) return true;
+
+                    return false;
                 }
             }
-            else
+
+            public bool IsValidUserName(string userName)
             {
-                throw new Exception($"{tokenResponse.ErrorDescription}");
-            }
-        }
-
-        public async void DeletePhotographerFromCampingTrips(int id)
-        {
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
-
-            if (!tokenResponse.IsError)
-            {
-                httpClient.SetBearerToken(tokenResponse.AccessToken);
-
-                var response = await httpClient.GetAsync($"api/PhotographerTrips/{id}");
-
-                if (response.IsSuccessStatusCode)
+                using (var connection = new SqlConnection(this.sqlConnectionString))
                 {
-                    var content = response.Content;
-
-                    var tripsJson = await content.ReadAsStringAsync();
-
-                    var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
-
-                    foreach (var trip in trips)
+                    var command = new SqlCommand
                     {
-                        await httpClient.DeleteAsync($"api/TripsPhotographerManagemant/{trip.ID}");
-                    }
-                }
-                {
-                    throw new Exception($"{response.StatusCode}");
-                }
-            }
-            else
-            {
-                throw new Exception($"{tokenResponse.ErrorDescription}");
-            }
-        }
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "UserNameCount"
+                    };
 
-        public  async void DeleteGuideFromCampingTrips(int id)
-        {
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("userManagemet");
+                    command.Parameters.AddWithValue("@userName", userName);
 
-            if (!tokenResponse.IsError)
-            {
-                httpClient.SetBearerToken(tokenResponse.AccessToken);
+                    connection.Open();
 
-                var response = await httpClient.GetAsync($"api/GuideTrips/{id}");
+                    var count = (int)command.ExecuteScalar();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = response.Content;
+                    if (count == 0) return true;
 
-                    var tripsJson = await content.ReadAsStringAsync();
-
-                    var trips = JsonConvert.DeserializeObject<List<CampingTrip>>(tripsJson);
-
-                    foreach (var trip in trips)
-                    {
-                        await httpClient.DeleteAsync($"api/TripsGuideManagemant/{trip.ID}");
-                    }
-                }
-                {
-                    throw new Exception($"{response.StatusCode}");
+                    return false;
                 }
             }
-            else
-            {
-                throw new Exception($"{tokenResponse.ErrorDescription}");
-            }
+
+            #endregion Validating
         }
-
-        public void DeleteUserVerification(string userName)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteUserVerification"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@userName", userName);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void DeleteDriverVerification(string userName)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteDriverVerification"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@userName", userName);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void DeleteGuideVerification(string userName)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeleteGuideVerification"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@userName", userName);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        public void DeletePhotographerVerification(string userName)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var deleteCommand = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "DeletePhotographerVerification"
-                };
-
-                deleteCommand.Parameters.AddWithValue("@userName", userName);
-
-                connection.Open();
-
-                deleteCommand.ExecuteNonQuery();
-            }
-        }
-
-        #endregion Deleting
-
-        #region Validating
-
-        public async Task<bool> IsOrganaizer(int id)
-        {
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync("campingTrip");
-
-            httpClient.SetBearerToken(tokenResponse.AccessToken);
-
-            var response = await httpClient.GetAsync($"IsOrganizer/{id}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = response.Content;
-
-                var isOrganizerJson = await content.ReadAsStringAsync();
-
-                var isOrganizer = JsonConvert.DeserializeObject<bool>(isOrganizerJson);
-
-                return isOrganizer;
-            }
-            else
-            {
-                throw new Exception("Camping Trip Api not responded");
-            }
-        }
-
-        public bool CodeIsValid(VerificationInfo verification)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "GetVerificationCode"
-                };
-
-                command.Parameters.AddWithValue("@userName", verification.UserName);
-
-                connection.Open();
-
-                var reader = command.ExecuteReader();
-
-                if (!reader.HasRows) return false;
-
-                reader.Read();
-
-                if ((int)reader["Code"] == verification.Code) return true;
-
-                return false;
-            }
-        }
-
-        public bool IsValidUserName(string userName)
-        {
-            using (var connection = new SqlConnection(this.sqlConnectionString))
-            {
-                var command = new SqlCommand
-                {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "UserNameCount"
-                };
-
-                command.Parameters.AddWithValue("@userName", userName);
-
-                connection.Open();
-
-                var count = (int)command.ExecuteScalar();
-
-                if (count == 0) return true;
-
-                return false;
-            }
-        }
-
-        #endregion Validating
     }
-}

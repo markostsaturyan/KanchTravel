@@ -41,8 +41,8 @@ namespace UserManagement.Verification
             // constructing message
             var mail = new MailMessage
             {
-                From = new MailAddress("no-reply.recipeverify@gmail.com"),
-                Subject = "Recipe User Verify Service",
+                From = new MailAddress("kanchhiking@gmail.com"),
+                Subject = "Kanch User Verify Service",
                 Body = verifyKey
             };
 
