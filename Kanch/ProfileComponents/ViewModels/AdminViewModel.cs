@@ -29,6 +29,7 @@ namespace Kanch.ProfileComponents.ViewModels
         public ICommand GetMyPreviousTripsCommand { get; set; }
         public ICommand GetUnconfirmedCampingTripsCommand { get; set; }
         public ICommand RegistrationOfTheTripCommand { get; set; }
+        public ICommand GetRequestsResponsesCommand { get; set; }
 
         private HttpClient httpClient;
         private TokenClient tokenClient;
@@ -49,11 +50,20 @@ namespace Kanch.ProfileComponents.ViewModels
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
             this.GetMyPreviousTripsCommand = new Command(o => GetMyPreviousTris());
             this.GetUnconfirmedCampingTripsCommand = new Command(o => GetUnconfirmedCampingTrips());
+            this.GetRequestsResponsesCommand = new Command(o => GetRequestsResponses());
             this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
             ConnectToServer();
             this.httpClient = new HttpClient();
             this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
             GetUserInfo();
+        }
+
+        private void GetRequestsResponses()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("TripsManagementOfAdminView") as DataTemplate;
         }
 
         private void RegistrationOfTheTrip()

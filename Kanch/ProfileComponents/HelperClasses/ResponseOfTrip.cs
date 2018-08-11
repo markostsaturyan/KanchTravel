@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Kanch.ProfileComponents.HelperClasses
 {
@@ -26,15 +27,15 @@ namespace Kanch.ProfileComponents.HelperClasses
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        ICommand SelectDriver { get; set; }
-        ICommand SelectGuide { get; set; }
-        ICommand SelectPhotographer { get; set; }
+        public ICommand SelectDriver { get; set; }
+        public ICommand SelectGuide { get; set; }
+        public ICommand SelectPhotographer { get; set; }
 
-        ICommand RemoveDriver { get; set; }
-        ICommand RemoveGuide { get; set; }
-        ICommand RemovePhotographer { get; set; }
+        public ICommand RemoveDriver { get; set; }
+        public ICommand RemoveGuide { get; set; }
+        public ICommand RemovePhotographer { get; set; }
 
-        ICommand AcceptTrip { get; set; }
+        public ICommand AcceptTrip { get; set; }
 
         public bool DriverIsSelected
         {
@@ -89,7 +90,31 @@ namespace Kanch.ProfileComponents.HelperClasses
             }
         }
 
-        public CampingTripInfo CampingTrip { get; set; }
+        public CampingTripInfo CampingTrip {
+            get
+            {
+                return this.campingTrip;
+
+
+            }
+            set
+            {
+                this.campingTrip = value;
+
+                if (campingTrip.Driver != null)
+                {
+                    DriverIsSelected = true;
+                }
+                if (campingTrip.Guide != null)
+                {
+                    GuideIsSelected = true;
+                }
+                if (campingTrip.Photographer != null)
+                {
+                    PhotographerIsSelected = true;
+                }
+            }
+        }
 
         private ServiceRequestResponse selectedDriverResponse;
         public ObservableCollection<ServiceRequestResponse> DriversResponses { get; set; }
@@ -98,6 +123,8 @@ namespace Kanch.ProfileComponents.HelperClasses
         public ObservableCollection<ServiceRequestResponse> GudiesResponses { get; set; }
 
         private ServiceRequestResponse selectedPhotographerResponse;
+        private CampingTripInfo campingTrip;
+
         public ObservableCollection<ServiceRequestResponse> PhotographersResponses { get; set; }
 
         public ResponseOfTrip(TokenClient tokenClient)
@@ -105,6 +132,10 @@ namespace Kanch.ProfileComponents.HelperClasses
             this.providersTotalPrice = 0;
 
             this.tokenClient = tokenClient;
+
+            this.DriversResponses = new ObservableCollection<ServiceRequestResponse>();
+            this.GudiesResponses = new ObservableCollection<ServiceRequestResponse>();
+            this.PhotographersResponses = new ObservableCollection<ServiceRequestResponse>();
 
             SelectDriver = new Command(AcceptDriverAsync);
             SelectGuide = new Command(AcceptGuideAsync);
@@ -114,7 +145,6 @@ namespace Kanch.ProfileComponents.HelperClasses
             RemoveGuide = new Command((_) => DeleteGuide());
             RemovePhotographer = new Command((_) => DeletePhotographer());
 
-            AcceptTrip = new Command(_ => AcceptTripAsync());
         }
 
         public async void AcceptDriverAsync(object providerId)
@@ -177,12 +207,32 @@ namespace Kanch.ProfileComponents.HelperClasses
                 KnowledgeOfLanguages = driver.KnowledgeOfLanguages,
                 Email = driver.Email,
                 Gender = driver.Gender,
-                Image = ImageConverter.ConvertImageToImageSource(driver.Image),
                 NumberOfAppraisers = driver.NumberOfAppraisers,
                 PhoneNumber = driver.PhoneNumber,
                 Rating = driver.Rating,
                 Car = car
             };
+
+            if (driverInfo.Image != null)
+            {
+                driverInfo.Image = ImageConverter.ConvertImageToImageSource(driver.Image);
+            }
+            else
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                if (driverInfo.Gender == "Female")
+                {
+                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
+                }
+                else
+                {
+                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
+                }
+                img.EndInit();
+                driverInfo.Image = img;
+            }
+
 
             return driverInfo;
         }
@@ -228,7 +278,6 @@ namespace Kanch.ProfileComponents.HelperClasses
                 KnowledgeOfLanguages = guide.KnowledgeOfLanguages,
                 Email = guide.Email,
                 Gender = guide.Gender,
-                Image = ImageConverter.ConvertImageToImageSource(guide.Image),
                 NumberOfAppraisers = guide.NumberOfAppraisers,
                 PhoneNumber = guide.PhoneNumber,
                 Rating = guide.Rating,
@@ -237,6 +286,26 @@ namespace Kanch.ProfileComponents.HelperClasses
                 WorkExperience=guide.WorkExperience,
                 Profession=guide.Profession
             };
+
+            if (guideInfo.Image != null)
+            {
+                guideInfo.Image = ImageConverter.ConvertImageToImageSource(guide.Image);
+            }
+            else
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                if (guideInfo.Gender == "Female")
+                {
+                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
+                }
+                else
+                {
+                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
+                }
+                img.EndInit();
+                guideInfo.Image = img;
+            }
 
             return guideInfo;
         }
@@ -293,7 +362,6 @@ namespace Kanch.ProfileComponents.HelperClasses
                 KnowledgeOfLanguages = photographer.KnowledgeOfLanguages,
                 Email = photographer.Email,
                 Gender = photographer.Gender,
-                Image = ImageConverter.ConvertImageToImageSource(photographer.Image),
                 NumberOfAppraisers = photographer.NumberOfAppraisers,
                 PhoneNumber = photographer.PhoneNumber,
                 Raiting = photographer.Raiting,
@@ -304,6 +372,26 @@ namespace Kanch.ProfileComponents.HelperClasses
                 HasGopro=photographer.HasGopro,
                 Camera=camera
             };
+
+            if (photographerInfo.Image != null)
+            {
+                photographerInfo.Image = ImageConverter.ConvertImageToImageSource(photographer.Image);
+            }
+            else
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                if (photographerInfo.Gender == "Female")
+                {
+                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
+                }
+                else
+                {
+                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
+                }
+                img.EndInit();
+                photographerInfo.Image = img;
+            }
 
             return photographerInfo;
         }
@@ -341,20 +429,7 @@ namespace Kanch.ProfileComponents.HelperClasses
             CampingTrip.Photographer = new PhotographerInfo();
         }
 
-        public async void AcceptTripAsync()
-        {
-            var tokenResponse =await tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]);
-
-            var httpClient = new HttpClient();
-
-            httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"]);
-
-            httpClient.SetBearerToken(tokenResponse.AccessToken);
-
-            var tripJson = JsonConvert.SerializeObject(CampingTrip);
-
-            await httpClient.PostAsync($"api/CampingTrips/{CampingTrip.ID}", new StringContent(tripJson));
-        }
+       
 
         public void AddServiceRequestResponce(ServiceRequestResponse response)
         {
@@ -362,19 +437,19 @@ namespace Kanch.ProfileComponents.HelperClasses
             {
                 case "Driver":
                     {
-                        DriversResponses.Add(response);
+                        this.DriversResponses.Add(response);
 
                         break;
                     }
                 case "Guide":
                     {
-                        GudiesResponses.Add(response);
+                        this.GudiesResponses.Add(response);
 
                         break;
                     }
                 case "Photographer":
                     {
-                        PhotographersResponses.Add(response);
+                        this.PhotographersResponses.Add(response);
 
                         break;
                     }

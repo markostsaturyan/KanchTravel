@@ -583,6 +583,10 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             {
                 fullTrip.Guide = await GetTripGuideAsync(trip.GuideID);
             }
+            if (trip.OrganzierID != 0)
+            {
+                fullTrip.Organizer = await GetUserAsync(trip.OrganzierID);
+            }
 
             return fullTrip;
         }

@@ -61,8 +61,10 @@ namespace Kanch.ProfileComponents.ViewModels
                     var campingTripJsonContent = campingTripContent.ReadAsStringAsync().Result;
 
                     var trip = JsonConvert.DeserializeObject<CampingTrip>(campingTripJsonContent);
+
                     var campingtrip = new CampingTripRequests()
                     {
+                        ID = trip.ID,
                         Place = trip.Place,
                         DepartureDate = trip.DepartureDate,
                         ArrivalDate = trip.ArrivalDate,
@@ -98,7 +100,7 @@ namespace Kanch.ProfileComponents.ViewModels
         }
         public void AcceptRequest(object request)
         {
-                var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 

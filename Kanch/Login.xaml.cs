@@ -32,26 +32,11 @@ namespace Kanch
 
         public Login()
         {
-            if (ConfigurationManager.AppSettings["refresToken"] != "" &&
-                ConfigurationManager.AppSettings["userId"] != "" &&
-                ConfigurationManager.AppSettings["role"] != "")
-            {
-                var profile = new Profile();
-
-                Application.Current.MainWindow = profile;
-
-                profile.Show();
-
-                this.Close();
-
-                return;
-            }
-
             InitializeComponent();
-
+            Uri iconUri = new Uri("pack://application:,,,/Images/KanchLogo.png", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             ConnectToServerAsync();
         }
-
         private void RegistrationClick(object sender, RoutedEventArgs e)
         {
 
@@ -123,8 +108,6 @@ namespace Kanch
             config.Save(ConfigurationSaveMode.Modified);
 
             ConfigurationManager.RefreshSection("appSettings");
-
-
 
             var profile = new Profile();
 
