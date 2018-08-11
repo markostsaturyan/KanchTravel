@@ -7,7 +7,9 @@
              d:DesignHeight="30" d:DesignWidth="180">
     <Grid>
         
-            <Button Click="LogOutClick" Width="50" Height="25">Log Out</Button>
+            <Button Click="LogOutClick" Width="80" Height="25">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Log out</TextBlock>
+            </Button>
         
     </Grid>
 </UserControl>

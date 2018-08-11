@@ -58,6 +58,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 {
                     var campingtrip = new CampingTripInfo()
                     {
+                        ID = trip.ID,
                         Place = trip.Place,
                         DepartureDate = trip.DepartureDate,
                         ArrivalDate = trip.ArrivalDate,
@@ -65,8 +66,8 @@ namespace Kanch.ProfileComponents.ViewModels
                         MinAge = trip.MinAge,
                         MaxAge = trip.MaxAge,
                         Direction = trip.Direction,
-                        HasGuide=trip.HasGuide,
-                        HasPhotographer=trip.HasPhotographer
+                        HasGuide = trip.HasGuide,
+                        HasPhotographer = trip.HasPhotographer
                     };
                     if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
                     {

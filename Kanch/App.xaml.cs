@@ -13,5 +13,19 @@ namespace Kanch
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            if (ConfigurationManager.AppSettings["refreshToken"] == "")
+            {
+                var login = new Login();
+                login.Show();
+            }
+            else
+            {
+                var profile = new Profile();
+                profile.Show();
+            }
+
+        }
     }
 }

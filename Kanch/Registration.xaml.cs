@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Kanch
 {
@@ -11,6 +13,8 @@ namespace Kanch
         {
             InitializeComponent();
             RegistrationPresent.ContentTemplate = this.FindResource("MainRegistrationPage") as DataTemplate;
+            Uri iconUri = new Uri("pack://application:,,,/Images/KanchLogo.png", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
         }
 
     }
