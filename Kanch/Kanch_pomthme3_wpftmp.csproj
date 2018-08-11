@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B691D63B-5613-44C2-A44F-5D8AFC5C5D5E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Kanch</RootNamespace>
+    <AssemblyName>Kanch</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutUs.xaml.cs">
+      <DependentUpon>AboutUs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\DataModel\ServiceRequest.cs" />
+    <Compile Include="ProfileComponents\DataModel\ServiceRequestResponse.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\CampingTripRequests.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\DirectionDetails.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\DriverRequests.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\ResponseOfTrip.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\TripsInProgress.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\UIFoodInfo.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\UnconfirmedTrips.cs" />
+    <Compile Include="ProfileComponents\Utilities\EnumBindingSourceExtension.cs" />
+    <Compile Include="ProfileComponents\Utilities\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationForAdminViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRequestsForDriverViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\ConfirmationOfTripsViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\DriverRequestsForAdminViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\InProgressCampingTripViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\TripsManagementOfAdminViewModel.cs" />
+    <Compile Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml.cs">
+      <DependentUpon>CampingTripRegistrationForAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml.cs">
+      <DependentUpon>CampingTripRequestsForDriver.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\ConfirmationOfTrips.xaml.cs">
+      <DependentUpon>ConfirmationOfTrips.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\DriverRequestsForAdmin.xaml.cs">
+      <DependentUpon>DriverRequestsForAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\LogOutView.xaml.cs">
+      <DependentUpon>LogOutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\TripsManagementOfAdminView.xaml.cs">
+      <DependentUpon>TripsManagementOfAdminView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfileEdit.xaml.cs">
+      <DependentUpon>UserProfileEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\InProgressCampingTrips.xaml.cs">
+      <DependentUpon>InProgressCampingTrips.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\AboutUsViewModel.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Commands\AsyncCommand.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\RegistrationCommand.cs" />
+    <Compile Include="DataModel\Camera.cs" />
+    <Compile Include="DataModel\CampingTrip.cs" />
+    <Compile Include="DataModel\Car.cs" />
+    <Compile Include="DataModel\Driver.cs" />
+    <Compile Include="DataModel\Food.cs" />
+    <Compile Include="DataModel\Guide.cs" />
+    <Compile Include="DataModel\Photographer.cs" />
+    <Compile Include="DataModel\Status.cs" />
+    <Compile Include="DataModel\User.cs" />
+    <Compile Include="DataModel\VerificationInfo.cs" />
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Registration.xaml.cs">
+      <DependentUpon>Registration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profile.xaml.cs">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Utilities\ImageConverter.cs" />
+    <Compile Include="ProfileComponents\ViewModels\AdminViewModel.cs" />
+    <Compile Include="ProfileComponents\DataModel\CameraInfo.cs" />
+    <Compile Include="ProfileComponents\DataModel\CampingTripInfo.cs" />
+    <Compile Include="ProfileComponents\DataModel\CarInfo.cs" />
+    <Compile Include="ProfileComponents\DataModel\DriverInfo.cs" />
+    <Compile Include="ProfileComponents\DataModel\FoodInfo.cs" />
+    <Compile Include="ProfileComponents\DataModel\GuideInfo.cs" />
+    <Compile Include="ProfileComponents\DataModel\PhotographerInfo.cs" />
+    <Compile Include="ProfileComponents\DataModel\UserInfo.cs" />
+    <Compile Include="ProfileComponents\ViewModels\DriverViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\GuideViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\PhotographerViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\UserViewModel.cs" />
+    <Compile Include="ProfileComponents\Views\AdminMain.xaml.cs">
+      <DependentUpon>AdminMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\CampingTrips.xaml.cs">
+      <DependentUpon>CampingTrips.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\CampingTripsRegistration.xaml.cs">
+      <DependentUpon>CampingTripsRegistration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\DriverMain.xaml.cs">
+      <DependentUpon>DriverMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\GuideMain.xaml.cs">
+      <DependentUpon>GuideMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\PhotographerMain.xaml.cs">
+      <DependentUpon>PhotographerMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\UserMain.xaml.cs">
+      <DependentUpon>UserMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Verification.xaml.cs">
+      <DependentUpon>Verification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\DriverViewModel.cs" />
+    <Compile Include="ViewModel\GuideViewModel.cs" />
+    <Compile Include="ViewModel\PhotographerViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
+    <Compile Include="Views\ChooseRegistrationType.xaml.cs">
+      <DependentUpon>ChooseRegistrationType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserRegistration.xaml.cs">
+      <DependentUpon>UserRegistration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\HomeViewModel.cs" />
+    <Compile Include="OrderCampingTrip.xaml.cs">
+      <DependentUpon>OrderCampingTrip.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DriverRegistration.xaml.cs">
+      <DependentUpon>DriverRegistration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuideRegistration.xaml.cs">
+      <DependentUpon>GuideRegistration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PhotographerRegistration.xaml.cs">
+      <DependentUpon>PhotographerRegistration.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Images\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\delete1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\male.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\female.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\addPhoto.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\IdentityModel.3.8.0\lib\net452\IdentityModel.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\IdentityServer4.2.2.0\lib\netstandard2.0\IdentityServer4.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Authentication.Cookies.2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Cookies.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Authentication.Core.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Core.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Authentication.2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Authentication.OAuth.2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.OAuth.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Authentication.OpenIdConnect.2.0.3\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Cors.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Cors.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Cryptography.Internal.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Cryptography.Internal.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.DataProtection.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.DataProtection.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.DataProtection.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.DataProtection.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Hosting.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Http.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Http.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Http.Extensions.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Http.Extensions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.Http.Features.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.AspNetCore.WebUtilities.2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Caching.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Caching.Memory.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Configuration.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Configuration.Binder.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Configuration.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.FileProviders.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Hosting.Abstractions.2.0.2\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Logging.Abstractions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Logging.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Logging.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.ObjectPool.2.0.0\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Options.ConfigurationExtensions.2.0.1\lib\netstandard2.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Options.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.Primitives.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Extensions.WebEncoders.2.0.1\lib\netstandard2.0\Microsoft.Extensions.WebEncoders.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.IdentityModel.Logging.5.2.1\lib\net451\Microsoft.IdentityModel.Logging.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.IdentityModel.Protocols.2.1.4\lib\net451\Microsoft.IdentityModel.Protocols.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.IdentityModel.Protocols.OpenIdConnect.2.1.4\lib\net451\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.IdentityModel.Tokens.5.2.1\lib\net451\Microsoft.IdentityModel.Tokens.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Net.Http.Headers.2.0.2\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\Microsoft.Win32.Primitives.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Microsoft.Win32.Registry.4.4.0\lib\net461\Microsoft.Win32.Registry.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\MongoDB.Bson.2.7.0\lib\net45\MongoDB.Bson.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\MongoDB.Driver.Core.2.7.0\lib\net45\MongoDB.Driver.Core.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\MongoDB.Driver.2.7.0\lib\net45\MongoDB.Driver.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\netfx.force.conflicts.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\netstandard.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.AppContext.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Collections.Concurrent.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Collections.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Collections.NonGeneric.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Collections.Specialized.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.ComponentModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.ComponentModel.EventBasedAsync.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.ComponentModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.ComponentModel.TypeConverter.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Configuration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Console.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Data.Common.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.Contracts.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.Debug.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.FileVersionInfo.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.Process.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.StackTrace.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.TextWriterTraceListener.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.Tools.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.TraceSource.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Diagnostics.Tracing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.Drawing.Common.4.5.0\lib\net461\System.Drawing.Common.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Drawing.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Dynamic.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Globalization.Calendars.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Globalization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Globalization.Extensions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.IdentityModel.Tokens.Jwt.5.2.1\lib\net451\System.IdentityModel.Tokens.Jwt.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.Compression.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.Compression.ZipFile.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.FileSystem.DriveInfo.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.FileSystem.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.FileSystem.Watcher.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.IsolatedStorage.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.MemoryMappedFiles.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.Pipes.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.IO.UnmanagedMemoryStream.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Linq.Expressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Linq.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Linq.Queryable.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.NameResolution.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.NetworkInformation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.Ping.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.Requests.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.Sockets.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.WebHeaderCollection.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.WebSockets.Client.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Net.WebSockets.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.ObjectModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Reflection.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Reflection.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Reflection.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Resources.Reader.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Resources.ResourceManager.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Resources.Writer.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.Runtime.CompilerServices.Unsafe.4.4.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.CompilerServices.VisualC.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.Extensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.Handles.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.InteropServices.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.InteropServices.RuntimeInformation.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Runtime.Serialization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.Serialization.Formatters.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.Serialization.Json.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.Serialization.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Runtime.Serialization.Xml.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.Security.AccessControl.4.4.0\lib\net461\System.Security.AccessControl.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Security.Claims.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Security.Cryptography.Algorithms.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.Security.Cryptography.Cng.4.5.0\lib\net461\System.Security.Cryptography.Cng.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Security.Cryptography.Csp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Security.Cryptography.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Security.Cryptography.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Security.Cryptography.X509Certificates.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.Security.Cryptography.Xml.4.4.0\lib\net461\System.Security.Cryptography.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Security.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Security.Principal.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.Security.Principal.Windows.4.4.0\lib\net461\System.Security.Principal.Windows.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Security.SecureString.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Text.Encoding.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Text.Encoding.Extensions.dll" />
+    <ReferencePath Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\packages\System.Text.Encodings.Web.4.4.0\lib\netstandard2.0\System.Text.Encodings.Web.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Text.RegularExpressions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Threading.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Threading.Overlapped.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Threading.Tasks.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Threading.Tasks.Parallel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Threading.Thread.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Threading.ThreadPool.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Threading.Timer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.ValueTuple.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Windows.Forms.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Xml.ReaderWriter.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Xml.XDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Xml.XmlDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Xml.XmlSerializer.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Xml.XPath.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\Microsoft.NET.Build.Extensions\net461\lib\System.Xml.XPath.XDocument.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.ComponentModel.Annotations.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.Reflection.Emit.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.Reflection.Emit.ILGeneration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.Reflection.Emit.Lightweight.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.Runtime.InteropServices.WindowsRuntime.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.ServiceModel.Duplex.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.ServiceModel.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.ServiceModel.NetTcp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.ServiceModel.Primitives.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Facades\System.ServiceModel.Security.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\AboutUs.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Home.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Login.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\CampingTripRegistrationForAdmin.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\CampingTripRequestsForDriver.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\ConfirmationOfTrips.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\DriverRequestsForAdmin.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\LogOutView.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\InProgressCampingTrips.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\TripsManagementOfAdminView.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Registration.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Profile.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\AdminMain.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\CampingTrips.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\CampingTripsRegistration.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\DriverMain.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\GuideMain.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\PhotographerMain.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\ProfileComponents\Views\UserMain.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\UserProfileEdit.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Verification.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Views\ChooseRegistrationType.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Views\UserRegistration.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Views\DriverRegistration.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Views\GuideRegistration.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\OrderCampingTrip.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Views\PhotographerRegistration.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\App.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\Kanch_Content.g.cs" />
+    <Compile Include="C:\Users\User\Documents\Visual Studio 2017\Projects\Kanch\Kanch\obj\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

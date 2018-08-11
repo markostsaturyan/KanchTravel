@@ -61,6 +61,7 @@ namespace Kanch.ProfileComponents.ViewModels
                     var campingTripJsonContent = campingTripContent.ReadAsStringAsync().Result;
 
                     var trip = JsonConvert.DeserializeObject<CampingTrip>(campingTripJsonContent);
+
                     var campingtrip = new CampingTripRequests()
                     {
                         ID = trip.ID,

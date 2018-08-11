@@ -65,7 +65,7 @@
         <DataTemplate x:Key="InProgressCampingTrips" DataType="{x:Type viewModels:InProgressCampingTripViewModel}" >
             <views:InProgressCampingTrips />
         </DataTemplate>
-
+        
     </Window.Resources>
 
     <Grid>

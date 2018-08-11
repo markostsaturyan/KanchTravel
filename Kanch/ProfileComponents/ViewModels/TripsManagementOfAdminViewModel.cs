@@ -7,6 +7,12 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Net.Http;
 using Kanch.ProfileComponents.DataModel;
+using Kanch.DataModel;
+using System.Collections.ObjectModel;
+using Kanch.ProfileComponents.Utilities;
+using System.Windows.Media.Imaging;
+using System.Linq;
+using Kanch.Commands;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
@@ -14,10 +20,10 @@ namespace Kanch.ProfileComponents.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private TokenClient tokenClient;
+        private TokenClient tokenClient; 
         private HttpClient httpClient;
 
-        public List<ResponseOfTrip> Responses { get; set; }
+        public ObservableCollection<ResponseOfTrip> Responses { get; set; }
 
         public TripsManagementOfAdminViewModel()
         {
@@ -28,7 +34,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"])
             };
 
-            Responses = new List<ResponseOfTrip>();
+            Responses = new ObservableCollection<ResponseOfTrip>();
             GetTripsAndResponses();
         }
 
@@ -48,9 +54,9 @@ namespace Kanch.ProfileComponents.ViewModels
 
             foreach(var response in responses)
             {
-                var res = Responses.Find(tripResp => tripResp.CampingTrip.ID == response.CampingTripId);
+                var res = Responses.Where(tripResp => tripResp.CampingTrip.ID == response.CampingTripId)?.FirstOrDefault();
 
-                if (res != null)
+                if (res == null)
                 {
                     var tripRes = new ResponseOfTrip(tokenClient);
 
@@ -58,6 +64,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
                     tripRes.AddServiceRequestResponce(response);
 
+                    tripRes.AcceptTrip = new Command(AcceptTripAsync);
                     Responses.Add(tripRes);
                 }
                 else
@@ -77,7 +84,105 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var tripJson = response.Content.ReadAsStringAsync().Result;
 
-            return JsonConvert.DeserializeObject<CampingTripInfo>(tripJson);
+            var trip = JsonConvert.DeserializeObject<CampingTrip>(tripJson);
+
+            var tripInfo = new CampingTripInfo()
+            {
+                ID = trip.ID,
+                ArrivalDate = trip.ArrivalDate,
+                DepartureDate = trip.DepartureDate,
+                Direction = trip.Direction,
+                CountOfMembers = trip.CountOfMembers,
+                MinAge = trip.MinAge,
+                MaxAge = trip.MaxAge,
+                MinCountOfMembers = trip.MinCountOfMembers,
+                MaxCountOfMembers = trip.MaxCountOfMembers,
+                HasGuide = trip.HasGuide,
+                HasPhotographer = trip.HasPhotographer,
+                PriceOfTrip = trip.PriceOfTrip
+            };
+            if(trip.OrganizationType == Kanch.DataModel.TypeOfOrganization.OrderByAdmin)
+            {
+                tripInfo.OrganizationType = DataModel.TypeOfOrganization.OrderByAdmin;
+            }
+            else
+            {
+                tripInfo.OrganizationType = DataModel.TypeOfOrganization.OrderByUser;
+            }
+
+            if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
+            {
+                tripInfo.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Campaign;
+            }
+            else if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.CampingTrip)
+            {
+                tripInfo.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.CampingTrip;
+            }
+            else
+            {
+                tripInfo.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
+            }
+            if (trip.Food != null)
+            {
+                tripInfo.Food = new ObservableCollection<FoodInfo>();
+                foreach (var food in trip.Food)
+                {
+                    tripInfo.Food.Add(new FoodInfo()
+                    {
+                        Name = food.Name,
+                        Measure = food.Measure,
+                        MeasurementUnit = food.MeasurementUnit
+                    });
+                }
+            }
+            tripInfo.Organizer = new UserInfo()
+            {
+                FirstName = trip.Organizer.FirstName,
+                LastName = trip.Organizer.LastName,
+                UserName = trip.Organizer.UserName,
+                Email = trip.Organizer.Email,
+                PhoneNumber = trip.Organizer.PhoneNumber,
+                DateOfBirth = trip.Organizer.DateOfBirth,
+                Gender = trip.Organizer.Gender
+            };
+            if (trip.Organizer.Image != null)
+            {
+                tripInfo.Organizer.Image = ImageConverter.ConvertImageToImageSource(trip.Organizer.Image);
+            }
+            else
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                if (tripInfo.Organizer.Gender == "Female")
+                {
+                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
+                }
+                else
+                {
+                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
+                }
+                img.EndInit();
+                tripInfo.Organizer.Image = img;
+            }
+            return tripInfo;
+        }
+
+        public async void AcceptTripAsync(object trip)
+        {
+            var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]);
+
+            var httpClient = new HttpClient();
+
+            httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"]);
+
+            httpClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var campingTrip = (trip as ResponseOfTrip).CampingTrip;
+            
+
+            var tripJson = JsonConvert.SerializeObject(campingTrip);
+
+            await httpClient.PostAsync($"api/CampingTrips/{campingTrip.ID}", new StringContent(tripJson));
         }
 
         private void ConnectToServer()

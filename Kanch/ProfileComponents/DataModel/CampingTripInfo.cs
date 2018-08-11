@@ -203,6 +203,12 @@ namespace Kanch.ProfileComponents.DataModel
 
         public bool HasPhotographer { get; set; }
 
+        public DriverInfo Driver { get; set; }
+
+        public GuideInfo Guide { get; set; }
+
+        public PhotographerInfo Photographer { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

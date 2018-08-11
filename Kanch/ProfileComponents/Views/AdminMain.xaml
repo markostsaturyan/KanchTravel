@@ -18,19 +18,23 @@
             </StackPanel>
 
             <Button Command="{Binding Path = GetAllTripsCommand}" Height="40" Margin="0 0 0 5" >
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">See all the trips</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all the trips</TextBlock>
             </Button>
 
             <Button Command="{Binding Path = GetDriverRequestsCommand}" Height="40" Margin="0 0 0 5">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">See all driver requests</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all driver requests</TextBlock>
             </Button>
 
             <Button Command="{Binding Path = GetUnconfirmedCampingTripsCommand}" Height="40" Margin="0 0 0 5">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Unconfirmed camping trips</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Unconfirmed camping trips</TextBlock>
+            </Button>
+
+            <Button Command="{Binding Path=GetRequestsResponsesCommand}" Height="40" Margin="0 0 0 5">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Responses of trip's requests</TextBlock>
             </Button>
 
             <Button Command="{Binding Path = RegistrationOfTheTripCommand}" Height="40" Margin="0 0 0 5">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Register a trip</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Register a trip</TextBlock>
             </Button>
         </StackPanel>
     </Grid>
