@@ -422,7 +422,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
-                        Image = (byte[])dataReader["Image"],
                         UserName = (string)dataReader["UserName"],
                         Gender = (string)dataReader["Gender"],
                         EducationGrade = (string)dataReader["EducationGrade"],
@@ -433,8 +432,16 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"],
                     };
 
-                    guide.Places = GetGuidePalces(id);
+                    if (dataReader["Picture"] == DBNull.Value)
+                    {
+                        guide.Image = null;
+                    }
+                    else
+                    {
+                        guide.Image = (byte[])dataReader["Picture"];
+                    }
 
+                    guide.Places = GetGuidePalces(id);
                 }
             }
 
@@ -451,6 +458,8 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetUserEmailById"
                 };
+
+                command.Parameters.AddWithValue("@id", id);
 
                 connection.Open();
 
@@ -473,13 +482,15 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandText = "GetUserPasswordAndGuideById"
                 };
 
+                command.Parameters.AddWithValue("@id", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
 
                 dataReader.Read();
 
-                guide = (string)dataReader["UserGuide"];
+                guide = (string)dataReader["UserGuid"];
 
                 return (string)dataReader["Password"];
             }
@@ -518,13 +529,14 @@ namespace UserManagement.DataManagement.DataAccesLayer
 
             using (var connection = new SqlConnection(sqlConnectionString))
             {
-                connection.Open();
                 var command = new SqlCommand
                 {
                     Connection = connection,
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "GetAllUsers"
                 };
+
+                connection.Open();
 
                 var dataReader = command.ExecuteReader();
 
@@ -546,6 +558,10 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         if (dataReader["Picture"] != DBNull.Value)
                         {
                             user.Image = (byte[])dataReader["Picture"];
+                        }
+                        else
+                        {
+                            user.Image = null;
                         }
                         users.Add(user);
                     }
@@ -773,9 +789,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                                 DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                                 Email = (string)dataReader["Email"],
                                 PhoneNumber = (string)dataReader["PhoneNumber"],
-                                Image = (byte[])dataReader["Picture"],
                                 UserName = (string)dataReader["UserName"],
-                                Password = (string)dataReader["Password"],
                                 KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                                 Gender = (string)dataReader["Gender"],
                                 EducationGrade = (string)dataReader["EducationGrade"],
@@ -784,6 +798,11 @@ namespace UserManagement.DataManagement.DataAccesLayer
                                 Rating = (double)dataReader["Rating"],
                                 NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                             };
+
+                        if (dataReader["Picture"] != DBNull.Value)
+                        {
+                            guide.Image = (byte[])dataReader["Picture"];
+                        }
 
                             guide.Places = GetGuidePalces(guide.Id);
 
@@ -832,125 +851,139 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 return places;
             }
 
-            /// <summary>
-            /// Gets all photographers
-            /// </summary>
-            /// <returns> List of photographers </returns>
-            public List<PhotographerInfo> GetAllPhotographers()
+        /// <summary>
+        /// Gets all photographers
+        /// </summary>
+        /// <returns> List of photographers </returns>
+        public List<PhotographerInfo> GetAllPhotographers()
+        {
+            var photographers = new List<PhotographerInfo>();
+
+            using (var connection = new SqlConnection(sqlConnectionString))
             {
-                var photographers = new List<PhotographerInfo>();
-
-                using (var connection = new SqlConnection(sqlConnectionString))
+                var command = new SqlCommand
                 {
-                    var command = new SqlCommand
-                    {
-                        Connection = connection,
-                        CommandType = System.Data.CommandType.StoredProcedure,
-                        CommandText = "GetAllPhotographers"
-                    };
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetAllPhotographers"
+                };
 
-                    connection.Open();
+                connection.Open();
 
-                    var dataReader = command.ExecuteReader();
+                var dataReader = command.ExecuteReader();
 
-                    if (dataReader.HasRows)
-                    {
-                        while (dataReader.Read())
-                        {
-                            var photographer = new PhotographerInfo
-                            {
-                                Id = (int)dataReader["Id"],
-                                FirstName = (string)dataReader["FirstName"],
-                                LastName = (string)dataReader["LastName"],
-                                Gender = (string)dataReader["Gender"],
-                                DateOfBirth = (DateTime)dataReader["DataOfBirth"],
-                                Email = (string)dataReader["Email"],
-                                PhoneNumber = (string)dataReader["PhoneNumber"],
-                                Image = (byte[])dataReader["Image"],
-                                UserName = (string)dataReader["UserName"],
-                                KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                                Raiting = (double)dataReader["Raiting"],
-                                HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
-                                HasDron = (bool)dataReader["HasDron"],
-                                HasGopro = (bool)dataReader["HasGopro"],
-                                Camera = new Camera
-                                {
-                                    Id = (int)dataReader["CameraId"],
-                                    Model = (string)dataReader["Model"],
-                                    IsProfessional = (bool)dataReader["IsProfessional"]
-                                },
-                                Profession = (string)dataReader["Profession"],
-                                WorkExperience = (string)dataReader["WorkExperiance"],
-                                NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
-                            };
-
-                            photographers.Add(photographer);
-                        }
-                    }
-                }
-
-                return photographers;
-            }
-
-            /// <summary>
-            /// Gets Photographer by id from database
-            /// </summary>
-            /// <param name="id"> Photographer id </param>
-            /// <returns> Photographer full info </returns>
-            public PhotographerInfo GetPhotographerById(int id)
-            {
-                var photographer = new PhotographerInfo();
-
-                using (var connection = new SqlConnection(sqlConnectionString))
+                if (dataReader.HasRows)
                 {
-                    var command = new SqlCommand
+                    while (dataReader.Read())
                     {
-                        Connection = connection,
-                        CommandType = System.Data.CommandType.StoredProcedure,
-                        CommandText = "GetPhotographerById"
-                    };
-
-                    connection.Open();
-
-                    var dataReader = command.ExecuteReader();
-
-                    if (dataReader.HasRows)
-                    {
-                        dataReader.Read();
-
-                        var camera = new Camera
-                        {
-                            Id = (int)dataReader["CameraId"],
-                            IsProfessional = (bool)dataReader["IsProfessional"],
-                            Model = (string)dataReader["Model"]
-                        };
-
-                        photographer = new PhotographerInfo
+                        var photographer = new PhotographerInfo
                         {
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
                             Gender = (string)dataReader["Gender"],
-                            DateOfBirth = (DateTime)dataReader["Age"],
+                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-                            Image = (byte[])dataReader["Picture"],
                             UserName = (string)dataReader["UserName"],
-                            Camera = camera,
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             Raiting = (double)dataReader["Raiting"],
                             HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
                             HasDron = (bool)dataReader["HasDron"],
                             HasGopro = (bool)dataReader["HasGopro"],
+                            Camera = new Camera
+                            {
+                                Id = (int)dataReader["CameraId"],
+                                Model = (string)dataReader["Model"],
+                                IsProfessional = (bool)dataReader["IsProfessional"]
+                            },
                             Profession = (string)dataReader["Profession"],
-                            WorkExperience = (string)dataReader["WorkExperience"],
+                            WorkExperience = (string)dataReader["WorkExperiance"],
                             NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                         };
+
+                        if (dataReader["Picture"] != DBNull.Value)
+                        {
+                            photographer.Image = (byte[])dataReader["Picture"];
+                        }
+
+                        photographers.Add(photographer);
                     }
                 }
-
-                return photographer;
             }
+
+            return photographers;
+        }
+
+        /// <summary>
+        /// Gets Photographer by id from database
+        /// </summary>
+        /// <param name="id"> Photographer id </param>
+        /// <returns> Photographer full info </returns>
+        public PhotographerInfo GetPhotographerById(int id)
+        {
+            var photographer = new PhotographerInfo();
+
+            using (var connection = new SqlConnection(sqlConnectionString))
+            {
+                var command = new SqlCommand
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "GetPhotographerById"
+                };
+
+                connection.Open();
+
+                var dataReader = command.ExecuteReader();
+
+                if (dataReader.HasRows)
+                {
+                    dataReader.Read();
+
+                    var camera = new Camera
+                    {
+                        Id = (int)dataReader["CameraId"],
+                        IsProfessional = (bool)dataReader["IsProfessional"],
+                        Model = (string)dataReader["Model"]
+                    };
+
+                    photographer = new PhotographerInfo
+                    {
+                        Id = (int)dataReader["Id"],
+                        FirstName = (string)dataReader["FirstName"],
+                        LastName = (string)dataReader["LastName"],
+                        Gender = (string)dataReader["Gender"],
+                        DateOfBirth = (DateTime)dataReader["Age"],
+                        Email = (string)dataReader["Email"],
+                        PhoneNumber = (string)dataReader["PhoneNumber"],
+                        UserName = (string)dataReader["UserName"],
+                        Camera = camera,
+                        KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
+                        HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
+                        HasDron = (bool)dataReader["HasDron"],
+                        HasGopro = (bool)dataReader["HasGopro"],
+                        Profession = (string)dataReader["Profession"],
+                        WorkExperience = (string)dataReader["WorkExperience"],
+                    };
+
+                    if (dataReader["Picture"] != DBNull.Value)
+                    {
+                        photographer.Image = (byte[])dataReader["Picture"];
+                    }
+                    if (dataReader["Raiting"] != DBNull.Value)
+                    {
+                        photographer.Raiting = (double)dataReader["Raiting"];       
+                    }
+                    if (dataReader["NumberOfAppraisers"] != DBNull.Value)
+                    {
+                        photographer.NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"];
+                    }
+                }
+            }
+
+            return photographer;
+        }
 
             public IEnumerable<DriverInfo> GetAllNonApprovedDrivers()
             {

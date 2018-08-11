@@ -2,7 +2,7 @@
 	@id int
 AS
 
-	SELECT Id, UserGuid
+	SELECT Password, UserGuid
 	from Users
 	where @id = Id
 
