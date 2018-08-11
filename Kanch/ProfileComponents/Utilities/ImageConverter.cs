@@ -22,6 +22,7 @@ namespace Kanch.ProfileComponents.Utilities
         public static byte[] ImageSourceToBytes(ImageSource imageSource)
         {
             byte[] bytes = null;
+
             var bitmapSource = imageSource as BitmapSource;
             JpegBitmapEncoder encoder = new JpegBitmapEncoder();
             if (bitmapSource != null)
