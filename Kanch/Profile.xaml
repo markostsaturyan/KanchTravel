@@ -54,6 +54,10 @@
             <views:CampingTripRegistrationForAdmin />
         </DataTemplate>
 
+        <DataTemplate x:Key="TripsManagementOfAdminView" DataType="{x:Type viewModels:TripsManagementOfAdminViewModel}">
+            <views:TripsManagementOfAdminView/>
+        </DataTemplate>
+
         <DataTemplate x:Key="LogOut">
             <views:LogOutView/>
         </DataTemplate>

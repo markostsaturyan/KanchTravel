@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding UnconfirmedTrips}">
+        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.IsDeferredScrollingEnabled="True" ItemsSource="{Binding Responses}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="Auto">
@@ -40,23 +40,21 @@
                                         <RowDefinition Height="25"/>
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Text = "Place"             Grid.Column="0" Grid.Row="0"/>
+                                    <TextBlock Text= "Place"              Grid.Column="0" Grid.Row="0"/>
                                     <TextBlock Text="Direction"           Grid.Column="0" Grid.Row="1" />
                                     <TextBlock Text="Departure Date"      Grid.Column="0" Grid.Row="2" />
                                     <TextBlock Text="Arrival Date"        Grid.Column="0" Grid.Row="3" />
                                     <TextBlock Text="Minimum Age"         Grid.Column="0" Grid.Row="4" />
                                     <TextBlock Text="Maximum Age"         Grid.Column="0" Grid.Row="5" />
-                                    <TextBlock Text ="Count of Members"   Grid.Column="0" Grid.Row="6" />
+                                    <TextBlock Text="Count of Members"    Grid.Column="0" Grid.Row="6" />
                                     <TextBlock Text="Camping trip's type" Grid.Column="0" Grid.Row="7"  />
                                     <TextBlock Text="Foods"               Grid.Column="0" Grid.Row="9" />
                                     <TextBlock Text="Organaizer"          Grid.Column="0" Grid.Row="10" />
 
                                     <TextBlock Text="{Binding CampingTrip.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" ></TextBlock>
 
-
                                     <ListView  Name="directionsList" Width="250" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding CampingTrip.Direction}"
                                                 ScrollViewer.CanContentScroll="True">
-
                                     </ListView>
 
                                     <TextBlock Text="{Binding CampingTrip.DepartureDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"   Background="#cce6ff"   />
@@ -95,10 +93,85 @@
                                     <TextBlock Text="{Binding CampingTrip.Organizer.Email}" Grid.Row="14" Grid.Column="1"/>
                                     <TextBlock Text="{Binding CampingTrip.Organizer.Gender}" Grid.Column="1" Grid.Row="15"/>
                                     <TextBlock Text="{Binding CampingTrip.Organizer.PhoneNumber}" Grid.Column="1" Grid.Row="16" />
-                                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="17">
-                                        <Button Command="{Binding ConfirmCommand}" CommandParameter="{Binding}" Height="25">Confirm</Button>
-                                        <Button Command="{Binding IgnoreCommand}" CommandParameter="{Binding}" Height="25">Ignore</Button>
+                                    
+                                    <!--Driver-->
+                                    <Image Source="{Binding CampingTrip.Driver.Image}" Height="30" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1">
+                                        <TextBlock Text="{Binding CampingTrip.Driver.FirstName}" Margin="10,0"/>
+                                        <TextBlock Text="{Binding CampingTrip.Driver.LastName}"/>
                                     </StackPanel>
+                                    <TextBlock Text="{Binding CampingTrip.Driver.UserName}" Grid.Row="12" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Driver.DateOfBirth}" Grid.Row="13" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Driver.Email}" Grid.Row="14" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Driver.Gender}" Grid.Column="1" Grid.Row="15"/>
+                                    <TextBlock Text="{Binding CampingTrip.Driver.PhoneNumber}" Grid.Column="1" Grid.Row="16" />
+                                    <Button Command="{Binding RemoveDriver}" IsEnabled="{Binding DriverIsSelected}">Delete</Button>
+                                    <!--Guide-->
+                                    <Image Source="{Binding CampingTrip.Guide.Image}" Height="30" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1">
+                                        <TextBlock Text="{Binding CampingTrip.Guide.FirstName}" Margin="10,0"/>
+                                        <TextBlock Text="{Binding CampingTrip.Guide.LastName}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding CampingTrip.Guide.UserName}" Grid.Row="12" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Guide.DateOfBirth}" Grid.Row="13" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Guide.Email}" Grid.Row="14" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Guide.Gender}" Grid.Column="1" Grid.Row="15"/>
+                                    <TextBlock Text="{Binding CampingTrip.Guide.PhoneNumber}" Grid.Column="1" Grid.Row="16" />
+                                    <Button Command="{Binding RemoveGuide}" IsEnabled="{Binding GuideIsSelected}">Delete</Button>
+                                    <!--Photographer-->
+                                    <Image Source="{Binding CampingTrip.Photographer.Image}" Height="30" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1">
+                                        <TextBlock Text="{Binding CampingTrip.Photographer.FirstName}" Margin="10,0"/>
+                                        <TextBlock Text="{Binding CampingTrip.Photographer.LastName}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding CampingTrip.Photographer.UserName}" Grid.Row="12" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Photographer.DateOfBirth}" Grid.Row="13" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Photographer.Email}" Grid.Row="14" Grid.Column="1"/>
+                                    <TextBlock Text="{Binding CampingTrip.Photographer.Gender}" Grid.Column="1" Grid.Row="15"/>
+                                    <TextBlock Text="{Binding CampingTrip.Photographer.PhoneNumber}" Grid.Column="1" Grid.Row="16" />
+                                    <Button Command="{Binding RemovePhotographer}" IsEnabled="{Binding PhotographerIsSelected}" >Delete</Button>
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <StackPanel Orientation="Vertical">
+                                        <TextBlock>Driver Responses For this trip</TextBlock>
+                                            <ListView ItemsSource="{Binding DriverResponces}" Width="100">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Price}" ></TextBlock>
+                                                    <TextBlock>
+                                                <Hyperlink Command="{Binding AcceptDriver}" CommandParameter="{Binding ProviderId}" >Accept</Hyperlink>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ListView>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Vertical">
+                                        <TextBlock>Guide Responses For this trip</TextBlock>
+                                            <ListView ItemsSource="{Binding GuideResponces}" Width="100">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Price}" ></TextBlock>
+                                                    <TextBlock>
+                                                <Hyperlink Command="{Binding AcceptGuide}" CommandParameter="{Binding ProviderId}" >Accept</Hyperlink>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ListView>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock>Photographer Responses For this trip</TextBlock>
+                                            <ListView ItemsSource="{Binding PhotographerResponces}" Width="100">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Price}" ></TextBlock>
+                                                    <TextBlock>
+                                                <Hyperlink Command="{Binding AcceptPhotographer}" CommandParameter="{Binding ProviderId}">Accept</Hyperlink>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ListView>
+                                        </StackPanel>
+
+                                    </StackPanel>
+
+                                    <Button Command = "{Binding AcceptTrip}">Accept Trip</Button>
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
