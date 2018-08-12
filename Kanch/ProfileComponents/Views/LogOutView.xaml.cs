@@ -28,13 +28,17 @@ namespace Kanch.ProfileComponents.Views
 
         private void LogOutClick(object sender, RoutedEventArgs e)
         {
-            ConfigurationSettings.AppSettings["refreshToken"] = "";
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            ConfigurationSettings.AppSettings["role"] = "";
+            config.AppSettings.Settings["refreshToken"].Value = "";
 
-            ConfigurationSettings.AppSettings["userId"] = "";
+            config.AppSettings.Settings["role"].Value = "";
 
-            ConfigurationSettings.AppSettings["userName"] = "";
+            config.AppSettings.Settings["userId"].Value = "";
+
+            config.Save(ConfigurationSaveMode.Modified);
+
+            ConfigurationManager.RefreshSection("appSettings");
 
             var login = new Login();
 

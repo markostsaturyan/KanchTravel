@@ -13,6 +13,7 @@ using Kanch.ProfileComponents.Utilities;
 using System.Windows.Media.Imaging;
 using System.Linq;
 using Kanch.Commands;
+using System.Threading.Tasks;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
@@ -35,10 +36,10 @@ namespace Kanch.ProfileComponents.ViewModels
             };
 
             Responses = new ObservableCollection<ResponseOfTrip>();
-            GetTripsAndResponses();
+            GetTripsAndResponsesAsync();
         }
 
-        public void GetTripsAndResponses()
+        public  async void GetTripsAndResponsesAsync()
         {
             var refreshToken = ConfigurationManager.AppSettings["refreshToken"];
 
@@ -62,13 +63,26 @@ namespace Kanch.ProfileComponents.ViewModels
 
                     tripRes.CampingTrip = GetTrip(response.CampingTripId, refreshToken);
 
+                    tripRes.AcceptTrip = new Command(AcceptTripAsync);
+
+                    var user = await GetUserAsync(response.ProviderId);
+
+                    response.FirstName = user.FirstName;
+                    response.LastName = user.LastName;
+                    response.Email = user.Email;
+
                     tripRes.AddServiceRequestResponce(response);
 
-                    tripRes.AcceptTrip = new Command(AcceptTripAsync);
                     Responses.Add(tripRes);
                 }
                 else
                 {
+                    var user = await GetUserAsync(response.ProviderId);
+
+                    response.FirstName = user.FirstName;
+                    response.LastName = user.LastName;
+                    response.Email = user.Email;
+
                     res.AddServiceRequestResponce(response);
                 }
             }
@@ -171,18 +185,31 @@ namespace Kanch.ProfileComponents.ViewModels
         {
             var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]);
 
-            var httpClient = new HttpClient();
-
-            httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"]);
-
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
             var campingTrip = (trip as ResponseOfTrip).CampingTrip;
             
-
             var tripJson = JsonConvert.SerializeObject(campingTrip);
 
             await httpClient.PostAsync($"api/CampingTrips/{campingTrip.ID}", new StringContent(tripJson));
+        }
+
+        private async Task<User> GetUserAsync(int userId)
+        {
+            var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]);
+
+            var httpClientForGetingUser = new HttpClient
+            {
+                BaseAddress = new Uri(ConfigurationManager.AppSettings["userManagementBaseUri"])
+            };
+
+            var response = await httpClientForGetingUser.GetAsync($"api/User/{userId}");
+
+            var userJson = await response.Content.ReadAsStringAsync();
+
+            var user = JsonConvert.DeserializeObject<User>(userJson);
+
+            return user;
         }
 
         private void ConnectToServer()
