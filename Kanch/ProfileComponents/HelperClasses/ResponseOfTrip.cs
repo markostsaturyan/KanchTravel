@@ -20,7 +20,6 @@ namespace Kanch.ProfileComponents.HelperClasses
     {
         private TokenClient tokenClient;
 
-        private double providersTotalPrice;
         private bool driverIsSelected;
         private bool guideIsSelected;
         private bool photographerIsSelected;
@@ -77,19 +76,6 @@ namespace Kanch.ProfileComponents.HelperClasses
             }
         }
 
-        public double ProvidersTotalPrice {
-            get
-            {
-                return providersTotalPrice;
-            }
-
-            set
-            {
-                this.providersTotalPrice = value;
-                PropertyChanged(this,new PropertyChangedEventArgs("ProvidersTotalPrice"));
-            }
-        }
-
         public CampingTripInfo CampingTrip {
             get
             {
@@ -129,8 +115,6 @@ namespace Kanch.ProfileComponents.HelperClasses
 
         public ResponseOfTrip(TokenClient tokenClient)
         {
-            this.providersTotalPrice = 0;
-
             this.tokenClient = tokenClient;
 
             this.DriversResponses = new ObservableCollection<ServiceRequestResponse>();
@@ -157,7 +141,7 @@ namespace Kanch.ProfileComponents.HelperClasses
 
             CampingTrip.Driver = await GetDriverAsync(driverId);
 
-            ProvidersTotalPrice += response.Price;
+            DriverIsSelected = true;
         }
 
         private async Task<DriverInfo> GetDriverAsync(int driverId)
@@ -232,8 +216,7 @@ namespace Kanch.ProfileComponents.HelperClasses
                 img.EndInit();
                 driverInfo.Image = img;
             }
-
-
+                
             return driverInfo;
         }
 
@@ -247,7 +230,7 @@ namespace Kanch.ProfileComponents.HelperClasses
 
             CampingTrip.Guide = await GetGuideAsync(guideId);
 
-            ProvidersTotalPrice += response.Price;
+            GuideIsSelected = true;
         }
 
         private async Task<GuideInfo> GetGuideAsync(int guideId)
@@ -321,8 +304,6 @@ namespace Kanch.ProfileComponents.HelperClasses
             PhotographersResponses.Remove(response);
 
             CampingTrip.Photographer = await GetPhotographerAsync(photographerId);
-
-            ProvidersTotalPrice += response.Price;
 
             PhotographerIsSelected = true;
         }
@@ -400,8 +381,6 @@ namespace Kanch.ProfileComponents.HelperClasses
         {
             DriverIsSelected = false;
 
-            ProvidersTotalPrice -= selectedDriverResponse.Price;
-
             DriversResponses.Add(selectedDriverResponse);
 
             CampingTrip.Driver = new DriverInfo();
@@ -410,8 +389,6 @@ namespace Kanch.ProfileComponents.HelperClasses
         public void DeleteGuide()
         {
             GuideIsSelected = false;
-
-            ProvidersTotalPrice -= selectedGuideResponse.Price;
 
             GudiesResponses.Add(selectedGuideResponse);
 
@@ -422,15 +399,11 @@ namespace Kanch.ProfileComponents.HelperClasses
         {
             PhotographerIsSelected = false;
 
-            ProvidersTotalPrice -= selectedPhotographerResponse.Price;
-
             PhotographersResponses.Add(selectedPhotographerResponse);
 
             CampingTrip.Photographer = new PhotographerInfo();
         }
-
-       
-
+           
         public void AddServiceRequestResponce(ServiceRequestResponse response)
         {
             switch (response.ProviderRole)

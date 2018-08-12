@@ -853,6 +853,14 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task AddServiceRequestResponceAsync(ServiceRequestResponse response)
         {
             await campingTripContext.ServiceRequestResponses.InsertOneAsync(response);
+
+            var filter= Builders<ServiceRequest>.Filter.Where(request => request.CampingTripId==response.CampingTripId);
+
+
+            var filter1 = Builders<ServiceRequest>.Filter.Where(request => request.ProviderId == response.ProviderId);
+
+            await campingTripContext.ServiceRequests.DeleteOneAsync<ServiceRequest>(
+                request => request.CampingTripId == response.CampingTripId && request.ProviderId == response.ProviderId);
         }
 
         public async Task UpdateServiceRequestResponseAsync(string id, ServiceRequestResponse response)
