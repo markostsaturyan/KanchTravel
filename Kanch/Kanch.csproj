@@ -360,6 +360,7 @@
     </Compile>
     <Compile Include="ProfileComponents\DataModel\ServiceRequest.cs" />
     <Compile Include="ProfileComponents\DataModel\ServiceRequestResponse.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\CampingTripId.cs" />
     <Compile Include="ProfileComponents\HelperClasses\CampingTripRequests.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DirectionDetails.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DriverRequests.cs" />

@@ -7,13 +7,13 @@
              xmlns:dataModels="clr-namespace:Kanch.ProfileComponents.DataModel"
              xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="760">
+             d:DesignHeight="900" d:DesignWidth="940">
     <Grid>
         <ScrollViewer>
-            <Grid Background="#f7e9e9">
+            <Grid >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="220" />
+                    <ColumnDefinition Width="720"/>
                 </Grid.ColumnDefinitions>
 
 
@@ -186,17 +186,17 @@
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="ExtraBlack">Register</TextBlock>
                 </Button>
 
-                <TextBlock Text = "Place"                    Grid.Column="0" Grid.Row="0"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Direction"                Grid.Column="0" Grid.Row="1"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Departure Date"           Grid.Column="0" Grid.Row="2"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Arrival Date"             Grid.Column="0" Grid.Row="3"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Minimum Age"              Grid.Column="0" Grid.Row="4"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Maximum Age"              Grid.Column="0" Grid.Row="5"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Maximum count of members" Grid.Column="0" Grid.Row="6"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Minimum count of members" Grid.Column="0" Grid.Row="7"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Camping trip's type"      Grid.Column="0" Grid.Row="8"  Margin="7,0,10,0"   FontSize="15"  />
-                <TextBlock Text = "Foods"                    Grid.Column="0" Grid.Row="10" Margin="7,10,10,0"  FontSize="15"  />
-                <TextBlock Text = "Price for per person"     Grid.Column="0" Grid.Row="12" Margin="7,0,10,0"   FontSize="15"  />
+                <TextBlock Text = "Place"                    Grid.Column="0" Grid.Row="0"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Direction"                Grid.Column="0" Grid.Row="1"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Departure Date"           Grid.Column="0" Grid.Row="2"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Arrival Date"             Grid.Column="0" Grid.Row="3"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Minimum Age"              Grid.Column="0" Grid.Row="4"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Maximum Age"              Grid.Column="0" Grid.Row="5"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Maximum count of members" Grid.Column="0" Grid.Row="6"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Minimum count of members" Grid.Column="0" Grid.Row="7"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Camping trip's type"      Grid.Column="0" Grid.Row="8"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Foods"                    Grid.Column="0" Grid.Row="10" Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Price for per person"     Grid.Column="0" Grid.Row="12" Margin="7,5,10,5"   FontSize="15"  />
                 <TextBlock Name = "errorMessage" Text="{Binding ErrorMessage,Mode=TwoWay}" HorizontalAlignment="Left" Foreground="Red"></TextBlock>
             </Grid>
         </ScrollViewer>

@@ -20,19 +20,19 @@
             </StackPanel>
 
             <Button Command="{Binding Path = GetAllTripsCommand}" Height="40" Margin="0 0 0 5" >
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">See all the trips</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all the trips</TextBlock>
             </Button>
 
             <Button Command="{Binding Path = GetMyCurrentTripsCommand}" Height="40" Margin="0 0 0 5">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">See my current campaigns</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See my current campaigns</TextBlock>
             </Button>
 
             <Button Command="{Binding Path = GetlMyPreviousTripsCommand}" Height="40" Margin="0 0 0 5">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">See my previous trips</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See my previous trips</TextBlock>
             </Button>
 
             <Button Command="{Binding Path=RegistrationOfTheTripCommand}" Height="40" Margin="0 0 0 5">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Register a trip</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Register a trip</TextBlock>
             </Button>
 
 

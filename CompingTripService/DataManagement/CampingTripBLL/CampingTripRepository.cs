@@ -600,7 +600,9 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                 var members = await GetCampingTripMembersAsync(trip.MembersOfCampingTrip);
                 if (members != null)
                 {
-                    foreach (var member in await GetCampingTripMembersAsync(trip.MembersOfCampingTrip))
+                    if (fullTrip.MembersOfCampingTrip == null)
+                        fullTrip.MembersOfCampingTrip = new List<User>();
+                    foreach (var member in members)
                     {
                         fullTrip.MembersOfCampingTrip.Add(new User
                         {

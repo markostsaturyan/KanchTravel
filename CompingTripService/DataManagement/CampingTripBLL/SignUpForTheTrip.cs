@@ -143,6 +143,10 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             {
                 if (campingTrip.MinAge <= userAge && campingTrip.MaxAge >= userAge)
                 {
+                    if (campingTrip.MembersOfCampingTrip == null)
+                    {
+                        campingTrip.MembersOfCampingTrip = new List<int>();
+                    }
                     campingTrip.MembersOfCampingTrip.Add(id);
                     campingTrip.CountOfMembers++;
 
