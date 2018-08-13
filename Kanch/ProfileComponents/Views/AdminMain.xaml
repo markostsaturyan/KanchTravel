@@ -22,7 +22,15 @@
             </Button>
 
             <Button Command="{Binding Path = GetDriverRequestsCommand}" Height="40" Margin="0 0 0 5">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all driver requests</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all drivers requests</TextBlock>
+            </Button>
+
+            <Button Command="{Binding Path = GetGuideRequestsCommand}" Height="40" Margin="0 0 0 5">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all guides requests</TextBlock>
+            </Button>
+
+            <Button Command="{Binding Path = GetPhotographerRequestsCommand}" Height="40" Margin="0 0 0 5">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all photographers requests</TextBlock>
             </Button>
 
             <Button Command="{Binding Path = GetUnconfirmedCampingTripsCommand}" Height="40" Margin="0 0 0 5">

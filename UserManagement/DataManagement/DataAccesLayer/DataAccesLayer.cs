@@ -1172,10 +1172,10 @@ namespace UserManagement.DataManagement.DataAccesLayer
                                 Id = (int)dataReader["Id"],
                                 FirstName = (string)dataReader["FirstName"],
                                 LastName = (string)dataReader["LastName"],
-                                DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                                DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                                 Email = (string)dataReader["Email"],
                                 PhoneNumber = (string)dataReader["PhoneNumber"],
-                                Image = (byte[])dataReader["Picture"],
+                                
                                 UserName = (string)dataReader["UserName"],
                                 Password = (string)dataReader["Password"],
                                 KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
@@ -1184,6 +1184,11 @@ namespace UserManagement.DataManagement.DataAccesLayer
                                 Profession = (string)dataReader["Profession"],
                                 WorkExperience = (string)dataReader["WorkExperience"],
                             };
+
+                        if (dataReader["Picture"] != DBNull.Value)
+                        {
+                            guide.Image = (byte[])dataReader["Picture"];
+                        }
 
                             guide.Places = GetGuidePalces(guide.Id);
 

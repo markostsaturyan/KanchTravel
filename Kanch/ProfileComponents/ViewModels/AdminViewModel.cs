@@ -24,6 +24,8 @@ namespace Kanch.ProfileComponents.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand GetDriverRequestsCommand { get; set; }
+        public ICommand GetGuideRequestsCommand { get; set; }
+        public ICommand GetPhotographerRequestsCommand { get; set; }
         public ICommand GetAllTripsCommand { get; set; }
         public ICommand GetMyCurrentTripsCommand { get; set; }
         public ICommand GetMyPreviousTripsCommand { get; set; }
@@ -46,6 +48,8 @@ namespace Kanch.ProfileComponents.ViewModels
             this.female.Freeze();
 
             this.GetDriverRequestsCommand = new Command(o => GetDriverRequests());
+            this.GetGuideRequestsCommand = new Command(o => GetGuideRequests());
+            this.GetPhotographerRequestsCommand = new Command(o => GetPhotographerRequests());
             this.GetAllTripsCommand = new Command(o => GetAllTrips());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
             this.GetMyPreviousTripsCommand = new Command(o => GetMyPreviousTris());
@@ -99,6 +103,22 @@ namespace Kanch.ProfileComponents.ViewModels
             presenter.ContentTemplate = window.FindResource("DriverRequestsForAdmin") as DataTemplate;
         }
 
+        public void GetGuideRequests()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("GuideRequestsForAdmin") as DataTemplate;
+        }
+
+        public void GetPhotographerRequests()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("PhotographerRequestsForAdmin") as DataTemplate;
+        }
+
         public void GetUnconfirmedCampingTrips()
         {
             var window = Application.Current.MainWindow;
@@ -106,7 +126,8 @@ namespace Kanch.ProfileComponents.ViewModels
             var presenter = window.FindName("mainPage") as ContentPresenter;
             presenter.ContentTemplate = window.FindResource("ConfirmationOfTrips") as DataTemplate;
         }
-         public void GetUserInfo()
+
+        public void GetUserInfo()
         {
 
             var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
@@ -150,6 +171,7 @@ namespace Kanch.ProfileComponents.ViewModels
             }
             this.User = userinfo;
         }
+
         private async void ConnectToServer()
         {
             var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
