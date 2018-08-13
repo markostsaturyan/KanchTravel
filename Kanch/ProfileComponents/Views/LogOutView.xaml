@@ -8,7 +8,7 @@
     <Grid>
         
             <Button Click="LogOutClick" Width="80" Height="25">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Log out</TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">Log out</TextBlock>
             </Button>
         
     </Grid>

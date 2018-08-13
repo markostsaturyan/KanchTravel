@@ -116,11 +116,17 @@ namespace Kanch.ProfileComponents.ViewModels
                                 });
                             }
                         }
-                        if (trip.MembersOfCampingTrip != null && trip.MembersOfCampingTrip.Contains(this.user))
+                        if (trip.MembersOfCampingTrip != null)
                         {
-                            campingtrip.IAmJoined = true;
+                            foreach(var member in trip.MembersOfCampingTrip)
+                            {
+                                if (member.Id == this.user.Id)
+                                {
+                                    campingtrip.IAmJoined = true;
+                                }
+                            }
                         }
-                        else
+                        if(!campingtrip.IAmJoined)
                         {
                             campingtrip.CanIJoin = true;
                         }
@@ -151,7 +157,12 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var campingTripId = campingTrip.ID;
 
-            var response = httpClient.PutAsync($"api/MembersOfCampingTrip/{user.Id}", new StringContent(campingTripId, Encoding.Unicode, "application/json")).Result;
+            var tripId = new CampingTripId()
+            {
+                CampingTripID = campingTrip.ID,
+            };
+
+            var response = httpClient.PutAsync($"api/MembersOfCampingTrip/{user.Id}", new StringContent(JsonConvert.SerializeObject(tripId), Encoding.UTF8, "application/json")).Result;
 
 
             if (response.IsSuccessStatusCode)
@@ -176,6 +187,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var campingTrip = (trip as TripsInProgress).CampingTrip;
+
             var response = await httpClient.DeleteAsync("api/MembersOfCampingTrip/" + user.Id + "/" + campingTrip.ID);
 
             if (response.IsSuccessStatusCode)

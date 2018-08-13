@@ -6,7 +6,7 @@
         xmlns:viewModels="clr-namespace:Kanch.ProfileComponents.ViewModels"
         xmlns:views="clr-namespace:Kanch.ProfileComponents.Views"
         mc:Ignorable="d"
-        Title="Profile" Height="Auto" Width="1000">
+        Title="Profile" Height="800" Width="1220">
 
     <Window.Resources>
 
@@ -76,7 +76,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="265" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition  Width="735" />
+            <ColumnDefinition  Width="940" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -101,7 +101,7 @@
         <Grid Grid.Column="1" Background="#b3d9ff" Opacity="0.7"></Grid>
         <Grid Grid.Column="3" Background="#b3d9ff" Opacity="0.7"></Grid>
 
-        <Grid HorizontalAlignment="Left" Width="735" Grid.Column="2" Background="#cce6ff">
+        <Grid HorizontalAlignment="Left" Width="940" Grid.Column="2" Background="#cce6ff">
 
             <ContentPresenter Name="mainPage" HorizontalAlignment="Center"/>
         </Grid>

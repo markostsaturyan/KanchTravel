@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System;
 using System.Linq;
 using CampingTripService.DataManagement.Model;
+using System.Net.Http;
 
 namespace CampingTripService.Controllers
 {
@@ -31,8 +32,10 @@ namespace CampingTripService.Controllers
         // PUT: api/MembersOfCampingTrip/5
         [Authorize(Policy = "OnlyForAUDGP")]
         [HttpPut("{id}")]
-        public async Task<Status> Put(int id, [FromBody]string campingTripId)
+        public async Task<Status> Put(int id, [FromBody]CampingTripId tripId)
         {
+            var campingTripId = tripId.CampingTripID;
+
             var identity = (ClaimsIdentity)User.Identity;
 
             IEnumerable<Claim> claims = identity.Claims;
