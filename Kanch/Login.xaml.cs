@@ -28,31 +28,19 @@ namespace Kanch
     {
         private DiscoveryResponse disco;
         private TokenClient tokenClient;
+        private Configuration config;
 
         public Login()
         {
-            if (ConfigurationManager.AppSettings["refresToken"] != "" &&
-                ConfigurationManager.AppSettings["userId"] != "" &&
-                ConfigurationManager.AppSettings["role"] != "")
-            {
-                var profile = new Profile();
-
-                Application.Current.MainWindow = profile;
-
-                profile.Show();
-
-                this.Close();
-
-                return;
-            }
-
             InitializeComponent();
-
+            Uri iconUri = new Uri("pack://application:,,,/Images/KanchLogo.png", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             ConnectToServerAsync();
         }
-
         private void RegistrationClick(object sender, RoutedEventArgs e)
         {
+
+
             var registration = new MainWindow();
 
             registration.Show();

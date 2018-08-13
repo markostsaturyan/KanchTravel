@@ -63,9 +63,10 @@ namespace Kanch
             }
 
             logout.ContentTemplate = this.FindResource("LogOut") as DataTemplate;
+            Uri iconUri = new Uri("pack://application:,,,/Images/KanchLogo.png", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
 
 
-            
         }
     }
 }

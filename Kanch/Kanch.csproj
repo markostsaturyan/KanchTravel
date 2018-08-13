@@ -360,6 +360,7 @@
     </Compile>
     <Compile Include="ProfileComponents\DataModel\ServiceRequest.cs" />
     <Compile Include="ProfileComponents\DataModel\ServiceRequestResponse.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\CampingTripId.cs" />
     <Compile Include="ProfileComponents\HelperClasses\CampingTripRequests.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DirectionDetails.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DriverRequests.cs" />
@@ -534,10 +535,10 @@
     <Content Include="Images\edit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\female.jpg">
+    <Content Include="Images\male.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\male.jpg">
+    <Content Include="Images\female.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Images\nature3.jpg" />

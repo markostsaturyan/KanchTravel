@@ -40,7 +40,6 @@ namespace Kanch.ProfileComponents.ViewModels
 
         private ObservableCollection<DirectionDetails> direction;
 
-        private ObservableCollection<CampingTripInfo> myOrderedCampingTrips;
 
         private string errorMessage;
 
@@ -221,7 +220,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void EditTripFood(object food)
         {
-            var foodInfo = food as Food;
+            var foodInfo = food as UIFoodInfo;
             this.FoodName = foodInfo.Name;
             this.MeasurementUnit = foodInfo.MeasurementUnit;
             this.MeasureOfTheFood = foodInfo.Measure;
@@ -316,17 +315,17 @@ namespace Kanch.ProfileComponents.ViewModels
                 OrganizationType = Kanch.DataModel.TypeOfOrganization.OrderByAdmin,
                 Organizer = new User()
                 {
-                    FirstName = this.tripRegistration.Organizer.FirstName,
-                    LastName = this.tripRegistration.Organizer.LastName,
-                    DateOfBirth = this.tripRegistration.Organizer.DateOfBirth,
-                    Email = this.tripRegistration.Organizer.Email,
-                    Gender = this.tripRegistration.Organizer.Gender,
-                    Image = Utilities.ImageConverter.ImageSourceToBytes(this.tripRegistration.Organizer.Image),
-                    Id= this.tripRegistration.Organizer.Id,
-                    PhoneNumber=this.tripRegistration.Organizer.PhoneNumber,
-                    UserName=this.tripRegistration.Organizer.UserName
+                    FirstName = this.user.FirstName,
+                    LastName = this.user.LastName,
+                    DateOfBirth = this.user.DateOfBirth,
+                    Email = this.user.Email,
+                    Gender = this.user.Gender,
+                    Image = Utilities.ImageConverter.ImageSourceToBytes(this.user.Image),
+                    Id = this.user.Id,
+                    PhoneNumber = this.user.PhoneNumber,
+                    UserName = this.user.UserName,
                 },
-                PriceOfTrip=this.price,
+                PriceOfTrip = this.tripRegistration.PriceOfTrip
                
             };
 
@@ -368,6 +367,15 @@ namespace Kanch.ProfileComponents.ViewModels
             var trip = JsonConvert.SerializeObject(registrationTrip);
 
             var response = httpClient.PostAsync("api/CampingTrips", new StringContent(trip, Encoding.UTF8, "application/json")).Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                this.ErrorMessage = "Please, try again";
+            }
+            else
+            {
+                Reset();
+            }
         }
 
         public bool CampingTripRegistrationValidation()
@@ -387,13 +395,29 @@ namespace Kanch.ProfileComponents.ViewModels
                 this.ErrorMessage = "Choose a correct arrival date.";
                 return false;
             }
-            if (this.price == 0)
-            {
-                this.ErrorMessage = "Input a price.";
-                return false;
-            }
+            
             return true;
         }
+
+        public void Reset()
+        {
+            this.tripRegistration.ArrivalDate = DateTime.Now;
+            this.tripRegistration.DepartureDate = DateTime.Now;
+            this.tripRegistration.Place = "";
+            this.tripRegistration.Direction = null;
+            this.tripRegistration.Food = null;
+            this.tripRegistration.HasGuide = false;
+            this.tripRegistration.HasPhotographer = false;
+            this.tripRegistration.MaxAge = 0;
+            this.tripRegistration.MinAge = 0;
+            this.tripRegistration.MinCountOfMembers = 0;
+            this.tripRegistration.MaxCountOfMembers = 0;
+            this.tripRegistration.PriceOfTrip = 0;
+            this.tripRegistration.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
+            this.Foods = null;
+            this.Direction = null;
+        }
+
         private void ConnectToServer()
         {
             var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;

@@ -124,7 +124,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var campingTrip = await campingTripRepository.GetTripAsync(campingTripID);
 
-            var user =await GetUserAsync(id);
+            var user = await GetUserAsync(id);
 
             if (user == null) return new Status()
             {
@@ -143,6 +143,10 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             {
                 if (campingTrip.MinAge <= userAge && campingTrip.MaxAge >= userAge)
                 {
+                    if (campingTrip.MembersOfCampingTrip == null)
+                    {
+                        campingTrip.MembersOfCampingTrip = new List<int>();
+                    }
                     campingTrip.MembersOfCampingTrip.Add(id);
                     campingTrip.CountOfMembers++;
 
@@ -231,7 +235,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(this.discovery.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = await tokenClinet.RequestClientCredentialsAsync("userManagement", "secret");
+            var tokenResponse = await tokenClinet.RequestClientCredentialsAsync("userManagement");
 
             var httpClient = new HttpClient
             {

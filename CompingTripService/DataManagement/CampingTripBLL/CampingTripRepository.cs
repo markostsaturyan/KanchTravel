@@ -192,6 +192,8 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         private async Task<List<User>> GetCampingTripMembersAsync(List<int> membersId)
         {
+            if (membersId == null) return null;
+
             var tokenClinet = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
             var tokenResponse =await tokenClinet.RequestClientCredentialsAsync("userManagement");
@@ -562,7 +564,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var fullTrip = new CampingTripFull(trip);
 
-            if (getMembers)
+            if (getMembers && trip.OrganizationType!=TypeOfOrganization.orderByUser)
             {
                 fullTrip.MembersOfCampingTrip = await GetCampingTripMembersAsync(trip.MembersOfCampingTrip);
             }
@@ -581,6 +583,10 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             {
                 fullTrip.Guide = await GetTripGuideAsync(trip.GuideID);
             }
+            if (trip.OrganzierID != 0)
+            {
+                fullTrip.Organizer = await GetUserAsync(trip.OrganzierID);
+            }
 
             return fullTrip;
         }
@@ -591,16 +597,22 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             if (getMembers && trip.OrganizationType == TypeOfOrganization.orderByAdmin)
             {
-                foreach (var member in await GetCampingTripMembersAsync(trip.MembersOfCampingTrip))
+                var members = await GetCampingTripMembersAsync(trip.MembersOfCampingTrip);
+                if (members != null)
                 {
-                    fullTrip.MembersOfCampingTrip.Add(new User
+                    if (fullTrip.MembersOfCampingTrip == null)
+                        fullTrip.MembersOfCampingTrip = new List<User>();
+                    foreach (var member in members)
                     {
-                        Id = member.Id,
-                        FirstName = member.FirstName,
-                        LastName = member.LastName,
-                        Gender = member.Gender,
-                        Img = member.Img
-                    });
+                        fullTrip.MembersOfCampingTrip.Add(new User
+                        {
+                            Id = member.Id,
+                            FirstName = member.FirstName,
+                            LastName = member.LastName,
+                            Gender = member.Gender,
+                            Img = member.Img
+                        });
+                    }
                 }
             }
 
@@ -841,6 +853,14 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task AddServiceRequestResponceAsync(ServiceRequestResponse response)
         {
             await campingTripContext.ServiceRequestResponses.InsertOneAsync(response);
+
+            var filter= Builders<ServiceRequest>.Filter.Where(request => request.CampingTripId==response.CampingTripId);
+
+
+            var filter1 = Builders<ServiceRequest>.Filter.Where(request => request.ProviderId == response.ProviderId);
+
+            await campingTripContext.ServiceRequests.DeleteOneAsync<ServiceRequest>(
+                request => request.CampingTripId == response.CampingTripId && request.ProviderId == response.ProviderId);
         }
 
         public async Task UpdateServiceRequestResponseAsync(string id, ServiceRequestResponse response)
@@ -986,7 +1006,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             if (user != null)
             {
-                var emailService = new EmailService(new System.Net.NetworkCredential("kanchhiking", "kanchhiking2018"));
+                var emailService = new EmailService(new System.Net.NetworkCredential("kanchhiking@gmail.com", "kanchhiking2018"));
 
                 emailService.Send("Kanch", trip.ToString());
 

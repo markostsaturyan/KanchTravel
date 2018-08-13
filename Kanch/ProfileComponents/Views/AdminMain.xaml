@@ -5,37 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="180">
+             d:DesignHeight="300" d:DesignWidth="265">
     <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" >
 
-            <Image Source="{Binding Path = User.Image}" Height="50" Width="50" ></Image>
+            <Image Source="{Binding Path = User.Image}" Height="200" Width="200" Margin="10" ></Image>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding Path = User.FirstName}" />
+                <TextBlock Text="{Binding Path = User.FirstName}" FontSize="25"/>
 
-                <TextBlock Text="{Binding Path = User.LastName}" Margin="10,0,10,10"/>
+                <TextBlock Text="{Binding Path = User.LastName}" FontSize="25" Margin="10,0,10,10"/>
             </StackPanel>
 
-            <TextBlock HorizontalAlignment="Center">
-            <Hyperlink Command="{Binding Path = GetAllTripsCommand}">See all the trips</Hyperlink>
-            </TextBlock>
+            <Button Command="{Binding Path = GetAllTripsCommand}" Height="40" Margin="0 0 0 5" >
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all the trips</TextBlock>
+            </Button>
 
-            <TextBlock HorizontalAlignment="Center" Margin="10">
-            <Hyperlink Command="{Binding Path = GetMyCurrentTripsCommand}" >See my current campaigns</Hyperlink>
-            </TextBlock>
+            <Button Command="{Binding Path = GetDriverRequestsCommand}" Height="40" Margin="0 0 0 5">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See all driver requests</TextBlock>
+            </Button>
 
-            <TextBlock HorizontalAlignment="Center">
-            <Hyperlink Command="{Binding Path = GetMyPreviousTripsCommand}" >See my previous trips</Hyperlink>
-            </TextBlock>
+            <Button Command="{Binding Path = GetUnconfirmedCampingTripsCommand}" Height="40" Margin="0 0 0 5">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Unconfirmed camping trips</TextBlock>
+            </Button>
 
-            <TextBlock HorizontalAlignment="Center" Margin="10">
-                <Hyperlink Command="{Binding GetDriverRequestsCommand}">See all driver requests</Hyperlink>
-            </TextBlock>
+            <Button Command="{Binding Path=GetRequestsResponsesCommand}" Height="40" Margin="0 0 0 5">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Responses of trip's requests</TextBlock>
+            </Button>
 
-            <TextBlock HorizontalAlignment="Center"  >
-                <Hyperlink Command="{Binding GetUnconfirmedCampingTripsCommand}" >Unconfirmed camping trips.</Hyperlink>
-            </TextBlock>
+            <Button Command="{Binding Path = RegistrationOfTheTripCommand}" Height="40" Margin="0 0 0 5">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Register a trip</TextBlock>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

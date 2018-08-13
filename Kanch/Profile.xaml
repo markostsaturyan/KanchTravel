@@ -6,7 +6,7 @@
         xmlns:viewModels="clr-namespace:Kanch.ProfileComponents.ViewModels"
         xmlns:views="clr-namespace:Kanch.ProfileComponents.Views"
         mc:Ignorable="d"
-        Title="Profile" Height="Auto" Width="700">
+        Title="Profile" Height="800" Width="1220">
 
     <Window.Resources>
 
@@ -54,43 +54,56 @@
             <views:CampingTripRegistrationForAdmin />
         </DataTemplate>
 
+        <DataTemplate x:Key="TripsManagementOfAdminView" DataType="{x:Type viewModels:TripsManagementOfAdminViewModel}">
+            <views:TripsManagementOfAdminView/>
+        </DataTemplate>
+
         <DataTemplate x:Key="LogOut">
             <views:LogOutView/>
         </DataTemplate>
 
+        <DataTemplate x:Key="InProgressCampingTrips" DataType="{x:Type viewModels:InProgressCampingTripViewModel}" >
+            <views:InProgressCampingTrips />
+        </DataTemplate>
+        
     </Window.Resources>
 
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Images/nature3.jpg" Opacity="0.8"/>
         </Grid.Background>
-        <Grid HorizontalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
 
-            
-                
-                <Grid Width="Auto" HorizontalAlignment="Center" Background="#cce6ff" Grid.Column="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="265" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition  Width="940" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-                    <ContentPresenter Name="userMainInfoPresenter" Width="180" Grid.Column="0"/>
+        <Grid  HorizontalAlignment="Center" Background="#99ccff" Grid.Column="0" Width="Auto">
 
-                </Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition  Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid >
 
-            <Grid Width="Auto" HorizontalAlignment="Left" Background="#cce6ff"  VerticalAlignment="Bottom">
-                
-                    <ContentPresenter Name="logout"/>
-                
-                </Grid>
-                
-           
+                <ContentPresenter Name="userMainInfoPresenter" Width="265" Grid.Column="0" />
 
-            <Grid HorizontalAlignment="Left" Width="Auto" Grid.Column="1">
+            </Grid>
 
-                <ContentPresenter Name="mainPage" HorizontalAlignment="Right"/>
+            <Grid Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+
+                <ContentPresenter Name="logout" />
+
             </Grid>
         </Grid>
-    </Grid>
+        <Grid Grid.Column="1" Background="#b3d9ff" Opacity="0.7"></Grid>
+        <Grid Grid.Column="3" Background="#b3d9ff" Opacity="0.7"></Grid>
 
+        <Grid HorizontalAlignment="Left" Width="940" Grid.Column="2" Background="#cce6ff">
+
+            <ContentPresenter Name="mainPage" HorizontalAlignment="Center"/>
+        </Grid>
+    </Grid>
 </Window>

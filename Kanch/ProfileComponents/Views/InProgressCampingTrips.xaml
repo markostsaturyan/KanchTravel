@@ -5,95 +5,142 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="940">
     <Grid>
-        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding CampingTripRequests}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="Auto">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="200"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+        <ScrollViewer CanContentScroll="True">
+            <ListView  ItemsSource="{Binding TripsInProgress}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="220"/>
+                                            <ColumnDefinition Width="720"/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="100"/>
-                                        <RowDefinition Height="25" />
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="100"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
-                                    </Grid.RowDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <Rectangle Grid.Column="0" Grid.RowSpan="1000">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#99ccff" Offset="0" />
+                                                    <GradientStop Color="White" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
 
-                                    <TextBlock Text = "Place"                   Grid.Column="0" Grid.Row="0"/>
-                                    <TextBlock Text="Direction"                 Grid.Column="0" Grid.Row="1" />
-                                    <TextBlock Text="Departure Date"            Grid.Column="0" Grid.Row="2" />
-                                    <TextBlock Text="Arrival Date"              Grid.Column="0" Grid.Row="3" />
-                                    <TextBlock Text="Minimum Age"               Grid.Column="0" Grid.Row="4" />
-                                    <TextBlock Text="Maximum Age"               Grid.Column="0" Grid.Row="5" />
-                                    <TextBlock Text="Minimum count of members"  Grid.Column="0" Grid.Row="6" />
-                                    <TextBlock Text="Maximum count of members"  Grid.Column="0" Grid.Row="7" />
-                                    <TextBlock Text ="Count of Members"         Grid.Column="0" Grid.Row="8" />
-                                    <TextBlock Text="Camping trip's type"       Grid.Column="0" Grid.Row="9"  />
-                                    <TextBlock Text="Food"                      Grid.Column="0" Grid.Row="10"  />
-                                    <TextBlock Text="Price"                     Grid.Column="0" Grid.Row="11" />
+                                        <Rectangle Grid.Column="1" Grid.RowSpan="1000">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#b8dbff" Offset="0" />
+                                                    <GradientStop Color="White" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
 
-                                    <TextBlock Text="{Binding Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" ></TextBlock>
+                                        <TextBlock Text = "Place"                   Grid.Column="0" Grid.Row="0"  Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text="Direction"                 Grid.Column="0" Grid.Row="1"  Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text="Date"                      Grid.Column="0" Grid.Row="2"  Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text="Age limit"                 Grid.Column="0" Grid.Row="3"  Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text="Count limit"               Grid.Column="0" Grid.Row="4"  Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text ="Count of Members"         Grid.Column="0" Grid.Row="8"  Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text="Camping trip's type"       Grid.Column="0" Grid.Row="9"  Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text="Food"                      Grid.Column="0" Grid.Row="10" Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text="Price"                     Grid.Column="0" Grid.Row="11" Margin="7,0,10,0"   FontSize="14" Height="25"  VerticalAlignment="Top" />
+
+                                        <TextBlock Text="{Binding CampingTrip.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Margin="15,5,0,5" Width="200" HorizontalAlignment="Left" Height="25" FontSize="14" ></TextBlock>
 
 
-                                    <ListView  Name="directionsList" Width="250" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding Direction}"
-                                                ScrollViewer.CanContentScroll="True">
+                                        <ListView  Name="directionsList" Width="250" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding CampingTrip.Direction}" Margin="15,5,0,5"  Height="100" 
+                                                ScrollViewer.CanContentScroll="True" FontSize="14">
 
-                                    </ListView>
+                                        </ListView>
 
-                                    <TextBlock Text="{Binding DepartureDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"   Background="#cce6ff"   />
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="15,5,0,5">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Departure Date"    FontSize="14" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.DepartureDate ,Mode=TwoWay}" Background="#cce6ff"    Width="200" Height="25" FontSize="14"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Arrival Date"    FontSize="15" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.ArrivalDate ,Mode=TwoWay}" Background="#cce6ff"   Width="200" Height="25" FontSize="14"/>
+                                            </StackPanel>
+                                        </StackPanel>
 
-                                    <TextBlock Text="{Binding ArrivalDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"   Background="#cce6ff" />
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="15,5,0,5">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Minimum age"    FontSize="14" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.MinAge ,Mode=TwoWay}" FontSize="14" Height="25" Width="200" HorizontalAlignment="Left" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Maximum age"    FontSize="14" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.MaxAge ,Mode=TwoWay}" FontSize="14" Height="25" Width="200" HorizontalAlignment="Left" />
+                                            </StackPanel>
+                                        </StackPanel>
 
-                                    <TextBlock Text="{Binding MinAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="4" />
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4" Margin="15,5,0,5">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Minimum count of members"    FontSize="14" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.MinCountOfMembers,Mode=TwoWay}" FontSize="14" Height="25" Width="200" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Maximum count of members"    FontSize="14" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.MaxCountOfMembers,Mode=TwoWay}" FontSize="14" Height="25" Width="200" HorizontalAlignment="Left"/>
+                                            </StackPanel>
+                                        </StackPanel>
 
-                                    <TextBlock Text="{Binding MaxAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
 
-                                    <TextBlock Text="{Binding MinCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" />
+                                        <TextBlock Text="{Binding CampingTrip.CountOfMembers,Mode=TwoWay}"          Grid.Column="1" Grid.Row="8" FontSize="14" Height="25" Margin="15 5 0 5" Width="200" HorizontalAlignment="Left" />
+                                        <TextBlock Text="{Binding CampingTrip.TypeOfTrip,Mode=TwoWay}"              Grid.Column="1" Grid.Row="9" FontSize="14" Height="25" Margin="15 5 0 5" Width="200" HorizontalAlignment="Left" />
 
-                                    <TextBlock Text="{Binding MaxCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="7" />
+                                        <ListView Width="500" FontSize="14" Height="100" BorderBrush="LightGray"  ItemsSource="{Binding CampingTrip.Food,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="10" HorizontalAlignment="Left" Margin="15 5 0 5" >
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                                                    <GridViewColumn Header="Measure" DisplayMemberBinding="{Binding Measure}" />
+                                                    <GridViewColumn Header="Measurement unit" DisplayMemberBinding="{Binding MeasurementUnit}" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
 
-                                    <TextBlock Text="{Binding CountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="8" />
+                                        <TextBlock Text="{Binding CampingTrip.PriceOfTrip,Mode=TwoWay}" Grid.Column="1" Grid.Row="11" Margin="15 5 0 5" Width="200" FontSize="14" Height="25" HorizontalAlignment="Left"/>
 
-                                    <TextBlock Text="{Binding TypeOfTrip,Mode=TwoWay}" Grid.Column="1" Grid.Row="9" />
-
-                                    <ListView Width="500" BorderBrush="LightGray"  ItemsSource="{Binding Food,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="10" HorizontalAlignment="Left">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
-                                                <GridViewColumn Header="Measure" DisplayMemberBinding="{Binding Measure}" />
-                                                <GridViewColumn Header="Measurement unit" DisplayMemberBinding="{Binding MeasurementUnit}" />
-                                            </GridView>
-                                        </ListView.View>
-                                    </ListView>
-
-                                    <TextBlock Text="{Binding Price,Mode=TwoWay}" Grid.Column="1" Grid.Row="11" />
-
-                                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="12">
-                                        <Button Command="{Binding Join}" CommandParameter="{Binding}" Height="25" Width="60">Join</Button>
-                                        <Button Command="{Binding Refuse}" CommandParameter="{Binding}" Height="25" Width="60">Refuse</Button>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="12" HorizontalAlignment="Right" Margin="0 0 120 0">
+                                            <Button Command="{Binding JoinCommand}" CommandParameter="{Binding}" Height="30" Width="80" IsEnabled="{Binding CampingTrip.CanIJoin,Mode=TwoWay}" Margin="0 0 5 0">
+                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    Join
+                                                </TextBlock>
+                                            </Button>
+                                            <Button Command="{Binding RefuseCommand}" CommandParameter="{Binding}" Height="30" Width="80" IsEnabled="{Binding CampingTrip.IAmJoined,Mode=TwoWay}">
+                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    Refuse
+                                                </TextBlock>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
     </Grid>
 </UserControl>
