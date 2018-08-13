@@ -6,7 +6,6 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using IdentityModel.Client;
 using Kanch.Commands;
@@ -184,14 +183,13 @@ namespace Kanch.ProfileComponents.ViewModels
             this.AddFoodToTripFoodsCommand = new Command(o => AddFoodToRegistrationTripFoods(), o => CanAddFoodToTripFoods());
             this.RegisterTripCommand = new Command(o => RegistrationTrip());
 
-
             this.direction = new ObservableCollection<DirectionDetails>();
             this.foods = new ObservableCollection<UIFoodInfo>();
             this.tripRegistration = new CampingTripInfo();
             this.tripRegistration.DepartureDate = DateTime.Now;
             this.tripRegistration.ArrivalDate = DateTime.Now;
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            this.httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"]);
             ConnectToServer();
             GetUserInfo();
 
@@ -258,19 +256,17 @@ namespace Kanch.ProfileComponents.ViewModels
             return true;
         }
 
-
-
         public void GetUserInfo()
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             var httpCl = new HttpClient();
 
-            httpCl.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
+            httpCl.BaseAddress = new Uri(ConfigurationManager.AppSettings["userManagementBaseUri"]);
 
             httpCl.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = httpCl.GetAsync("api/User/" + ConfigurationSettings.AppSettings["userId"]).Result;
+            var response = httpCl.GetAsync($"api/User/{ConfigurationManager.AppSettings["userId"]}").Result;
 
             var content = response.Content;
 
@@ -288,7 +284,6 @@ namespace Kanch.ProfileComponents.ViewModels
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 UserName = user.UserName,
-
             };
 
             this.user = userinfo;
@@ -325,8 +320,8 @@ namespace Kanch.ProfileComponents.ViewModels
                     PhoneNumber = this.user.PhoneNumber,
                     UserName = this.user.UserName,
                 },
+
                 PriceOfTrip = this.tripRegistration.PriceOfTrip
-               
             };
 
             if (this.tripRegistration.TypeOfTrip == ProfileComponents.DataModel.TypeOfCampingTrip.Campaign)
@@ -342,14 +337,15 @@ namespace Kanch.ProfileComponents.ViewModels
                 registrationTrip.TypeOfTrip = Kanch.DataModel.TypeOfCampingTrip.Excursion;
             }
 
-            
-
             registrationTrip.Direction = new List<string>();
+
             foreach (var elem in this.direction)
             {
                 registrationTrip.Direction.Add(elem.Name);
             }
+
             registrationTrip.Food = new List<Food>();
+
             foreach (var food in foods)
             {
                 registrationTrip.Food.Add(new Food()
@@ -360,7 +356,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 });
             }
 
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
@@ -420,7 +416,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         private void ConnectToServer()
         {
-            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
+            var disco = DiscoveryClient.GetAsync(ConfigurationManager.AppSettings["authenticationService"]).Result;
 
             if (disco.IsError)
             {
@@ -434,13 +430,9 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
 
-
         private void NotifyPropertyChanged(string info)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
     }
 }
