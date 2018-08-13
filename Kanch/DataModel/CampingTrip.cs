@@ -33,7 +33,7 @@ namespace Kanch.DataModel
 
         public Driver Driver { get; set; }
 
-        public Photographer Guide { get; set; }
+        public Guide Guide { get; set; }
 
         public Photographer Photographer { get; set; }
 

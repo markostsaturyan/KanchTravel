@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Linq;
 using Kanch.Commands;
 using System.Threading.Tasks;
+using System.Text;
+using System.Windows;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
@@ -61,6 +63,10 @@ namespace Kanch.ProfileComponents.ViewModels
                 {
                     var tripRes = new ResponseOfTrip(tokenClient);
 
+                    tripRes.DriverIsSelected = Visibility.Collapsed;
+                    tripRes.GuideIsSelected = Visibility.Collapsed;
+                    tripRes.PhotographerIsSelected = Visibility.Collapsed;
+                    
                     tripRes.CampingTrip = GetTrip(response.CampingTripId, refreshToken);
 
                     tripRes.AcceptTrip = new Command(AcceptTripAsync);
@@ -103,6 +109,7 @@ namespace Kanch.ProfileComponents.ViewModels
             var tripInfo = new CampingTripInfo()
             {
                 ID = trip.ID,
+                Place = trip.Place,
                 ArrivalDate = trip.ArrivalDate,
                 DepartureDate = trip.DepartureDate,
                 Direction = trip.Direction,
@@ -149,49 +156,175 @@ namespace Kanch.ProfileComponents.ViewModels
                     });
                 }
             }
+
             tripInfo.Organizer = new UserInfo()
             {
+                Id=trip.Organizer.Id,
                 FirstName = trip.Organizer.FirstName,
                 LastName = trip.Organizer.LastName,
                 UserName = trip.Organizer.UserName,
                 Email = trip.Organizer.Email,
                 PhoneNumber = trip.Organizer.PhoneNumber,
                 DateOfBirth = trip.Organizer.DateOfBirth,
-                Gender = trip.Organizer.Gender
+                Gender = trip.Organizer.Gender,
+                Image=ImageConverter.ConvertImageToImageSource(trip.Organizer.Image)??ImageConverter.DefaultProfilePicture(trip.Organizer.Gender)
             };
-            if (trip.Organizer.Image != null)
+            
+
+            if (trip.Driver != null)
             {
-                tripInfo.Organizer.Image = ImageConverter.ConvertImageToImageSource(trip.Organizer.Image);
+                tripInfo.Driver = new DriverInfo
+                {
+                    Id = trip.Driver.Id,
+                    FirstName = trip.Driver.FirstName,
+                    LastName = trip.Driver.LastName,
+                    Email = trip.Driver.Email,
+                    Gender = trip.Driver.Gender,
+                    PhoneNumber = trip.Driver.PhoneNumber,
+                    Image = ImageConverter.ConvertImageToImageSource(trip.Driver.Image)??ImageConverter.DefaultProfilePicture(trip.Driver.Gender),
+                    DateOfBirth = trip.Driver.DateOfBirth
+                };
             }
-            else
+
+            if (trip.Guide != null)
             {
-                BitmapImage img = new BitmapImage();
-                img.BeginInit();
-                if (tripInfo.Organizer.Gender == "Female")
+                tripInfo.Guide = new GuideInfo
                 {
-                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
-                }
-                else
-                {
-                    img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
-                }
-                img.EndInit();
-                tripInfo.Organizer.Image = img;
+                    Id = trip.Guide.Id,
+                    FirstName = trip.Guide.FirstName,
+                    LastName = trip.Guide.LastName,
+                    Email = trip.Guide.Email,
+                    Gender = trip.Guide.Gender,
+                    PhoneNumber = trip.Guide.PhoneNumber,
+                    Image = ImageConverter.ConvertImageToImageSource(trip.Guide.Image) ?? ImageConverter.DefaultProfilePicture(trip.Guide.Gender),
+                    DateOfBirth = trip.Guide.DateOfBirth
+                };
             }
+
+            if (trip.Photographer != null)
+            {
+                tripInfo.Photographer = new PhotographerInfo
+                {
+                    Id = trip.Photographer.Id,
+                    FirstName = trip.Photographer.FirstName,
+                    LastName = trip.Photographer.LastName,
+                    Email = trip.Photographer.Email,
+                    Gender = trip.Photographer.Gender,
+                    PhoneNumber = trip.Photographer.PhoneNumber,
+                    Image = ImageConverter.ConvertImageToImageSource(trip.Photographer.Image)??ImageConverter.DefaultProfilePicture(trip.Photographer.Gender),
+                    DateOfBirth = trip.Photographer.DateOfBirth
+                };
+            }
+
             return tripInfo;
         }
 
-        public async void AcceptTripAsync(object trip)
+        public async void AcceptTripAsync(object responseOfTrip)
         {
             var tokenResponse = await tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]);
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
-            var campingTrip = (trip as ResponseOfTrip).CampingTrip;
-            
-            var tripJson = JsonConvert.SerializeObject(campingTrip);
+            var resp = responseOfTrip as ResponseOfTrip;
 
-            await httpClient.PostAsync($"api/CampingTrips/{campingTrip.ID}", new StringContent(tripJson));
+            var campingTrip = resp.CampingTrip;
+
+            var trip = TripConverter(campingTrip);
+
+            var tripJson = JsonConvert.SerializeObject(trip);
+
+            var content = new StringContent(tripJson, Encoding.UTF8, "application/json");
+
+            var response = httpClient.PutAsync($"api/CampingTrips/{trip.ID}", content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                Responses.Remove(resp);
+            }
+        }
+
+        private CampingTrip TripConverter(CampingTripInfo campingTrip)
+        {
+            var trip = new CampingTrip()
+            {
+
+                ID = campingTrip.ID,
+                Place = campingTrip.Place,
+                DepartureDate = campingTrip.DepartureDate,
+                ArrivalDate = campingTrip.ArrivalDate,
+                MinAge = campingTrip.MinAge,
+                MaxAge = campingTrip.MaxAge,
+                MaxCountOfMembers = campingTrip.MaxCountOfMembers,
+                MinCountOfMembers = campingTrip.MinCountOfMembers,
+                HasGuide = campingTrip.HasGuide,
+                HasPhotographer = campingTrip.HasPhotographer,
+                OrganizationType = Kanch.DataModel.TypeOfOrganization.OrderByAdmin,
+                Organizer = new User()
+                {
+                    Id = campingTrip.Organizer.Id
+                },
+                PriceOfTrip = campingTrip.PriceOfTrip,
+                CountOfMembers = campingTrip.CountOfMembers,
+                Direction = campingTrip.Direction,
+                IsRegistrationCompleted = campingTrip.IsRegistrationCompleted,
+            };
+
+            if (campingTrip.TypeOfTrip == ProfileComponents.DataModel.TypeOfCampingTrip.Campaign)
+            {
+                trip.TypeOfTrip = Kanch.DataModel.TypeOfCampingTrip.Campaign;
+            }
+            else if (campingTrip.TypeOfTrip == ProfileComponents.DataModel.TypeOfCampingTrip.CampingTrip)
+            {
+                trip.TypeOfTrip = Kanch.DataModel.TypeOfCampingTrip.CampingTrip;
+            }
+            else
+            {
+                trip.TypeOfTrip = Kanch.DataModel.TypeOfCampingTrip.Excursion;
+            }
+
+            if (campingTrip.Driver != null)
+            {
+                trip.Driver = new Driver { Id = campingTrip.Driver.Id };
+            }
+
+            if (campingTrip.Guide != null)
+            {
+                trip.Guide = new Guide { Id = campingTrip.Guide.Id };
+            }
+
+            if (campingTrip.Photographer != null)
+            {
+                trip.Photographer = new Photographer { Id = campingTrip.Photographer.Id };
+            }
+
+            trip.MembersOfCampingTrip = new List<User>();
+
+            if (campingTrip.MembersOfCampingTrip != null)
+            {
+                foreach (var member in campingTrip.MembersOfCampingTrip)
+                {
+                    trip.MembersOfCampingTrip.Add(new User
+                    {
+                        Id = member.Id
+                    });
+                }
+            }
+
+            if (campingTrip.Food != null)
+            {
+                trip.Food = new List<Food>();
+
+                foreach (var food in campingTrip.Food)
+                {
+                    trip.Food.Add(new Food()
+                    {
+                        Name = food.Name,
+                        Measure = food.Measure,
+                        MeasurementUnit = food.MeasurementUnit
+                    });
+                }
+            }
+            return trip;
         }
 
         private async Task<User> GetUserAsync(int userId)
@@ -202,6 +335,8 @@ namespace Kanch.ProfileComponents.ViewModels
             {
                 BaseAddress = new Uri(ConfigurationManager.AppSettings["userManagementBaseUri"])
             };
+
+            httpClientForGetingUser.SetBearerToken(tokenResponse.AccessToken);
 
             var response = await httpClientForGetingUser.GetAsync($"api/User/{userId}");
 
