@@ -267,11 +267,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\GuidesRequestsForAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProfileComponents\Views\LogOutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ProfileComponents\Views\InProgressCampingTrips.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProfileComponents\Views\PhotographerRequestsForAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -364,6 +372,8 @@
     <Compile Include="ProfileComponents\HelperClasses\CampingTripRequests.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DirectionDetails.cs" />
     <Compile Include="ProfileComponents\HelperClasses\DriverRequests.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\GuideRequests.cs" />
+    <Compile Include="ProfileComponents\HelperClasses\PhotographerRequests.cs" />
     <Compile Include="ProfileComponents\HelperClasses\ResponseOfTrip.cs" />
     <Compile Include="ProfileComponents\HelperClasses\TripsInProgress.cs" />
     <Compile Include="ProfileComponents\HelperClasses\UIFoodInfo.cs" />
@@ -376,7 +386,9 @@
     <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\ConfirmationOfTripsViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\DriverRequestsForAdminViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\GuideRequestsForAdminViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\InProgressCampingTripViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\PhotographerRequestsForAdminViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\TripsManagementOfAdminViewModel.cs" />
     <Compile Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml.cs">
       <DependentUpon>CampingTripRegistrationForAdmin.xaml</DependentUpon>
@@ -393,8 +405,14 @@
     <Compile Include="Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProfileComponents\Views\GuidesRequestsForAdmin.xaml.cs">
+      <DependentUpon>GuidesRequestsForAdmin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProfileComponents\Views\LogOutView.xaml.cs">
       <DependentUpon>LogOutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\PhotographerRequestsForAdmin.xaml.cs">
+      <DependentUpon>PhotographerRequestsForAdmin.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\Views\TripsManagementOfAdminView.xaml.cs">
       <DependentUpon>TripsManagementOfAdminView.xaml</DependentUpon>

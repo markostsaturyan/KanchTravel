@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Kanch.ProfileComponents.Views.PhotographerRequestsForAdmin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <ListView ItemsSource="{Binding PhotographerRequests}" ScrollViewer.PanningMode="Both">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <!--8-->
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="600"/>
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "First Name:"        Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Last Name:"         Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "User Name:"         Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Date Of Birth:"     Grid.Row = "4"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Gender:"            Grid.Row = "5"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Email:"             Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Phone Number"       Grid.Row = "7"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Profession:"        Grid.Row = "1"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Work Experience:"   Grid.Row = "2"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "90" Margin = "10,0"  Text = "Languages:"         Grid.Row = "3"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "80" Margin = "10,0"  Text = "Photographer has"   Grid.Row = "4"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "80" Margin = "10,0"  Text = "Camera"             Grid.Row = "5"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+
+
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.FirstName,Mode=TwoWay}"           Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.LastName, Mode=TwoWay}"           Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.UserName,Mode=TwoWay}"            Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.DateOfBirth,Mode=TwoWay}"         Grid.Row = "4"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.Gender,Mode=TwoWay}"              Grid.Row = "5"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.Email,Mode=TwoWay}"               Grid.Row = "6"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.PhoneNumber,Mode=TwoWay}"         Grid.Row = "7"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.Profession, Mode=TwoWay}"         Grid.Row = "1"  Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.WorkExperience, Mode=TwoWay}"     Grid.Row = "2"  Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+
+                                    <TextBlock Height = "90" Margin = "10,0"  Text="{Binding Photographer.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "7" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"></TextBlock>
+
+                                    <StackPanel Height="Auto" Margin = "10,0" Grid.Row = "4" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" Width = "137" Orientation="Vertical">
+                                        <CheckBox IsChecked="{Binding Photographer.HasDron,Mode=TwoWay}"               IsEnabled="False" Content="Dron"/>
+                                        <CheckBox IsChecked="{Binding Photographer.HasCameraStabilizator,Mode=TwoWay}" IsEnabled="False" Content="Camera Stabilizator"/>
+                                        <CheckBox IsChecked="{Binding Photographer.HasGopro,Mode=TwoWay}"              IsEnabled="False" Content="Gopro" />
+                                    </StackPanel>
+
+                                    <StackPanel Height="Auto" Margin = "10,0" Grid.Row = "5" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" Width = "137" Orientation="Vertical">                                   
+                                        <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.Camera.Model, Mode=TwoWay}" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                        <CheckBox IsChecked="{Binding Photographer.Camera.IsProfessional,Mode=TwoWay}" IsEnabled="False" Content="Camera is Professional"/>
+                                    </StackPanel>
+                                   
+                                    <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="6">
+                                        <Button Command="{Binding Accept}" CommandParameter="{Binding}" Width="60" Content="Accept"/>
+                                        <Button Command="{Binding Ignore}" CommandParameter="{Binding}" Width="60" Content="Ignore"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>
