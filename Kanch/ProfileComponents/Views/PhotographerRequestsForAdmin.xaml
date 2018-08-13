@@ -7,80 +7,147 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView ItemsSource="{Binding PhotographerRequests}" ScrollViewer.PanningMode="Both">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <!--8-->
-                                    </Grid.RowDefinitions>
+        <ScrollViewer CanContentScroll="True">
+            <ListView ItemsSource="{Binding GuideRequests}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="220"/>
+                                                    <ColumnDefinition Width="220"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <!--9-->
+                                                </Grid.RowDefinitions>
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="150"/>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="600"/>
-                                    </Grid.ColumnDefinitions>
+                                                <Rectangle Grid.Column="0" Grid.RowSpan="1000">
+                                                    <Rectangle.Fill>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="#99ccff" Offset="0" />
+                                                            <GradientStop Color="White" Offset="1" />
+                                                        </LinearGradientBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
 
+                                                <Rectangle Grid.Column="1" Grid.RowSpan="1000">
+                                                    <Rectangle.Fill>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="#b8dbff" Offset="0" />
+                                                            <GradientStop Color="White" Offset="1" />
+                                                        </LinearGradientBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
 
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "First Name:"        Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Last Name:"         Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "User Name:"         Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Date Of Birth:"     Grid.Row = "4"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Gender:"            Grid.Row = "5"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Email:"             Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Phone Number"       Grid.Row = "7"  Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Profession:"        Grid.Row = "1"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "Work Experience:"   Grid.Row = "2"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "90" Margin = "10,0"  Text = "Languages:"         Grid.Row = "3"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "80" Margin = "10,0"  Text = "Photographer has"   Grid.Row = "4"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "80" Margin = "10,0"  Text = "Camera"             Grid.Row = "5"  Grid.Column = "2" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "First Name:"        Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Last Name:"         Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "User Name:"         Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Date Of Birth:"     Grid.Row = "4"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Gender:"            Grid.Row = "5"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Email:"             Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Phone Number"       Grid.Row = "7"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Languages:"         Grid.Row = "8"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   ></TextBlock>
 
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.FirstName,Mode=TwoWay}"           Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.LastName, Mode=TwoWay}"           Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.UserName,Mode=TwoWay}"            Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.DateOfBirth,Mode=TwoWay}"         Grid.Row = "4"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.Gender,Mode=TwoWay}"              Grid.Row = "5"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.Email,Mode=TwoWay}"               Grid.Row = "6"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.PhoneNumber,Mode=TwoWay}"         Grid.Row = "7"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock               Margin = "15 5 0 5"  Text = "{Binding Photographer.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "8" Grid.Column = "3" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" Width = "137"></TextBlock>
+                                            </Grid>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <!--9-->
+                                                </Grid.RowDefinitions>
 
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.FirstName,Mode=TwoWay}"           Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.LastName, Mode=TwoWay}"           Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.UserName,Mode=TwoWay}"            Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.DateOfBirth,Mode=TwoWay}"         Grid.Row = "4"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.Gender,Mode=TwoWay}"              Grid.Row = "5"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.Email,Mode=TwoWay}"               Grid.Row = "6"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.PhoneNumber,Mode=TwoWay}"         Grid.Row = "7"  Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.Profession, Mode=TwoWay}"         Grid.Row = "1"  Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                    <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.WorkExperience, Mode=TwoWay}"     Grid.Row = "2"  Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="220"/>
+                                                    <ColumnDefinition Width="300"/>
+                                                </Grid.ColumnDefinitions>
 
-                                    <TextBlock Height = "90" Margin = "10,0"  Text="{Binding Photographer.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "7" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"></TextBlock>
+                                                <Rectangle Grid.Column="0" Grid.RowSpan="1000">
+                                                    <Rectangle.Fill>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="#99ccff" Offset="0" />
+                                                            <GradientStop Color="White" Offset="1" />
+                                                        </LinearGradientBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
 
-                                    <StackPanel Height="Auto" Margin = "10,0" Grid.Row = "4" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" Width = "137" Orientation="Vertical">
-                                        <CheckBox IsChecked="{Binding Photographer.HasDron,Mode=TwoWay}"               IsEnabled="False" Content="Dron"/>
-                                        <CheckBox IsChecked="{Binding Photographer.HasCameraStabilizator,Mode=TwoWay}" IsEnabled="False" Content="Camera Stabilizator"/>
-                                        <CheckBox IsChecked="{Binding Photographer.HasGopro,Mode=TwoWay}"              IsEnabled="False" Content="Gopro" />
-                                    </StackPanel>
+                                                <Rectangle Grid.Column="1" Grid.RowSpan="1000">
+                                                    <Rectangle.Fill>
+                                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                            <GradientStop Color="#b8dbff" Offset="0" />
+                                                            <GradientStop Color="White" Offset="1" />
+                                                        </LinearGradientBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
 
-                                    <StackPanel Height="Auto" Margin = "10,0" Grid.Row = "5" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" Width = "137" Orientation="Vertical">                                   
-                                        <TextBlock Height = "25" Margin = "10,0"  Text = "{Binding Photographer.Camera.Model, Mode=TwoWay}" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" FontSize = "12" FontFamily = "Arial" Width = "137"/>
-                                        <CheckBox IsChecked="{Binding Photographer.Camera.IsProfessional,Mode=TwoWay}" IsEnabled="False" Content="Camera is Professional"/>
-                                    </StackPanel>
-                                   
-                                    <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="6">
-                                        <Button Command="{Binding Accept}" CommandParameter="{Binding}" Width="60" Content="Accept"/>
-                                        <Button Command="{Binding Ignore}" CommandParameter="{Binding}" Width="60" Content="Ignore"/>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Profession:"       Grid.Row = "0"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Work experiance:"  Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Photographer has:" Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Camera:"           Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.Profession, Mode=TwoWay}"    Grid.Row = "0"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"/>
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.WorkExperiance,Mode=TwoWay}" Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"/>
+                                               
+                                                <StackPanel Height="Auto" Margin = "15 5 0 5 " Grid.Row = "2" Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" Width = "137" Orientation="Vertical">
+                                                    <CheckBox IsChecked="{Binding Photographer.HasDron, Mode=TwoWay}"           IsEnabled="False" Content="Has dron"           FontSize="15"/>
+                                                    <CheckBox IsChecked="{Binding Photographer.HasCameraStabilizator, Mode=TwoWay}"     IsEnabled="False" Content="Has camera stabilizator"      FontSize="15"/>
+                                                    <CheckBox IsChecked="{Binding Photographer.HasGopro, Mode=TwoWay}" IsEnabled="False" Content="Has gopro" FontSize="15"/>
+                                                </StackPanel>
+
+                                                <StackPanel  Height="Auto" Margin = "15 5 0 5 " Grid.Row = "3" Grid.Column = "1" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Width = "137" Orientation="Vertical">
+                                                    <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Photographer.Camera.Model, Mode=TwoWay}"    Grid.Row = "0"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"/>
+                                                    <CheckBox IsChecked="{Binding Photographer.Camera.IsProfessional, Mode=TwoWay}" IsEnabled="False" Content="Is professional" FontSize="15"/>
+                                                </StackPanel>
+                                                
+                                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="7">
+                                                    <Button Command="{Binding Accept}" CommandParameter="{Binding}" Width="60" Margin="0 0 10 0">
+                                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                                        Accept
+                                                        </TextBlock>
+                                                    </Button>
+                                                    <Button Command="{Binding Ignore}" CommandParameter="{Binding}" Width="60" >
+                                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                                        Ignore
+                                                        </TextBlock>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
     </Grid>
 </UserControl>
