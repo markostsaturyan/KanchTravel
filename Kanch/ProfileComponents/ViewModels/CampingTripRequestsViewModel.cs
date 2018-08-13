@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
-    class CampingTripRequestsForDriverViewModel : INotifyPropertyChanged
+    class CampingTripRequestsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,7 +26,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public ObservableCollection<CampingTripRequests> CampingTripRequests { get; set; }
 
-        public CampingTripRequestsForDriverViewModel()
+        public CampingTripRequestsViewModel()
         {
             this.CampingTripRequests = new ObservableCollection<CampingTripRequests>();
             this.httpClient = new HttpClient();

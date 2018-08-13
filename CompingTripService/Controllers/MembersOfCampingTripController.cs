@@ -13,7 +13,7 @@ namespace CampingTripService.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/MembersOfCampingTrip")]
+    
     public class MembersOfCampingTripController : Controller
     {
         private readonly ISignUpForTheTrip signUpForTheTrip;
@@ -22,7 +22,7 @@ namespace CampingTripService.Controllers
         {
             this.signUpForTheTrip = signUpForTheTrip;
         }
-
+        [Route("api/MembersOfCampingTrip")]
         [HttpGet("{id}")]
         public async Task<IEnumerable<string>> GetAsync(int id)
         {
@@ -30,6 +30,7 @@ namespace CampingTripService.Controllers
         }
 
         // PUT: api/MembersOfCampingTrip/5
+        [Route("api/MembersOfCampingTrip")]
         [Authorize(Policy = "OnlyForAUDGP")]
         [HttpPut("{id}")]
         public async Task<Status> Put(int id, [FromBody]CampingTripId tripId)
@@ -61,9 +62,9 @@ namespace CampingTripService.Controllers
 
         // DELETE: api/ApiWithActions/5
         [Authorize]
-        [Route("api/MembersOfCampingTrip/{id:int}/{campingTripId}")]
+        [Route("api/MembersOfCampingTrip/{id}/{campingTripId}")]
         [HttpDelete("{id:int},{campingTripId}")]
-        public async Task<Status> Delete(int id, string campingTripId)
+        public async Task<Status> Delete([FromRoute]int id, [FromRoute]string campingTripId)
         {
             var identity = (ClaimsIdentity)User.Identity;
 

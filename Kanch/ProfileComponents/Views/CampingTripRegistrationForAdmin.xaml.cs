@@ -16,7 +16,7 @@ using Kanch.ProfileComponents.ViewModels;
 
 namespace Kanch.ProfileComponents.Views
 {
-    /// <summary>
+    /// <summary> 
     /// Interaction logic for CampingTripRegistrationForAdmin.xaml
     /// </summary>
     public partial class CampingTripRegistrationForAdmin : UserControl

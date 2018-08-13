@@ -255,7 +255,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml">
+    <Page Include="ProfileComponents\Views\CampingTripRequests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -381,7 +381,7 @@
     <Compile Include="ProfileComponents\Utilities\EnumBindingSourceExtension.cs" />
     <Compile Include="ProfileComponents\Utilities\EnumDescriptionTypeConverter.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationForAdminViewModel.cs" />
-    <Compile Include="ProfileComponents\ViewModels\CampingTripRequestsForDriverViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\CampingTripRequestsViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\CampingTripRegistrationViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\ConfirmationOfTripsViewModel.cs" />
@@ -393,8 +393,8 @@
     <Compile Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml.cs">
       <DependentUpon>CampingTripRegistrationForAdmin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProfileComponents\Views\CampingTripRequestsForDriver.xaml.cs">
-      <DependentUpon>CampingTripRequestsForDriver.xaml</DependentUpon>
+    <Compile Include="ProfileComponents\Views\CampingTripRequests.xaml.cs">
+      <DependentUpon>CampingTripRequests.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\Views\ConfirmationOfTrips.xaml.cs">
       <DependentUpon>ConfirmationOfTrips.xaml</DependentUpon>

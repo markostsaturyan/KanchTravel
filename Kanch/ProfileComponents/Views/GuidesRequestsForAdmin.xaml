@@ -70,7 +70,7 @@
                                                 <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.Gender,Mode=TwoWay}"              Grid.Row = "5"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
                                                 <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.Email,Mode=TwoWay}"               Grid.Row = "6"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
                                                 <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.PhoneNumber,Mode=TwoWay}"         Grid.Row = "7"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock  Margin = "15 5 0 5"  Text="{Binding Guide.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "8" Grid.Column = "3" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" Width = "137"></TextBlock>
+                                                <TextBlock  Margin = "15 5 0 5"  Text="{Binding Guide.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "8" Grid.Column = "3" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" Width = "137" TextWrapping="WrapWithOverflow"></TextBlock>
                                             </Grid>
                                             <Grid>
                                                 <Grid.RowDefinitions>

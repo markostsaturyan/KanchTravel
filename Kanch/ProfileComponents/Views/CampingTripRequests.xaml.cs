@@ -19,11 +19,11 @@ namespace Kanch.ProfileComponents.Views
     /// <summary>
     /// Interaction logic for CampingTripRequestsForDriver.xaml
     /// </summary>
-    public partial class CampingTripRequestsForDriver : UserControl
+    public partial class CampingTripRequests : UserControl
     {
-        public CampingTripRequestsForDriver()
+        public CampingTripRequests()
         {
-            this.DataContext = new CampingTripRequestsForDriverViewModel();
+            this.DataContext = new CampingTripRequestsViewModel();
             InitializeComponent();
         }
     }

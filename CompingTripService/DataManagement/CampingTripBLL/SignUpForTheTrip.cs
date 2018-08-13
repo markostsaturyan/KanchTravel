@@ -195,10 +195,11 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                 {
                     campingTrip.MembersOfCampingTrip.Remove(id);
 
+                    campingTrip.CountOfMembers--;
+
                     if (campingTrip.IsRegistrationCompleted == true)
                     {
                         campingTrip.IsRegistrationCompleted = false;
-                        campingTrip.CountOfMembers--;
                     }
 
                     await campingTripRepository.UpdateCampingTrip(campingTripID, campingTrip);

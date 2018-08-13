@@ -688,7 +688,7 @@ namespace Kanch.ViewModel
             foreach(var language in this.Languages)
             {
                 if (language.IsSelected)
-                    driver.KnowledgeOfLanguages += language.Text + ',';
+                    driver.KnowledgeOfLanguages += language.Text + ", ";
             }
 
 

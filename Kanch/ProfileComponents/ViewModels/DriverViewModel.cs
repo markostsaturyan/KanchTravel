@@ -125,7 +125,7 @@ namespace Kanch.ProfileComponents.ViewModels
             var window = Application.Current.MainWindow;
 
             var presenter = window.FindName("mainPage") as ContentPresenter;
-            presenter.ContentTemplate = window.FindResource("CampingTripRequestsForDriver") as DataTemplate;
+            presenter.ContentTemplate = window.FindResource("CampingTripRequests") as DataTemplate;
         }
 
         public void GetDriverInfo()
