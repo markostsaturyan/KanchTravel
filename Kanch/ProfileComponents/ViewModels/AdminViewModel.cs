@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using IdentityModel.Client;
 using Kanch.Commands;
 using Kanch.DataModel;
@@ -24,6 +18,8 @@ namespace Kanch.ProfileComponents.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand GetDriverRequestsCommand { get; set; }
+        public ICommand GetGuideRequestsCommand { get; set; }
+        public ICommand GetPhotographerRequestsCommand { get; set; }
         public ICommand GetAllTripsCommand { get; set; }
         public ICommand GetMyCurrentTripsCommand { get; set; }
         public ICommand GetMyPreviousTripsCommand { get; set; }
@@ -34,18 +30,13 @@ namespace Kanch.ProfileComponents.ViewModels
         private HttpClient httpClient;
         private TokenClient tokenClient;
 
-        private ImageSource male;
-        private ImageSource female;
-
         public UserInfo User { get; set; }
+
         public AdminViewModel()
         {
-            this.male = new BitmapImage(new Uri(String.Format("Images/male.jpg"), UriKind.Relative));
-            this.male.Freeze();
-            this.female = new BitmapImage(new Uri(String.Format("Images/female.jpg"), UriKind.Relative));
-            this.female.Freeze();
-
             this.GetDriverRequestsCommand = new Command(o => GetDriverRequests());
+            this.GetGuideRequestsCommand = new Command(o => GetGuideRequests());
+            this.GetPhotographerRequestsCommand = new Command(o => GetPhotographerRequests());
             this.GetAllTripsCommand = new Command(o => GetAllTrips());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
             this.GetMyPreviousTripsCommand = new Command(o => GetMyPreviousTris());
@@ -54,7 +45,7 @@ namespace Kanch.ProfileComponents.ViewModels
             this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
             ConnectToServer();
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
+            this.httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["userManagementBaseUri"]);
             GetUserInfo();
         }
 
@@ -99,6 +90,22 @@ namespace Kanch.ProfileComponents.ViewModels
             presenter.ContentTemplate = window.FindResource("DriverRequestsForAdmin") as DataTemplate;
         }
 
+        public void GetGuideRequests()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("GuideRequestsForAdmin") as DataTemplate;
+        }
+
+        public void GetPhotographerRequests()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("PhotographerRequestsForAdmin") as DataTemplate;
+        }
+
         public void GetUnconfirmedCampingTrips()
         {
             var window = Application.Current.MainWindow;
@@ -106,14 +113,14 @@ namespace Kanch.ProfileComponents.ViewModels
             var presenter = window.FindName("mainPage") as ContentPresenter;
             presenter.ContentTemplate = window.FindResource("ConfirmationOfTrips") as DataTemplate;
         }
-         public void GetUserInfo()
-        {
 
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+        public void GetUserInfo()
+        {
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             this.httpClient.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = httpClient.GetAsync("api/User/" + ConfigurationSettings.AppSettings["userId"]).Result;
+            var response = httpClient.GetAsync($"api/User/{ConfigurationManager.AppSettings["userId"]}").Result;
 
             var content = response.Content;
 
@@ -131,35 +138,18 @@ namespace Kanch.ProfileComponents.ViewModels
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 UserName = user.UserName,
-
+                Image=ImageConverter.ConvertImageToImageSource(user.Image)??ImageConverter.DefaultProfilePicture(user.Gender)
             };
-            if (user.Image != null)
-            {
-                userinfo.Image = ImageConverter.ConvertImageToImageSource(user.Image);
-            }
-            else
-            {
-                if (userinfo.Gender == "Female")
-                {
-                    userinfo.Image = this.female;
-                }
-                else
-                {
-                    userinfo.Image = this.male;
-                }
-            }
+
             this.User = userinfo;
         }
-        private async void ConnectToServer()
+
+        private void ConnectToServer()
         {
-            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
+            var disco = DiscoveryClient.GetAsync(ConfigurationManager.AppSettings["authenticationService"]).Result;
 
             if (disco.IsError)
             {
-                //ErrorCode = 404;
-                //
-                //ErrorMessage = disco.Error;
-
                 return;
             }
             else
@@ -167,6 +157,5 @@ namespace Kanch.ProfileComponents.ViewModels
                 tokenClient = new TokenClient(disco.TokenEndpoint, "kanchDesktopApp", "secret");
             }
         }
-
     }
 }

@@ -8,76 +8,104 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <ScrollViewer CanContentScroll="True">
-            <ListView ItemsSource="{Binding UnconfirmedTrips}">
+            <ListView ItemsSource="{Binding UnconfirmedTrips}" BorderBrush="Black">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Width="Auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <Grid >
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="200"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="220"/>
+                                            <ColumnDefinition Width="720"/>
                                         </Grid.ColumnDefinitions>
 
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="100"/>
-                                            <RowDefinition Height="25" />
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="100"/>
-                                            <RowDefinition Height="70"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
-                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock Text = "Place"             Grid.Column="0" Grid.Row="0"/>
-                                        <TextBlock Text="Direction"           Grid.Column="0" Grid.Row="1" />
-                                        <TextBlock Text="Departure Date"      Grid.Column="0" Grid.Row="2" />
-                                        <TextBlock Text="Arrival Date"        Grid.Column="0" Grid.Row="3" />
-                                        <TextBlock Text="Minimum Age"         Grid.Column="0" Grid.Row="4" />
-                                        <TextBlock Text="Maximum Age"         Grid.Column="0" Grid.Row="5" />
-                                        <TextBlock Text ="Count of Members"   Grid.Column="0" Grid.Row="6" />
-                                        <TextBlock Text="Camping trip's type" Grid.Column="0" Grid.Row="7"  />
-                                        <TextBlock Text="Foods"               Grid.Column="0" Grid.Row="9" />
-                                        <TextBlock Text="Organaizer"          Grid.Column="0" Grid.Row="10" />
+                                        <Rectangle Grid.Column="0" Grid.RowSpan="1000">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#99ccff" Offset="0" />
+                                                    <GradientStop Color="White" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
 
-                                        <TextBlock Text="{Binding CampingTrip.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" ></TextBlock>
+                                        <Rectangle Grid.Column="1" Grid.RowSpan="1000">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#b8dbff" Offset="0" />
+                                                    <GradientStop Color="White" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+
+                                        <TextBlock Text = "Place"             Grid.Column="0" Grid.Row="0"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
+                                        <TextBlock Text="Direction"           Grid.Column="0" Grid.Row="1"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
+                                        <TextBlock Text="Date"                Grid.Column="0" Grid.Row="2"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text="Age limit"           Grid.Column="0" Grid.Row="3"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top" />
+                                        <TextBlock Text ="Count of members"   Grid.Column="0" Grid.Row="4"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
+                                        <TextBlock Text="Camping trip's type" Grid.Column="0" Grid.Row="5"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
+                                        <TextBlock Text="Foods"               Grid.Column="0" Grid.Row="7"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
+                                        <TextBlock Text="Organaizer"          Grid.Column="0" Grid.Row="8"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
+
+                                        <TextBlock Text="{Binding CampingTrip.Place, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" FontSize="14" Width="200" HorizontalAlignment="Left" Margin="15,5,0,5" ></TextBlock>
 
 
-                                        <ListView  Name="directionsList" Width="250" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding CampingTrip.Direction}"
-                                                ScrollViewer.CanContentScroll="True">
-
+                                        <ListView  Name="directionsList" Width="200" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" ItemsSource="{Binding CampingTrip.Direction}" FontSize="14" Margin="15,5,0,5" >
                                         </ListView>
 
-                                        <TextBlock Text="{Binding CampingTrip.DepartureDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="2"   Background="#cce6ff"   />
-
-                                        <TextBlock Text="{Binding CampingTrip.ArrivalDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="3"   Background="#cce6ff" />
-
-                                        <TextBlock Text="{Binding CampingTrip.MinAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="4" />
-
-                                        <TextBlock Text="{Binding CampingTrip.MaxAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
-
-                                        <TextBlock Text="{Binding CampingTrip.CountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" />
-
-                                        <TextBlock Text="{Binding CampingTrip.TypeOfTrip,Mode=TwoWay}" Grid.Column="1" Grid.Row="7" />
-
-                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="8" >
-                                            <CheckBox IsChecked="{Binding CampingTrip.HasPhotographer}" IsEnabled="False">Photographer</CheckBox>
-                                            <CheckBox IsChecked="{Binding CampingTrip.HasGuide}" IsEnabled="False">Guide</CheckBox>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="15,5,0,5">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Departure Date"    FontSize="14" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.DepartureDate ,Mode=TwoWay}" Background="#cce6ff"    Width="200" Height="25" FontSize="14"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Arrival Date"    FontSize="15" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.ArrivalDate ,Mode=TwoWay}" Background="#cce6ff"   Width="200" Height="25" FontSize="14"/>
+                                            </StackPanel>
                                         </StackPanel>
 
-                                        <ListView Width="500" BorderBrush="LightGray"  ItemsSource="{Binding CampingTrip.Food,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="15,5,0,5">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Minimum age"    FontSize="14" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.MinAge ,Mode=TwoWay}" FontSize="14" Height="25" Width="200" HorizontalAlignment="Left" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="Maximum age"    FontSize="14" Width="200" FontWeight="UltraBlack"/>
+                                                <TextBlock Text="{Binding CampingTrip.MaxAge ,Mode=TwoWay}" FontSize="14" Height="25" Width="200" HorizontalAlignment="Left" />
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <TextBlock Text="{Binding CampingTrip.CountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="4" FontSize="14" Height="25" Margin="15 5 0 5" Width="200" HorizontalAlignment="Left" />
+                                        <TextBlock Text="{Binding CampingTrip.TypeOfTrip,Mode=TwoWay}" Grid.Column="1" Grid.Row="5" FontSize="14" Height="25" Margin="15 5 0 5" Width="200" HorizontalAlignment="Left" />
+
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="6"  Height="Auto" Margin = "15 5 0 5 " HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" Width = "Auto">
+                                            <CheckBox IsChecked="{Binding CampingTrip.HasPhotographer}" IsEnabled="False"  FontSize="14" Margin="0 0 10 0">Photographer</CheckBox>
+                                            <CheckBox IsChecked="{Binding CampingTrip.HasGuide}" IsEnabled="False"  FontSize="14">Guide</CheckBox>
+                                        </StackPanel>
+
+
+                                        <ListView Width="500" Height="70" Margin = "15 5 0 5 " FontSize="14" BorderBrush="LightGray"  ItemsSource="{Binding CampingTrip.Food,Mode=TwoWay}" BorderThickness="1,1,1,1"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Left">
                                             <ListView.View>
                                                 <GridView>
                                                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
@@ -86,19 +114,30 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                        <Image Source="{Binding CampingTrip.Organizer.Image}" Height="30" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left"/>
-                                        <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.Column="1">
-                                            <TextBlock Text="{Binding CampingTrip.Organizer.FirstName}" Margin="10,0"/>
-                                            <TextBlock Text="{Binding CampingTrip.Organizer.LastName}"/>
+                                        <StackPanel Orientation="Vertical" Margin = "15 5 0 5 "  Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left" Width="200">
+                                            <Image Source="{Binding CampingTrip.Organizer.Image}" Height="50"  HorizontalAlignment="Left" />
+                                            <StackPanel Orientation="Horizontal" Width="Auto">
+                                                <TextBlock Text="{Binding CampingTrip.Organizer.FirstName}" FontSize="14"  HorizontalAlignment="left" Margin="0 0 15 0"/>
+                                                <TextBlock Text="{Binding CampingTrip.Organizer.LastName}" FontSize="14"  HorizontalAlignment="left"/>
+                                            </StackPanel>
                                         </StackPanel>
-                                        <TextBlock Text="{Binding CampingTrip.Organizer.UserName}" Grid.Row="12" Grid.Column="1"/>
-                                        <TextBlock Text="{Binding CampingTrip.Organizer.DateOfBirth}" Grid.Row="13" Grid.Column="1"/>
-                                        <TextBlock Text="{Binding CampingTrip.Organizer.Email}" Grid.Row="14" Grid.Column="1"/>
-                                        <TextBlock Text="{Binding CampingTrip.Organizer.Gender}" Grid.Column="1" Grid.Row="15"/>
-                                        <TextBlock Text="{Binding CampingTrip.Organizer.PhoneNumber}" Grid.Column="1" Grid.Row="16" />
-                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="17">
-                                            <Button Command="{Binding ConfirmCommand}" CommandParameter="{Binding}" Height="25">Confirm</Button>
-                                            <Button Command="{Binding IgnoreCommand}" CommandParameter="{Binding}" Height="25">Ignore</Button>
+                                        <TextBlock Text="{Binding CampingTrip.Organizer.UserName}"      Grid.Row="9" Grid.Column="1" FontSize="13" Width="200" HorizontalAlignment="left" Margin="15,5,0,5"/>
+                                        <TextBlock Text="{Binding CampingTrip.Organizer.DateOfBirth}"   Grid.Row="10" Grid.Column="1" FontSize="13" Width="200" HorizontalAlignment="left" Margin="15,5,0,5"/>
+                                        <TextBlock Text="{Binding CampingTrip.Organizer.Email}"         Grid.Row="11" Grid.Column="1" FontSize="13" Width="200" HorizontalAlignment="left" Margin="15,5,0,5"/>
+                                        <TextBlock Text="{Binding CampingTrip.Organizer.Gender}"        Grid.Row="12" Grid.Column="1" FontSize="13" Width="200" HorizontalAlignment="left" Margin="15,5,0,5"/>
+                                        <TextBlock Text="{Binding CampingTrip.Organizer.PhoneNumber}"   Grid.Row="13" Grid.Column="1" FontSize="13" Width="200" HorizontalAlignment="left" Margin="15,5,0,5"/>
+                                        
+                                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="14" HorizontalAlignment="Right" Margin="0 0 120 0">
+                                            <Button Command="{Binding ConfirmCommand}" CommandParameter="{Binding}" Width="60" Margin="0 0 10 0">
+                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                                        Confirm
+                                                </TextBlock>
+                                            </Button>
+                                            <Button Command="{Binding IgnoreCommand}" CommandParameter="{Binding}" Width="60" >
+                                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                                        Ignore
+                                                </TextBlock>
+                                            </Button>
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>

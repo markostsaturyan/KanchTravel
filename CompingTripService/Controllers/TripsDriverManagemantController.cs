@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Collections.Generic;
 using System.Linq;
+using CampingTripService.DataManagement.Model;
 
 namespace CampingTripService.Controllers
 {
@@ -30,9 +31,9 @@ namespace CampingTripService.Controllers
         // PUT: api/DriversOfCampingTrips/5
         [Authorize(Policy = "OnlyForAdmin")]
         [HttpPut("{id}")]
-        public async void Put(int id, [FromBody]string campingTripID)
+        public async void Put(int id, [FromBody]CampingTripId campingTripID)
         {
-            await this.signUpForTheTrip.AsDriver(id, campingTripID);
+            await this.signUpForTheTrip.AsDriver(id, campingTripID.CampingTripID);
         }
 
         // DELETE: api/ApiWithActions/5

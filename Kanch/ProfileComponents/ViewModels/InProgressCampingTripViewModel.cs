@@ -89,6 +89,7 @@ namespace Kanch.ProfileComponents.ViewModels
                             Direction = trip.Direction,
                             HasGuide = trip.HasGuide,
                             HasPhotographer = trip.HasPhotographer,
+                            PriceOfTrip=trip.PriceOfTrip,
                             ID = trip.ID
                         };
                         if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
@@ -116,6 +117,9 @@ namespace Kanch.ProfileComponents.ViewModels
                                 });
                             }
                         }
+
+                        campingtrip.MembersOfCampingTrip = new ObservableCollection<UserInfo>();
+
                         if (trip.MembersOfCampingTrip != null)
                         {
                             foreach(var member in trip.MembersOfCampingTrip)
@@ -124,14 +128,16 @@ namespace Kanch.ProfileComponents.ViewModels
                                 {
                                     campingtrip.IAmJoined = true;
                                 }
+                                campingtrip.MembersOfCampingTrip.Add(new UserInfo
+                                {
+                                    Id = member.Id
+                                });
                             }
                         }
                         if(!campingtrip.IAmJoined)
                         {
                             campingtrip.CanIJoin = true;
                         }
-
-
 
                         var tripInProgress = new TripsInProgress();
 
@@ -173,14 +179,14 @@ namespace Kanch.ProfileComponents.ViewModels
                 {
                     campingTrip.MembersOfCampingTrip = new ObservableCollection<UserInfo>();
                 }
+                campingTrip.CountOfMembers++;
                 campingTrip.MembersOfCampingTrip.Add(new UserInfo()
                 {
                     Id=this.user.Id
-
                 });
-
             }
         }
+
         public async void Refuse(object trip)
         {
             var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
@@ -188,14 +194,14 @@ namespace Kanch.ProfileComponents.ViewModels
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var campingTrip = (trip as TripsInProgress).CampingTrip;
 
-            var response = await httpClient.DeleteAsync("api/MembersOfCampingTrip/" + user.Id + "/" + campingTrip.ID);
+            var response = await httpClient.DeleteAsync($"api/MembersOfCampingTrip/{user.Id}/{campingTrip.ID}");
 
             if (response.IsSuccessStatusCode)
             {
                 campingTrip.IAmJoined = false;
                 campingTrip.CanIJoin = true;
-
-               campingTrip.MembersOfCampingTrip.Remove(campingTrip.MembersOfCampingTrip.Where(userInfo => userInfo.Id == user.Id).First());
+                campingTrip.CountOfMembers--;
+               campingTrip.MembersOfCampingTrip.Remove(campingTrip.MembersOfCampingTrip.Where(userInfo => userInfo.Id == user.Id)?.First());
             }
 
         }
@@ -216,7 +222,6 @@ namespace Kanch.ProfileComponents.ViewModels
 
             this.user = JsonConvert.DeserializeObject<User>(jsonContent);
 
-            
         }
 
         private void ConnectToServer()

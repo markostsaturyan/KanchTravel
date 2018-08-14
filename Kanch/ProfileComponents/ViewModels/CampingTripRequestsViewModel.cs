@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using IdentityModel.Client;
 using Kanch.Commands;
 using Kanch.DataModel;
@@ -16,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
-    class CampingTripRequestsForDriverViewModel : INotifyPropertyChanged
+    class CampingTripRequestsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,18 +24,18 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public ObservableCollection<CampingTripRequests> CampingTripRequests { get; set; }
 
-        public CampingTripRequestsForDriverViewModel()
+        public CampingTripRequestsViewModel()
         {
             this.CampingTripRequests = new ObservableCollection<CampingTripRequests>();
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            this.httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"]);
             ConnectToServer();
             GetAllRequests();
         }
 
         public void GetAllRequests()
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var response = httpClient.GetAsync("api/ServiceRequests").Result;
@@ -54,7 +52,7 @@ namespace Kanch.ProfileComponents.ViewModels
             {
                 foreach (var request in serviceRequests)
                 {
-                    var campingTripResponse = httpClient.GetAsync("api/campingtrips/" + request.CampingTripId).Result;
+                    var campingTripResponse = httpClient.GetAsync($"api/campingtrips/{request.CampingTripId}").Result;
 
                     var campingTripContent = campingTripResponse.Content;
 
@@ -100,23 +98,20 @@ namespace Kanch.ProfileComponents.ViewModels
         }
         public void AcceptRequest(object request)
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
             var tripRequest = request as CampingTripRequests;
 
-
             var serviceRequestResponse = new ServiceRequestResponse()
             {
                 CampingTripId = tripRequest.ID,
                 Price = tripRequest.Price,
-                ProviderRole = ConfigurationSettings.AppSettings["role"],
-                ProviderId = int.Parse(ConfigurationSettings.AppSettings["userId"]),
+                ProviderRole = ConfigurationManager.AppSettings["role"],
+                ProviderId = int.Parse(ConfigurationManager.AppSettings["userId"]),
                 ResponseValidityPeriod = tripRequest.ArrivalDate
             };
-
-
 
             var response = httpClient.PostAsync("api/ServiceRequestResponses", new StringContent(JsonConvert.SerializeObject(serviceRequestResponse), Encoding.UTF8, "application/json")).Result;
 
@@ -125,19 +120,22 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void IgnoreRequest(object request)
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
             var tripRequest = request as CampingTripRequests;
 
-            var response = httpClient.DeleteAsync("api/ServiceRequestResponses/" + tripRequest.ID).Result;
+            var response = httpClient.DeleteAsync($"api/ServiceRequestResponses/{tripRequest.ID}").Result;
 
-            this.CampingTripRequests.Remove(request as CampingTripRequests);
+            if (response.IsSuccessStatusCode)
+            {
+                this.CampingTripRequests.Remove(request as CampingTripRequests);
+            }
         }
         private void ConnectToServer()
         {
-            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
+            var disco = DiscoveryClient.GetAsync(ConfigurationManager.AppSettings["authenticationService"]).Result;
 
             if (disco.IsError)
             {

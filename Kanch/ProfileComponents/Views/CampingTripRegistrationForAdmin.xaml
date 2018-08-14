@@ -105,8 +105,8 @@
                 <DatePicker SelectedDate="{Binding TripRegistration.ArrivalDate ,Mode=TwoWay}" Grid.Column="1" Grid.Row="3" Margin="15,5,0,5" SelectedDateFormat="Long" Background="#cce6ff"  DisplayDateStart="{Binding TripRegistration.DepartureDate ,Mode=TwoWay}"  DisplayDateEnd="3/31/9999" Width="200" Height="25" HorizontalAlignment="Left"/>
                 <TextBox Text="{Binding TripRegistration.MinAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="4" Margin="15,5,0,5" Width="200" Height="25" HorizontalAlignment="Left"/>
                 <TextBox Text="{Binding TripRegistration.MaxAge ,Mode=TwoWay}" Grid.Column="1" Grid.Row="5" Margin="15,5,0,5" Width="200" Height="25" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding TripRegistration.MinCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" Margin="15,5,0,5" Width="200" Height="25" HorizontalAlignment="Left"/>
-                <TextBox Text="{Binding TripRegistration.MaxCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="7" Margin="15,5,0,5" Width="200" Height="25" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding TripRegistration.MaxCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="6" Margin="15,5,0,5" Width="200" Height="25" HorizontalAlignment="Left"/>
+                <TextBox Text="{Binding TripRegistration.MinCountOfMembers,Mode=TwoWay}" Grid.Column="1" Grid.Row="7" Margin="15,5,0,5" Width="200" Height="25" HorizontalAlignment="Left" />
                 <ComboBox 
             ItemsSource = "{Binding Source={utilities:EnumBindingSource {x:Type dataModels:TypeOfCampingTrip} } }"
             SelectedValue="{Binding TripRegistration.TypeOfTrip}"
@@ -188,10 +188,11 @@
 
                 <TextBlock Text = "Place"                    Grid.Column="0" Grid.Row="0"  Margin="7,5,10,5"   FontSize="15"  />
                 <TextBlock Text = "Direction"                Grid.Column="0" Grid.Row="1"  Margin="7,5,10,5"   FontSize="15"  />
-                <TextBlock Text = "Departure Date"           Grid.Column="0" Grid.Row="2"  Margin="7,5,10,5"   FontSize="15"  />
-                <TextBlock Text = "Arrival Date"             Grid.Column="0" Grid.Row="3"  Margin="7,5,10,5"   FontSize="15"  />
-                <TextBlock Text = "Minimum Age"              Grid.Column="0" Grid.Row="4"  Margin="7,5,10,5"   FontSize="15"  />
-                <TextBlock Text = "Maximum Age"              Grid.Column="0" Grid.Row="5"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Departure date"           Grid.Column="0" Grid.Row="2"  Margin="7,5,10,5"   FontSize="15"  />
+                
+                <TextBlock Text = "Arrival date"             Grid.Column="0" Grid.Row="3"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Minimum age"              Grid.Column="0" Grid.Row="4"  Margin="7,5,10,5"   FontSize="15"  />
+                <TextBlock Text = "Maximum age"              Grid.Column="0" Grid.Row="5"  Margin="7,5,10,5"   FontSize="15"  />
                 <TextBlock Text = "Maximum count of members" Grid.Column="0" Grid.Row="6"  Margin="7,5,10,5"   FontSize="15"  />
                 <TextBlock Text = "Minimum count of members" Grid.Column="0" Grid.Row="7"  Margin="7,5,10,5"   FontSize="15"  />
                 <TextBlock Text = "Camping trip's type"      Grid.Column="0" Grid.Row="8"  Margin="7,5,10,5"   FontSize="15"  />

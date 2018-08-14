@@ -17,13 +17,13 @@ using Kanch.ProfileComponents.ViewModels;
 namespace Kanch.ProfileComponents.Views
 {
     /// <summary>
-    /// Interaction logic for CampingTripRequestsForDriver.xaml
+    /// Interaction logic for PhotographerRequestsForAdmin.xaml
     /// </summary>
-    public partial class CampingTripRequestsForDriver : UserControl
+    public partial class PhotographerRequestsForAdmin : UserControl
     {
-        public CampingTripRequestsForDriver()
+        public PhotographerRequestsForAdmin()
         {
-            this.DataContext = new CampingTripRequestsForDriverViewModel();
+            this.DataContext = new PhotographerRequestsForAdminViewModel();
             InitializeComponent();
         }
     }

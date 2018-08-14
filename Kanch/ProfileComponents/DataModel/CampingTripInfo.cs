@@ -24,7 +24,7 @@ namespace Kanch.ProfileComponents.DataModel
         public int countOfMembers;
         private ObservableCollection<FoodInfo> food;
         private List<string> direction;
-
+        private DriverInfo driver;
 
         public string ID { get; set; }
 
@@ -203,7 +203,13 @@ namespace Kanch.ProfileComponents.DataModel
 
         public bool HasPhotographer { get; set; }
 
-        public DriverInfo Driver { get; set; }
+        public DriverInfo Driver { get { return this.driver; }
+
+
+            set {
+                this.driver = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Driver"));
+            } }
 
         public GuideInfo Guide { get; set; }
 

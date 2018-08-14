@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -20,15 +21,23 @@ namespace Kanch.ProfileComponents.HelperClasses
     {
         private TokenClient tokenClient;
 
-        private bool driverIsSelected;
-        private bool guideIsSelected;
-        private bool photographerIsSelected;
+        private Visibility driverIsSelected;
+        private Visibility guideIsSelected;
+        private Visibility photographerIsSelected;
+
+        private bool inputingPriceIsEnable;
+
+        public bool InputingPriceIsEnable
+        {
+            get { return this.inputingPriceIsEnable; }
+            set
+            {
+                this.inputingPriceIsEnable = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("InputingPriceIsEnable"));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public ICommand SelectDriver { get; set; }
-        public ICommand SelectGuide { get; set; }
-        public ICommand SelectPhotographer { get; set; }
 
         public ICommand RemoveDriver { get; set; }
         public ICommand RemoveGuide { get; set; }
@@ -36,7 +45,7 @@ namespace Kanch.ProfileComponents.HelperClasses
 
         public ICommand AcceptTrip { get; set; }
 
-        public bool DriverIsSelected
+        public Visibility DriverIsSelected
         {
             get
             {
@@ -46,11 +55,11 @@ namespace Kanch.ProfileComponents.HelperClasses
             set
             {
                 this.driverIsSelected = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("DriverSelected"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DriverIsSelected"));
             }
         }
 
-        public bool GuideIsSelected
+        public Visibility GuideIsSelected
         {
             get
             {
@@ -59,11 +68,12 @@ namespace Kanch.ProfileComponents.HelperClasses
             set
             {
                 this.guideIsSelected = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("GuideIsSelected"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("GuideIsSelected"));
+
             }
         }
 
-        public bool PhotographerIsSelected
+        public Visibility PhotographerIsSelected
         {
             get
             {
@@ -72,7 +82,8 @@ namespace Kanch.ProfileComponents.HelperClasses
             set
             {
                 this.photographerIsSelected = value;
-                PropertyChanged(this, new PropertyChangedEventArgs("PhotographerIsSelected"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PhotographerIsSelected"));
+
             }
         }
 
@@ -87,28 +98,83 @@ namespace Kanch.ProfileComponents.HelperClasses
             {
                 this.campingTrip = value;
 
+                this.InputingPriceIsEnable = true;
+
                 if (campingTrip.Driver != null)
                 {
-                    DriverIsSelected = true;
+                    DriverIsSelected = Visibility.Visible;
                 }
-                if (campingTrip.Guide != null)
+                else
                 {
-                    GuideIsSelected = true;
+                    this.InputingPriceIsEnable = false;
                 }
-                if (campingTrip.Photographer != null)
+
+                if (campingTrip.HasGuide)
                 {
-                    PhotographerIsSelected = true;
+                    if (campingTrip.Guide != null)
+                    {
+                        GuideIsSelected = Visibility.Visible;
+                    }
+                    else
+                    {
+                        this.InputingPriceIsEnable = false;
+                    }
+                }
+                if (campingTrip.HasPhotographer)
+                {
+                    if (campingTrip.Photographer != null)
+                    {
+                        PhotographerIsSelected = Visibility.Visible;
+                    }
+                    else
+                    {
+                        this.InputingPriceIsEnable = false;
+                    }
                 }
             }
         }
 
         private ServiceRequestResponse selectedDriverResponse;
+
+        public ServiceRequestResponse SelectedDriverResponse
+        {
+            get { return this.selectedDriverResponse; }
+            set
+            {
+                this.selectedDriverResponse = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedDriverResponse"));
+            }
+        }
+
         public ObservableCollection<ServiceRequestResponse> DriversResponses { get; set; }
 
         private ServiceRequestResponse selectedGuideResponse;
-        public ObservableCollection<ServiceRequestResponse> GudiesResponses { get; set; }
+
+        public ServiceRequestResponse SelectedGuideResponse
+        {
+            get { return this.selectedGuideResponse; }
+
+            set
+            {
+                this.selectedGuideResponse = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedGuideResponse"));
+            }
+        }
+
+        public ObservableCollection<ServiceRequestResponse> GuidesResponses { get; set; }
 
         private ServiceRequestResponse selectedPhotographerResponse;
+
+        public ServiceRequestResponse SelectedPhotographerResponse
+        {
+            get { return this.selectedPhotographerResponse; }
+            set
+            {
+                this.selectedPhotographerResponse = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedPhotographerResponse"));
+            }
+        }
+
         private CampingTripInfo campingTrip;
 
         public ObservableCollection<ServiceRequestResponse> PhotographersResponses { get; set; }
@@ -118,17 +184,16 @@ namespace Kanch.ProfileComponents.HelperClasses
             this.tokenClient = tokenClient;
 
             this.DriversResponses = new ObservableCollection<ServiceRequestResponse>();
-            this.GudiesResponses = new ObservableCollection<ServiceRequestResponse>();
+
+            this.GuidesResponses = new ObservableCollection<ServiceRequestResponse>();
+
             this.PhotographersResponses = new ObservableCollection<ServiceRequestResponse>();
 
-            SelectDriver = new Command(AcceptDriverAsync);
-            SelectGuide = new Command(AcceptGuideAsync);
-            SelectPhotographer = new Command(AcceptPhotographerAsync);
-
             RemoveDriver = new Command((_) => DeleteDriver());
-            RemoveGuide = new Command((_) => DeleteGuide());
-            RemovePhotographer = new Command((_) => DeletePhotographer());
 
+            RemoveGuide = new Command((_) => DeleteGuide());
+
+            RemovePhotographer = new Command((_) => DeletePhotographer());
         }
 
         public async void AcceptDriverAsync(object providerId)
@@ -137,11 +202,41 @@ namespace Kanch.ProfileComponents.HelperClasses
 
             var response = DriversResponses.Where(requestResponse => requestResponse.ProviderId == driverId).First();
 
-            selectedDriverResponse = response;
+            SelectedDriverResponse = response;
+
+            DriversResponses.Remove(selectedDriverResponse);
 
             CampingTrip.Driver = await GetDriverAsync(driverId);
 
-            DriverIsSelected = true;
+            DriverIsSelected = Visibility.Visible;
+
+            if (campingTrip.HasGuide)
+            {
+                if (campingTrip.Guide != null)
+                {
+                    this.InputingPriceIsEnable = true;
+                }
+            }
+            else
+            {
+                this.InputingPriceIsEnable = true;
+            }
+
+            if (campingTrip.HasPhotographer)
+            {
+                if (campingTrip.Photographer != null)
+                {
+                    this.InputingPriceIsEnable = true;
+                }
+                else
+                {
+                    this.InputingPriceIsEnable = false;
+                }
+            }
+            else
+            {
+                this.InputingPriceIsEnable = true;
+            }
         }
 
         private async Task<DriverInfo> GetDriverAsync(int driverId)
@@ -226,11 +321,26 @@ namespace Kanch.ProfileComponents.HelperClasses
 
             var response = DriversResponses.Where(requestResponse => requestResponse.ProviderId == guideId).First();
 
-            selectedGuideResponse = response;
+            SelectedGuideResponse = response;
 
             CampingTrip.Guide = await GetGuideAsync(guideId);
 
-            GuideIsSelected = true;
+            GuideIsSelected = Visibility.Visible;
+
+            if (campingTrip.Driver != null)
+            {
+                if (campingTrip.HasPhotographer)
+                {
+                    if (campingTrip.Photographer != null)
+                    {
+                        this.InputingPriceIsEnable = true;
+                    }
+                }
+                else
+                {
+                    this.inputingPriceIsEnable = true;
+                }
+            }
         }
 
         private async Task<GuideInfo> GetGuideAsync(int guideId)
@@ -299,13 +409,28 @@ namespace Kanch.ProfileComponents.HelperClasses
 
             var response = DriversResponses.Where(requestResponse => requestResponse.ProviderId == photographerId).First();
 
-            selectedPhotographerResponse = response;
+            SelectedPhotographerResponse = response;
 
             PhotographersResponses.Remove(response);
 
             CampingTrip.Photographer = await GetPhotographerAsync(photographerId);
 
-            PhotographerIsSelected = true;
+            PhotographerIsSelected = Visibility.Visible;
+
+            if (campingTrip.Driver != null)
+            {
+                if (campingTrip.HasGuide)
+                {
+                    if (campingTrip.Guide!= null)
+                    {
+                        this.InputingPriceIsEnable = true;
+                    }
+                }
+                else
+                {
+                    this.InputingPriceIsEnable = true;
+                }
+            }
         }
 
         private async Task<PhotographerInfo> GetPhotographerAsync(int guideId)
@@ -345,7 +470,7 @@ namespace Kanch.ProfileComponents.HelperClasses
                 Gender = photographer.Gender,
                 NumberOfAppraisers = photographer.NumberOfAppraisers,
                 PhoneNumber = photographer.PhoneNumber,
-                Raiting = photographer.Raiting,
+                Rating = photographer.Rating,
                 WorkExperience = photographer.WorkExperience,
                 Profession = photographer.Profession,
                 HasCameraStabilizator=photographer.HasCameraStabilizator,
@@ -379,49 +504,85 @@ namespace Kanch.ProfileComponents.HelperClasses
 
         public void DeleteDriver()
         {
-            DriverIsSelected = false;
+            DriverIsSelected = Visibility.Collapsed;
 
             DriversResponses.Add(selectedDriverResponse);
 
-            CampingTrip.Driver = new DriverInfo();
+            SelectedDriverResponse = null;
+
+            CampingTrip.Driver = null;
+
+            this.InputingPriceIsEnable = false;
         }
 
         public void DeleteGuide()
         {
-            GuideIsSelected = false;
+            GuideIsSelected = Visibility.Collapsed;
 
-            GudiesResponses.Add(selectedGuideResponse);
+            GuidesResponses.Add(selectedGuideResponse);
 
-            CampingTrip.Guide = new GuideInfo();
+            SelectedGuideResponse = null;
+
+            CampingTrip.Guide = null;
+
+            this.InputingPriceIsEnable = false;
         }
 
         public void DeletePhotographer()
         {
-            PhotographerIsSelected = false;
+            PhotographerIsSelected = Visibility.Collapsed;
 
             PhotographersResponses.Add(selectedPhotographerResponse);
 
-            CampingTrip.Photographer = new PhotographerInfo();
+            SelectedPhotographerResponse = null;
+
+            CampingTrip.Photographer = null;
+
+            this.InputingPriceIsEnable = false;
         }
-           
+
         public void AddServiceRequestResponce(ServiceRequestResponse response)
         {
             switch (response.ProviderRole)
             {
                 case "Driver":
                     {
+                        if (campingTrip.Driver != null && response.ProviderId==campingTrip.Driver.Id)
+                        {
+                            this.SelectedDriverResponse = response;
+                            break;
+                        }
+
+                        response.SelectDriver = new Command(AcceptDriverAsync);
+
                         this.DriversResponses.Add(response);
 
                         break;
                     }
                 case "Guide":
                     {
-                        this.GudiesResponses.Add(response);
+                        if(campingTrip.Guide?.Id == response.ProviderId)
+                        {
+                            this.SelectedGuideResponse = response;
+                            break;
+                        }
+
+                        response.SelectGuide = new Command(AcceptGuideAsync);
+
+                        this.GuidesResponses.Add(response);
 
                         break;
                     }
                 case "Photographer":
                     {
+                        if (campingTrip.Photographer?.Id == response.ProviderId)
+                        {
+                            this.SelectedPhotographerResponse = response;
+                            break;
+                        }
+
+                        response.SelectPhotographer = new Command(AcceptPhotographerAsync);
+
                         this.PhotographersResponses.Add(response);
 
                         break;

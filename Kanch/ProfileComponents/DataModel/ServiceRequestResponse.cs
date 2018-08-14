@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 
 namespace Kanch.ProfileComponents.HelperClasses
 {
@@ -21,5 +22,9 @@ namespace Kanch.ProfileComponents.HelperClasses
         public string LastName { get; set; }
 
         public string Email { get; set; }
+
+        public ICommand SelectDriver { get; set; }
+        public ICommand SelectGuide { get; set; }
+        public ICommand SelectPhotographer { get; set; }
     }
 }

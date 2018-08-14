@@ -343,7 +343,7 @@ namespace Kanch.ViewModel
             foreach (var language in this.Languages)
             {
                 if (language.IsSelected)
-                    guide.KnowledgeOfLanguages += language.Text + ',';
+                    guide.KnowledgeOfLanguages += language.Text + ", ";
             }
             guide.Places = new List<string>();
             foreach(var place in this.Places)

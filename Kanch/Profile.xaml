@@ -38,8 +38,8 @@
             <views:CampingTripsRegistration />
         </DataTemplate>
         
-        <DataTemplate x:Key="CampingTripRequestsForDriver" DataType="{x:Type viewModels:CampingTripRequestsForDriverViewModel}">
-            <views:CampingTripRequestsForDriver />
+        <DataTemplate x:Key="CampingTripRequests" DataType="{x:Type viewModels:CampingTripRequestsViewModel}">
+            <views:CampingTripRequests />
         </DataTemplate>
         
         <DataTemplate x:Key="DriverRequestsForAdmin" DataType="{x:Type viewModels:DriverRequestsForAdminViewModel}">
@@ -65,7 +65,15 @@
         <DataTemplate x:Key="InProgressCampingTrips" DataType="{x:Type viewModels:InProgressCampingTripViewModel}" >
             <views:InProgressCampingTrips />
         </DataTemplate>
-        
+
+        <DataTemplate x:Key="GuideRequestsForAdmin" DataType="{x:Type viewModels:GuideRequestsForAdminViewModel}">
+            <views:GuidesRequestsForAdmin/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="PhotographerRequestsForAdmin" DataType="{x:Type viewModels:PhotographerRequestsForAdminViewModel}">
+            <views:PhotographerRequestsForAdmin/>
+        </DataTemplate>
+
     </Window.Resources>
 
     <Grid>

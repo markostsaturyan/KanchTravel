@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -37,6 +38,23 @@ namespace Kanch.ProfileComponents.Utilities
             }
 
             return bytes;
+        }
+
+        public static ImageSource DefaultProfilePicture(string gender)
+        {
+            BitmapImage img = new BitmapImage();
+            img.BeginInit();
+            if (gender == "Female")
+            {
+                img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
+            }
+            else
+            {
+                img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
+            }
+            img.EndInit();
+
+            return img;
         }
     }
 }

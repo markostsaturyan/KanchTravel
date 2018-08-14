@@ -8,31 +8,20 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Kanch.ProfileComponents.ViewModels
 {
     public class DriverViewModel : INotifyPropertyChanged
     {
-        
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private HttpClient httpClient;
 
         private TokenClient tokenClient;
-
-        private ImageSource male;
-
-        private ImageSource female;
 
         public DriverInfo driver;
 
@@ -78,15 +67,10 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public DriverViewModel()
         {
-            this.male = new BitmapImage(new Uri(String.Format("Images/male.jpg"), UriKind.Relative));
-            this.male.Freeze();
-            this.female = new BitmapImage(new Uri(String.Format("Images/female.jpg"), UriKind.Relative));
-            this.female.Freeze();
-
             this.Requests = new Command(o => SeeRequests());
-            ConnectToServerAndGettingRefreshTokenAsync();
+            ConnectToServerAndGettingRefreshToken();
             httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
+            httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["userManagementBaseUri"]);
             GetDriverInfo();
             this.GetAllTripsCommand = new Command(o => GetAllTrip());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
@@ -125,16 +109,16 @@ namespace Kanch.ProfileComponents.ViewModels
             var window = Application.Current.MainWindow;
 
             var presenter = window.FindName("mainPage") as ContentPresenter;
-            presenter.ContentTemplate = window.FindResource("CampingTripRequestsForDriver") as DataTemplate;
+            presenter.ContentTemplate = window.FindResource("CampingTripRequests") as DataTemplate;
         }
 
         public void GetDriverInfo()
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             this.httpClient.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = httpClient.GetAsync("api/Driver/" + ConfigurationSettings.AppSettings["userId"]).Result;
+            var response = httpClient.GetAsync($"api/Driver/{ConfigurationManager.AppSettings["userId"]}").Result;
 
             var content = response.Content;
 
@@ -172,37 +156,14 @@ namespace Kanch.ProfileComponents.ViewModels
                 DrivingLicencePicBack = ImageConverter.ConvertImageToImageSource(driver.DrivingLicencePicBack),
                 KnowledgeOfLanguages = driver.KnowledgeOfLanguages,
                 NumberOfAppraisers = driver.NumberOfAppraisers,
-                Rating = driver.Rating
+                Rating = driver.Rating,
+                Image = ImageConverter.ConvertImageToImageSource(driver.Image) ?? ImageConverter.DefaultProfilePicture(driver.Gender)
             };
-            if (driver.Image != null)
-            {
-                driverInfo.Image = ImageConverter.ConvertImageToImageSource(driver.Image);
-            }
-            else
-            {
-                if (driverInfo.Gender == "Female")
-                {
-                    driverInfo.Image = this.female;
-                }
-                else
-                {
-                    driverInfo.Image = this.male;
-                }
-            }
 
             Driver = driverInfo;
         }
 
-        public async void JoinToTripAsync(object campingTripId)
-        {
-            var tripId = campingTripId as string;
-
-            if (tripId == null) return;
-
-            await httpClient.PutAsync("api/MembersOfCampingTrip/" + Driver.Id, new StringContent(tripId));
-        }
-
-        private async void ConnectToServerAndGettingRefreshTokenAsync()
+        private void ConnectToServerAndGettingRefreshToken()
         {
             var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
 

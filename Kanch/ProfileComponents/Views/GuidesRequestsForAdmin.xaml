@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Kanch.ProfileComponents.Views.DriverRequestsForAdmin"
+﻿<UserControl x:Class="Kanch.ProfileComponents.Views.GuidesRequestsForAdmin"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="940">
-    <ScrollViewer>
-        <Grid>
-            <ListView ItemsSource="{Binding DriverRequests}" >
+    <Grid>
+        <ScrollViewer CanContentScroll="True">
+            <ListView ItemsSource="{Binding GuideRequests}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
@@ -31,7 +31,7 @@
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" /> 
+                                                    <RowDefinition Height="Auto" />
                                                     <!--9-->
                                                 </Grid.RowDefinitions>
 
@@ -61,28 +61,15 @@
                                                 <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Email:"             Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
                                                 <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Phone Number"       Grid.Row = "7"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
                                                 <TextBlock Height = "25" Margin = "7 5 10 5"  Text="Languages:"           Grid.Row = "8"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   ></TextBlock>
-                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text="Driving license pics" Grid.Row = "9"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    ></TextBlock>
 
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.FirstName,Mode=TwoWay}"           Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.LastName, Mode=TwoWay}"           Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.UserName,Mode=TwoWay}"            Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.DateOfBirth,Mode=TwoWay}"         Grid.Row = "4"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.Gender,Mode=TwoWay}"              Grid.Row = "5"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.Email,Mode=TwoWay}"               Grid.Row = "6"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.PhoneNumber,Mode=TwoWay}"         Grid.Row = "7"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock  Margin = "15 5 0 5"  Text="{Binding Driver.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "8" Grid.Column = "3" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" Width = "137" TextWrapping="WrapWithOverflow" ></TextBlock>
-                                                <StackPanel 
-                                        Orientation="Vertical" 
-                                        Margin = "15 5 0 5"  
-                                        Grid.Row = "9" 
-                                        Grid.Column = "1" 
-                                        VerticalAlignment = "Center" 
-                                        HorizontalAlignment = "Left" 
-                                        Background = "White" >
-                                                    <Image Source="{Binding Driver.DrivingLicencePicFront}" Width="137" />
-                                                    <Image Source="{Binding Driver.DrivingLicencePicBack}" Width="137" />
-                                                </StackPanel>
-
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.FirstName,Mode=TwoWay}"           Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.LastName, Mode=TwoWay}"           Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.UserName,Mode=TwoWay}"            Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.DateOfBirth,Mode=TwoWay}"         Grid.Row = "4"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.Gender,Mode=TwoWay}"              Grid.Row = "5"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.Email,Mode=TwoWay}"               Grid.Row = "6"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.PhoneNumber,Mode=TwoWay}"         Grid.Row = "7"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock  Margin = "15 5 0 5"  Text="{Binding Guide.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "8" Grid.Column = "3" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" Width = "137" TextWrapping="WrapWithOverflow"></TextBlock>
                                             </Grid>
                                             <Grid>
                                                 <Grid.RowDefinitions>
@@ -92,8 +79,7 @@
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="*" />
                                                     <RowDefinition Height="Auto" />
                                                     <!--9-->
                                                 </Grid.RowDefinitions>
@@ -121,43 +107,15 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
 
-                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Brand of the car:"  Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Number of seats:"   Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Fuel Type:"         Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "License plate:"     Grid.Row = "4"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Car has"            Grid.Row = "5"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text="Car photos:"          Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   ></TextBlock>
-                                                
-                                                
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Profession:"       Grid.Row = "0"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Education grade:"  Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Work experiance:"  Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Places:"           Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
 
-
-
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.Car.Brand, Mode=TwoWay}"          Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.Car.NumberOfSeats,Mode=TwoWay}"   Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.Car.FuelType,Mode=TwoWay}"        Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.Car.LicensePlate,Mode=TwoWay}"    Grid.Row = "4"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <StackPanel Height="Auto" Margin = "15 5 0 5 " Grid.Row = "5" Grid.Column = "3" VerticalAlignment = "Center" HorizontalAlignment = "Left" Background = "White" Opacity = "0.6" Width = "137" Orientation="Vertical">
-                                                    <CheckBox IsChecked="{Binding Driver.Car.HasWiFi,Mode=TwoWay}"           IsEnabled="False" Content="Wi Fi"           FontSize="15"/>
-                                                    <CheckBox IsChecked="{Binding Driver.Car.HasMicrophone,Mode=TwoWay}"     IsEnabled="False" Content="Microphone"      FontSize="15"/>
-                                                    <CheckBox IsChecked="{Binding Driver.Car.HasAirConditioner,Mode=TwoWay}" IsEnabled="False" Content="Air conditioner" FontSize="15"/>
-                                                    <CheckBox IsChecked="{Binding Driver.Car.HasKitchen,Mode=TwoWay}"        IsEnabled="False" Content="Kitchen"         FontSize="15"/>
-                                                    <CheckBox IsChecked="{Binding Driver.Car.HasToilet ,Mode=TwoWay}"        IsEnabled="False" Content="Toilet"          FontSize="15"/>
-
-                                                </StackPanel>
-                                                <StackPanel 
-                                        Orientation="Vertical" 
-                                        Margin = "15 5 0 5" 
-                                        Grid.Row = "6" 
-                                        Grid.Column = "1" 
-                                        VerticalAlignment = "Center" 
-                                        HorizontalAlignment = "Left" 
-                                        Background = "White" 
-                                        Width = "137">
-                                                    <Image Source="{Binding Driver.Car.CarPicture1}" Height="Auto" />
-                                                    <Image Source="{Binding Driver.Car.CarPicture2}"  />
-                                                    <Image Source="{Binding Driver.Car.CarPicture3}"  />
-                                                </StackPanel>
-                                                
+                                                <TextBlock Height = "Auto" Margin = "15 5 0 5"  Text = "{Binding Guide.Profession, Mode=TwoWay}"          Grid.Row = "0"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" TextWrapping="WrapWithOverflow"   />
+                                                <TextBlock Height = "Auto" Margin = "15 5 0 5"  Text = "{Binding Guide.EducationGrade,Mode=TwoWay}"   Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" TextWrapping="WrapWithOverflow" />
+                                                <TextBlock Height = "Auto" Margin = "15 5 0 5"  Text = "{Binding Guide.WorkExperience,Mode=TwoWay}"        Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" TextWrapping="WrapWithOverflow" />
+                                                <ListView Height = "Auto" Width="Auto" Margin = "15 5 0 5"  ItemsSource = "{Binding Guide.Places,Mode=TwoWay}"    Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"/>
 
                                                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="7">
                                                     <Button Command="{Binding Accept}" CommandParameter="{Binding}" Width="60" Margin="0 0 10 0">
@@ -181,6 +139,6 @@
                 </ListView.View>
 
             </ListView>
-        </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

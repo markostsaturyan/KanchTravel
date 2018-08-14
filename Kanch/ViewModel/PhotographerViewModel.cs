@@ -382,7 +382,7 @@ namespace Kanch.ViewModel
             foreach (var language in this.Languages)
             {
                 if (language.IsSelected)
-                    photographer.KnowledgeOfLanguages += language.Text + ',';
+                    photographer.KnowledgeOfLanguages += language.Text + ", ";
             }
 
 
