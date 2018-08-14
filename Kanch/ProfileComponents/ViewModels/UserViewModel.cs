@@ -100,7 +100,10 @@ namespace Kanch.ProfileComponents.ViewModels
 
         private void GetMyCurrentTrips()
         {
-            throw new NotImplementedException();
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("CampingTripsUserIsJoined") as DataTemplate;
         }
 
         private void GetAllTrip()

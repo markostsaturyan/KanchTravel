@@ -550,6 +550,7 @@ namespace Kanch.ProfileComponents.HelperClasses
                         if (campingTrip.Driver != null && response.ProviderId==campingTrip.Driver.Id)
                         {
                             this.SelectedDriverResponse = response;
+                            response.SelectDriver = new Command(AcceptDriverAsync);
                             break;
                         }
 
@@ -564,6 +565,7 @@ namespace Kanch.ProfileComponents.HelperClasses
                         if(campingTrip.Guide?.Id == response.ProviderId)
                         {
                             this.SelectedGuideResponse = response;
+                            response.SelectGuide = new Command(AcceptGuideAsync);
                             break;
                         }
 
@@ -578,6 +580,7 @@ namespace Kanch.ProfileComponents.HelperClasses
                         if (campingTrip.Photographer?.Id == response.ProviderId)
                         {
                             this.SelectedPhotographerResponse = response;
+                            response.SelectPhotographer = new Command(AcceptPhotographerAsync);
                             break;
                         }
 
