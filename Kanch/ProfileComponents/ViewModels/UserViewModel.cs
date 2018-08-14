@@ -5,15 +5,10 @@ using Kanch.ProfileComponents.DataModel;
 using Kanch.ProfileComponents.Utilities;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Net.Http;
 using System.Windows.Input;
-using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -30,9 +25,9 @@ namespace Kanch.ProfileComponents.ViewModels
         public ICommand GetMyCurrentTripsCommand { get; set; }
         public ICommand GetlMyPreviousTripsCommand { get; set; }
         public ICommand RegistrationOfTheTripCommand { get; set; }
+        public ICommand GetMyRegistredTripsCommand { get; set; }
 
-
-#endregion
+        #endregion
 
         #region Properties and fields
         public int ErrorCode;
@@ -44,10 +39,6 @@ namespace Kanch.ProfileComponents.ViewModels
         private HttpClient httpClient;
 
         public UserInfo user;
-
-        private ImageSource male;
-
-        private ImageSource female;
 
         public UserInfo User
         {
@@ -69,20 +60,15 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public UserViewModel()
         {
-            this.male = new BitmapImage(new Uri(String.Format("Images/male.jpg"), UriKind.Relative));
-            this.male.Freeze();
-            this.female= new BitmapImage(new Uri(String.Format("Images/female.jpg"), UriKind.Relative));
-            this.female.Freeze();
-            
-            
-            ConnectToServerAndGettingRefreshTokenAsync();
+            ConnectToServerAndGettingRefreshToken();
             httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
+            httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["userManagementBaseUri"]);
             GetUserInfo();
             this.GetAllTripsCommand = new Command(o => GetAllTrip());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
             this.GetlMyPreviousTripsCommand = new Command(o => GetMyPreviousTrips());
             this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
+            this.GetMyRegistredTripsCommand = new Command(o => GetMyRegistredTrips());
         }
 
         private void RegistrationOfTheTrip()
@@ -96,6 +82,14 @@ namespace Kanch.ProfileComponents.ViewModels
         private void GetMyPreviousTrips()
         {
             throw new NotImplementedException();
+        }
+
+        private void GetMyRegistredTrips()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("UsersRegistredTrips") as DataTemplate;
         }
 
         private void GetMyCurrentTrips()
@@ -113,11 +107,11 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void GetUserInfo()
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
-            var response = httpClient.GetAsync("api/User/" + ConfigurationSettings.AppSettings["userId"]).Result;
+            var response = httpClient.GetAsync($"api/User/{ConfigurationManager.AppSettings["userId"]}").Result;
 
             var content = response.Content;
 
@@ -135,29 +129,15 @@ namespace Kanch.ProfileComponents.ViewModels
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 UserName = user.UserName,
-                
+                Image = ImageConverter.ConvertImageToImageSource(user.Image) ?? ImageConverter.DefaultProfilePicture(user.Gender)
             };
-            if (user.Image != null)
-            {
-                userinfo.Image = ImageConverter.ConvertImageToImageSource(user.Image);
-            }
-            else
-            {
-                if (userinfo.Gender == "Female")
-                {
-                    userinfo.Image = this.female;
-                }
-                else
-                {
-                    userinfo.Image = this.male;
-                }
-            }
+            
             this.User = userinfo;
         }
 
-        private async void ConnectToServerAndGettingRefreshTokenAsync()
+        private void ConnectToServerAndGettingRefreshToken()
         {
-            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
+            var disco = DiscoveryClient.GetAsync(ConfigurationManager.AppSettings["authenticationService"]).Result;
 
             if (disco.IsError)
             {

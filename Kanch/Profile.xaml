@@ -74,6 +74,10 @@
             <views:PhotographerRequestsForAdmin/>
         </DataTemplate>
 
+        <DataTemplate x:Key="UsersRegistredTrips" DataType="{x:Type viewModels:UserRegistredTripsViewModel}">
+            <views:UserRegistredTrips/>
+        </DataTemplate>
+        
     </Window.Resources>
 
     <Grid>

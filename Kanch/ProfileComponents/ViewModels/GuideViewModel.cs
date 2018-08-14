@@ -64,6 +64,7 @@ namespace Kanch.ProfileComponents.ViewModels
         public ICommand GetMyCurrentTripsCommand { get; set; }
         public ICommand GetlMyPreviousTripsCommand { get; set; }
         public ICommand RegistrationOfTheTripCommand { get; set; }
+        public ICommand GetMyRegistredTripsCommand { get; set; }
 
         public GuideViewModel()
         {
@@ -76,6 +77,7 @@ namespace Kanch.ProfileComponents.ViewModels
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
             this.GetlMyPreviousTripsCommand = new Command(o => GetMyPreviousTrips());
             this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
+            this.GetMyRegistredTripsCommand = new Command(o => GetMyRegistredTrips());
         }
 
         private void RegistrationOfTheTrip()
@@ -94,6 +96,14 @@ namespace Kanch.ProfileComponents.ViewModels
         private void GetMyCurrentTrips()
         {
             throw new NotImplementedException();
+        }
+
+        private void GetMyRegistredTrips()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("UsersRegistredTrips") as DataTemplate;
         }
 
         private void GetAllTrip()
