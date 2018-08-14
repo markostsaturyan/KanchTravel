@@ -63,7 +63,7 @@
                                         <TextBlock Text="Direction"           Grid.Column="0" Grid.Row="1"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
                                         <TextBlock Text="Date"                Grid.Column="0" Grid.Row="2"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top" />
                                         <TextBlock Text="Age limit"           Grid.Column="0" Grid.Row="3"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top" />
-                                        <TextBlock Text ="Count of Members"   Grid.Column="0" Grid.Row="4"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
+                                        <TextBlock Text ="Count of members"   Grid.Column="0" Grid.Row="4"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
                                         <TextBlock Text="Camping trip's type" Grid.Column="0" Grid.Row="5"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
                                         <TextBlock Text="Foods"               Grid.Column="0" Grid.Row="7"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>
                                         <TextBlock Text="Organaizer"          Grid.Column="0" Grid.Row="8"  Margin="7,5,10,5"  FontSize="14"  Height="25"  VerticalAlignment="Top"/>

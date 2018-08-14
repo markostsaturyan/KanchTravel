@@ -143,7 +143,7 @@ namespace Kanch.ProfileComponents.ViewModels
                 HasCameraStabilizator = photographer.HasCameraStabilizator,
                 HasDron = photographer.HasDron,
                 HasGopro = photographer.HasGopro,
-                Raiting = photographer.Raiting,
+                Rating = photographer.Rating,
                 Camera = new CameraInfo
                 {
                     Id = photographer.Camera.Id,

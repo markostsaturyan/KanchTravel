@@ -11,9 +11,9 @@ using System.Net.Http;
 
 namespace CampingTripService.Controllers
 {
-    [Authorize]
-    [Produces("application/json")]
     
+    [Produces("application/json")]
+    [Route("api/MembersOfCampingTrip")]
     public class MembersOfCampingTripController : Controller
     {
         private readonly ISignUpForTheTrip signUpForTheTrip;
@@ -22,7 +22,8 @@ namespace CampingTripService.Controllers
         {
             this.signUpForTheTrip = signUpForTheTrip;
         }
-        [Route("api/MembersOfCampingTrip")]
+
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IEnumerable<string>> GetAsync(int id)
         {
@@ -30,9 +31,8 @@ namespace CampingTripService.Controllers
         }
 
         // PUT: api/MembersOfCampingTrip/5
-        [Route("api/MembersOfCampingTrip")]
-        [Authorize(Policy = "OnlyForAUDGP")]
         [HttpPut("{id}")]
+        [Authorize(Policy = "OnlyForAUDGP")]
         public async Task<Status> Put(int id, [FromBody]CampingTripId tripId)
         {
             var campingTripId = tripId.CampingTripID;
@@ -62,7 +62,7 @@ namespace CampingTripService.Controllers
 
         // DELETE: api/ApiWithActions/5
         [Authorize]
-        [Route("api/MembersOfCampingTrip/{id}/{campingTripId}")]
+        [Route("{id}/{campingTripId}")]
         [HttpDelete("{id:int},{campingTripId}")]
         public async Task<Status> Delete([FromRoute]int id, [FromRoute]string campingTripId)
         {

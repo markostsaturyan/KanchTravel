@@ -61,7 +61,6 @@
                                                 <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Email:"             Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
                                                 <TextBlock Height = "25" Margin = "7 5 10 5"  Text = "Phone Number"       Grid.Row = "7"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
                                                 <TextBlock Height = "25" Margin = "7 5 10 5"  Text="Languages:"           Grid.Row = "8"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   ></TextBlock>
-                                                <TextBlock Height = "25" Margin = "7 5 10 5"  Text="Driving license pics" Grid.Row = "9"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    ></TextBlock>
 
                                                 <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.FirstName,Mode=TwoWay}"           Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
                                                 <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.LastName, Mode=TwoWay}"           Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
@@ -80,8 +79,7 @@
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="*" />
                                                     <RowDefinition Height="Auto" />
                                                     <!--9-->
                                                 </Grid.RowDefinitions>
@@ -114,10 +112,10 @@
                                                 <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Work experiance:"  Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
                                                 <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Places:"           Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
 
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.Profession, Mode=TwoWay}"          Grid.Row = "0"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.EducationGrade,Mode=TwoWay}"   Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"/>
-                                                <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Guide.WorkExperiance,Mode=TwoWay}"        Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"/>
-                                                <ListView Height = "25" Margin = "15 5 0 5"  ItemsSource = "{Binding Guide.Places,Mode=TwoWay}"    Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"/>
+                                                <TextBlock Height = "Auto" Margin = "15 5 0 5"  Text = "{Binding Guide.Profession, Mode=TwoWay}"          Grid.Row = "0"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" TextWrapping="WrapWithOverflow"   />
+                                                <TextBlock Height = "Auto" Margin = "15 5 0 5"  Text = "{Binding Guide.EducationGrade,Mode=TwoWay}"   Grid.Row = "1"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" TextWrapping="WrapWithOverflow" />
+                                                <TextBlock Height = "Auto" Margin = "15 5 0 5"  Text = "{Binding Guide.WorkExperience,Mode=TwoWay}"        Grid.Row = "2"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" TextWrapping="WrapWithOverflow" />
+                                                <ListView Height = "Auto" Width="Auto" Margin = "15 5 0 5"  ItemsSource = "{Binding Guide.Places,Mode=TwoWay}"    Grid.Row = "3"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"/>
 
                                                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="7">
                                                     <Button Command="{Binding Accept}" CommandParameter="{Binding}" Width="60" Margin="0 0 10 0">

@@ -419,7 +419,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         Id = (int)dataReader["Id"],
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
-                        DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                        DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         UserName = (string)dataReader["UserName"],
@@ -427,18 +427,22 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         EducationGrade = (string)dataReader["EducationGrade"],
                         KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                         Profession = (string)dataReader["Profession"],
-                        Rating = (double)dataReader["Raiting"],
                         WorkExperience = (string)dataReader["WorkExperience"],
-                        NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"],
                     };
 
-                    if (dataReader["Picture"] == DBNull.Value)
-                    {
-                        guide.Image = null;
-                    }
-                    else
+                    if (dataReader["Picture"] != DBNull.Value)
                     {
                         guide.Image = (byte[])dataReader["Picture"];
+                    }
+
+                    if (dataReader["Rating"] != DBNull.Value)
+                    {
+                        guide.Rating = (double)dataReader["Rating"];
+                    }
+
+                    if (dataReader["NumberOfAppraisers"] != DBNull.Value)
+                    {
+                        guide.NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"];
                     }
 
                     guide.Places = GetGuidePalces(id);
@@ -786,7 +790,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             Id = (int)dataReader["Id"],
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
-                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             UserName = (string)dataReader["UserName"],
@@ -795,13 +799,19 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             EducationGrade = (string)dataReader["EducationGrade"],
                             Profession = (string)dataReader["Profession"],
                             WorkExperience = (string)dataReader["WorkExperience"],
-                            Rating = (double)dataReader["Rating"],
-                            NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                         };
 
                         if (dataReader["Picture"] != DBNull.Value)
                         {
                             guide.Image = (byte[])dataReader["Picture"];
+                        }
+                        if (dataReader["Rating"]!=DBNull.Value)
+                        {
+                            guide.Rating = (double)dataReader["Rating"];
+                        }
+                        if (dataReader["NumberOfAppraisers"] != DBNull.Value)
+                        {
+                            guide.NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"];
                         }
 
                         guide.Places = GetGuidePalces(guide.Id);
@@ -882,12 +892,11 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             FirstName = (string)dataReader["FirstName"],
                             LastName = (string)dataReader["LastName"],
                             Gender = (string)dataReader["Gender"],
-                            DateOfBirth = (DateTime)dataReader["DataOfBirth"],
+                            DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
                             UserName = (string)dataReader["UserName"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
-                            Raiting = (double)dataReader["Raiting"],
                             HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
                             HasDron = (bool)dataReader["HasDron"],
                             HasGopro = (bool)dataReader["HasGopro"],
@@ -899,12 +908,19 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             },
                             Profession = (string)dataReader["Profession"],
                             WorkExperience = (string)dataReader["WorkExperiance"],
-                            NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"]
                         };
 
                         if (dataReader["Picture"] != DBNull.Value)
                         {
                             photographer.Image = (byte[])dataReader["Picture"];
+                        }
+                        if (dataReader["Rating"] != DBNull.Value)
+                        {
+                            photographer.Rating = (double)dataReader["Rating"];
+                        }
+                        if (dataReader["NumberOfAppraisers"] != DBNull.Value)
+                        {
+                            photographer.NumberOfAppraisers = (int)dataReader["NumberOfAppraisers"];
                         }
 
                         photographers.Add(photographer);
@@ -933,6 +949,8 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     CommandText = "GetPhotographerById"
                 };
 
+                command.Parameters.AddWithValue("@photographerId", id);
+
                 connection.Open();
 
                 var dataReader = command.ExecuteReader();
@@ -954,7 +972,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                         FirstName = (string)dataReader["FirstName"],
                         LastName = (string)dataReader["LastName"],
                         Gender = (string)dataReader["Gender"],
-                        DateOfBirth = (DateTime)dataReader["Age"],
+                        DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                         Email = (string)dataReader["Email"],
                         PhoneNumber = (string)dataReader["PhoneNumber"],
                         UserName = (string)dataReader["UserName"],
@@ -971,9 +989,9 @@ namespace UserManagement.DataManagement.DataAccesLayer
                     {
                         photographer.Image = (byte[])dataReader["Picture"];
                     }
-                    if (dataReader["Raiting"] != DBNull.Value)
+                    if (dataReader["Rating"] != DBNull.Value)
                     {
-                        photographer.Raiting = (double)dataReader["Raiting"];
+                        photographer.Rating = (double)dataReader["Rating"];
                     }
                     if (dataReader["NumberOfAppraisers"] != DBNull.Value)
                     {
@@ -1277,7 +1295,6 @@ namespace UserManagement.DataManagement.DataAccesLayer
                             DateOfBirth = (DateTime)dataReader["DateOfBirth"],
                             Email = (string)dataReader["Email"],
                             PhoneNumber = (string)dataReader["PhoneNumber"],
-
                             UserName = (string)dataReader["UserName"],
                             KnowledgeOfLanguages = (string)dataReader["KnowledgeOfLanguages"],
                             HasCameraStabilizator = (bool)dataReader["HasCameraStabilizator"],
@@ -1290,12 +1307,12 @@ namespace UserManagement.DataManagement.DataAccesLayer
                                 IsProfessional = (bool)dataReader["IsProfessional"]
                             },
                             Profession = (string)dataReader["Profession"],
-                            WorkExperience = (string)dataReader["WorkExperiance"],
+                            WorkExperience = (string)dataReader["WorkExperience"],
                         };
 
                         if (dataReader["Picture"] != DBNull.Value)
                         {
-                            photographer.Image = (byte[])dataReader["Image"],
+                            photographer.Image = (byte[])dataReader["Image"];
                         }
                         photographers.Add(photographer);
                     }
@@ -1687,7 +1704,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                 updateCommand.Parameters.AddWithValue("@hasDron", photographer.DateOfBirth);
                 updateCommand.Parameters.AddWithValue("@hasCameraStabilizator", photographer.PhoneNumber);
                 updateCommand.Parameters.AddWithValue("@hasGopro", photographer.Email);
-                updateCommand.Parameters.AddWithValue("@rating", photographer.Raiting);
+                updateCommand.Parameters.AddWithValue("@rating", photographer.Rating);
 
                 connection.Open();
 

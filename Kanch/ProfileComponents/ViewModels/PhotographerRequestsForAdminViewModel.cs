@@ -28,10 +28,10 @@ namespace Kanch.ProfileComponents.ViewModels
             this.httpClient = new HttpClient();
             this.httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["userManagementBaseUri"]);
             ConnectToServer();
-            GetAllGuideRequests();
+            GetAllPhotographerRequests();
         }
 
-        public void GetAllGuideRequests()
+        public void GetAllPhotographerRequests()
         {
             var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
@@ -81,7 +81,6 @@ namespace Kanch.ProfileComponents.ViewModels
 
                 this.PhotographerRequests.Add(guideRequest);
             }
-
         }
 
         public async void AcceptAsync(object photographerRequest)

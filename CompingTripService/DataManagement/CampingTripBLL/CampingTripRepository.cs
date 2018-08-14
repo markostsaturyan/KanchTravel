@@ -27,8 +27,10 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task AddCampingTripAsync(CampingTripFull item)
         {
-            await campingTripContext.CampingTrips.InsertOneAsync(new CampingTrip(item));
+            var trip = new CampingTrip(item);
 
+            await campingTripContext.CampingTrips.InsertOneAsync(trip);
+            item.ID = trip.ID;
             await SendingServiceRequests(item);
         }
 
@@ -910,7 +912,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
             httpClient.SetBearerToken(tokenResponce.AccessToken);
 
-            var membersCount = campingTrip.CountOfMembers;
+            var guideAndPhotographer = 0; 
 
 
             if (campingTrip.HasGuide)
@@ -939,7 +941,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                     }
                 }
 
-                membersCount++;
+                guideAndPhotographer++;
             }
 
             if (campingTrip.HasPhotographer)
@@ -968,10 +970,10 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                     }
                 }
 
-                membersCount++;
+                guideAndPhotographer++;
             }
 
-            var response = await httpClient.GetAsync($"api/Car/{membersCount}");
+            var response = await httpClient.GetAsync($"api/Car/{campingTrip.CountOfMembers + guideAndPhotographer}");
 
             if (response.IsSuccessStatusCode)
             {

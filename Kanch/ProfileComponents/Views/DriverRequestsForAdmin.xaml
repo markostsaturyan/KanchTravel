@@ -70,7 +70,7 @@
                                                 <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.Gender,Mode=TwoWay}"              Grid.Row = "5"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
                                                 <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.Email,Mode=TwoWay}"               Grid.Row = "6"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
                                                 <TextBlock Height = "25" Margin = "15 5 0 5"  Text = "{Binding Driver.PhoneNumber,Mode=TwoWay}"         Grid.Row = "7"  Grid.Column = "1" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock  Margin = "15 5 0 5"  Text="{Binding Driver.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "8" Grid.Column = "3" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" Width = "137"></TextBlock>
+                                                <TextBlock  Margin = "15 5 0 5"  Text="{Binding Driver.KnowledgeOfLanguages,Mode=TwoWay}"  Grid.Row = "8" Grid.Column = "3" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial" Width = "137" TextWrapping="WrapWithOverflow" ></TextBlock>
                                                 <StackPanel 
                                         Orientation="Vertical" 
                                         Margin = "15 5 0 5"  
@@ -121,12 +121,12 @@
                                                     </Rectangle.Fill>
                                                 </Rectangle>
 
-                                                <TextBlock Height = "25" Margin = "7 5 10 5"   Name = "textBlockBrandOfCar"             Text = "Brand of the car:"  Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5"   Name = "textBlockNumberOfSeats"          Text = "Number of seats:"   Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5"   Name = "textBlockFuelType"               Text = "Fuel Type:"         Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5"   Name = "textBlockLicensePlate"           Text = "License plate:"     Grid.Row = "4"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5"   Name = "textBlockMoreInformation"        Text = "Car has"            Grid.Row = "5"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
-                                                <TextBlock Height = "25" Margin = "7 5 10 5"   Name = "textBlockCarPictures"            Text="Car photos:"          Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   ></TextBlock>
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Brand of the car:"  Grid.Row = "1"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Number of seats:"   Grid.Row = "2"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"    />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Fuel Type:"         Grid.Row = "3"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "License plate:"     Grid.Row = "4"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text = "Car has"            Grid.Row = "5"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   />
+                                                <TextBlock Height = "25" Margin = "7 5 10 5" Text="Car photos:"          Grid.Row = "6"  Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15" FontFamily = "Arial"   ></TextBlock>
                                                 
                                                 
 

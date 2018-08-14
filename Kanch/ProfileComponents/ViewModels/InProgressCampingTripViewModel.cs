@@ -89,6 +89,7 @@ namespace Kanch.ProfileComponents.ViewModels
                             Direction = trip.Direction,
                             HasGuide = trip.HasGuide,
                             HasPhotographer = trip.HasPhotographer,
+                            PriceOfTrip=trip.PriceOfTrip,
                             ID = trip.ID
                         };
                         if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)

@@ -470,7 +470,7 @@ namespace Kanch.ProfileComponents.HelperClasses
                 Gender = photographer.Gender,
                 NumberOfAppraisers = photographer.NumberOfAppraisers,
                 PhoneNumber = photographer.PhoneNumber,
-                Raiting = photographer.Raiting,
+                Rating = photographer.Rating,
                 WorkExperience = photographer.WorkExperience,
                 Profession = photographer.Profession,
                 HasCameraStabilizator=photographer.HasCameraStabilizator,
