@@ -23,7 +23,6 @@ namespace Kanch.ProfileComponents.ViewModels
         #region Commands
         public ICommand GetAllTripsCommand { get; set; }
         public ICommand GetMyCurrentTripsCommand { get; set; }
-        public ICommand GetlMyPreviousTripsCommand { get; set; }
         public ICommand RegistrationOfTheTripCommand { get; set; }
         public ICommand GetMyRegistredTripsCommand { get; set; }
 
@@ -66,7 +65,6 @@ namespace Kanch.ProfileComponents.ViewModels
             GetUserInfo();
             this.GetAllTripsCommand = new Command(o => GetAllTrip());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
-            this.GetlMyPreviousTripsCommand = new Command(o => GetMyPreviousTrips());
             this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
             this.GetMyRegistredTripsCommand = new Command(o => GetMyRegistredTrips());
         }
@@ -79,17 +77,13 @@ namespace Kanch.ProfileComponents.ViewModels
             presenter.ContentTemplate = window.FindResource("CampingTripsRegistration") as DataTemplate;
         }
 
-        private void GetMyPreviousTrips()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         private void GetMyRegistredTrips()
         {
             var window = Application.Current.MainWindow;
 
             var presenter = window.FindName("mainPage") as ContentPresenter;
-            presenter.ContentTemplate = window.FindResource("UsersRegistredTrips") as DataTemplate;
+            presenter.ContentTemplate = window.FindResource("UsersRegisteredTrips") as DataTemplate;
         }
 
         private void GetMyCurrentTrips()

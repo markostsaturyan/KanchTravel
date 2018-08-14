@@ -30,10 +30,6 @@
             <views:AdminMain />
         </DataTemplate>
 
-        <DataTemplate x:Key="CampingTrips" DataType="{x:Type viewModels:CampingTripViewModel}">
-            <views:CampingTrips />
-        </DataTemplate>
-
         <DataTemplate x:Key="CampingTripsRegistration" DataType="{x:Type viewModels:CampingTripRegistrationViewModel}">
             <views:CampingTripsRegistration />
         </DataTemplate>
@@ -74,7 +70,7 @@
             <views:PhotographerRequestsForAdmin/>
         </DataTemplate>
 
-        <DataTemplate x:Key="UsersRegistredTrips" DataType="{x:Type viewModels:UserRegistredTripsViewModel}">
+        <DataTemplate x:Key="UsersRegisteredTrips" DataType="{x:Type viewModels:UserRegistredTripsViewModel}">
             <views:UserRegistredTrips/>
         </DataTemplate>
         
