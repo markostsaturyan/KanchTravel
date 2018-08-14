@@ -4,15 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kanch"
+        xmlns:viewModels="clr-namespace:Kanch.ViewModel"
         xmlns:views="clr-namespace:Kanch.Views"
         mc:Ignorable="d"
         Title="Home" Height="450" Width="800">
     <Window.Resources>
-        <DataTemplate x:Key="MainRegistrationPage" >
-            <views:ChooseRegistrationType />
+        <DataTemplate x:Key="InProgressCampingTrips" >
+            <local:CampingTripsForHomePage />
         </DataTemplate>
     </Window.Resources>
-    
+
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Grid>
@@ -52,22 +53,11 @@
                         </StackPanel>
                     </Grid>
 
-                    <ListView Grid.Row="1" ItemsSource="{Binding CampingTrips}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
-                                    <TextBlock Text="{Binding Place}">
-
-                                    </TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    <Grid Grid.Row="1">
+                        <ContentPresenter Name="InProgressCampingTrips" />
+                    </Grid>
                 </Grid>
             </Grid>
         </ScrollViewer>
-        <Grid>
-            <ContentPresenter Name="RegistrationPresent"></ContentPresenter>
-        </Grid>
     </Grid>
 </Window>

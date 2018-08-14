@@ -243,6 +243,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CampingTripsForHomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -357,6 +361,9 @@
     </Page>
     <Compile Include="AboutUs.xaml.cs">
       <DependentUpon>AboutUs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CampingTripsForHomePage.xaml.cs">
+      <DependentUpon>CampingTripsForHomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\DataModel\ServiceRequest.cs" />
     <Compile Include="ProfileComponents\DataModel\ServiceRequestResponse.cs" />
@@ -485,7 +492,7 @@
     <Compile Include="Views\UserRegistration.xaml.cs">
       <DependentUpon>UserRegistration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\HomeViewModel.cs" />
+    <Compile Include="CampingTripsForHomePageViewModel.cs" />
     <Compile Include="OrderCampingTrip.xaml.cs">
       <DependentUpon>OrderCampingTrip.xaml</DependentUpon>
     </Compile>

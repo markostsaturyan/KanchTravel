@@ -1,30 +1,29 @@
-﻿using System;
+﻿using IdentityModel.Client;
+using Kanch.Commands;
+using Kanch.DataModel;
+using Kanch.ProfileComponents.DataModel;
+using Kanch.ProfileComponents.HelperClasses;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using IdentityModel.Client;
-using Kanch.Commands;
-using Kanch.DataModel;
-using Kanch.ProfileComponents.DataModel;
-using Kanch.ProfileComponents.HelperClasses;
-using Kanch.ProfileComponents.Utilities;
-using Newtonsoft.Json;
+using System.Windows.Input;
 
-namespace Kanch.ProfileComponents.ViewModels
+namespace Kanch
 {
-    public class InProgressCampingTripViewModel : INotifyPropertyChanged
+    class CampingTripsForHomePageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         private HttpClient httpClient;
         private TokenClient tokenClient;
-        private User user;
+        private readonly User user;
         private ObservableCollection<TripsInProgress> tripsInProgresses;
         public ObservableCollection<TripsInProgress> TripsInProgress
         {
@@ -36,22 +35,17 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
 
-        public InProgressCampingTripViewModel()
+        public CampingTripsForHomePageViewModel()
         {
             this.httpClient = new HttpClient();
             this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
-            ConnectToServer();
             this.TripsInProgress = new ObservableCollection<TripsInProgress>();
-            GetUserInfo();
             GetAllInProgressTrips();
-            
+
         }
 
         public void GetAllInProgressTrips()
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
-
-            httpClient.SetBearerToken(tokenResponse.AccessToken);
             var response = httpClient.GetAsync("api/CampingTrips").Result;
 
             var content = response.Content;
@@ -66,7 +60,7 @@ namespace Kanch.ProfileComponents.ViewModels
             {
                 foreach (var trip in trips)
                 {
-                    
+
                     var zeroTime = new DateTime(1, 1, 1);
 
                     var span = DateTime.Now - this.user.DateOfBirth;
@@ -118,7 +112,7 @@ namespace Kanch.ProfileComponents.ViewModels
                         }
                         if (trip.MembersOfCampingTrip != null)
                         {
-                            foreach(var member in trip.MembersOfCampingTrip)
+                            foreach (var member in trip.MembersOfCampingTrip)
                             {
                                 if (member.Id == this.user.Id)
                                 {
@@ -126,114 +120,13 @@ namespace Kanch.ProfileComponents.ViewModels
                                 }
                             }
                         }
-                        if(!campingtrip.IAmJoined)
+                        if (!campingtrip.IAmJoined)
                         {
                             campingtrip.CanIJoin = true;
                         }
-
-
-
-                        var tripInProgress = new TripsInProgress();
-
-                        tripInProgress.CampingTrip = campingtrip;
-                        tripInProgress.JoinCommand = new Command(Join);
-                        tripInProgress.RefuseCommand = new Command(Refuse);
-
-                        this.TripsInProgress.Add(tripInProgress);
-
-
                     }
                 }
             }
         }
-
-        public void Join(object trip)
-        {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
-
-            httpClient.SetBearerToken(tokenResponse.AccessToken);
-            var campingTrip = (trip as TripsInProgress).CampingTrip;
-            var tripInfo = JsonConvert.SerializeObject(campingTrip);
-
-            var campingTripId = campingTrip.ID;
-
-            var tripId = new CampingTripId()
-            {
-                CampingTripID = campingTrip.ID,
-            };
-
-            var response = httpClient.PutAsync($"api/MembersOfCampingTrip/{user.Id}", new StringContent(JsonConvert.SerializeObject(tripId), Encoding.UTF8, "application/json")).Result;
-
-
-            if (response.IsSuccessStatusCode)
-            {
-                campingTrip.IAmJoined = true;
-                campingTrip.CanIJoin = false;
-                if (campingTrip.MembersOfCampingTrip == null)
-                {
-                    campingTrip.MembersOfCampingTrip = new ObservableCollection<UserInfo>();
-                }
-                campingTrip.MembersOfCampingTrip.Add(new UserInfo()
-                {
-                    Id=this.user.Id
-
-                });
-
-            }
-        }
-        public async void Refuse(object trip)
-        {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
-
-            httpClient.SetBearerToken(tokenResponse.AccessToken);
-            var campingTrip = (trip as TripsInProgress).CampingTrip;
-
-            var response = await httpClient.DeleteAsync("api/MembersOfCampingTrip/" + user.Id + "/" + campingTrip.ID);
-
-            if (response.IsSuccessStatusCode)
-            {
-                campingTrip.IAmJoined = false;
-                campingTrip.CanIJoin = true;
-
-               campingTrip.MembersOfCampingTrip.Remove(campingTrip.MembersOfCampingTrip.Where(userInfo => userInfo.Id == user.Id).First());
-            }
-
-        }
-
-        public void GetUserInfo()
-        {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
-            var httpClientLocal = new HttpClient();
-            httpClientLocal.BaseAddress= new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
-            httpClientLocal.SetBearerToken(tokenResponse.AccessToken);
-            
-
-            var response = httpClientLocal.GetAsync("api/User/" + ConfigurationSettings.AppSettings["userId"]).Result;
-
-            var content = response.Content;
-
-            var jsonContent = content.ReadAsStringAsync().Result;
-
-            this.user = JsonConvert.DeserializeObject<User>(jsonContent);
-
-            
-        }
-
-        private void ConnectToServer()
-        {
-            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
-
-            if (disco.IsError)
-            {
-                //ErrorMessage = disco.Error;
-
-                return;
-            }
-            else
-            {
-                this.tokenClient = new TokenClient(disco.TokenEndpoint, "kanchDesktopApp", "secret");
-            }
-        }
-           
     }
 }
