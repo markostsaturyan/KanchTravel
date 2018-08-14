@@ -287,6 +287,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProfileComponents\Views\UserRegistredTrips.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProfileComponents\Views\UsersJoinedCampingTrips.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -394,6 +398,7 @@
     <Compile Include="ProfileComponents\ViewModels\InProgressCampingTripViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\PhotographerRequestsForAdminViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\TripsManagementOfAdminViewModel.cs" />
+    <Compile Include="ProfileComponents\ViewModels\UserRegistredTripsViewModel.cs" />
     <Compile Include="ProfileComponents\ViewModels\UsersJoinedCampingTripsViewModel.cs" />
     <Compile Include="ProfileComponents\Views\CampingTripRegistrationForAdmin.xaml.cs">
       <DependentUpon>CampingTripRegistrationForAdmin.xaml</DependentUpon>
@@ -421,6 +426,9 @@
     </Compile>
     <Compile Include="ProfileComponents\Views\TripsManagementOfAdminView.xaml.cs">
       <DependentUpon>TripsManagementOfAdminView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileComponents\Views\UserRegistredTrips.xaml.cs">
+      <DependentUpon>UserRegistredTrips.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\Views\UsersJoinedCampingTrips.xaml.cs">
       <DependentUpon>UsersJoinedCampingTrips.xaml</DependentUpon>

@@ -25,6 +25,10 @@
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Camping trip requests</TextBlock>
             </Button>
 
+            <Button Command="{Binding Path = GetlMyRegistredTripsCommand}" Height="40" Margin="0 0 0 5">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">See my registred trips</TextBlock>
+            </Button>
+            
             <Button Command="{Binding Path = RegistrationOfTheTripCommand}" Height="40" Margin="0 0 0 5">
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="15" FontWeight="Bold">Register a trip</TextBlock>
             </Button>

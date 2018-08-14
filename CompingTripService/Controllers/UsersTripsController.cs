@@ -114,7 +114,7 @@ namespace CampingTripService.Controllers
 
             IEnumerable<Claim> claims = identity.Claims;
 
-            var userIdClaim = claims.Where(claim => claim.Type == "user_id").First();
+            var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
 
             if (userIdClaim == null) throw new Exception("user_id claim not found");
 

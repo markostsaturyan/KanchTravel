@@ -7,11 +7,10 @@ using System.Security.Claims;
 using System;
 using System.Linq;
 using CampingTripService.DataManagement.Model;
-using System.Net.Http;
 
 namespace CampingTripService.Controllers
 {
-    
+
     [Produces("application/json")]
     [Route("api/MembersOfCampingTrip")]
     public class MembersOfCampingTripController : Controller
