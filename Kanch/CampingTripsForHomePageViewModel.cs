@@ -41,7 +41,6 @@ namespace Kanch
             this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
             this.TripsInProgress = new ObservableCollection<TripsInProgress>();
             GetAllInProgressTrips();
-
         }
 
         public void GetAllInProgressTrips()

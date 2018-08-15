@@ -7,7 +7,7 @@
         xmlns:viewModel="clr-namespace:Kanch.ViewModel"
         xmlns:local="clr-namespace:Kanch"
         mc:Ignorable="d"
-        Title="Registration" Width="589">
+        Title="Registration" Width="589" WindowStartupLocation="CenterScreen" >
     <Window.Resources>
         <DataTemplate x:Key="MainRegistrationPage" >
             <views:ChooseRegistrationType />

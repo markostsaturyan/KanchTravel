@@ -66,14 +66,13 @@ namespace Kanch.ProfileComponents.ViewModels
             {
                 foreach (var trip in trips)
                 {
-                    
                     var zeroTime = new DateTime(1, 1, 1);
 
                     var span = DateTime.Now - this.user.DateOfBirth;
 
                     var userAge = (zeroTime + span).Year - 1;
 
-                    if (userAge >= trip.MinAge || userAge <= trip.MaxAge)
+                    if (userAge >= trip.MinAge && userAge <= trip.MaxAge)
                     {
 
                         var campingtrip = new CampingTripInfo()
@@ -133,7 +132,15 @@ namespace Kanch.ProfileComponents.ViewModels
                                     Id = member.Id
                                 });
                             }
+
                         }
+
+                        if (trip.CountOfMembers >= trip.MaxCountOfMembers)
+                        {
+                            campingtrip.CanIJoin = false;
+                        }
+
+
                         if(!campingtrip.IAmJoined)
                         {
                             campingtrip.CanIJoin = true;

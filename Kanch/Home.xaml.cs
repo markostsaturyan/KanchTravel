@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,20 +37,28 @@ namespace Kanch
 
         public void LoginClick(object sender, EventArgs e)
         {
-            var login = new Login();
-            var myWindow = Window.GetWindow(this);
-            Application.Current.MainWindow = login;
-            login.Show();
-            myWindow.Close();
+            if (ConfigurationManager.AppSettings["refreshToken"] == "")
+            {
+                var login = new Login();
+                Application.Current.MainWindow = login;
+                login.Show();
+                this.Close();
+            }
+            else
+            {
+                var profile = new Profile();
+                Application.Current.MainWindow = profile;
+                profile.Show();
+                this.Close();
+            }
         }
 
         public void RegisterClick(object sender, EventArgs e)
         {
             var register = new MainWindow();
-            var myWindow = Window.GetWindow(this);
             Application.Current.MainWindow = register;
             register.Show();
-            myWindow.Close();
+            this.Close();
         }
     }
 }

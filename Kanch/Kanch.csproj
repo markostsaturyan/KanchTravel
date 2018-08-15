@@ -339,10 +339,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserProfileEdit.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Verification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -435,9 +431,6 @@
     </Compile>
     <Compile Include="ProfileComponents\Views\UsersJoinedCampingTrips.xaml.cs">
       <DependentUpon>UsersJoinedCampingTrips.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserProfileEdit.xaml.cs">
-      <DependentUpon>UserProfileEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileComponents\Views\InProgressCampingTrips.xaml.cs">
       <DependentUpon>InProgressCampingTrips.xaml</DependentUpon>
