@@ -61,70 +61,66 @@ namespace Kanch
                 foreach (var trip in trips)
                 {
 
-                    var zeroTime = new DateTime(1, 1, 1);
-
-                    var span = DateTime.Now - this.user.DateOfBirth;
-
-                    var userAge = (zeroTime + span).Year - 1;
-
-                    if (userAge >= trip.MinAge || userAge <= trip.MaxAge)
+                    var campingtrip = new CampingTripInfo()
                     {
-
-                        var campingtrip = new CampingTripInfo()
+                        Place = trip.Place,
+                        DepartureDate = trip.DepartureDate,
+                        ArrivalDate = trip.ArrivalDate,
+                        CountOfMembers = trip.CountOfMembers,
+                        MinAge = trip.MinAge,
+                        MaxAge = trip.MaxAge,
+                        MinCountOfMembers = trip.MinCountOfMembers,
+                        MaxCountOfMembers = trip.MaxCountOfMembers,
+                        Direction = trip.Direction,
+                        HasGuide = trip.HasGuide,
+                        HasPhotographer = trip.HasPhotographer,
+                        ID = trip.ID
+                    };
+                    if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
+                    {
+                        campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Campaign;
+                    }
+                    else if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.CampingTrip)
+                    {
+                        campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.CampingTrip;
+                    }
+                    else
+                    {
+                        campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
+                    }
+                    if (trip.Food != null)
+                    {
+                        campingtrip.Food = new ObservableCollection<FoodInfo>();
+                        foreach (var food in trip.Food)
                         {
-                            Place = trip.Place,
-                            DepartureDate = trip.DepartureDate,
-                            ArrivalDate = trip.ArrivalDate,
-                            CountOfMembers = trip.CountOfMembers,
-                            MinAge = trip.MinAge,
-                            MaxAge = trip.MaxAge,
-                            MinCountOfMembers = trip.MinCountOfMembers,
-                            MaxCountOfMembers = trip.MaxCountOfMembers,
-                            Direction = trip.Direction,
-                            HasGuide = trip.HasGuide,
-                            HasPhotographer = trip.HasPhotographer,
-                            ID = trip.ID
-                        };
-                        if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
-                        {
-                            campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Campaign;
-                        }
-                        else if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.CampingTrip)
-                        {
-                            campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.CampingTrip;
-                        }
-                        else
-                        {
-                            campingtrip.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
-                        }
-                        if (trip.Food != null)
-                        {
-                            campingtrip.Food = new ObservableCollection<FoodInfo>();
-                            foreach (var food in trip.Food)
+                            campingtrip.Food.Add(new FoodInfo()
                             {
-                                campingtrip.Food.Add(new FoodInfo()
-                                {
-                                    Name = food.Name,
-                                    Measure = food.Measure,
-                                    MeasurementUnit = food.MeasurementUnit
-                                });
-                            }
-                        }
-                        if (trip.MembersOfCampingTrip != null)
-                        {
-                            foreach (var member in trip.MembersOfCampingTrip)
-                            {
-                                if (member.Id == this.user.Id)
-                                {
-                                    campingtrip.IAmJoined = true;
-                                }
-                            }
-                        }
-                        if (!campingtrip.IAmJoined)
-                        {
-                            campingtrip.CanIJoin = true;
+                                Name = food.Name,
+                                Measure = food.Measure,
+                                MeasurementUnit = food.MeasurementUnit
+                            });
                         }
                     }
+                    if (trip.MembersOfCampingTrip != null)
+                    {
+                        foreach (var member in trip.MembersOfCampingTrip)
+                        {
+                            if (member.Id == this.user.Id)
+                            {
+                                campingtrip.IAmJoined = true;
+                            }
+                        }
+                    }
+                    if (!campingtrip.IAmJoined)
+                    {
+                        campingtrip.CanIJoin = true;
+                    }
+
+                    var tripInProgress = new TripsInProgress();
+
+                    tripInProgress.CampingTrip = campingtrip;
+
+                    this.TripsInProgress.Add(tripInProgress);
                 }
             }
         }

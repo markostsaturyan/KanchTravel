@@ -22,7 +22,7 @@ namespace Kanch
         public Home()
         {
             InitializeComponent();
-            InProgressCampingTrips.ContentTemplate = this.FindResource("InProgressCampingTrips") as DataTemplate;
+            campingTrips.ContentTemplate = this.FindResource("InProgressCampingTrips") as DataTemplate;
         }
 
         public void AboutUsClick(object sender, EventArgs e)

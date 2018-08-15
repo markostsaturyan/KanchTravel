@@ -20,7 +20,6 @@ namespace CampingTripService.Controllers
             this.campingTripRepository = campingTripRepository;
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IEnumerable<CampingTripFull>> Get()
         {
