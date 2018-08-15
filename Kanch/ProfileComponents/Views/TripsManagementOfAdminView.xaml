@@ -206,6 +206,7 @@
                                                         Delete
                                                         </TextBlock>
                                                     </Button>
+                                                    
                                                 </Grid>
                                                 <!--Guide-->
                                                 <Grid Width="250" Visibility="{Binding GuideIsSelected}"> 
@@ -222,21 +223,21 @@
                                                         <RowDefinition Height="Auto" />
                                                     </Grid.RowDefinitions>
                                                     <TextBlock HorizontalAlignment="Center" FontSize="15" FontWeight="Black" Margin="5" >Guide</TextBlock>
-                                                    <Image Source="{Binding CampingTrip.Guide.Image}" Height="70" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin ="15 0 0 0"/>
-                                                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="15 0 0 0 ">
+                                                    <Image Source="{Binding CampingTrip.Guide.Image}" Height="70" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin ="15 5 0 0"/>
+                                                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Margin="15 0 0 0 ">
                                                         <TextBlock Text="{Binding CampingTrip.Guide.FirstName}" Margin="0 0 10 0" Height = "25"  VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15"/>
                                                         <TextBlock Text="{Binding CampingTrip.Guide.LastName}"  Height = "25"  VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "15"/>
                                                     </StackPanel>
-                                                    <TextBlock Text="{Binding CampingTrip.Guide.UserName}"      Grid.Row="2" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
-                                                    <TextBlock Text="{Binding CampingTrip.Guide.DateOfBirth}"   Grid.Row="3" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
-                                                    <TextBlock Text="{Binding CampingTrip.Guide.Email}"         Grid.Row="4" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
-                                                    <TextBlock Text="{Binding CampingTrip.Guide.Gender}"        Grid.Row="5" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
-                                                    <TextBlock Text="{Binding CampingTrip.Guide.PhoneNumber}"   Grid.Row="6" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13" />
-                                                    <StackPanel Orientation="Vertical" Grid.Row="7" Grid.Column="1">
-                                                        <TextBlock Text="The proposed amount " Height = "24" Margin = "15 5 0 5" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "14" />
-                                                        <TextBlock Text="{Binding SelectedGuideResponse.Price}"  Height = "24" Margin = "15 5 0 5" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "14" FontWeight="Black"/>
+                                                    <TextBlock Text="{Binding CampingTrip.Guide.UserName}"      Grid.Row="3" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
+                                                    <TextBlock Text="{Binding CampingTrip.Guide.DateOfBirth}"   Grid.Row="4" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
+                                                    <TextBlock Text="{Binding CampingTrip.Guide.Email}"         Grid.Row="5" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
+                                                    <TextBlock Text="{Binding CampingTrip.Guide.Gender}"        Grid.Row="6" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
+                                                    <TextBlock Text="{Binding CampingTrip.Guide.PhoneNumber}"   Grid.Row="7" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13" />
+                                                    <StackPanel Orientation="Vertical" Grid.Row="8" Grid.Column="1">
+                                                        <TextBlock Text="The proposed amount " Height = "24" Margin = "15 5 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "14" />
+                                                        <TextBlock Text="{Binding SelectedGuideResponse.Price}"  Height = "24" Margin = "15 0 0 5" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "14" FontWeight="Black"/>
                                                     </StackPanel>
-                                                    <Button Command="{Binding RemoveGuide}" IsEnabled="{Binding GuideIsSelected}" Grid.Column="1" Grid.Row="7">
+                                                    <Button Command="{Binding RemoveGuide}" IsEnabled="{Binding GuideIsSelected}" Grid.Column="1" Grid.Row="9">
                                                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Black">
                                                         Delete
                                                         </TextBlock>
@@ -268,8 +269,8 @@
                                                     <TextBlock Text="{Binding CampingTrip.Photographer.Gender}"         Grid.Row="6" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
                                                     <TextBlock Text="{Binding CampingTrip.Photographer.PhoneNumber}"    Grid.Row="7" Grid.Column="1" Height = "23" Margin = "15 0 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "13"/>
                                                     <StackPanel Orientation="Vertical" Grid.Row="8" Grid.Column="1">
-                                                        <TextBlock Text="The proposed amount: " Height = "24" Margin = "15 5 0 5" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "14"/>
-                                                        <TextBlock Text="{Binding SelectedPhotographerResponse.Price}"  Height = "24" Margin = "15 5 0 5" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "14" FontWeight="Black"/>
+                                                        <TextBlock Text="The proposed amount: " Height = "24" Margin = "15 5 0 0" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "14"/>
+                                                        <TextBlock Text="{Binding SelectedPhotographerResponse.Price}"  Height = "24" Margin = "15 0 0 5" VerticalAlignment = "Top" HorizontalAlignment = "Left"  FontSize = "14" FontWeight="Black"/>
                                                     </StackPanel>
                                                     <Button Command="{Binding RemovePhotographer}" IsEnabled="{Binding PhotographerIsSelected}" Grid.Column="1" Grid.Row="9">
                                                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Black">

@@ -319,9 +319,11 @@ namespace Kanch.ProfileComponents.HelperClasses
         {
             var guideId = (int)providerId;
 
-            var response = DriversResponses.Where(requestResponse => requestResponse.ProviderId == guideId).First();
+            var response = GuidesResponses.Where(requestResponse => requestResponse.ProviderId == guideId).First();
 
             SelectedGuideResponse = response;
+
+            GuidesResponses.Remove(selectedGuideResponse);
 
             CampingTrip.Guide = await GetGuideAsync(guideId);
 
@@ -407,7 +409,7 @@ namespace Kanch.ProfileComponents.HelperClasses
         {
             var photographerId = (int)providerId;
 
-            var response = DriversResponses.Where(requestResponse => requestResponse.ProviderId == photographerId).First();
+            var response = PhotographersResponses.Where(requestResponse => requestResponse.ProviderId == photographerId).First();
 
             SelectedPhotographerResponse = response;
 
