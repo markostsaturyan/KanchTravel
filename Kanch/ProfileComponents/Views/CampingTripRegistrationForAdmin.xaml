@@ -7,13 +7,13 @@
              xmlns:dataModels="clr-namespace:Kanch.ProfileComponents.DataModel"
              xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="940">
+             d:DesignHeight="900" d:DesignWidth="970">
     <Grid>
         <ScrollViewer>
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="220" />
-                    <ColumnDefinition Width="720"/>
+                    <ColumnDefinition Width="750"/>
                 </Grid.ColumnDefinitions>
 
 

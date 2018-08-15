@@ -52,7 +52,7 @@ namespace CampingTripService.Controllers
         }
 
         // GET: api/UsersTrips/5
-        [HttpGet("{id}")]
+        [HttpGet("{campingTripId}")]
         public async Task<CampingTripFull> Get(string campingTripId)
         {
             var identity = (ClaimsIdentity)User.Identity;
@@ -107,14 +107,14 @@ namespace CampingTripService.Controllers
         }
         
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{campingTripId}")]
         public void Delete(string campingTripId)
         {
             var identity = (ClaimsIdentity)User.Identity;
 
             IEnumerable<Claim> claims = identity.Claims;
 
-            var userIdClaim = claims.Where(claim => claim.Type == "user_id").First();
+            var userIdClaim = claims.Where(claim => claim.Type == "user_id")?.FirstOrDefault();
 
             if (userIdClaim == null) throw new Exception("user_id claim not found");
 

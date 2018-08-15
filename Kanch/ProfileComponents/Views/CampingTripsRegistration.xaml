@@ -7,7 +7,7 @@
              xmlns:dataModels="clr-namespace:Kanch.ProfileComponents.DataModel"
              xmlns:local="clr-namespace:Kanch.ProfileComponents.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="940" Background="AliceBlue">
+             d:DesignHeight="600" d:DesignWidth="970" Background="AliceBlue">
     <ScrollViewer>
         <Grid >
 

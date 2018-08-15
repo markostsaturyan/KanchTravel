@@ -26,7 +26,7 @@ namespace Kanch
         {
 
             InitializeComponent();
-            var role = ConfigurationSettings.AppSettings["role"];
+            var role = ConfigurationManager.AppSettings["role"];
             switch (role)
             {
                 case "Admin":

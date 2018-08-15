@@ -473,7 +473,9 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         public async Task RemoveUserRegistredCampingTripAsync(string campingTripId, int userId)
         {
             await campingTripContext.CampingTrips.DeleteOneAsync(
-                                            Builders<CampingTrip>.Filter.Eq("ID", campingTripId) & Builders<CampingTrip>.Filter.Eq(trip=>trip.OrganzierID,userId));
+                                            Builders<CampingTrip>.Filter.Eq(trip=>trip.ID, campingTripId) & Builders<CampingTrip>.Filter.Eq(trip=>trip.OrganzierID,userId));
+            await campingTripContext.ServiceRequests.DeleteManyAsync(Builders<ServiceRequest>.Filter.Eq(request => request.CampingTripId, campingTripId));
+            await campingTripContext.ServiceRequestResponses.DeleteManyAsync(Builders<ServiceRequestResponse>.Filter.Eq(response => response.CampingTripId, campingTripId));
         }
 
         public async Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredCompletedTripsAsync()

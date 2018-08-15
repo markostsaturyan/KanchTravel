@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kanch.ProfileComponents.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,14 @@ using System.Windows.Shapes;
 namespace Kanch.ProfileComponents.Views
 {
     /// <summary>
-    /// Interaction logic for CampingTrips.xaml
+    /// Interaction logic for UserRegistredTrips.xaml
     /// </summary>
-    public partial class CampingTrips : UserControl
+    public partial class UserRegistredTrips : UserControl
     {
-        public CampingTrips()
+        public UserRegistredTrips()
         {
             InitializeComponent();
+            this.DataContext = new UserRegistredTripsViewModel();
         }
     }
 }

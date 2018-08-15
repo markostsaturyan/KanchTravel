@@ -28,14 +28,14 @@ namespace Kanch.ProfileComponents.ViewModels
         {
             this.DriverRequests = new ObservableCollection<DriverRequests>();
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["userManagementBaseUri"]);
+            this.httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["userManagementBaseUri"]);
             ConnectToServer();
             GetAllDriverRequests();
         }
 
         public void GetAllDriverRequests()
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var response = httpClient.GetAsync("api/driververification").Result;
@@ -96,7 +96,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void Accept(object driverRequest)
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
@@ -115,7 +115,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void Ignore(object driverRequest)
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
 
@@ -128,12 +128,10 @@ namespace Kanch.ProfileComponents.ViewModels
 
         private void ConnectToServer()
         {
-            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
+            var disco = DiscoveryClient.GetAsync(ConfigurationManager.AppSettings["authenticationService"]).Result;
 
             if (disco.IsError)
             {
-                //ErrorMessage = disco.Error;
-
                 return;
             }
             else

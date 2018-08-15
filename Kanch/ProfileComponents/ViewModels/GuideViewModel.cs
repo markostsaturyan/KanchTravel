@@ -62,8 +62,8 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public ICommand GetAllTripsCommand { get; set; }
         public ICommand GetMyCurrentTripsCommand { get; set; }
-        public ICommand GetlMyPreviousTripsCommand { get; set; }
         public ICommand RegistrationOfTheTripCommand { get; set; }
+        public ICommand GetMyRegistredTripsCommand { get; set; }
 
         public GuideViewModel()
         {
@@ -74,8 +74,8 @@ namespace Kanch.ProfileComponents.ViewModels
             GetGuideInfo();
             this.GetAllTripsCommand = new Command(o => GetAllTrip());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
-            this.GetlMyPreviousTripsCommand = new Command(o => GetMyPreviousTrips());
             this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
+            this.GetMyRegistredTripsCommand = new Command(o => GetMyRegistredTrips());
         }
 
         private void RegistrationOfTheTrip()
@@ -86,14 +86,20 @@ namespace Kanch.ProfileComponents.ViewModels
             presenter.ContentTemplate = window.FindResource("CampingTripsRegistration") as DataTemplate;
         }
 
-        private void GetMyPreviousTrips()
-        {
-            throw new NotImplementedException();
-        }
-
         private void GetMyCurrentTrips()
         {
-            throw new NotImplementedException();
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("CampingTripsUserIsJoined") as DataTemplate;
+        }
+
+        private void GetMyRegistredTrips()
+        {
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("UsersRegisteredTrips") as DataTemplate;
         }
 
         private void GetAllTrip()

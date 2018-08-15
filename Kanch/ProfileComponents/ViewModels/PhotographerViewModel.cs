@@ -61,8 +61,8 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public ICommand GetAllTripsCommand { get; set; }
         public ICommand GetMyCurrentTripsCommand { get; set; }
-        public ICommand GetlMyPreviousTripsCommand { get; set; }
         public ICommand RegistrationOfTheTripCommand { get; set; }
+        public ICommand GetMyRegistredTripsCommand { get; set; }
 
         public PhotographerViewModel()
         {
@@ -73,8 +73,8 @@ namespace Kanch.ProfileComponents.ViewModels
             GetPhotographerInfo();
             this.GetAllTripsCommand = new Command(o => GetAllTrip());
             this.GetMyCurrentTripsCommand = new Command(o => GetMyCurrentTrips());
-            this.GetlMyPreviousTripsCommand = new Command(o => GetMyPreviousTrips());
             this.RegistrationOfTheTripCommand = new Command(o => RegistrationOfTheTrip());
+            this.GetMyRegistredTripsCommand = new Command(o => GetMyRegistredTrips());
         }
 
         private void RegistrationOfTheTrip()
@@ -85,16 +85,22 @@ namespace Kanch.ProfileComponents.ViewModels
             presenter.ContentTemplate = window.FindResource("CampingTripsRegistration") as DataTemplate;
         }
 
-        private void GetMyPreviousTrips()
+
+        private void GetMyRegistredTrips()
         {
-            throw new NotImplementedException();
+            var window = Application.Current.MainWindow;
+
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("UsersRegisteredTrips") as DataTemplate;
         }
 
         private void GetMyCurrentTrips()
         {
-            throw new NotImplementedException();
-        }
+            var window = Application.Current.MainWindow;
 
+            var presenter = window.FindName("mainPage") as ContentPresenter;
+            presenter.ContentTemplate = window.FindResource("CampingTripsUserIsJoined") as DataTemplate;
+        }
         private void GetAllTrip()
         {
             var window = Application.Current.MainWindow;

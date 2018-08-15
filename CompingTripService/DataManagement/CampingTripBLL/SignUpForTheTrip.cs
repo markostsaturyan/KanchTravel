@@ -266,7 +266,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discovery.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
 
             var httpClient = new HttpClient
             {
@@ -295,7 +295,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discovery.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
 
             var httpClient = new HttpClient
             {
@@ -324,7 +324,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         {
             var tokenClinet = new TokenClient(discovery.TokenEndpoint, "campingTrip", "secret");
 
-            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement", "secret").Result;
+            var tokenResponse = tokenClinet.RequestClientCredentialsAsync("userManagement").Result;
 
             var httpClient = new HttpClient
             {
@@ -351,7 +351,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task<IEnumerable<string>> GetTripsByMemberId(int id)
         {
-            var filterByMemberId = Builders<CampingTrip>.Filter.Eq(trip=>trip.MembersOfCampingTrip.Contains(id),true);
+            var filterByMemberId = Builders<CampingTrip>.Filter.Where(trip=>trip.MembersOfCampingTrip.Contains(id));
 
             var trips = await campingTripContext.CampingTrips.Find(filterByMemberId).ToListAsync();
 
