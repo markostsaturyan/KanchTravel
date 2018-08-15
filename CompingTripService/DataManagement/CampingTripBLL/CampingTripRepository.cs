@@ -30,8 +30,6 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var trip = new CampingTrip(item);
 
             await campingTripContext.CampingTrips.InsertOneAsync(trip);
-            item.ID = trip.ID;
-            await SendingServiceRequests(item);
         }
 
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTripsAsync()
