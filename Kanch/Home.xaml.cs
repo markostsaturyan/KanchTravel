@@ -23,6 +23,8 @@ namespace Kanch
         public Home()
         {
             InitializeComponent();
+            Uri iconUri = new Uri("pack://application:,,,/Images/KanchLogo.png", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
             campingTrips.ContentTemplate = this.FindResource("InProgressCampingTrips") as DataTemplate;
         }
 

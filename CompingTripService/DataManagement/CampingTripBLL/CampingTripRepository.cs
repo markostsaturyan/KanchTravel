@@ -30,6 +30,10 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var trip = new CampingTrip(item);
 
             await campingTripContext.CampingTrips.InsertOneAsync(trip);
+
+            item.ID = trip.ID;
+
+            await SendingServiceRequestsAsync(item);
         }
 
         public async Task<IEnumerable<CampingTripFull>> GetAllRegistartionCompletedCampingTripsAsync()
@@ -699,7 +703,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             var photographerIsNull = Builders<CampingTrip>.Filter.Eq(trip => trip.PhotographerID, 0);
             var organizedByUser = Builders<CampingTrip>.Filter.Eq(trip => trip.OrganizationType, TypeOfOrganization.orderByUser);
 
-            var trips = await campingTripContext.CampingTrips.Find(driverIsNull | (hasGuide & guideIdNull) | (hasPhotographer & photographerIsNull) & organizedByUser)?.ToListAsync();
+            var trips = await campingTripContext.CampingTrips.Find((driverIsNull | (hasGuide & guideIdNull) | (hasPhotographer & photographerIsNull)) & organizedByUser)?.ToListAsync();
 
             var campingTrips = new List<CampingTripFull>();
 
@@ -797,7 +801,14 @@ namespace CampingTripService.DataManagement.CampingTripBLL
 
         public async Task AddServiceRequestAsync(ServiceRequest request)
         {
-            await campingTripContext.ServiceRequests.InsertOneAsync(request);
+            var requestFilter = Builders<ServiceRequest>.Filter.Where(req =>req.CampingTripId==request.CampingTripId && req.ProviderId==request.ProviderId);
+
+            var requests = await(await campingTripContext.ServiceRequests.FindAsync(requestFilter))?.ToListAsync();
+
+            if (request == null || requests?.Count == 0)
+            {
+                await campingTripContext.ServiceRequests.InsertOneAsync(request);
+            }
         }
 
         public async Task RemoveServiceRequestAsync(string id)
@@ -900,7 +911,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
             return false;
         }
 
-        public async Task SendingServiceRequests(CampingTripFull campingTrip)
+        public async Task SendingServiceRequestsAsync(CampingTripFull campingTrip)
         {
             var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "campingTrip", "secret");
 
@@ -994,6 +1005,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
                             RequestValidityPeriod = campingTrip.DepartureDate
                         });
                     }
+
                 }
             }
         }

@@ -359,10 +359,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OrderCampingTrip.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\PhotographerRegistration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -513,9 +509,6 @@
       <DependentUpon>UserRegistration.xaml</DependentUpon>
     </Compile>
     <Compile Include="CampingTripsForHomePageViewModel.cs" />
-    <Compile Include="OrderCampingTrip.xaml.cs">
-      <DependentUpon>OrderCampingTrip.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\DriverRegistration.xaml.cs">
       <DependentUpon>DriverRegistration.xaml</DependentUpon>
     </Compile>

@@ -115,7 +115,10 @@ namespace Kanch.ProfileComponents.ViewModels
 
             var response = httpClient.PostAsync("api/ServiceRequestResponses", new StringContent(JsonConvert.SerializeObject(serviceRequestResponse), Encoding.UTF8, "application/json")).Result;
 
-            this.CampingTripRequests.Remove(request as CampingTripRequests);
+            if (response.IsSuccessStatusCode)
+            {
+                this.CampingTripRequests.Remove(request as CampingTripRequests);
+            }
         }
 
         public void IgnoreRequest(object request)

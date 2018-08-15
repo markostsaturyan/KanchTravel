@@ -22,7 +22,7 @@ namespace CampingTripService.DataManagement.CampingTripBLL
         Task<IEnumerable<CampingTripFull>> GetAllUserRegisteredTripsForUserAsync(int userId);
         Task<IEnumerable<ServiceRequestResponse>> GetAllServiceRequestResponsesAsync();
         Task<CampingTripFull> GetUnconfirmedTripById(string campingtripId);
-        Task SendingServiceRequests(CampingTripFull campingTrip);
+        Task SendingServiceRequestsAsync(CampingTripFull campingTrip);
         Task<CampingTripFull> GetCompletedCampingTripForUserAsync(string campingTripId);
         Task RemoveUserRegistredCampingTripAndSendingEmail(string campingTripId);
         Task<IEnumerable<CampingTripFull>> GetDriverTripsAsync(int userId);

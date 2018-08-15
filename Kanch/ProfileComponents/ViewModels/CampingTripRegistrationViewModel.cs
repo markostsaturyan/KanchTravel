@@ -429,6 +429,8 @@ namespace Kanch.ProfileComponents.ViewModels
             this.tripRegistration.MinAge = 0;
             this.tripRegistration.CountOfMembers = 0;
             this.tripRegistration.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
+            this.foods.Clear();
+            this.direction.Clear();
         }
 
         private void ConnectToServer()
@@ -447,7 +449,6 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
 
-
         private void NotifyPropertyChanged(string info)
         {
             if (PropertyChanged != null)
@@ -456,5 +457,4 @@ namespace Kanch.ProfileComponents.ViewModels
             }
         }
     }
-
 }

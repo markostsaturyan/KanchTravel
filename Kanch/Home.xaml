@@ -7,7 +7,7 @@
         xmlns:viewModels="clr-namespace:Kanch.ViewModel"
         xmlns:views="clr-namespace:Kanch.Views"
         mc:Ignorable="d"
-        Title="Home" Height="660" Width="1270" MinHeight="660" MinWidth="1270" WindowStartupLocation="CenterScreen">
+        Title="Home" Height="660" Width="980" MinHeight="660" MinWidth="980" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <DataTemplate x:Key="InProgressCampingTrips" DataType="{x:Type local:CampingTripsForHomePageViewModel}" >
             <local:CampingTripsForHomePage />
@@ -15,49 +15,47 @@
     </Window.Resources>
 
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="/Images/nature3.jpg" Opacity="0.8"/>
+            </Grid.Background>
             <Grid>
-                <Grid.Background>
-                    <ImageBrush ImageSource="/Images/nature3.jpg" Opacity="0.8"/>
-                </Grid.Background>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="50"/>
-                        </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
 
-                        <StackPanel Orientation="Vertical" Grid.Column="1">
-                            <Image Source="/Images/KanchLogo.png" Height="90" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <TextBlock  VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="30" FontStyle="Italic" FontFamily="Times New Roman"  Background="White" Opacity="0.7">K a n c h</TextBlock>
-                        </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                        <Image Source="/Images/KanchLogo.png" Height="90" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <TextBlock  VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="30" FontStyle="Italic" FontFamily="Times New Roman"  Background="White" Opacity="0.7">K a n c h</TextBlock>
+                    </StackPanel>
 
-                        <StackPanel Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
-                            <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"  Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Height="30" Width="70" Cursor="Hand" Click="AboutUsClick">
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">About us</TextBlock>
-                            </Button>
-                            <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"  Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Height="30" Width="70" Cursor="Hand" Click="LoginClick">
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Log in</TextBlock>
-                            </Button>
-                            <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"   Opacity="0.8" FontFamily="Arial" Cursor="Hand" Height="30" Width="70" Click="RegisterClick">
-                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Register</TextBlock>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
+                    <StackPanel Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"  Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Height="30" Width="70" Cursor="Hand" Click="AboutUsClick">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">About us</TextBlock>
+                        </Button>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"  Opacity="0.8" Margin="0,0,2,0" FontFamily="Arial" Height="30" Width="70" Cursor="Hand" Click="LoginClick">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Log in</TextBlock>
+                        </Button>
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom"   Opacity="0.8" FontFamily="Arial" Cursor="Hand" Height="30" Width="70" Click="RegisterClick">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Register</TextBlock>
+                        </Button>
+                    </StackPanel>
+                </Grid>
 
-                    <Grid Grid.Row="1">
-                        <ContentPresenter Name="campingTrips" />
-                    </Grid>
+                <Grid Grid.Row="1" HorizontalAlignment="Center">
+                    <ContentPresenter Name="campingTrips" />
                 </Grid>
             </Grid>
-        </ScrollViewer>
+        </Grid>
     </Grid>
 </Window>

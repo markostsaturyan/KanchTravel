@@ -39,7 +39,7 @@ namespace Kanch.ProfileComponents.ViewModels
         public InProgressCampingTripViewModel()
         {
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            this.httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"]);
             ConnectToServer();
             this.TripsInProgress = new ObservableCollection<TripsInProgress>();
             GetUserInfo();
@@ -49,7 +49,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void GetAllInProgressTrips()
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var response = httpClient.GetAsync("api/CampingTrips").Result;

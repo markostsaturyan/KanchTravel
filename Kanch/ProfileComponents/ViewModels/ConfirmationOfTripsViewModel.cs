@@ -28,7 +28,7 @@ namespace Kanch.ProfileComponents.ViewModels
         public ConfirmationOfTripsViewModel()
         {
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            this.httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"]);
             ConnectToServer();
             this.UnconfirmedTrips = new ObservableCollection<UnconfirmedTrips>();
             GetAllUnconfirmedTrips();
@@ -36,7 +36,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void GetAllUnconfirmedTrips()
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var response = httpClient.GetAsync("api/UserRegisteredTripsManagement").Result;
@@ -99,27 +99,10 @@ namespace Kanch.ProfileComponents.ViewModels
                         Email = trip.Organizer.Email,
                         PhoneNumber = trip.Organizer.PhoneNumber,
                         DateOfBirth = trip.Organizer.DateOfBirth,
-                        Gender = trip.Organizer.Gender
+                        Gender = trip.Organizer.Gender,
+                        Image=ImageConverter.ConvertImageToImageSource(trip.Organizer.Image)??ImageConverter.DefaultProfilePicture(trip.Organizer.Gender)
                     };
-                    if (trip.Organizer.Image != null)
-                    {
-                        campingtrip.Organizer.Image = ImageConverter.ConvertImageToImageSource(trip.Organizer.Image);
-                    }
-                    else
-                    {
-                        BitmapImage img = new BitmapImage();
-                        img.BeginInit();
-                        if (campingtrip.Organizer.Gender == "Female")
-                        {
-                            img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/female.jpg");
-                        }
-                        else
-                        {
-                            img.UriSource = new Uri(@"pack://application:,,,/Kanch;component/Images/male.jpg");
-                        }
-                        img.EndInit();
-                        campingtrip.Organizer.Image = img;
-                    }
+                    
 
                     var unconfirmTrip = new HelperClasses.UnconfirmedTrips();
 
@@ -135,7 +118,7 @@ namespace Kanch.ProfileComponents.ViewModels
 
         public void Confirm(object trip)
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var campingTrip = (trip as UnconfirmedTrips).Trip;
@@ -147,7 +130,7 @@ namespace Kanch.ProfileComponents.ViewModels
         }
         public void Ignore(object trip)
         {
-            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationSettings.AppSettings["refreshToken"]).Result;
+            var tokenResponse = tokenClient.RequestRefreshTokenAsync(ConfigurationManager.AppSettings["refreshToken"]).Result;
 
             httpClient.SetBearerToken(tokenResponse.AccessToken);
             var campingTrip = (trip as UnconfirmedTrips).Trip;
@@ -157,7 +140,7 @@ namespace Kanch.ProfileComponents.ViewModels
         }
         private void ConnectToServer()
         {
-            var disco = DiscoveryClient.GetAsync(ConfigurationSettings.AppSettings["authenticationService"]).Result;
+            var disco = DiscoveryClient.GetAsync(ConfigurationManager.AppSettings["authenticationService"]).Result;
 
             if (disco.IsError)
             {

@@ -1,6 +1,4 @@
-﻿using IdentityModel.Client;
-using Kanch.Commands;
-using Kanch.DataModel;
+﻿using Kanch.DataModel;
 using Kanch.ProfileComponents.DataModel;
 using Kanch.ProfileComponents.HelperClasses;
 using Newtonsoft.Json;
@@ -9,11 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Windows.Input;
 
 namespace Kanch
 {
@@ -22,8 +16,6 @@ namespace Kanch
         public event PropertyChangedEventHandler PropertyChanged;
 
         private HttpClient httpClient;
-        private TokenClient tokenClient;
-        private readonly User user;
         private ObservableCollection<TripsInProgress> tripsInProgresses;
         public ObservableCollection<TripsInProgress> TripsInProgress
         {
@@ -38,7 +30,7 @@ namespace Kanch
         public CampingTripsForHomePageViewModel()
         {
             this.httpClient = new HttpClient();
-            this.httpClient.BaseAddress = new Uri(ConfigurationSettings.AppSettings["baseUrl"]);
+            this.httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["baseUrl"]);
             this.TripsInProgress = new ObservableCollection<TripsInProgress>();
             GetAllInProgressTrips();
         }
@@ -59,7 +51,6 @@ namespace Kanch
             {
                 foreach (var trip in trips)
                 {
-
                     var campingtrip = new CampingTripInfo()
                     {
                         Place = trip.Place,
@@ -73,7 +64,8 @@ namespace Kanch
                         Direction = trip.Direction,
                         HasGuide = trip.HasGuide,
                         HasPhotographer = trip.HasPhotographer,
-                        ID = trip.ID
+                        ID = trip.ID,
+                        PriceOfTrip = trip.PriceOfTrip
                     };
                     if (trip.TypeOfTrip == Kanch.DataModel.TypeOfCampingTrip.Campaign)
                     {
@@ -99,20 +91,6 @@ namespace Kanch
                                 MeasurementUnit = food.MeasurementUnit
                             });
                         }
-                    }
-                    if (trip.MembersOfCampingTrip != null)
-                    {
-                        foreach (var member in trip.MembersOfCampingTrip)
-                        {
-                            if (member.Id == this.user.Id)
-                            {
-                                campingtrip.IAmJoined = true;
-                            }
-                        }
-                    }
-                    if (!campingtrip.IAmJoined)
-                    {
-                        campingtrip.CanIJoin = true;
                     }
 
                     var tripInProgress = new TripsInProgress();

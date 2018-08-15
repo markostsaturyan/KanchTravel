@@ -400,8 +400,8 @@ namespace Kanch.ProfileComponents.ViewModels
             this.tripRegistration.ArrivalDate = DateTime.Now;
             this.tripRegistration.DepartureDate = DateTime.Now;
             this.tripRegistration.Place = "";
-            this.tripRegistration.Direction = null;
-            this.tripRegistration.Food = null;
+            this.tripRegistration.Direction = new List<string>();
+            this.tripRegistration.Food = new ObservableCollection<FoodInfo>();
             this.tripRegistration.HasGuide = false;
             this.tripRegistration.HasPhotographer = false;
             this.tripRegistration.MaxAge = 0;
@@ -410,8 +410,10 @@ namespace Kanch.ProfileComponents.ViewModels
             this.tripRegistration.MaxCountOfMembers = 0;
             this.tripRegistration.PriceOfTrip = 0;
             this.tripRegistration.TypeOfTrip = ProfileComponents.DataModel.TypeOfCampingTrip.Excursion;
-            this.Foods = null;
-            this.Direction = null;
+            this.tripRegistration.HasGuide = false;
+            this.tripRegistration.HasPhotographer = false;
+            this.Foods = new ObservableCollection<UIFoodInfo>();
+            this.Direction = new ObservableCollection<DirectionDetails>();
         }
 
         private void ConnectToServer()

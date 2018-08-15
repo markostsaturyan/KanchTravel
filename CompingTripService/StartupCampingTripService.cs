@@ -52,11 +52,11 @@ namespace CompingTripService
                 options.AddPolicy("OnlyForUser", policy => policy.RequireRole("User"));
                 options.AddPolicy("OnlyForDriver", policy => policy.RequireRole("Driver"));
                 options.AddPolicy("OnlyForGuide", policy => policy.RequireRole("Guide"));
-                options.AddPolicy("OnlyForPhotographer", policy => policy.RequireRole("Phothographer"));
-                options.AddPolicy("OnlyForADGP", policy =>policy.RequireRole("Admin", "User", "Driver", "Guide", "Phothographer"));
-                options.AddPolicy("OnlyForDGP", policy => policy.RequireRole("Driver", "Guide", "Phothographer"));
+                options.AddPolicy("OnlyForPhotographer", policy => policy.RequireRole("Photographer"));
+                options.AddPolicy("OnlyForADGP", policy =>policy.RequireRole("Admin", "User", "Driver", "Guide", "Photographer"));
+                options.AddPolicy("OnlyForDGP", policy => policy.RequireRole("Driver", "Guide", "Photographer"));
                 options.AddPolicy("OnlyForUserManagement", policy => policy.RequireClaim("client_id", "userManagement"));
-                options.AddPolicy("OnlyForAUDGP", policy =>policy.RequireRole("Admin", "User", "Driver", "Guide", "Phothographer"));
+                options.AddPolicy("OnlyForAUDGP", policy =>policy.RequireRole("Admin", "User", "Driver", "Guide", "Photographer"));
             });
 
 

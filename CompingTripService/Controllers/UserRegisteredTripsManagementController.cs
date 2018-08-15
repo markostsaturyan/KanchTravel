@@ -39,7 +39,7 @@ namespace CampingTripService.Controllers
         [HttpPut("{campingTripId}")]
         public async void Put(string campingTripId, [FromBody]CampingTripFull campingTrip)
         {
-            await campingTripRepository.SendingServiceRequests(campingTrip);
+            await campingTripRepository.SendingServiceRequestsAsync(campingTrip);
         }
 
         [HttpDelete("{campingTripId}")]

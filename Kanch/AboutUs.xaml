@@ -5,9 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Kanch"
       mc:Ignorable="d" 
-      Title="AboutUs" Height="450" Width="800">
+      Title="AboutUs" Height="450" Width="660" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
-    <Grid>
+    <Grid HorizontalAlignment="Center">
         <ScrollViewer HorizontalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.Background>
