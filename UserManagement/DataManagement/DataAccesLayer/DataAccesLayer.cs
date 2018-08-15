@@ -907,7 +907,7 @@ namespace UserManagement.DataManagement.DataAccesLayer
                                 IsProfessional = (bool)dataReader["IsProfessional"]
                             },
                             Profession = (string)dataReader["Profession"],
-                            WorkExperience = (string)dataReader["WorkExperiance"],
+                            WorkExperience = (string)dataReader["WorkExperience"],
                         };
 
                         if (dataReader["Picture"] != DBNull.Value)

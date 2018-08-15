@@ -183,7 +183,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Name="register" Height="45" Width="120" Command="{Binding RegisterTripCommand}" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,10,0" IsEnabled="{Binding TripRegistration.IsActive,Mode=TwoWay}" >
+            <Button Name="register" Height="45" Width="120" Command="{Binding RegisterTripCommand}" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,10,0" >
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="ExtraBlack">Register</TextBlock>
             </Button>
 

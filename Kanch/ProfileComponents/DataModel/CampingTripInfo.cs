@@ -25,6 +25,8 @@ namespace Kanch.ProfileComponents.DataModel
         private ObservableCollection<FoodInfo> food;
         private List<string> direction;
         private DriverInfo driver;
+        private GuideInfo guide;
+        private PhotographerInfo photographer;
 
         public string ID { get; set; }
 
@@ -211,9 +213,29 @@ namespace Kanch.ProfileComponents.DataModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Driver"));
             } }
 
-        public GuideInfo Guide { get; set; }
+        public GuideInfo Guide
+        {
+            get { return this.guide; }
 
-        public PhotographerInfo Photographer { get; set; }
+
+            set
+            {
+                this.guide = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Guide"));
+            }
+        }
+
+        public PhotographerInfo Photographer
+        {
+            get { return this.photographer; }
+
+
+            set
+            {
+                this.photographer = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Photographer"));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
